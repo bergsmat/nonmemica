@@ -531,6 +531,7 @@ plot.character <- function(x, y,...){
 #' @param ... passed arguments
 #' @return meta
 #' @export
+
 metasuperset <- function(
   x,
   opt = getOption('project'),
@@ -543,13 +544,12 @@ metasuperset <- function(
   y <- x %>% as.superset
   y %<>% filter(VISIBLE==1)
   y %<>% filter(EVID==0)
-  need <- c('item','symbol','label','guide')
+  need <- c('item','symbol','label','unit')
   miss <- setdiff(need, names(meta))
   if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
-  if(!file.exists(filepath))stop('could not find ',filepath)
   meta %<>% 
-    select(symbol,label,unit) %>%
-    rename(VARIABLE=symbol,LABEL=label,GUIDE=unit) %>%
+    select(item,label,unit) %>%
+    rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
     gather(META,VALUE,LABEL,GUIDE)
   targets <- intersect(meta$VARIABLE,names(y))
   meta %>% filter(VARIABLE %in% targets)
