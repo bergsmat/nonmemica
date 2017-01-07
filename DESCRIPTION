@@ -1,0 +1,23 @@
+Package: nonmemica
+Type: Package
+Title: Create and Evaluate NONMEM Models in a Project Context
+Version: 0.1
+Date: 2017-01-06
+Author: Tim Bergsma
+Maintainer: Tim Bergsma <bergsmat@gmail.com>
+Description: Systematically creates and modifies NONMEM control streams. Harvests
+ NONMEM output, builds runlogs, creates derivative data, generates diagnostics.
+License: GPL-3
+LazyData: TRUE
+Imports:
+ partab,
+ dplyr,
+ tidyr,
+ magrittr,
+ csv,
+ meta,
+ encode,
+ knitr
+Suggests:
+RoxygenNote: 5.0.1
+VignetteBuilder: knitr
