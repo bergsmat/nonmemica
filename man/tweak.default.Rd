@@ -4,9 +4,9 @@
 \alias{tweak.default}
 \title{Tweak a Model}
 \usage{
-tweak.default(x, opt = getOption("project"), project = if (is.null(opt))
-  getwd() else opt, start = NULL, n = 10, extension = ".ctl",
-  include = ".def", ...)
+\method{tweak}{default}(x, opt = getOption("project"), project = if
+  (is.null(opt)) getwd() else opt, start = NULL, n = 10,
+  extension = ".ctl", include = ".def", ...)
 }
 \arguments{
 \item{x}{object}

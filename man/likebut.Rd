@@ -5,7 +5,8 @@
 \title{Modify a Model}
 \usage{
 likebut(x, but = "better", y = NULL, opt = getOption("project"),
-  project = if (is.null(opt)) getwd() else opt, overwrite = FALSE, ...)
+  project = if (is.null(opt)) getwd() else opt, overwrite = FALSE,
+  extension = ".ctl", include = ".def", ...)
 }
 \arguments{
 \item{x}{a model name, presumably interpretable as numeric}
@@ -19,6 +20,10 @@ likebut(x, but = "better", y = NULL, opt = getOption("project"),
 \item{project}{direct specification of project directory}
 
 \item{overwrite}{whether to overwrite y if it exists}
+
+\item{extension}{extension for the model file}
+
+\item{include}{regular expressions for files to copy to new directory}
 
 \item{...}{passed arguments}
 }

@@ -5,7 +5,8 @@
 \title{Create a Runlog for Character}
 \usage{
 \method{runlog}{character}(x, dependencies = F, opt = getOption("project"),
-  project = if (is.null(opt)) getwd() else opt, ...)
+  project = if (is.null(opt)) getwd() else opt, digits = 3, places = 0,
+  ...)
 }
 \arguments{
 \item{x}{object}
@@ -16,7 +17,11 @@
 
 \item{project}{direct specification of project directory}
 
+\item{digits}{significance for parameters}
+
 \item{...}{passed arguments}
+
+\item{rounding}{for objective function}
 }
 \value{
 data.frame

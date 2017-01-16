@@ -4,17 +4,17 @@
 \alias{datafile}
 \title{Identify the Datafile for a Model}
 \usage{
-datafile(x, opt = getOption("project"), project = if (is.null(opt)) getwd()
-  else opt, ...)
+datafile(x, ..., opt = getOption("project"), project = if (is.null(opt))
+  getwd() else opt)
 }
 \arguments{
 \item{x}{the model name}
 
+\item{...}{passed arguments}
+
 \item{opt}{alternative specification of project directory}
 
 \item{project}{direct specification of project directory}
-
-\item{...}{passed arguments}
 }
 \value{
 character

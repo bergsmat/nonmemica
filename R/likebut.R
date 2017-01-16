@@ -1,4 +1,34 @@
+globalVariables(c('symbol','spread_','run','feature','cov','ofv'))
+globalVariables(c('as.meta','read.csv','read.table'))
+globalVariables(c('codes','decodes','encode','plot'))
+
+
+
+#' Identify the Single Model Problem Statement
+#' 
+#' Identifies a single model problem statement.
+#' 
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
 .problem <- function(x,...)UseMethod('.problem')
+
+
+#' Identify the Single Model Problem Statement from Character
+#' 
+#' Identifies a single model problem statement from character (i.e. model name).
+#' 
+#' @inheritParams  .problem
+#' @param opt alternative specification of project directory
+#' @param project direct specification of project directory
+#' @param rundir model run directory
+#' @param ctlext model file extension
+#' @param ctlfile name of model file
+#' @param ctlpath path to model file
+#' @return character
+#' @export
+#' @keywords internal
 .problem.character <- function(
   x,
   opt = getOption("project"), 
@@ -173,6 +203,7 @@ cascade <- function(x,...){
 #' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
 #' @return character
+#' @export
 depends.default <- function(
   x,
   opt=getOption('project'),
@@ -193,7 +224,7 @@ unionRollUp.list <- function(x,...){
   #x <- rev(x)
   unionRollUp(x)
 }
-  
+
 .runlog <- function(x,...){
   stopifnot(length(x) == 1)
   p <- parameters(x,...)
@@ -226,6 +257,8 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' @param dependencies whether to log runs in lineage(s) as well
 #' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
+#' @param digits significance for parameters
+#' @param rounding for objective function
 #' @return data.frame
 #' @export
 runlog.character <- function(
@@ -233,13 +266,37 @@ runlog.character <- function(
   dependencies=F,
   opt=getOption('project'),
   project = if(is.null(opt)) getwd() else opt,
+  digits = 3,
+  places = 0,
   ...
 ){
   dirs <- file.path(project,x)
   x <- x[file.exists(dirs)]
   stopifnot(length(x) > 0)
   if(dependencies) x %<>% depends
-  r <- lapply(x,.runlog,project=project,...)
+  dummy <- data.frame(
+    stringsAsFactors = FALSE,
+    run = character(0),
+    like = character(0),
+    feature = character(0),
+    min = character(0),
+    cov = character(0),
+    ofv = character(0),
+    delta = numeric(0)
+  )
+  safe <- function(x,...)tryCatch(
+    .runlog(x,...),
+    error=function(e){
+      warning(
+        'skipping ', x, 
+        call.= FALSE, 
+        immediate. = TRUE,
+        noBreaks. = TRUE
+      )
+      return(dummy)
+    }
+  )
+  r <- lapply(x,safe,project=project,digits=digits,places=places,...)
   b <- do.call(bind_rows,r)
   b %<>% mutate(delta = as.numeric(ofv) - as.numeric(ofv)[match(like,run)])
   b
@@ -270,7 +327,7 @@ tweak.default <- function(
   ...
 ){
   stopifnot(length(x) == 1) # a run number
-  path <- file.path(project,x,paste0(x,extenstion))
+  path <- file.path(project,x,paste0(x,extension))
   ctl <- read.nmctl(path)
   ctl$problem <- paste0('   ',encode(c('like','but'),c(x,'tweaked initials')))
   #set.seed(1)
@@ -303,6 +360,8 @@ tweak.default <- function(
 #' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
 #' @param overwrite whether to overwrite y if it exists
+#' @param extension extension for the model file
+#' @param include regular expressions for files to copy to new directory
 #' @param ... passed arguments
 #' @return the value of y
 #' @export
@@ -314,6 +373,8 @@ likebut <- function(
   opt=getOption('project'),
   project = if(is.null(opt)) getwd() else opt,
   overwrite=FALSE,
+  extension = '.ctl',
+  include = '.def',
   ...
 ){
   d <- dir(project)
@@ -324,20 +385,21 @@ likebut <- function(
   if(is.null(y)) y <- d
   if(file.exists(file.path(project,y)))if(!overwrite)stop(y,' already exists')
   dir.create(file.path(project,y))
-  p <- file.path(project,x,paste0(x,'.par'))
-  t <- file.path(project,x,paste0(x,'.tbl'))
-  #t <- file.path(project,x,'tab.spec')
-  if(!file.exists(p))stop('could not find ',p)
-  if(!file.exists(t))stop('could not find ',t)
-  file.copy(p,file.path(project,y,paste0(y,'.par')))
-  file.copy(t,file.path(project,y,paste0(y,'.tbl')))
-  #file.copy(w,file.path(project,y,paste0(y,'.wiki')))
-  #file.copy(t,file.path(project,y,'tab.spec'))
-  c <- read.nmctl(file.path(project,x,paste0(x,'.ctl')))
+  for(p in include){
+    srcdir <- file.path(project,x)
+    target <- file.path(project,y)
+    files  <- dir(srcdir,pattern = p)
+    as     <- sub(x,p,files)
+    file.copy(
+      file.path(srcdir,files),
+      file.path(target,as)
+    )
+  }
+  c <- read.nmctl(file.path(project,x,paste0(x,extension)))
   like <- x
   c$problem <- encode(c('like','but'),c(like,but),...)
   if(nchar(c$problem) > 58)warning('problem statement more than 40 chars')
-  write.nmctl(c, file.path(project,y,paste0(y,'.ctl')))
+  write.nmctl(c, file.path(project,y,paste0(y,extension)))
   y
 }
 padded <- function (x, width = 4, ...)sprintf(glue("%0", width, ".0f"), x)
@@ -371,9 +433,9 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 #' @export
 datafile <- function(
   x,
+  ...,
   opt=getOption('project'),
-  project = if(is.null(opt))getwd() else opt,
-  ...
+  project = if(is.null(opt))getwd() else opt
 ){
   rundir <- file.path(project,x)
   ctlfile <- paste0(x,'.ctl')
@@ -385,13 +447,13 @@ datafile <- function(
   datafile
 }
 
-.parameters <- function(x,...){
+.parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)
-  p <- x %>% as.partab(verbose=F,digits=3)
-  parfile <- paste(sep='/',getOption('project'),x,paste0(x,'.par'))
-  if(!'symbol' %in% names(p))stop('provide symbols for parameters in ',parfile)
+  p <- x %>% as.partab(verbose=F,digits=digits)
+  # parfile <- paste(sep='/',getOption('project'),x,paste0(x,'.par'))
+  if(!'symbol' %in% names(p))stop('symbol not defined in control stream nor *.def')
   need <- p %>% filter(symbol %>% is.na) %$% parameter
-  if(length(need))warning('in ',parfile,', symbols undefined for ',need %>% paste(collapse=', '))
+  if(length(need))warning('symbols undefined for ',need %>% paste(collapse=', '))
   p %<>% select(symbol,estimate)
   p$estimate <- as.character(p$estimate)
   p %<>% rename(value = estimate)
@@ -399,7 +461,7 @@ datafile <- function(
   if(length(min) == 0) min <- NA
   cov <- x %>% xpath('//covariance_status/@error')
   if(length(cov) == 0) cov <- NA
-  ofv <- x %>% xpath('//final_objective_function') %>% round
+  ofv <- x %>% xpath('//final_objective_function') %>% round(digits=places)
   if(length(ofv) == 0) ofv <- NA
   dat <- x %>% datafile
   if(length(datafile) == 0) datafile <- NA
@@ -451,112 +513,4 @@ parameters.character <- function(x,...){
   m
 }
 
-#' Coerce to Pharmval
-#' 
-#' Coerces to pharmval
-#' @param x object
-#' @param ... passed arguments
-#' @export
-as.pharmval <- function(x,...)UseMethod('as.pharmval')
-
-#' Coerce Numeric to Pharmval
-#' 
-#' Coerces numeric to pharmval by coercing first to character.
-#' @inheritParams as.pharmval
-#' @export
-as.pharmval.numeric <- function(x,...)as.pharmval(as.character(x),...)
-
-
-#' Coerce Character to Pharmval
-#' 
-#' Coerces to pharmval by treating character as modelname.  Combines the metasuperset
-#' (model ouptut in meta format) with the meta version of the model data.file.
-#' @inheritParams as.pharmval
-#' @param pvlfile if not supplied, guessed to be model's datafile except with 
-#' the value of ext in place of 'csv'.
-#' @param ext default extention for pharmval version of model datafile.
-#' @return meta data.frame 
-#' @seealso metasuperset
-#' @export
-as.pharmval.character <- function(
-  x,
-  ...,
-  pvlfile,
-  ext = 'pvl'
-){
-  d <- x %>% datafile(...)
-  if(missing(pvlfile)) pvlfile <- d %>% sub('csv$',ext,.)
-  p <- as.meta(pvlfile)
-  y <- x %>% metasuperset
-  p %<>% bind_rows(y)
-  p %<>% unique
-  p
-}
-
-#' Plot Numeric in Project Context
-#' 
-#' Plots numeric in project context by coercing first to character.
-#' @param x object
-#' @param y passed to plot
-#' @param ... passed arguments
-#' @export
-plot.numeric <- function(x, y, ...)plot(as.character(x),y=y,...)
-
-#' Plot Character in Project Context
-#' 
-#' Plots in project context by treating character as modelname.  A dataset
-#' is constructed by combining the meta version of the model input with a
-#' meta version of the model output and calling plot with the result.
-#' 
-#' @param x object
-#' @param y passed to plot
-#' @param ... passed arguments
-#' @seealso as.pharmval
-#' @export
-#' 
-plot.character <- function(x, y,...){ 
-  z <- x %>% as.pharmval
-  plot(z,y,...)
-}
-
-#' Retrieve Model Outputs in Meta Format
-#' 
-#' Retrieves model outputs in meta format. Inputs should have EVID.
-#' 
-#' @param x model name
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
-#' @param group_by vector of key column names in superset
-#' @param meta data.frame with item, symbol, unit, label
-#' @param ... passed arguments
-#' @return meta
-#' @export
-
-metasuperset <- function(
-  x,
-  opt = getOption('project'),
-  project = if(is.null(opt))getwd() else opt,
-  group_by = c('USUBJID','DATETIME'),
-  meta = as.definitions(x,...),
-  ...
-){
-  stopifnot(length(x)==1)
-  y <- x %>% as.superset
-  y %<>% filter(VISIBLE==1)
-  y %<>% filter(EVID==0)
-  need <- c('item','symbol','label','unit')
-  miss <- setdiff(need, names(meta))
-  if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
-  meta %<>% 
-    select(item,label,unit) %>%
-    rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
-    gather(META,VALUE,LABEL,GUIDE)
-  targets <- intersect(meta$VARIABLE,names(y))
-  meta %>% filter(VARIABLE %in% targets)
-  y %<>% select_(.dots = c(group_by,targets))
-  y %<>% group_by_(.dots=group_by) %>% fold
-  y %<>% bind_rows(meta)
-  y %<>% as.meta
-  y
-}
 

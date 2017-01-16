@@ -10,14 +10,15 @@ Description: Systematically creates and modifies NONMEM control streams. Harvest
 License: GPL-3
 LazyData: TRUE
 Imports:
- partab,
  dplyr,
  tidyr,
  magrittr,
- csv,
- meta,
- encode,
- knitr
+ knitr,
+ xml2,
+ encode
 Suggests:
+ meta
+ ReporteRs,
+ pander,
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

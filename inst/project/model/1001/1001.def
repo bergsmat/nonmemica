@@ -1,0 +1,33 @@
+item,symbol,label,unit
+theta_01,CL/F,clearance,L/h
+theta_02,Vc/F,central volume,L
+theta_03,Ka,absorption rate constant,1/h
+theta_04,Q/F,intercompartmental clearance,L/h
+theta_05,Vp/F,peripheral volume,L
+theta_06,MALE_CL,male effect on clearance,.
+theta_07,WT_CL,weight effect on clearance,.
+omega_01_01,IIV_CL,interindividual variability on clearance,.
+omega_02_01,CL_V,interindividual clearance-volume covariance,.
+omega_02_02,IIV_Vc,interindividual variability on central volume,.
+omega_03_01,CL_Ka,interindividual clearance-Ka covariance,.
+omega_03_02,Vc_Ka,interindividual volume-Ka covariance,.
+omega_03_03,IIV_Ka,interindividual variability on Ka,.
+sigma_01_01,ERR_PROP,proportional error,.
+sigma_02_02,ERR_ADD,additive error,.
+ID,ID,NONMEM subject identifier,.
+AMT,AMT,dose amount,mg
+TIME,TIME,time,h
+EVID,EVID,event type,//0/observation//1/dose
+PRED,PRED,population prediction,ng/mL
+IPRE,IPRED,individual prediction,ng/mL
+CWRESI,CWRESI,conditional weighted residual,.
+CIWRESI,CIWRESI,conditional indvividual weighted residual,.
+ID,ID,subject identifier,.
+CL,CLI,posthoc systemic clearance,L/h
+V2,V2I,posthoc systemic volume,L
+KA,KAI,posthoc absorption rate,1/h
+Q,Q2I,posthoc intercompartmental clearance,1/h
+V3,V3I,posthoc peripheral volume,L
+ETA1,BSV_CL,clearance between-subject variability,.
+ETA2,BSV_V2,volume between-subject variability,.
+ETA3,BSV_KA,absorption between-subject variability,.

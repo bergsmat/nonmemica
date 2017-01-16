@@ -1,3 +1,6 @@
+globalVariables(c('VISIBLE','EVID','label','unit','gather','META','VALUE'))
+globalVariables(c('LABEL','GUIDE','VARIABLE','fold','as.meta'))
+
 #' Coerce to superset
 #' 
 #' Coerces to superset.
@@ -476,24 +479,7 @@ function (x, ...) {
   control <- read.nmctl(x)
   getdname(control)
 }
-runhead <-
-function (x) 
-{
-  n <- x != prev(x)
-  if (length(n)) 
-    n[[1]] <- TRUE
-  n
-}
-prev <-
-function (x) 
-{
-  s <- seq_along(x)
-  s <- c(length(s), s[-length(s)])
-  x <- x[s]
-  if (length(x)) 
-    x[[1]] <- NA
-  x
-}
+
 getdname.nmctl <- 
 function (x, ...) 
 {
@@ -531,3 +517,46 @@ function (expr, lines)
 extractPath <-
 function (x) 
   sub("(^.*(MSFO?|FILE) *= *)([^ ]*)(.*$)", "\\3", x, ignore.case = TRUE)
+
+#' Retrieve Model Outputs in Meta Format
+#' 
+#' Retrieves model outputs in meta format. Inputs should have EVID.
+#' 
+#' @param x model name
+#' @param opt alternative specification of project directory
+#' @param project direct specification of project directory
+#' @param group_by vector of key column names in superset
+#' @param meta data.frame with item, symbol, unit, label
+#' @param ... passed arguments
+#' @return meta
+#' @export
+
+metasuperset <- function(
+  x,
+  opt = getOption('project'),
+  project = if(is.null(opt))getwd() else opt,
+  group_by = c('USUBJID','DATETIME'),
+  meta = as.definitions(x,...),
+  ...
+){
+  require(meta)
+  stopifnot(length(x)==1)
+  y <- x %>% as.superset
+  y %<>% filter(VISIBLE==1)
+  y %<>% filter(EVID==0)
+  need <- c('item','symbol','label','unit')
+  miss <- setdiff(need, names(meta))
+  if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
+  meta %<>% 
+    select(item,label,unit) %>%
+    rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
+    gather(META,VALUE,LABEL,GUIDE)
+  targets <- intersect(meta$VARIABLE,names(y))
+  meta %>% filter(VARIABLE %in% targets)
+  y %<>% select_(.dots = c(group_by,targets))
+  y %<>% group_by_(.dots=group_by) %>% fold
+  y %<>% bind_rows(meta)
+  y %<>% as.meta
+  y
+}
+
