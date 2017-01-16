@@ -539,7 +539,7 @@ metasuperset <- function(
   meta = as.definitions(x,...),
   ...
 ){
-  require(meta)
+  requireNamespace(meta)
   stopifnot(length(x)==1)
   y <- x %>% as.superset
   y %<>% filter(VISIBLE==1)

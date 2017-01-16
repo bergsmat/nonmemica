@@ -19,9 +19,9 @@
 
 \item{digits}{significance for parameters}
 
-\item{...}{passed arguments}
+\item{places}{rounding for objective function}
 
-\item{rounding}{for objective function}
+\item{...}{passed arguments}
 }
 \value{
 data.frame

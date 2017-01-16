@@ -258,7 +258,7 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
 #' @param digits significance for parameters
-#' @param rounding for objective function
+#' @param places rounding for objective function
 #' @return data.frame
 #' @export
 runlog.character <- function(
