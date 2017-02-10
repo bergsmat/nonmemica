@@ -9,7 +9,7 @@
 \usage{
 as.nmctl(x, ...)
 
-\method{as.nmctl}{character}(x, pattern = "^ *\\\\$([^ ]+)( .*)?$",
+\method{as.nmctl}{character}(x, pattern = "^\\\\s*\\\\$(\\\\S+)(\\\\s.*)?$",
   head = "\\\\1", tail = "\\\\2", parse = FALSE, ...)
 
 \method{as.nmctl}{filename}(x, parse = FALSE, ...)

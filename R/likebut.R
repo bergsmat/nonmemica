@@ -1,9 +1,5 @@
 globalVariables(c('symbol','spread_','run','feature','cov','ofv'))
-globalVariables(c('as.meta','read.csv','read.table'))
-globalVariables(c('codes','decodes','encode','plot'))
-
-
-
+globalVariables(c('as.meta','read.csv','read.table','plot'))
 #' Identify the Single Model Problem Statement
 #' 
 #' Identifies a single model problem statement.
@@ -104,6 +100,7 @@ like <- function(x,...)UseMethod('like')
 #' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
 #' @return character
+#' @import encode
 #' @export
 like.default <- function(
   x,
@@ -117,8 +114,8 @@ like.default <- function(
     value=problem(x,project=project,...)
   )
   v <- m$value[match(x,m$run)]
-  c <- codes(v,simplify=FALSE)
-  d <- decodes(v,simplify=FALSE)
+  c <- encode::codes(v,simplify=FALSE)
+  d <- encode::decodes(v,simplify=FALSE)
   l <- sapply(c, function(i)match('like',i))
   s <- seq_along(l)
   f <- function(i){
@@ -160,8 +157,8 @@ but.default <- function(
   #m %<>% filter(parameter=='prob')
   #stopifnot(all(m$run == x))
   v <- m$value[match(x,m$run)]
-  c <- codes(v,simplify=FALSE)
-  d <- decodes(v,simplify=FALSE)
+  c <- encode::codes(v,simplify=FALSE)
+  d <- encode::decodes(v,simplify=FALSE)
   l <- sapply(c, function(i)match('but',i))
   s <- seq_along(l)
   f <- function(i){
@@ -329,7 +326,7 @@ tweak.default <- function(
   stopifnot(length(x) == 1) # a run number
   path <- file.path(project,x,paste0(x,extension))
   ctl <- read.nmctl(path)
-  ctl$problem <- paste0('   ',encode(c('like','but'),c(x,'tweaked initials')))
+  ctl$problem <- paste0('   ',encode::encode(c('like','but'),c(x,'tweaked initials')))
   #set.seed(1)
   if(is.null(start)) start <- dir(project) %>% as.numeric %>% max(na.rm=TRUE) %>% `+`(1)
   for(i in seq(from=start,length.out=n)) dir.create(file.path(project,i))
@@ -397,7 +394,7 @@ likebut <- function(
   }
   c <- read.nmctl(file.path(project,x,paste0(x,extension)))
   like <- x
-  c$problem <- encode(c('like','but'),c(like,but),...)
+  c$problem <- encode::encode(c('like','but'),c(like,but),...)
   if(nchar(c$problem) > 58)warning('problem statement more than 40 chars')
   write.nmctl(c, file.path(project,y,paste0(y,extension)))
   y

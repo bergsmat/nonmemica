@@ -58,7 +58,7 @@ function(x,...)unclass(x)
 as.nmctl.character <-
 function(
 	x,
-	pattern='^ *\\$([^ ]+)( .*)?$',
+	pattern='^\\s*\\$(\\S+)(\\s.*)?$',
 	head='\\1',
 	tail='\\2',
   parse=FALSE,
@@ -299,12 +299,13 @@ as.itemComments.nmctlType <- function(x,...){
 #' @describeIn as.itemComments nmctl method
 #' @export
 #' 
-as.itemComments.nmctl <- function(x,fields=c('symbol','unit','label'),expected=character(0),na=NA_character_, ...){
+as.itemComments.nmctl <- function(x,fields=c('symbol','unit','label'),expected=character(0),na=NA_character_,tables=TRUE, ...){
   t <- x %>% as.nmctlType('theta') %>% as.itemComments
   o <- x %>% as.nmctlType('omega') %>% as.itemComments
   s <- x %>% as.nmctlType('sigma') %>% as.itemComments
   b <- x %>% as.nmctlType('table') %>% as.itemComments
-  y <- rbind(t,o,s,b)
+  y <- rbind(t,o,s)
+  if(tables) y <- rbind(y,b)
   y <- cbind(y[,'item',drop=F], .renderComments(
     y$comment,fields=fields, na=na, ...))
   if(length(expected)) y <- data.frame(stringsAsFactors=F,item=expected) %>% left_join(y,by='item')
@@ -317,8 +318,8 @@ as.itemComments.nmctl <- function(x,fields=c('symbol','unit','label'),expected=c
   col <- fields[[1]]
   dat <- sub('^([^;]*);?(.*)$','\\1',x)
   rem <- sub('^([^;]*);?(.*)$','\\2',x)
-  dat <- sub('^ +','',dat)
-  dat <- sub(' +$','',dat)
+  dat <- sub('^\\s+','',dat)
+  dat <- sub('\\s+$','',dat)
   out <- data.frame(stringsAsFactors=F, col = dat)
   out$col[is.defined(out) & out == ''] <- na
   names(out)[names(out) == 'col'] <- col
