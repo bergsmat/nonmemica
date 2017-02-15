@@ -19,7 +19,7 @@ as.nmctlType(x, ...)
 \value{
 nmctltype (list)
 
-nmctltype (list)
+nmctlType (list)
 }
 \description{
 Extracts nmctl record type.

@@ -48,7 +48,7 @@ CWRESI        ;CWRESI;conditional weighted residual;
 CIWRESI       ;CIWRESI;conditional indvividual weighted residual;
 
 $TABLE NOPRINT FILE=mod2.tab ONEHEADER 
-ID            ;ID;subject identifier
+ID            ;ID;NONMEM subject identifier;
 TIME          ;TIME;time;h
 CL            ;CLI;posthoc systemic clearance;L/h
 V2            ;V2I;posthoc systemic volume;L

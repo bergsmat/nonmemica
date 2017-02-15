@@ -4,14 +4,12 @@
 \alias{upper<-.nmctl}
 \title{Set Upper Bounds for Model Initial Estimates}
 \usage{
-\method{upper}{nmctl}(x, ...) <- value
+\method{upper}{nmctl}(x) <- value
 }
 \arguments{
 \item{x}{nmctl}
 
 \item{value}{numeric}
-
-\item{...}{dots}
 }
 \description{
 Sets upper bounds for model initial estimates.

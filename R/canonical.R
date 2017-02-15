@@ -37,6 +37,21 @@ function(x,...){
 #' @export
 as.canonical <- function(x,...)UseMethod('as.canonical')
 
+#' Generate Canonical Names for Numeric
+#' 
+#' Generates canonical names for numeric by coercing to character.
+#' @inheritParams as.canonical
+#' @export
+as.canonical.numeric <- function(x,...)as.canonical(as.character(x,...),...)
+
+#' Generate Canonical Names for Character
+#' 
+#' Generates canonical names for numeric by converting to parsed nmctl.
+#' @inheritParams as.canonical
+#' @export
+as.canonical.character <- function(x,...)as.canonical(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
+
+
 #' Generate Canonical Names for nmctl
 #' 
 #' Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-cae conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.

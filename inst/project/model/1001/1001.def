@@ -22,7 +22,7 @@ PRED,PRED,population prediction,ng/mL
 IPRE,IPRED,individual prediction,ng/mL
 CWRESI,CWRESI,conditional weighted residual,.
 CIWRESI,CIWRESI,conditional indvividual weighted residual,.
-ID,ID,subject identifier,.
+ID,ID,NONMEM subject identifier,.
 CL,CLI,posthoc systemic clearance,L/h
 V2,V2I,posthoc systemic volume,L
 KA,KAI,posthoc absorption rate,1/h

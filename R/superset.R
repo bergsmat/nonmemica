@@ -57,6 +57,7 @@ as.superset.numeric <- function(x,...){
 #' @param digits significant digits for assessing informativeness when exclusive=NULL
 #' @param visible a name for the flag column indicating visibility
 #' @return superset: a data.frame  where row count is a multiple of (typically equal to) input row count.
+#' @import utils
 #' @export
 
 as.superset.character <- function(

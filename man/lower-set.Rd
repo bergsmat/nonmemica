@@ -4,14 +4,12 @@
 \alias{lower<-}
 \title{Set Lower Value}
 \usage{
-lower(x, ...) <- value
+lower(x) <- value
 }
 \arguments{
 \item{x}{object of dispatch}
 
 \item{value}{right hand side}
-
-\item{...}{dots}
 }
 \description{
 Sets lower Value.

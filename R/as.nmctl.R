@@ -244,7 +244,7 @@ as.nmctlType <- function(x,...)UseMethod('as.nmctlType')
 #' 
 #'@inheritParams as.nmctlType
 #'@param type theta omega or sigma
-#'@return nmctltype (list)
+#'@return nmctlType (list)
 #'@describeIn as.nmctlType nmctl method
 #'@export
 as.nmctlType.nmctl <- function(x,type,...){
@@ -532,6 +532,89 @@ initSubscripts.nmctl <- function(x,...){
   z
 }
 
+#' Create the Updated Version of Something
+#' 
+#' Creates the updated version of something. Don't confuse with stats::update.
+#' 
+#' @param x object of dispatch
+#' @param ... dots
+#' @export
+#' @keywords internal
+updated <- function(x,...)UseMethod('updated')
 
+#' Create the Updated Version of Numeric
+#' 
+#' Creates the updated version of numeric by coercing to character.
+#' @inheritParams updated
+#' @export
+updated.numeric <- function(x,...)updated(as.character(x),...)
+
+#' Create the Updated Version of Character
+#' 
+#' Creates the updated version of character by treating as a modelname. Parses the associated control stream and ammends the initial estimates to reflect model results (as per xml file).
+#' 
+#' @param x character
+#' @param initial values to use for initial estimates (numeric)
+#' @param parse whether to parse the initial estimates, etc.
+#' @param verbose extended messaging
+#' @param ... dots
+#' @return nmctl
+#' @export
+#' @keywords internal
+updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose=FALSE, ...){
+  y <- x %>% as.nmctl(parse=TRUE,verbose=verbose,...)
+  initial(y) <- initial
+  y
+}
+
+#' Coerce to List of Matrices
+#' 
+#' Coerces to list of matrices.
+#' @param x object of dispatch
+#' @param ... dots
+#' @export
+#' @keywords internal
+as.matrixList <- function(x,...)UseMethod('as.matrixList')
+
+#' Coerce to List of Matrices from nmctlType
+#' 
+#' Coerces to list of matrices from nmctlType
+#' @param x object of dispatch
+#' @param ... dots
+#' @export
+#' @keywords internal
+as.matrixList.nmctlType <- function(x,...){
+  lapply(x,as.matrix)
+}
+
+#' Coerce to matrix from initList
+#' 
+#' Coerces to matrix from initList.
+#'
+#' @param x object of dispatch
+#' @param ... dots
+#' @return matrix
+#' @export
+#' @keywords internal
+as.matrix.initList <- function(x,...){
+  y <- sapply(x, `[[`, 'init')
+  y %<>% as.halfmatrix
+  y %<>% as.matrix
+  y
+}
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' 
   
   

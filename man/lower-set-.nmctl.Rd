@@ -4,14 +4,12 @@
 \alias{lower<-.nmctl}
 \title{Set Lower Bounds for Model Initial Estimates}
 \usage{
-\method{lower}{nmctl}(x, ...) <- value
+\method{lower}{nmctl}(x) <- value
 }
 \arguments{
 \item{x}{nmctl}
 
 \item{value}{numeric}
-
-\item{...}{dots}
 }
 \description{
 Sets lower bounds for model initial estimates.

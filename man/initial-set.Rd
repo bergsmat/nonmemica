@@ -4,14 +4,12 @@
 \alias{initial<-}
 \title{Set Initial Value}
 \usage{
-initial(x, ...) <- value
+initial(x) <- value
 }
 \arguments{
 \item{x}{object of dispatch}
 
 \item{value}{right hand side}
-
-\item{...}{dots}
 }
 \description{
 Sets initial Value.

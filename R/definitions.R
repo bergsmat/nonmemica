@@ -59,6 +59,7 @@ as.definitions.character <- function(x,...){
 #' @param read whether to read the definitions file
 #' @param write whether to write the definitions file
 #' @param ... passed to other functions
+#' @import csv
 #' @seealso \code{\link{as.xml_document.modelname}}
 #' @seealso \code{\link{as.bootstrap.modelname}}
 #' @seealso \code{\link{as.nmctl.modelname}}

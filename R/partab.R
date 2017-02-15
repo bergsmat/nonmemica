@@ -1,4 +1,4 @@
-globalVariables(c('symbol','spread','value'))
+globalVariables(c('symbol','value'))
 
 #' Create Model Parameter Table in Project Context
 #'
@@ -40,7 +40,6 @@ as.partab.character <- function(x,...){
   class(x) <-  'modelname'
   as.partab(x,...)
 }
-
 val_name <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/val')
   valpath   <- paste0(tokenpath,'/@name')

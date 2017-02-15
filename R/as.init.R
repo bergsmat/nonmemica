@@ -307,6 +307,8 @@ fixed.initList <- function(x,...)sapply(x,fixed)
   x
 }
 
+
+
 .initcomments <- function(x)sub('^[^;]*;?(.*)$','\\1',x)
 .initdata <- function(x)sub(';.*','',x)
 .initEstimateNum <- function(x){

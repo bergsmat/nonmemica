@@ -81,19 +81,17 @@ lower.nmctl <- function(x,...).getInitDetail(x,y='low',...)
 #' Sets lower Value.
 #' @param x object of dispatch
 #' @param value right hand side
-#' @param ... dots
 #' @export
-`lower<-` <- function(x, value, ...)UseMethod('lower<-')
+`lower<-` <- function(x, value)UseMethod('lower<-')
 
 #' Set Lower Bounds for Model Initial Estimates
 #' 
 #' Sets lower bounds for model initial estimates.
 #' @param x nmctl
 #' @param value numeric
-#' @param ... dots
 # @describeIn getset nmctl method for setting lower bounds
 #' @export
-`lower<-.nmctl` <- function(x, value, ...).setInitDetail(x, value = value, y = 'low', ...)
+`lower<-.nmctl` <- function(x, value).setInitDetail(x, value = value, y = 'low')
 
 ### GET/SET UPPER ###################################33
 #' Get Upper Value
@@ -119,19 +117,17 @@ upper.nmctl <- function(x,...).getInitDetail(x,y='up',...)
 #' Sets upper Value.
 #' @param x object of dispatch
 #' @param value right hand side
-#' @param ... dots
 #' @export
-`upper<-` <- function(x, value,...)UseMethod('upper<-')
+`upper<-` <- function(x, value)UseMethod('upper<-')
 
 #' Set Upper Bounds for Model Initial Estimates
 #' 
 #' Sets upper bounds for model initial estimates.
 #' @param x nmctl
 #' @param value numeric
-#' @param ... dots
 # @describeIn getset nmctl method for setting upper bounds
 #' @export
-`upper<-.nmctl` <- function(x, value, ...).setInitDetail(x,value = value, y = 'up', ...)
+`upper<-.nmctl` <- function(x, value).setInitDetail(x,value = value, y = 'up')
 
 ### GET/SET INITIAL ESTIMATE ###################################33
 #' Get Initial Value
@@ -156,16 +152,14 @@ initial.nmctl <- function(x,...).getInitDetail(x,y = 'init',...)
 #' Sets initial Value.
 #' @param x object of dispatch
 #' @param value right hand side
-#' @param ... dots
 #' @export
-`initial<-` <- function(x, value, ...)UseMethod('initial<-')
+`initial<-` <- function(x, value)UseMethod('initial<-')
 
 #' Set Upper Bounds for Model Initial Estimates
 #' 
 #' Sets upper bounds for model initial estimates.
 #' @param x nmctl
 #' @param value numeric
-#' @param ... dots
 # @describeIn initials nmctl method for setting upper bounds
 #' @export
-`initial<-.nmctl` <- function(x, value, ...).setInitDetail(x, value = value, y = 'init', ...)
+`initial<-.nmctl` <- function(x, value).setInitDetail(x, value = value, y = 'init')

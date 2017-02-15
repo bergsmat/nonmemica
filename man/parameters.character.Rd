@@ -18,5 +18,6 @@ data.frame
 Gets parameters, treating character as model names. If x is length one, 
 slightly more details are returned such as datafile, reference model, and feature.
 Otherwise results are bound together, one model per column.
+See \code{\link{estimates}} and \code{\link{errors}} for a more formal interface to model estimates and asymptotic standard errors.
 }
 

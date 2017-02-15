@@ -1,5 +1,4 @@
-globalVariables(c('symbol','spread_','run','feature','cov','ofv'))
-globalVariables(c('as.meta','read.csv','read.table','plot'))
+globalVariables(c('symbol','run','feature','cov','ofv'))
 #' Identify the Single Model Problem Statement
 #' 
 #' Identifies a single model problem statement.
@@ -226,7 +225,7 @@ unionRollUp.list <- function(x,...){
   stopifnot(length(x) == 1)
   p <- parameters(x,...)
   p %<>% filter(symbol %in% c('min','cov','like','feature','ofv'))
-  p %<>% spread_ ('symbol',x)
+  p %<>% tidyr::spread_ ('symbol',x)
   p %<>% mutate(run = x)
   p %<>% select(run,like,feature,min,cov,ofv)
   p
@@ -493,6 +492,7 @@ parameters.numeric <- function(x,...)parameters(as.character(x,...))
 #' Gets parameters, treating character as model names. If x is length one, 
 #' slightly more details are returned such as datafile, reference model, and feature.
 #' Otherwise results are bound together, one model per column.
+#' See \code{\link{estimates}} and \code{\link{errors}} for a more formal interface to model estimates and asymptotic standard errors.
 #' @inheritParams parameters
 #' @return data.frame
 #' @export
@@ -506,8 +506,135 @@ parameters.character <- function(x,...){
   m %<>% bind_rows
   if(length(x) > 1) m %<>% filter(!symbol %in% c('dat','like','feature'))
   m %<>% mutate(symbol = factor(symbol,levels=unique(symbol)))
-  m %<>% spread(run,value)
+  m %<>% tidyr::spread(run,value)
   m
 }
 
+######### ESTIMATES
+#' Get Estimates
+#' 
+#' Gets estimates
+#' @param x object
+#' @param ... passed arguments
+#' @export
+estimates <- function(x,...)UseMethod('estimates')
+
+#' Get Estimates for Numeric
+#' 
+#' Gets estimates for numeric by coercing to character.
+#' @inheritParams estimates
+#' @export
+estimates.numeric <- function(x,...)estimates(as.character(x,...))
+
+#' Get Estimates for Character.
+#' 
+#' Gets model parameter estimates in canonical order, treating character as model names. 
+#' See \code{\link{parameters}} for a less formal interface.
+#' 
+#' @param x character (modelname)
+#' @param project parent directory of model directories
+#' @param opt alternative argument for setting project
+#' @param rundir specific model directory
+#' @param xmlfile path to xml file
+#' @param ctlfile path to control stream
+#' @param strip.namespace whether to strip e.g. nm: from xml elements for easier xpath syntax
+#' @param digits passed to signif
+#' @param ... dots
+#' @return numeric
+#' @seealso as.canonical errors
+#' @export
+#' @import magrittr
+#' @import dplyr
+estimates.character <- function(
+  x,
+  project = if(is.null(opt)) getwd() else opt, 
+  opt = getOption('project'),
+  rundir = file.path(project,x),
+  xmlfile = file.path(rundir,paste0(x,'.xml')),
+  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  strip.namespace=TRUE,
+  digits = 3,
+  ...
+){
+  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,project=project,file=xmlfile,...)
+  theta   <- y %>% val_name('theta',  'theta','estimate')
+# thetase <- y %>% val_name('thetase','theta','se')
+  sigma   <- y %>% row_col('sigma',   'sigma','estimate')
+# sigmase <- y %>% row_col('sigmase', 'sigma','se')
+  omega   <- y %>% row_col('omega',   'omega','estimate')
+# omegase <- y %>% row_col('omegase', 'omega','se')
+  # theta %<>% left_join(thetase,by='parameter')
+  # omega %<>% left_join(omegase,by=c('parameter','offdiag'))
+  # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
+  theta %<>% mutate(offdiag = 0)
+  param <- rbind(theta,omega,sigma)
+  nms <- x %>% as.canonical
+  res <- with(param, estimate[match(nms,parameter)])
+  res %<>% signif(digits)
+  res
+}
+
+######### STANDARD ERRORS
+#' Get Errors
+#' 
+#' Gets errors.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+errors <- function(x,...)UseMethod('errors')
+
+#' Get Errors for Numeric
+#' 
+#' Gets errors for numeric by coercing to character.
+#' @inheritParams errors
+#' @export
+errors.numeric <- function(x,...)errors(as.character(x,...))
+
+#' Get Errors for Character.
+#' 
+#' Gets model asymptotic standard errors in canonical order, treating character as model names. 
+#' See \code{\link{parameters}} for a less formal interface.
+#' 
+#' @param x character (modelname)
+#' @param project parent directory of model directories
+#' @param opt alternative argument for setting project
+#' @param rundir specific model directory
+#' @param xmlfile path to xml file
+#' @param ctlfile path to control stream
+#' @param strip.namespace whether to strip e.g. nm: from xml elements for easier xpath syntax
+#' @param digits passed to signif
+#' @param ... dots
+#' @return numeric
+#' @seealso as.canonical errors
+#' @export
+#' @import magrittr
+#' @import dplyr
+errors.character <- function(
+  x,
+  project = if(is.null(opt)) getwd() else opt, 
+  opt = getOption('project'),
+  rundir = file.path(project,x),
+  xmlfile = file.path(rundir,paste0(x,'.xml')),
+  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  strip.namespace=TRUE,
+  digits = 3,
+  ...
+){
+  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,project=project,file=xmlfile,...)
+  # theta   <- y %>% val_name('theta',  'theta','estimate')
+  thetase <- y %>% val_name('thetase','theta','se')
+  # sigma   <- y %>% row_col('sigma',   'sigma','estimate')
+  sigmase <- y %>% row_col('sigmase', 'sigma','se')
+  # omega   <- y %>% row_col('omega',   'omega','estimate')
+  omegase <- y %>% row_col('omegase', 'omega','se')
+  # theta %<>% left_join(thetase,by='parameter')
+  # omega %<>% left_join(omegase,by=c('parameter','offdiag'))
+  # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
+  thetase %<>% mutate(offdiag = 0)
+  param <- rbind(thetase,omegase,sigmase)
+  nms <- x %>% as.canonical
+  res <- with(param, se[match(nms,parameter)])
+  res %<>% signif(digits)
+  res
+}
 

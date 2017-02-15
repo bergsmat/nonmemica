@@ -4,14 +4,12 @@
 \alias{upper<-}
 \title{Set Upper Value}
 \usage{
-upper(x, ...) <- value
+upper(x) <- value
 }
 \arguments{
 \item{x}{object of dispatch}
 
 \item{value}{right hand side}
-
-\item{...}{dots}
 }
 \description{
 Sets upper Value.
