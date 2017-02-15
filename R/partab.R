@@ -104,9 +104,7 @@ row_col <- function(x, xpath, param, moment,...){
 #' @seealso \code{\link{as.xml_document.modelname}}
 #' @seealso \code{\link{as.bootstrap.modelname}}
 #' @seealso \code{\link{as.nmctl.modelname}}
-#' @seealso \code{\link{write.csv}}
-#' @seealso \code{\link{read.csv}}
-#' @seealso \code{\link{as.csv}}
+#' @seealso \code{\link[csv]{as.csv}}
 #' @aliases partab
 #' @examples
 #' library(magrittr)

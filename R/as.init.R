@@ -291,6 +291,7 @@ as.initList.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 #' @describeIn fixed initList method
 #' @export
 fixed.initList <- function(x,...)sapply(x,fixed)
+
 #' Set fixed attribute of initList
 #' 
 #' Sets fixed attribute of initList.
@@ -300,11 +301,12 @@ fixed.initList <- function(x,...)sapply(x,fixed)
 #' @export
 #' @keywords internal
 `fixed<-.initList` <- function(x,value){
-	stopifnot(is.logical(value))
-	value <- rep(value,length.out=length(x))
-	for(i in seq_along(value))fixed(x[[i]]) <- value[[i]]
-	x
+  stopifnot(is.logical(value))
+  value <- rep(value,length.out=length(x))
+  for(i in seq_along(value))fixed(x[[i]]) <- value[[i]]
+  x
 }
+
 .initcomments <- function(x)sub('^[^;]*;?(.*)$','\\1',x)
 .initdata <- function(x)sub(';.*','',x)
 .initEstimateNum <- function(x){

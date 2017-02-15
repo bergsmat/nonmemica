@@ -15,7 +15,8 @@ Imports:
  tidyr,
  magrittr,
  xml2,
- encode
+ encode,
+ csv
 Suggests:
  meta,
  ReporteRs,

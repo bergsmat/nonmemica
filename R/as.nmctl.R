@@ -465,7 +465,73 @@ ord.initList <- function(x,...){
 ord.itemList <- function(x,...)length(x)
 
 
+#' Identify Indices of Initial Estimates
+#' 
+#' Identifies indices of initial Estimates.
+#' @param x object of dispatch
+#' @param ... dots
+#' @export
+#' @keywords internal
+initDex <- function(x,...)UseMethod('initDex')
 
- 
+#' Identify Indices of Initial Estimates in nmctl
+#' 
+#' Identifies record indices of initial estimates for an object of class nmctl. If nmctl has not been parsed, the result is integer(0).  Otherwise, the result is the record numbers for the canonical order of all init objects among theta, omega, and sigma element types, regardless of the number and order of such types. If a block(2) omega is specified between two thetas and one sigma follows, the results could be c(6L, 8L, 7L, 7L, 7L, 9L).
+
+#' @param x nmctl
+#' @param ... dots
+#' @return integer
+#' @export
+#' @keywords internal
+#' 
+initDex.nmctl <- function(x,...){
+  i <- seq_along(x)
+  t <- i[names(x) == 'theta']
+  o <- i[names(x) == 'omega']
+  s <- i[names(x) == 'sigma']
+  c <- c(t,o,s)
+  y <- x[c]
+  l <- sapply(y,length)
+  parsed <- all(sapply(y,inherits,'initList'))
+  if(!parsed)return(integer(0))
+  z <- rep(c,times=l)
+  z
+}
+
+#' Identify Subscripts
+#' 
+#' Identifies subscripts.
+#' @param x object of dispatch
+#' @param ... dots
+#' @export
+#' @keywords internal
+initSubscripts <- function(x,...)UseMethod('initSubscripts')
+
+#' Identify Subscripts of Initial Estimates in nmctl
+#' 
+#' Identifies subscripts of record indices of initial estimates for an object of class nmctl. If nmctl has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each initList in x (canonical order).
+
+#' @param x nmctl
+#' @param ... dots
+#' @return integer
+#' @export
+#' @keywords internal
+#' 
+initSubscripts.nmctl <- function(x,...){
+  i <- seq_along(x)
+  t <- i[names(x) == 'theta']
+  o <- i[names(x) == 'omega']
+  s <- i[names(x) == 'sigma']
+  c <- c(t,o,s)
+  y <- x[c]
+  l <- sapply(y,length)
+  parsed <- all(sapply(y,inherits,'initList'))
+  if(!parsed)return(integer(0))
+  z <- do.call('c',lapply(l,seq_len))
+  z <- as.integer(z)
+  z
+}
+
+
   
   

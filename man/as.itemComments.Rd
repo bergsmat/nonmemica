@@ -13,7 +13,7 @@ as.itemComments(x, ...)
 \method{as.itemComments}{nmctlType}(x, ...)
 
 \method{as.itemComments}{nmctl}(x, fields = c("symbol", "unit", "label"),
-  expected = character(0), na = NA_character_, ...)
+  expected = character(0), na = NA_character_, tables = TRUE, ...)
 
 \method{as.itemComments}{itemList}(x, type, prior, ...)
 

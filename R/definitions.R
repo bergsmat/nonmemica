@@ -62,8 +62,6 @@ as.definitions.character <- function(x,...){
 #' @seealso \code{\link{as.xml_document.modelname}}
 #' @seealso \code{\link{as.bootstrap.modelname}}
 #' @seealso \code{\link{as.nmctl.modelname}}
-#' @seealso \code{\link{write.csv}}
-#' @seealso \code{\link{read.csv}}
 #' @aliases definitions
 #' @examples
 #' library(magrittr)
@@ -95,14 +93,15 @@ as.definitions.modelname <- function(
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){
     if(verbose)message('searching ',metafile)
-    m2 <- metafile %>% as.csv(...)
+    m2 <- metafile %>% csv::as.csv(...)
   }
   y <- full_join(m1,m2,by = intersect(names(m1),names(m2)))
+  y <- unique(y)
   dups <- y$item[duplicated(y$item)]
   if(length(dups))warning('found conflicting metadata for ',paste(dups,collapse=', '))
   class(y) <- union('definitions', class(y))
   if(write & length(metafile) == 1) {
-    y %>% as.csv(metafile,...)
+    y %>% csv::as.csv(metafile,...)
     return(metafile)
   }
   y

@@ -94,10 +94,6 @@ options(project = system.file('project/model',package='nonmemica'))
 
 \code{\link{as.nmctl.modelname}}
 
-\code{\link{write.csv}}
-
-\code{\link{read.csv}}
-
-\code{\link{as.csv}}
+\code{\link[csv]{as.csv}}
 }
 

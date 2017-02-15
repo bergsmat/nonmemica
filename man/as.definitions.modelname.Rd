@@ -55,9 +55,5 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{as.bootstrap.modelname}}
 
 \code{\link{as.nmctl.modelname}}
-
-\code{\link{write.csv}}
-
-\code{\link{read.csv}}
 }
 

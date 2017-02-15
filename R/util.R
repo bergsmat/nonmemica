@@ -165,7 +165,7 @@ as.best.default <-
 #' @export
 `runhead` <-
   function(x){#not like last observation
-    n <- x != lag(x)
+    n <- x != dplyr::lag(x)
     if(length(n)) n[[1]] <- TRUE
     n
   }

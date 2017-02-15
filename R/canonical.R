@@ -32,7 +32,7 @@ function(x,...){
 #' Generate Canonical Names
 #' 
 #' Generates canonical names.
-#' @param x 
+#' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
 as.canonical <- function(x,...)UseMethod('as.canonical')
@@ -48,9 +48,9 @@ as.canonical <- function(x,...)UseMethod('as.canonical')
 #' @export
 
 as.canonical.nmctl <- function(x,...){
-  y <- as.nmctl(x,parse=TRUE,...)
-  comments <- as.itemComments(y,tables=FALSE,...)
-  res <- y$item
+  #y <- as.nmctl(x,parse=TRUE,...)
+  comments <- as.itemComments(x,tables=FALSE,...)
+  res <- comments$item
   class(res) <- union('canonical',class(res))
   res
 }
@@ -58,7 +58,7 @@ as.canonical.nmctl <- function(x,...){
 #' Generate PsN-style Names
 #' 
 #' Generates PsN-style names.
-#' @param x 
+#' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
 as.psn <- function(x,...)UseMethod('as.psn')
@@ -73,8 +73,7 @@ as.psn <- function(x,...)UseMethod('as.psn')
 #' @seealso as.nmctl
 #' @export
 as.psn.nmctl <- function(x,...){
-  y <- as.nmctl(x,parse=TRUE,...)
-  comments <- as.itemComments(y,tables=FALSE,...)
+  comments <- as.itemComments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   comments %<>% mutate(item = if_else(symbol %>% is.na, item, symbol)) # substitute
   res <- comments$item
@@ -88,10 +87,12 @@ as.psn.nmctl <- function(x,...){
   x %<>%  sub( '_',   '(',  . ) # first underscore (all)
   x %<>%  sub( '_',   ',',  . ) # second underscore (ranef)
   x %<>%  sub( '$',   ')',  . ) # close the interval
+  t <- grepl('^THETA',x)
+  x[t] <- gsub('\\(|)','',x[t]) # drop parens
   x
 }
 .nonmem2canonical <- function(x,...){
-  t <- x %>% tolower %>% sub('\\(.*', '', .)    # lowercase term, isolated
+  t <- x %>% tolower %>% sub('(^[a-z]+).*', '\\1', .)    # lowercase term, isolated
   i <- x %>% text2decimal                       # first index
   r <- x %>% grepl(',',.)                       # random effects are double-indexed
   j <- x %>% sub('[^,]+','',.) %>% text2decimal # second index
@@ -106,10 +107,10 @@ as.psn.nmctl <- function(x,...){
 #' Generate NONMEM-style Names
 #' 
 #' Generates NONMEM-style names.
-#' @param x 
+#' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
-as.nonmem <- function(x,...)UseMethod('as.psn')
+as.nonmem <- function(x,...)UseMethod('as.nonmem')
 
 #' Generate NONMEM-style Names for nmctl
 #' 
@@ -121,8 +122,7 @@ as.nonmem <- function(x,...)UseMethod('as.psn')
 #' @seealso as.nmctl
 #' @export
 as.nonmem.nmctl <- function(x,...){
-  y <- as.nmctl(x,parse=TRUE,...)
-  comments <- as.itemComments(y,tables=FALSE,...)
+  comments <- as.itemComments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   res <- comments$item
   class(res) <- union('nonmem',class(res))
