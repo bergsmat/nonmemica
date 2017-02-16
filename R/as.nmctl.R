@@ -617,32 +617,26 @@ as.matrixList <- function(x,...)UseMethod('as.matrixList')
 #' @export
 #' @keywords internal
 as.matrixList.nmctlType <- function(x,...){
-  lapply(x,as.matrix)
+  y <- lapply(x,as.matrixList)
+  z <- do.call(c,y)
+  z
 }
 
-#' Coerce to matrix from initList
+#' Coerce to matrixList from initList
 #' 
-#' Coerces to matrix from initList.
+#' Coerces to matrixList from initList. Non-block initList is expanded into list of matrices.
 #'
 #' @param x object of dispatch
 #' @param ... dots
-#' @return matrix
+#' @return matrixList
 #' @export
 #' @keywords internal
-as.matrix.initList <- function(x,...){
+as.matrixList.initList <- function(x,...){
   block <- attr(x,'block')
   y <- sapply(x, `[[`, 'init')
   stopifnot(length(y) >= 1)
-  if(block != 0){
-    y %<>% as.halfmatrix %>% as.matrix
-  }else{
-    if(length(y) == 1) {
-      y %<>% as.matrix
-    }else{
-      y %<>% diag
-    }
-  }
-  y
+  if(block != 0) return(y %>% as.halfmatrix %>% as.matrix %>% list)
+  return(lapply(y,as.matrix))
 }
 
   

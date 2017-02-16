@@ -186,7 +186,7 @@ as.initList.list <- function(x,comment=character(0),...){
 #' @keywords internal
 as.character.initList <- function(x,...){
   com <- comment(x)
-  if(is.null(com))com <- ''
+  if(is.null(com) | com == '')com <- ''
   else com <- c('',paste(';',com))
   y <- c(com,unlist(lapply(x,as.character)))
   y
