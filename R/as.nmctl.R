@@ -127,7 +127,7 @@ function(x,...)print(format(x,...))
 #' @export
 #' @keywords internal
 read.nmctl <-
-function(con,parse=FALSE,...)as.nmctl(readLines(con,...),parse=parse,...)
+function(con,parse=FALSE,...)as.nmctl(readLines(con),parse=parse,...)
 
 #' Write nmctl
 #' 
@@ -343,6 +343,7 @@ as.itemList <- function(x,...)UseMethod('as.itemList')
 #' @return itemList
 #' @export
 as.itemList.character <- function(x,...){
+  txt <- x
   # for nonmem table items.  'BY' not supported
   x <- sub('FILE *= *[^ ]+','',x) # filename must not contain space
   reserved  <- c(
@@ -373,8 +374,40 @@ as.itemList.character <- function(x,...){
   }
   sets <- do.call(c,sets)
   class(sets) <- c('itemList','list')
+  attr(sets,'text') <- txt
   sets
 }
+
+#' Coerce itemList to Character
+#' 
+#' Coerces itemList to character.
+#' @param x itemList
+#' @param ... dots
+#' @return character
+#' @export
+as.character.itemList <- function(x,...){
+  attr(x,'text')
+}
+
+#' Format itemList
+#' 
+#' Formats itemList.
+#' @param x itemList
+#' @param ... dots
+#' @return character
+#' @export
+#' @keywords internal
+format.itemList <-function(x,...)as.character(x,...)
+
+#' Print itemList
+#' 
+#' Prints itemList.
+#' @param x itemList
+#' @param ... dots
+#' @return character
+#' @export
+#' @keywords internal
+print.itemList <-function(x,...)print(format(x,...))
 
 #' Convert itemList to itemComments
 #' 
@@ -597,24 +630,19 @@ as.matrixList.nmctlType <- function(x,...){
 #' @export
 #' @keywords internal
 as.matrix.initList <- function(x,...){
+  block <- attr(x,'block')
   y <- sapply(x, `[[`, 'init')
-  y %<>% as.halfmatrix
-  y %<>% as.matrix
+  stopifnot(length(y) >= 1)
+  if(block != 0){
+    y %<>% as.halfmatrix %>% as.matrix
+  }else{
+    if(length(y) == 1) {
+      y %<>% as.matrix
+    }else{
+      y %<>% diag
+    }
+  }
   y
 }
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
-  
+
   

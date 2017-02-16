@@ -7,10 +7,8 @@
 #' @param ... arguments to methods
 #' @seealso \code{\link{\%contains\%}}
 #' @return logical
-#' @examples
-#' contains('a',letters)
-#' @export
-
+# @examples
+# contains('a',letters)
 contains <- function(pattern,text,...){
 	hits <- regexpr(pattern,text,...)
 	hits >=0
@@ -24,10 +22,8 @@ contains <- function(pattern,text,...){
 #' @param y pattern
 #' @seealso \code{\link{contains}}
 #' @return logical
-#' @examples
-#' letters %contains% 'a'
-#' @export
-
+# @examples
+# letters %contains% 'a'
 `%contains%` <- function(x,y)contains(y,x)
 
 #' Convert Text to Decimal
@@ -36,9 +32,8 @@ contains <- function(pattern,text,...){
 #' 
 #' @param x character
 #' @return numeric
-#' @examples
-#' text2decimal('30 mg')
-#' @export
+# @examples
+# text2decimal('30 mg')
 
 `text2decimal` <-
 function (x) as.numeric(sub("^[^0-9.+-]*([0-9.eE+-]+).*$", "\\1", as.character(x)))
@@ -84,7 +79,6 @@ parens <- function(x,...)paste0('(',x,')')
 #' @param close close string
 #' @param ... dots
 #' @return character
-
 #' @export
 enclose <- function(x,open,close,...)paste0(open,x,close)
 

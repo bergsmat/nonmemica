@@ -78,6 +78,20 @@ as.canonical.nmctl <- function(x,...){
 #' @export
 as.psn <- function(x,...)UseMethod('as.psn')
 
+#' Generate PsN-style Names for Numeric
+#' 
+#' Generates PsN-style names for numeric by coercing to character.
+#' @inheritParams as.psn
+#' @export
+as.psn.numeric <- function(x,...)as.psn(as.character(x,...),...)
+
+#' Generate PsN-style Names for Character
+#' 
+#' Generates PsN-style names for numeric by converting to parsed nmctl.
+#' @inheritParams as.psn
+#' @export
+as.psn.character <- function(x,...)as.psn(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
+
 #' Generate PsN-style Names for nmctl
 #' 
 #' Generates PsN-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
@@ -126,6 +140,20 @@ as.psn.nmctl <- function(x,...){
 #' @param ... passed arguments
 #' @export
 as.nonmem <- function(x,...)UseMethod('as.nonmem')
+
+#' Generate NONMEM-style Names for Numeric
+#' 
+#' Generates NONMEM-style names for numeric by coercing to character.
+#' @inheritParams as.nonmem
+#' @export
+as.nonmem.numeric <- function(x,...)as.nonmem(as.character(x,...),...)
+
+#' Generate NONMEM-style Names for Character
+#' 
+#' Generates NONMEM-style names for numeric by converting to parsed nmctl.
+#' @inheritParams as.nonmem
+#' @export
+as.nonmem.character <- function(x,...)as.nonmem(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
 
 #' Generate NONMEM-style Names for nmctl
 #' 

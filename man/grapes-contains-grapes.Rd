@@ -17,9 +17,6 @@ logical
 \description{
 Checks whether x contains y, in natural syntax.
 }
-\examples{
-letters \%contains\% 'a'
-}
 \seealso{
 \code{\link{contains}}
 }
