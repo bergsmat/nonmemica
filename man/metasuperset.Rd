@@ -5,8 +5,7 @@
 \title{Retrieve Model Outputs in Meta Format}
 \usage{
 metasuperset(x, opt = getOption("project"), project = if (is.null(opt))
-  getwd() else opt, group_by = c("USUBJID", "DATETIME"),
-  meta = as.definitions(x, ...), ...)
+  getwd() else opt, group_by, meta = match.fun("meta")(x, ...), subset, ...)
 }
 \arguments{
 \item{x}{model name}
@@ -15,9 +14,11 @@ metasuperset(x, opt = getOption("project"), project = if (is.null(opt))
 
 \item{project}{direct specification of project directory}
 
-\item{group_by}{vector of key column names in superset}
+\item{group_by}{vector of key column names in superset, e.g. USUBJID, TIME}
 
-\item{meta}{data.frame with item, symbol, unit, label}
+\item{meta}{pre-folded metadata}
+
+\item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 0'}
 
 \item{...}{passed arguments}
 }
@@ -27,4 +28,3 @@ meta
 \description{
 Retrieves model outputs in meta format. Inputs should have EVID.
 }
-

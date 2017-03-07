@@ -17,4 +17,3 @@ character
 \description{
 Coerces itemList to character.
 }
-

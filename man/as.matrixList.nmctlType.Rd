@@ -15,4 +15,3 @@
 Coerces to list of matrices from nmctlType
 }
 \keyword{internal}
-

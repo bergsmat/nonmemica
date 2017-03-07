@@ -30,5 +30,5 @@ Extracts nmctl record type from nmctl.
 \itemize{
 \item \code{nmctl}: nmctl method
 }}
-\keyword{internal}
 
+\keyword{internal}

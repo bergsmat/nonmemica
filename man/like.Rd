@@ -14,4 +14,3 @@ like(x, ...)
 \description{
 Identifies what something is like.
 }
-

@@ -23,7 +23,7 @@ function(x,...)UseMethod('num_parameters')
 
 num_parameters.default <-
 function(x,...){
-	y <- as.nmctl(x,parse=TRUE,...)
+	y <- as.model(x,parse=TRUE,...)
 	y <- y[names(y) %in% c('theta','omega','sigma')]
 	len <- sapply(y,length)
 	sum(len)
@@ -46,24 +46,24 @@ as.canonical.numeric <- function(x,...)as.canonical(as.character(x,...),...)
 
 #' Generate Canonical Names for Character
 #' 
-#' Generates canonical names for numeric by converting to parsed nmctl.
+#' Generates canonical names for numeric by converting to parsed model.
 #' @inheritParams as.canonical
 #' @export
-as.canonical.character <- function(x,...)as.canonical(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
+as.canonical.character <- function(x,...)as.canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 
-#' Generate Canonical Names for nmctl
+#' Generate Canonical Names for model
 #' 
 #' Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-cae conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
 #' 
 #' @param x a model designator
 #' @param ... passed arguments
 #' @return canonical (character)
-#' @seealso as.nmctl
+#' @seealso as.model
 #' @export
 
-as.canonical.nmctl <- function(x,...){
-  #y <- as.nmctl(x,parse=TRUE,...)
+as.canonical.model <- function(x,...){
+  #y <- as.model(x,parse=TRUE,...)
   comments <- as.itemComments(x,tables=FALSE,...)
   res <- comments$item
   class(res) <- union('canonical',class(res))
@@ -87,21 +87,21 @@ as.psn.numeric <- function(x,...)as.psn(as.character(x,...),...)
 
 #' Generate PsN-style Names for Character
 #' 
-#' Generates PsN-style names for numeric by converting to parsed nmctl.
+#' Generates PsN-style names for numeric by converting to parsed model.
 #' @inheritParams as.psn
 #' @export
-as.psn.character <- function(x,...)as.psn(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
+as.psn.character <- function(x,...)as.psn(as.model(x,parse=TRUE,verbose=FALSE),...)
 
-#' Generate PsN-style Names for nmctl
+#' Generate PsN-style Names for model
 #' 
 #' Generates PsN-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
 #' 
 #' @param x a model designator
 #' @param ... passed arguments
 #' @return psn (character)
-#' @seealso as.nmctl
+#' @seealso as.model
 #' @export
-as.psn.nmctl <- function(x,...){
+as.psn.model <- function(x,...){
   comments <- as.itemComments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   comments %<>% mutate(item = if_else(symbol %>% is.na, item, symbol)) # substitute
@@ -150,21 +150,21 @@ as.nonmem.numeric <- function(x,...)as.nonmem(as.character(x,...),...)
 
 #' Generate NONMEM-style Names for Character
 #' 
-#' Generates NONMEM-style names for numeric by converting to parsed nmctl.
+#' Generates NONMEM-style names for numeric by converting to parsed model.
 #' @inheritParams as.nonmem
 #' @export
-as.nonmem.character <- function(x,...)as.nonmem(as.nmctl(x,parse=TRUE,verbose=FALSE),...)
+as.nonmem.character <- function(x,...)as.nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
 
-#' Generate NONMEM-style Names for nmctl
+#' Generate NONMEM-style Names for model
 #' 
 #' Generates NONMEM-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
 #' 
 #' @param x a model designator
 #' @param ... passed arguments
 #' @return nonmem (character)
-#' @seealso as.nmctl
+#' @seealso as.model
 #' @export
-as.nonmem.nmctl <- function(x,...){
+as.nonmem.model <- function(x,...){
   comments <- as.itemComments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   res <- comments$item

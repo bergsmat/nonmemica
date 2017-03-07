@@ -7,7 +7,7 @@ globalVariables(c('symbol','value'))
 #' x can be numeric or character model name, assuming project is identified by argument or option.
 #' @param x object of dispatch
 #' @param ... arguments to methods
-#' @seealso \code{\link{as.partab.modelname}}
+#' @seealso \code{\link{as.partab.character}}
 #' @export
 as.partab <- function(x,...)UseMethod('as.partab')
 #' Create Model Parameter Table from partab
@@ -32,14 +32,6 @@ as.partab.numeric  <- function(x,...)as.partab(as.character(x),...)
 #'
 #' Creates a model parameter table from a character string.
 #' 
-#' Reclassifies x as a modelname and calls as.partab again.
-#' @inheritParams as.partab
-#' @describeIn as.partab character method
-#' @export
-as.partab.character <- function(x,...){
-  class(x) <-  'modelname'
-  as.partab(x,...)
-}
 val_name <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/val')
   valpath   <- paste0(tokenpath,'/@name')
@@ -78,7 +70,6 @@ row_col <- function(x, xpath, param, moment,...){
 #' @param lo the PsN bootstrap lower confidence limit (\%)
 #' @param hi the PsN bootstrap upper confidence limit (\%)
 #' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
 #' @param rundir specific model directory
 #' @param metafile optional metadata for parameter table (see also: fields)
 #' @param xmlfile path to xml file
@@ -102,7 +93,7 @@ row_col <- function(x, xpath, param, moment,...){
 #' @seealso \code{\link{as.flextable.partab}}
 #' @seealso \code{\link{as.xml_document.modelname}}
 #' @seealso \code{\link{as.bootstrap.modelname}}
-#' @seealso \code{\link{as.nmctl.modelname}}
+#' @seealso \code{\link{as.model.character}}
 #' @seealso \code{\link[csv]{as.csv}}
 #' @aliases partab
 #' @examples
@@ -111,17 +102,16 @@ row_col <- function(x, xpath, param, moment,...){
 #' 1001 %>% as.partab
 #' @return object of class partab, data.frame
 #' @export
-as.partab.modelname <- function(
+as.partab.character <- function(
   x,
   verbose=FALSE,
   lo='5',
   hi='95',
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
+  project = getOption('project', getwd() ),
   rundir = file.path(project,x),
   metafile = file.path(rundir,paste0(x,'.def')),
   xmlfile = file.path(rundir,paste0(x,'.xml')),
-  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  ctlfile = file.path(rundir,paste(sep = '.', x, getOption('modex','ctl'))),
   bootcsv,
   strip.namespace=TRUE,
   skip=28,

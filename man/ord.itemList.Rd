@@ -21,4 +21,3 @@ Identifies the order of an itemList.
 Essentially the length of the list
 }
 \keyword{internal}
-

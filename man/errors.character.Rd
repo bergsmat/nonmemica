@@ -39,4 +39,3 @@ See \code{\link{parameters}} for a less formal interface.
 \seealso{
 as.canonical errors
 }
-

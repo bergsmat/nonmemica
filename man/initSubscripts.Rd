@@ -15,4 +15,3 @@ initSubscripts(x, ...)
 Identifies subscripts.
 }
 \keyword{internal}
-

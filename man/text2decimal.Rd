@@ -15,4 +15,3 @@ numeric
 \description{
 Scavenge text for first reasonably-inferred numeric value.
 }
-

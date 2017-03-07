@@ -1,6 +1,3 @@
-globalVariables(c('VISIBLE','EVID','label','unit','gather','META','VALUE'))
-globalVariables(c('LABEL','GUIDE','VARIABLE','fold','as.meta'))
-
 #' Coerce to superset
 #' 
 #' Coerces to superset.
@@ -47,7 +44,6 @@ as.superset.numeric <- function(x,...){
 #' 
 #' @inheritParams as.superset
 #' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
 #' @param rundir specific model directory
 #' @param ctlfile path to control stream
 #  @param key the object model for the input data: vector of key column names in hierarchical order (e.g. USUBJID, TIME, CMT)
@@ -62,11 +58,9 @@ as.superset.numeric <- function(x,...){
 
 as.superset.character <- function(
   x,
-  project = if (is.null(opt)) getwd() else opt, 
-  opt = getOption("project"),
+  project = getOption("project", getwd() ),
   rundir = filename(project,run), 
-  ctlfile = filename(rundir, run, ".ctl"),
-# key=character(0),
+  ctlfile = filename(rundir, run, paste0('.',getOption('modex','ctl'))),
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
   read.output=list(read.table,header=TRUE,as.is=TRUE,skip=1,comment.char='',check.names=FALSE),
   exclusive=NULL,
@@ -85,7 +79,7 @@ as.superset.character <- function(
   if(missing(project) & !missing(rundir))project <- dirname(rundir)
   if(missing(project) & missing(rundir) & !missing(ctlfile))project <- dirname(dirname(ctlfile))
   dropped <- ignored(run=run,project=project,rundir=rundir,ctlfile=ctlfile,read.input=read.input,...)
-  control <- read.nmctl(ctlfile)
+  control <- read.model(ctlfile)
   dname <- getdname(control)
   datafile <- resolve(dname,rundir)
   if (!file.exists(datafile))stop(dname, " not visible from ", rundir, call. = FALSE)
@@ -217,7 +211,7 @@ ignored <- function(
   run,
   project=getwd(),
   rundir = filename(project,run), 
-  ctlfile = filename(rundir, run, ".ctl"),
+  ctlfile = filename(rundir, run, paste0('.', getOption('modex','ctl'))),
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
   ...
 ){
@@ -230,7 +224,7 @@ ignored <- function(
   if(missing(project) & !missing(rundir))project <- dirname(rundir)
   if(missing(project) & missing(rundir) & !missing(ctlfile))project <- dirname(dirname(ctlfile))
   if(normalizePath(rundir)!=normalizePath(dirname(ctlfile)))warning('rundir does not specify parent of ctlfile')
-  control <- read.nmctl(ctlfile)
+  control <- read.model(ctlfile)
   dname <- getdname(control)
   datafile <- resolve(dname,rundir)
   if (!file.exists(datafile))stop(dname, " not visible from ", rundir, call. = FALSE)
@@ -334,10 +328,10 @@ function (dir, run = NULL, ext = NULL)
 .nminput <- function(x,...)UseMethod('.nminput')
 .nminput.default <- function(x,...){#assume x is a filepath for control stream
   if (!file.exists(x)) stop(x, " not found", call. = FALSE)
-  control <- read.nmctl(x)
+  control <- read.model(x)
   .nminput(control)
 }
-.nminput.nmctl <- function(x,...){#extract input labels from control stream, with values like output tables but order like input table
+.nminput.model <- function(x,...){#extract input labels from control stream, with values like output tables but order like input table
   if(! 'input' %in% names(x))stop('no input record found in ',x,call.=FALSE)
   x <- x$input
   x <- x[x != '']
@@ -378,10 +372,10 @@ function (dir, run = NULL, ext = NULL)
 .nmignore <- function (x,...)UseMethod('.nmignore')
 .nmignore.default <- function(x,...){#assume x is path to control stream
   if (!file.exists(x)) stop(x, " not found", call. = FALSE)
-  control <- read.nmctl(x)
+  control <- read.model(x)
   .nmignore(control)
 }
-.nmignore.nmctl <- function(x,...){#extract ignore criteria from control stream
+.nmignore.model <- function(x,...){#extract ignore criteria from control stream
   opt <- .nmdataoptions(x,...) # named character
   if(!length(opt))opt  <- c(ignore="#") # the nonmem default
   test <- opt[names(opt) %in% c('ignore','accept')]
@@ -449,10 +443,10 @@ function (dir, run = NULL, ext = NULL)
 .nmdataoptions <- function(x,...)UseMethod('.nmdataoptions')
 .nmdataoptions.default <- function(x,...){#assume x is path to control stream
   if (!file.exists(x)) stop(x, " not found", call. = FALSE)
-  control <- read.nmctl(x)
+  control <- read.model(x)
   .nmdataoptions(control)
 }
-.nmdataoptions.nmctl <- function(x,...){# extract data options from control stream (especially IGNORE/ACCEPT)
+.nmdataoptions.model <- function(x,...){# extract data options from control stream (especially IGNORE/ACCEPT)
   if (!"data" %in% names(x))stop("data record not found in control stream")
   rec <- x$data
   rec <- sub(';.*','',rec)
@@ -477,11 +471,11 @@ getdname.default <-
 function (x, ...) {
   if (!file.exists(x)) 
     stop(x, " not found", call. = FALSE)
-  control <- read.nmctl(x)
+  control <- read.model(x)
   getdname(control)
 }
 
-getdname.nmctl <- 
+getdname.model <- 
 function (x, ...) 
 {
   if (!"data" %in% names(x)) 
@@ -524,40 +518,92 @@ function (x)
 #' Retrieves model outputs in meta format. Inputs should have EVID.
 #' 
 #' @param x model name
-#' @param opt alternative specification of project directory
 #' @param project direct specification of project directory
-#' @param group_by vector of key column names in superset
-#' @param meta data.frame with item, symbol, unit, label
+#' @param group_by vector of key column names in superset, e.g. USUBJID, TIME
+#' @param meta pre-folded metadata
+#' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
 #' @return meta
+#' @importFrom tidyr gather
+#' @importFrom tidyr gather_
 #' @export
 
 metasuperset <- function(
   x,
-  opt = getOption('project'),
-  project = if(is.null(opt))getwd() else opt,
-  group_by = c('USUBJID','DATETIME'),
-  meta = as.definitions(x,...),
+  project = getOption('project', getwd() ),
+  group_by, # = c('USUBJID','DATETIME'),
+  meta = match.fun('meta')(x,...),
+  # meta = as.definitions(x,...),
+  subset,
   ...
 ){
-  requireNamespace(meta)
+  requireNamespace('origami')
   stopifnot(length(x)==1)
   y <- x %>% as.superset
+  y %<>% as.best('')
   y %<>% filter(VISIBLE==1)
-  y %<>% filter(EVID==0)
-  need <- c('item','symbol','label','unit')
-  miss <- setdiff(need, names(meta))
-  if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
-  meta %<>% 
-    select(item,label,unit) %>%
-    rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
-    gather(META,VALUE,LABEL,GUIDE)
+  if(!missing(subset)){
+    subset <- as.logical(eval(parse(text=keep), envir=y))
+    y <- y[keep,] # y %<>% filter(EVID==0)
+  }
+  # need <- c('item','symbol','label','unit')
+  # miss <- setdiff(need, names(meta))
+  # if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
+  # meta %<>% 
+  #   select(item,label,unit) %>%
+  #   rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
+  #   gather(META,VALUE,LABEL,GUIDE)
   targets <- intersect(meta$VARIABLE,names(y))
-  meta %>% filter(VARIABLE %in% targets)
+  meta %<>% filter(VARIABLE %in% targets)
   y %<>% select_(.dots = c(group_by,targets))
-  y %<>% group_by_(.dots=group_by) %>% fold
+  y %<>% group_by_(.dots=group_by) 
+  y %<>% fold
   y %<>% bind_rows(meta)
-  y %<>% as.meta
+  y %<>% as.folded
   y
 }
+
+#' Get Metadata
+#' 
+#' Gets metadata.
+#' 
+#' @param x object
+#' @param ... passed arguments
+#' @export
+meta <- function(x,...)UseMethod('meta')
+
+#' Get Metadata for Numeric
+#' 
+#' Gets metadata for numeric by coercing to character.
+#' 
+#' @inheritParams meta
+#' @export
+meta.numeric <- function(x,...)meta(as.character(x),...)
+
+#' Get Metadata for Character
+#' 
+#' Gets metadata for character, treating it as a model name.
+#' @inheritParams meta
+#' @export
+meta.character <- function(x,...){
+  y <- data.frame()
+  z <- data.frame()
+  try(y <- x %>% specfile %>% read.spec %>% as.folded)
+  try(z <- x %>% as.definitions %>% as.folded)
+  res <- bind_rows(y,z)
+  res
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

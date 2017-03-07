@@ -18,4 +18,3 @@ character
 Prints itemList.
 }
 \keyword{internal}
-

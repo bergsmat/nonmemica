@@ -5,21 +5,21 @@ globalVariables(c('item','.','parameter','estimate','se'))
 #' Coerces to NONMEM control stream object.
 #' @param x object of dispatch
 #' @param ... dots
-#' @return nmctl
+#' @return model
 #' @export
 #' @keywords internal
-as.nmctl <-
-function(x,...)UseMethod('as.nmctl')
+as.model <-
+function(x,...)UseMethod('as.model')
 
 #' Coerce NONMEM Control Object to character
 #' 
 #' Coerces NONMEM control stream object to character.
 #' @param x object of dispatch
 #' @param ... dots
-#' @return nmctl
+#' @return model
 #' @export
 #' @keywords internal
-as.character.nmctl <-
+as.character.model <-
 function(x,...){
 	if(length(x)==0) return(character(0))
 	x[] <- lapply(x,as.character) # to accommodate novel underlying object types
@@ -34,28 +34,28 @@ function(x,...){
 	content
 }
 
-#' Coerce nmctl to list
+#' Coerce model to list
 #' 
-#' Coerces nmctl to list.
-#' @param x nmctl
+#' Coerces model to list.
+#' @param x model
 #' @param ... dots
 #' @return list
 #' @export
 #' @keywords internal
-as.list.nmctl <-
+as.list.model <-
 function(x,...)unclass(x)
 
-#' Coerce character to nmctl
-#' Coerces chacter to nmctl.
-#' @inheritParams as.nmctl
+#' Coerce character to model
+#' Coerces chacter to model.
+#' @inheritParams as.model
 #' @param pattern pattern to identify record declarations
 #' @param head subpattern to identify declaration type
 #' @param tail subpattern remaining
 #' @param parse whether to convert thetas omegas and sigmas to initList and tables to itemList
 #' @return list
-#' @describeIn as.nmctl character method
+#' @describeIn as.model character method
 #' @export
-as.nmctl.character <-
+as.model.character <-
 function(
 	x,
 	pattern='^\\s*\\$(\\S+)(\\s.*)?$',
@@ -65,9 +65,10 @@ function(
 	...
 ){
   if(length(x) == 1){
-    class(x) <- if(file.exists(x)) 'filename' else 'modelname'
-      return(as.nmctl(x,parse=parse,...))
+    if(!file.exists(x))x <- modelfile(x,...)
+      x <- read.model(con=x,parse=parse,...)
   }
+  
 	flag <- grepl(pattern,x)
 	nms <- sub(pattern,head,x)
 	nms <- nms[flag]
@@ -77,7 +78,7 @@ function(
 	content <- split(content,cumsum(flag))
 	content[['0']] <- NULL	
 	names(content) <- nms
-	class(content) <- c('nmctl',class(content))
+	class(content) <- c('model',class(content))
 	thetas <- names(content)=='theta'
 	omegas <- names(content)=='omega'
 	sigmas <- names(content)=='sigma'
@@ -89,52 +90,52 @@ function(
 	content
 }
 
-#' Format nmctl
+#' Format model
 #' 
-#' Format nmctl.
+#' Format model.
 #' 
 #' Coerces to character.
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-format.nmctl <-
+format.model <-
 function(x,...)as.character(x,...)
 
-#' Print nmctl
+#' Print model
 #' 
-#' Print nmctl.
+#' Print model.
 #' 
 #' Formats and prints.
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-print.nmctl <-
+print.model <-
 function(x,...)print(format(x,...))
 
-#' Read nmctl
+#' Read model
 #' 
-#' Read nmctl.
+#' Read model.
 #' 
-#' Reads nmctl from a connection.
-#' @param con nmctl connection
+#' Reads model from a connection.
+#' @param con model connection
 #' @param parse whether to convert thetas to initList objects
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-read.nmctl <-
-function(con,parse=FALSE,...)as.nmctl(readLines(con),parse=parse,...)
+read.model <-
+function(con,parse=FALSE,...)as.model(readLines(con),parse=parse,...)
 
-#' Write nmctl
+#' Write model
 #' 
-#' Write nmctl.
+#' Write model.
 #' 
-#' writes (formatted) nmctl to file.
-#' @param x nmctl
+#' writes (formatted) model to file.
+#' @param x model
 #' @param file passed to write()
 #' @param ncolumns passed to write() 
 #' @param append passed to write()
@@ -144,7 +145,7 @@ function(con,parse=FALSE,...)as.nmctl(readLines(con),parse=parse,...)
 #' @export
 #' @keywords internal
 
-write.nmctl <-
+write.model <-
 function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 	out <- format(x)
 	write(
@@ -157,100 +158,59 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 	)
 }
 
-#' Subset nmctl
+#' Subset model
 #' 
-#' Subsets nmctl.
-#' @param x nmctl
+#' Subsets model.
+#' @param x model
 #' @param ... dots
 #' @param drop passed to subset
-#' @return nmctl
+#' @return model
 #' @export
 #' @keywords internal
-`[.nmctl` <- function (x, ..., drop = TRUE){
+`[.model` <- function (x, ..., drop = TRUE){
     cl <- oldClass(x)
     class(x) <- NULL
     val <- NextMethod("[")
     class(val) <- cl
     val
 }
-#' Select nmctl Element
+#' Select model Element
 #' 
-#' Selects nmctl element.
-#' @param x nmctl
+#' Selects model element.
+#' @param x model
 #' @param ... dots
 #' @param drop passed to element select
 #' @return element
 #' @export
 #' @keywords internal
 
-`[[.nmctl` <- function (x, ..., drop = TRUE)NextMethod("[[")
+`[[.model` <- function (x, ..., drop = TRUE)NextMethod("[[")
 
-#' Convert Filename to nmctl
-#' 
-#' Converts filename to nmctl.
-#' 
-#' @inheritParams as.nmctl
-#' @param parse convert thetas to initList
-#' @return nmctl
-#' @describeIn as.nmctl filename method
-#' @export 
 
-as.nmctl.filename <- function(x, parse=FALSE, ...)read.nmctl(con=x,parse=parse,...)
-
-#' Convert Modelname to nmctl
+#' Extract model record type
 #' 
-#' Converts modelname to nmctl.
+#' Extracts model record type.
 #' 
-#' @inheritParams as.nmctl
-#' @param verbose whether to display messages
-#' @param project path to project directory
-#' @param opt alternative specification of project
-#' @param rundir model specific run directory
-#' @param ctlfile path to model control stream
-#' @param ext extension (with dot) for control stream
-#' @param parse convert thetas to initList
-#' @return nmctl
-#' @describeIn as.nmctl modelname method
-#' @export 
-as.nmctl.modelname <- function(
-  x,
-  verbose=TRUE,
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
-  rundir = file.path(project,x), 
-  ctlfile = file.path(rundir,paste0(x,ext)),
-  ext = '.ctl',
-  parse = TRUE,
-  ...
-){
-  if(verbose)message('converting ',ctlfile)
-  read.nmctl(ctlfile,parse=parse,...)
-}
-
-#' Extract nmctl record type
-#' 
-#' Extracts nmctl record type.
-#' 
-#'@param x nmctl
+#'@param x model
 #'@param ... dots
-#'@return nmctltype (list)
+#'@return modeltype (list)
 #'@export
 #'@keywords internal
-as.nmctlType <- function(x,...)UseMethod('as.nmctlType')
+as.modelType <- function(x,...)UseMethod('as.modelType')
 
-#' Extract nmctl record type from nmctl
+#' Extract model record type from model
 #' 
-#' Extracts nmctl record type from nmctl.
+#' Extracts model record type from model.
 #' 
-#'@inheritParams as.nmctlType
+#'@inheritParams as.modelType
 #'@param type theta omega or sigma
-#'@return nmctlType (list)
-#'@describeIn as.nmctlType nmctl method
+#'@return modelType (list)
+#'@describeIn as.modelType model method
 #'@export
-as.nmctlType.nmctl <- function(x,type,...){
+as.modelType.model <- function(x,type,...){
   y <- x[names(x) %in% type ]
   attr(y,'type') <- type
-  class(y) <- 'nmctlType'
+  class(y) <- 'modelType'
   y
 }
 
@@ -264,16 +224,16 @@ as.nmctlType.nmctl <- function(x,type,...){
 #' @keywords internal
 as.itemComments <- function(x,...)UseMethod('as.itemComments')
 
-#' Convert nmctlType to itemComments
+#' Convert modelType to itemComments
 #' 
-#' Converts nmctlType to itemComments
+#' Converts modelType to itemComments
 #' 
 #' @inheritParams as.itemComments
 #' @return data.frame
-#' @describeIn as.itemComments nmctlType method
+#' @describeIn as.itemComments modelType method
 #' @export
 #' 
-as.itemComments.nmctlType <- function(x,...){
+as.itemComments.modelType <- function(x,...){
   type <- attr(x,'type')
   y <- list()
   prior <- 0
@@ -287,23 +247,23 @@ as.itemComments.nmctlType <- function(x,...){
   y
 }
 
-#' Convert nmctl to itemComments
+#' Convert model to itemComments
 #' 
-#' Converts nmctl to itemComments
+#' Converts model to itemComments
 #' 
 #' @inheritParams as.itemComments
 #' @param fields data items to scavenge from control stream comments
 #' @param expected parameters known from NONMEM output
 #' @param na string to use for NA values when writing default metafile
 #' @return data.frame
-#' @describeIn as.itemComments nmctl method
+#' @describeIn as.itemComments model method
 #' @export
 #' 
-as.itemComments.nmctl <- function(x,fields=c('symbol','unit','label'),expected=character(0),na=NA_character_,tables=TRUE, ...){
-  t <- x %>% as.nmctlType('theta') %>% as.itemComments
-  o <- x %>% as.nmctlType('omega') %>% as.itemComments
-  s <- x %>% as.nmctlType('sigma') %>% as.itemComments
-  b <- x %>% as.nmctlType('table') %>% as.itemComments
+as.itemComments.model <- function(x,fields=c('symbol','unit','label'),expected=character(0),na=NA_character_,tables=TRUE, ...){
+  t <- x %>% as.modelType('theta') %>% as.itemComments
+  o <- x %>% as.modelType('omega') %>% as.itemComments
+  s <- x %>% as.modelType('sigma') %>% as.itemComments
+  b <- x %>% as.modelType('table') %>% as.itemComments
   y <- rbind(t,o,s)
   if(tables) y <- rbind(y,b)
   y <- cbind(y[,'item',drop=F], .renderComments(
@@ -507,17 +467,17 @@ ord.itemList <- function(x,...)length(x)
 #' @keywords internal
 initDex <- function(x,...)UseMethod('initDex')
 
-#' Identify Indices of Initial Estimates in nmctl
+#' Identify Indices of Initial Estimates in model
 #' 
-#' Identifies record indices of initial estimates for an object of class nmctl. If nmctl has not been parsed, the result is integer(0).  Otherwise, the result is the record numbers for the canonical order of all init objects among theta, omega, and sigma element types, regardless of the number and order of such types. If a block(2) omega is specified between two thetas and one sigma follows, the results could be c(6L, 8L, 7L, 7L, 7L, 9L).
+#' Identifies record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the record numbers for the canonical order of all init objects among theta, omega, and sigma element types, regardless of the number and order of such types. If a block(2) omega is specified between two thetas and one sigma follows, the results could be c(6L, 8L, 7L, 7L, 7L, 9L).
 
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
 #' @return integer
 #' @export
 #' @keywords internal
 #' 
-initDex.nmctl <- function(x,...){
+initDex.model <- function(x,...){
   i <- seq_along(x)
   t <- i[names(x) == 'theta']
   o <- i[names(x) == 'omega']
@@ -540,17 +500,17 @@ initDex.nmctl <- function(x,...){
 #' @keywords internal
 initSubscripts <- function(x,...)UseMethod('initSubscripts')
 
-#' Identify Subscripts of Initial Estimates in nmctl
+#' Identify Subscripts of Initial Estimates in model
 #' 
-#' Identifies subscripts of record indices of initial estimates for an object of class nmctl. If nmctl has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each initList in x (canonical order).
+#' Identifies subscripts of record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each initList in x (canonical order).
 
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
 #' @return integer
 #' @export
 #' @keywords internal
 #' 
-initSubscripts.nmctl <- function(x,...){
+initSubscripts.model <- function(x,...){
   i <- seq_along(x)
   t <- i[names(x) == 'theta']
   o <- i[names(x) == 'omega']
@@ -591,11 +551,11 @@ updated.numeric <- function(x,...)updated(as.character(x),...)
 #' @param parse whether to parse the initial estimates, etc.
 #' @param verbose extended messaging
 #' @param ... dots
-#' @return nmctl
+#' @return model
 #' @export
 #' @keywords internal
 updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose=FALSE, ...){
-  y <- x %>% as.nmctl(parse=TRUE,verbose=verbose,...)
+  y <- x %>% as.model(parse=TRUE,verbose=verbose,...)
   initial(y) <- initial
   y
 }
@@ -609,14 +569,14 @@ updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose
 #' @keywords internal
 as.matrixList <- function(x,...)UseMethod('as.matrixList')
 
-#' Coerce to List of Matrices from nmctlType
+#' Coerce to List of Matrices from modelType
 #' 
-#' Coerces to list of matrices from nmctlType
+#' Coerces to list of matrices from modelType
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.matrixList.nmctlType <- function(x,...){
+as.matrixList.modelType <- function(x,...){
   y <- lapply(x,as.matrixList)
   z <- do.call(c,y)
   z

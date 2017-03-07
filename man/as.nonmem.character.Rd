@@ -14,4 +14,3 @@
 \description{
 Generates NONMEM-style names for numeric by converting to parsed nmctl.
 }
-

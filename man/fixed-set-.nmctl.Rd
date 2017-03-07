@@ -18,4 +18,3 @@ nmctl
 Sets fixed attribute of nmctl.
 }
 \keyword{internal}
-

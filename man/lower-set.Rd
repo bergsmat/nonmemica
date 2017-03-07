@@ -14,4 +14,3 @@ lower(x) <- value
 \description{
 Sets lower Value.
 }
-

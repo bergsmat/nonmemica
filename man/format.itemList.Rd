@@ -18,4 +18,3 @@ character
 Formats itemList.
 }
 \keyword{internal}
-

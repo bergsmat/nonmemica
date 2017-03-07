@@ -29,4 +29,3 @@ data.frame
 \description{
 Creates a Runlog for character by treating x as modelname(s).
 }
-

@@ -15,4 +15,3 @@ num_parameters(x, ...)
 Gets the Number of Parameters associated with an object.
 }
 \keyword{internal}
-

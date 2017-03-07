@@ -49,5 +49,5 @@ Coerces numeric to init
 
 \item \code{numeric}: numeric method
 }}
-\keyword{internal}
 
+\keyword{internal}

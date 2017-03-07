@@ -25,4 +25,3 @@ Tweaks nmctl.
 Other tweak: \code{\link{tweak.initList}},
   \code{\link{tweak.init}}, \code{\link{tweak}}
 }
-

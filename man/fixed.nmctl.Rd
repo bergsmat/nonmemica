@@ -17,4 +17,3 @@ logical
 \description{
 Checks if nmctl is fixed.  Returns a logical vector with element for each init, in canonical order.
 }
-

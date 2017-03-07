@@ -15,4 +15,3 @@ updated(x, ...)
 Creates the updated version of something. Don't confuse with stats::update.
 }
 \keyword{internal}
-

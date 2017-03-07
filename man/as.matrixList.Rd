@@ -15,4 +15,3 @@ as.matrixList(x, ...)
 Coerces to list of matrices.
 }
 \keyword{internal}
-

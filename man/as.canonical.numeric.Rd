@@ -14,4 +14,3 @@
 \description{
 Generates canonical names for numeric by coercing to character.
 }
-

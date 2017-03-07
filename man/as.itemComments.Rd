@@ -2,10 +2,10 @@
 % Please edit documentation in R/as.nmctl.R
 \name{as.itemComments}
 \alias{as.itemComments}
-\alias{as.itemComments.initList}
-\alias{as.itemComments.itemList}
-\alias{as.itemComments.nmctl}
 \alias{as.itemComments.nmctlType}
+\alias{as.itemComments.nmctl}
+\alias{as.itemComments.itemList}
+\alias{as.itemComments.initList}
 \title{Coerce to itemComments}
 \usage{
 as.itemComments(x, ...)
@@ -66,5 +66,5 @@ Converts initList to itemComments
 
 \item \code{initList}: initList method
 }}
-\keyword{internal}
 
+\keyword{internal}

@@ -14,4 +14,3 @@ runlog(x, ...)
 \description{
 Creates a runlog.
 }
-

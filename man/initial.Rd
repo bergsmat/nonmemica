@@ -14,4 +14,3 @@ initial(x, ...)
 \description{
 Gets initial Value.
 }
-

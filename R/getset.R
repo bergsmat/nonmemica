@@ -1,11 +1,11 @@
-#' Check If nmctl is Fixed
+#' Check If model is Fixed
 #' 
-#' Checks if nmctl is fixed.  Returns a logical vector with element for each init, in canonical order.
+#' Checks if model is fixed.  Returns a logical vector with element for each init, in canonical order.
 #' @inheritParams fixed
 #' @return logical
-# @describeIn getset nmctl method
+# @describeIn getset model method
 #' @export
-fixed.nmctl <- function(x,...){
+fixed.model <- function(x,...){
   i <- initDex(x)
   j <- initSubscripts(x)
   nms <- as.canonical(x)
@@ -15,17 +15,17 @@ fixed.nmctl <- function(x,...){
   f
 }
 
-#' Set fixed attribute of nmctl
+#' Set fixed attribute of model
 #' 
-#' Sets fixed attribute of nmctl.
-#' @param x nmctl
+#' Sets fixed attribute of model.
+#' @param x model
 #' @param value logical
-#' @return nmctl
-# @describeIn getset nmctl method for setting fixed
+#' @return model
+# @describeIn getset model method for setting fixed
 #' @export
 #' @keywords internal
 
-`fixed<-.nmctl` <- function(x,value){
+`fixed<-.model` <- function(x,value){
   stopifnot(is.logical(value))
   i <- initDex(x)
   j <- initSubscripts(x)
@@ -38,7 +38,7 @@ fixed.nmctl <- function(x,...){
 }
 
 .getInitDetail <- function(x,...)UseMethod('.getInitDetail')
-.getInitDetail.nmctl <- function(x, y, ...){
+.getInitDetail.model <- function(x, y, ...){
   i <- initDex(x)
   j <- initSubscripts(x)
   nms <- as.canonical(x)
@@ -49,7 +49,7 @@ fixed.nmctl <- function(x,...){
 }
 
 .setInitDetail <- function(x,...)UseMethod('.setInitDetail')
-.setInitDetail.nmctl <- function(x, value, y, ...){
+.setInitDetail.model <- function(x, value, y, ...){
   i <- initDex(x)
   j <- initSubscripts(x)
   nms <- as.canonical(x)
@@ -70,11 +70,11 @@ lower <- function(x,...)UseMethod('lower')
 #' Get Lower Bounds for Model Initial Estimates
 #' 
 #' Gets lower bounds for model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
-# @describeIn getset nmctl method for getting lower bounds
+# @describeIn getset model method for getting lower bounds
 #' @export
-lower.nmctl <- function(x,...).getInitDetail(x,y='low',...)
+lower.model <- function(x,...).getInitDetail(x,y='low',...)
 
 #' Set Lower Value
 #' 
@@ -87,11 +87,11 @@ lower.nmctl <- function(x,...).getInitDetail(x,y='low',...)
 #' Set Lower Bounds for Model Initial Estimates
 #' 
 #' Sets lower bounds for model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param value numeric
-# @describeIn getset nmctl method for setting lower bounds
+# @describeIn getset model method for setting lower bounds
 #' @export
-`lower<-.nmctl` <- function(x, value).setInitDetail(x, value = value, y = 'low')
+`lower<-.model` <- function(x, value).setInitDetail(x, value = value, y = 'low')
 
 ### GET/SET UPPER ###################################33
 #' Get Upper Value
@@ -106,11 +106,11 @@ upper <- function(x,...)UseMethod('upper')
 #' Get Upper Bounds for Model Initial Estimates
 #' 
 #' Gets upper bounds for model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
-# @describeIn getset nmctl method for getting upper bounds
+# @describeIn getset model method for getting upper bounds
 #' @export
-upper.nmctl <- function(x,...).getInitDetail(x,y='up',...)
+upper.model <- function(x,...).getInitDetail(x,y='up',...)
 
 #' Set Upper Value
 #' 
@@ -123,11 +123,11 @@ upper.nmctl <- function(x,...).getInitDetail(x,y='up',...)
 #' Set Upper Bounds for Model Initial Estimates
 #' 
 #' Sets upper bounds for model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param value numeric
-# @describeIn getset nmctl method for setting upper bounds
+# @describeIn getset model method for setting upper bounds
 #' @export
-`upper<-.nmctl` <- function(x, value).setInitDetail(x,value = value, y = 'up')
+`upper<-.model` <- function(x, value).setInitDetail(x,value = value, y = 'up')
 
 ### GET/SET INITIAL ESTIMATE ###################################33
 #' Get Initial Value
@@ -141,11 +141,11 @@ initial <- function(x,...)UseMethod('initial')
 #' Get Model Initial Estimates
 #' 
 #' Gets model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param ... dots
-# @describeIn getset nmctl method for getting initial estimates
+# @describeIn getset model method for getting initial estimates
 #' @export
-initial.nmctl <- function(x,...).getInitDetail(x,y = 'init',...)
+initial.model <- function(x,...).getInitDetail(x,y = 'init',...)
 
 #' Set Initial Value
 #' 
@@ -158,8 +158,8 @@ initial.nmctl <- function(x,...).getInitDetail(x,y = 'init',...)
 #' Set Upper Bounds for Model Initial Estimates
 #' 
 #' Sets upper bounds for model initial estimates.
-#' @param x nmctl
+#' @param x model
 #' @param value numeric
-# @describeIn initials nmctl method for setting upper bounds
+# @describeIn initials model method for setting upper bounds
 #' @export
-`initial<-.nmctl` <- function(x, value).setInitDetail(x, value = value, y = 'init')
+`initial<-.model` <- function(x, value).setInitDetail(x, value = value, y = 'init')

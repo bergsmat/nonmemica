@@ -20,4 +20,3 @@ nmctl
 Subsets nmctl.
 }
 \keyword{internal}
-

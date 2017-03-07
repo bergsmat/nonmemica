@@ -14,4 +14,3 @@
 \description{
 Gets estimates for numeric by coercing to character.
 }
-

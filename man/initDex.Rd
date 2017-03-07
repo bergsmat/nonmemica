@@ -15,4 +15,3 @@ initDex(x, ...)
 Identifies indices of initial Estimates.
 }
 \keyword{internal}
-

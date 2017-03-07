@@ -18,4 +18,3 @@ character
 Coerces init to character.
 }
 \keyword{internal}
-

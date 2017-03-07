@@ -186,9 +186,11 @@ as.initList.list <- function(x,comment=character(0),...){
 #' @keywords internal
 as.character.initList <- function(x,...){
   com <- comment(x)
-  if(is.null(com) | com == '')com <- ''
-  else com <- c('',paste(';',com))
+  padded <- attr(x,'padded')
+  if(is.null(padded)) padded <- FALSE
+  if(!is.null(com) & com != '') com <- paste(';',com)
   y <- c(com,unlist(lapply(x,as.character)))
+  if(padded) y <- c(y,rep('',padded))
   y
 }
 
@@ -360,6 +362,13 @@ fixed.initList <- function(x,...)sapply(x,fixed)
 #' @describeIn as.initList character method
 #' @export
 as.initList.character <- function(x,...){
+  # final empty line is scrubbed by collapse=\n
+  # chomp all line endings, count and store final empties
+  x <- sub('\\s+$','',x)
+  y <- rev(x)
+  z <- y == ''
+  count = match(FALSE,z)
+  padded <- count - 1
   x <- .parseBlock(x)
   block <- attr(x,'block')
   stopifnot(length(x)>0)
@@ -372,7 +381,9 @@ as.initList.character <- function(x,...){
   line <- .initLineNum(z)
   inits <- split(z,est)
   inits <- lapply(inits,paste,collapse='')
-  globalcom <- comments[unique(line[est==0])]
+  # those comments on lines before the start of estimates
+  # globalcom <- comments[unique(line[est==0])]
+  globalcom <- comments[setdiff(line,line[est > 0])]
   if(0 %in% est) inits <- inits[-1]
   inits <- lapply(
     seq_along(inits),
@@ -395,16 +406,19 @@ as.initList.character <- function(x,...){
   )
   out <- as.initList(inits,comment=globalcom)
   attr(out,'block') <- block
+  attr(out,'padded') <- padded
   out
 }
 .parseBlock <- function(x){
-  y <- paste(x,collapse='\n')
+  y <- c(x,'_terminus_')
+  y <- paste(y,collapse='\n')
   block <- 0
   if(y %contains% '^ *BLOCK'){
     block <- text2decimal(y)
     y <- sub('BLOCK *\\([^)]+\\)','',y)
   }
   y <- strsplit(y,'\n')[[1]]
+  y <- y[y != '_terminus_']
     attr(y,'block') <- block
   y
 }
@@ -412,12 +426,16 @@ as.initList.character <- function(x,...){
   #need numbers for comment lines for any comment on my line, plus any trailing
   #comments, i.e. those after this line but before a new est is started
   #use comment groups: where runhead est coincides with runhead line
+  #but if line starts with space, runhead est does not coincide with runhead line
   stopifnot(length(est)==length(line))
-  groupstart <- runhead(est) & runhead(line)
-  group <- cumsum(groupstart)
-  mygroup <- unique(group[est==i])#probably only 1
-  mylines <- unique(line[group==mygroup])
-  mylines
+  myLines <- line[est == i]
+  theirLines <- line[ est > i] # note: not est == i because leading space "belongs" to i - 1
+  myLines <- setdiff(myLines, theirLines)
+  # groupstart <- runhead(est) & runhead(line)
+  # group <- cumsum(groupstart)
+  # mygroup <- unique(group[est==i])#probably only 1
+  # mylines <- unique(line[group==mygroup])
+  myLines
 }
 .as.init.character <- function(x,comment=character(0),...){#limited utility
   stopifnot(length(x)==1)
@@ -485,16 +503,16 @@ tweak.initList <- function(x,sd=0.13,digits=3,...){
 	x[] <- lapply(x,tweak,sd=sd,digits=digits,...)
 	x
 }
-#' Tweak nmctl
+#' Tweak model
 #' 
-#' Tweaks nmctl.
+#' Tweaks model.
 #' @inheritParams tweak
 #' @param sd numeric
 #' @param digits integer
-#' @return nmctl
+#' @return model
 #' @export
 #' @family tweak
-tweak.nmctl <- function(x,sd=0.13,digits=3,...){
+tweak.model <- function(x,sd=0.13,digits=3,...){
 	stopifnot('theta' %in% names(x))
 	x$theta <- as.initList(x$theta)
 	x$theta <- tweak(x$theta,sd=sd,digits=digits,...)

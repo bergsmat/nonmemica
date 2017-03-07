@@ -14,4 +14,3 @@ estimates(x, ...)
 \description{
 Gets estimates
 }
-

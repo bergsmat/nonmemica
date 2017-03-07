@@ -18,4 +18,3 @@ Checks whether elements are defined.  Inverse of is.na().
 \examples{
 is.defined(c(1,NA,2))
 }
-

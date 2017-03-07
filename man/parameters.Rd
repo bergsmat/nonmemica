@@ -14,4 +14,3 @@ parameters(x, ...)
 \description{
 Gets parameters.
 }
-

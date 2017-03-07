@@ -2,9 +2,9 @@
 % Please edit documentation in R/definitions.R
 \name{as.definitions}
 \alias{as.definitions}
-\alias{as.definitions.character}
 \alias{as.definitions.definitions}
 \alias{as.definitions.numeric}
+\alias{as.definitions.character}
 \title{Harvest Model Item Definitions in Project Context}
 \usage{
 as.definitions(x, ...)
@@ -46,7 +46,7 @@ Reclassifies x as a modelname and calls as.definitions again.
 
 \item \code{character}: character method
 }}
+
 \seealso{
 \code{\link{as.definitions.modelname}}
 }
-

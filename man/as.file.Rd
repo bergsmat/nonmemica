@@ -25,9 +25,9 @@ Coerces docx to file.
 \itemize{
 \item \code{docx}: docx method
 }}
+
 \seealso{
 \code{\link[ReporteRs]{docx}}
 
 \code{\link[ReporteRs]{writeDoc}}
 }
-

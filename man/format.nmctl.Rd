@@ -21,4 +21,3 @@ Format nmctl.
 Coerces to character.
 }
 \keyword{internal}
-

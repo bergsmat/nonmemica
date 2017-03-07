@@ -20,4 +20,3 @@ Generates NONMEM-style names for parameters declared in a NONMEM control stream 
 \seealso{
 as.nmctl
 }
-

@@ -14,4 +14,3 @@
 \description{
 Generates NONMEM-style names for numeric by coercing to character.
 }
-

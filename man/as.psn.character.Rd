@@ -14,4 +14,3 @@
 \description{
 Generates PsN-style names for numeric by converting to parsed nmctl.
 }
-

@@ -75,5 +75,5 @@ Converts modelname to nmctl.
 
 \item \code{modelname}: modelname method
 }}
-\keyword{internal}
 
+\keyword{internal}

@@ -59,6 +59,7 @@ Calls the data.frame method and adds remaining arguments. Pass zero-length value
 
 \item \code{partab}: partab method
 }}
+
 \seealso{
 \code{\link[ReporteRs]{docx}}
 
@@ -78,4 +79,3 @@ Calls the data.frame method and adds remaining arguments. Pass zero-length value
 
 \code{\link[ReporteRs]{FlexTable}}
 }
-

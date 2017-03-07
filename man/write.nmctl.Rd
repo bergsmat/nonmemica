@@ -30,4 +30,3 @@ Write nmctl.
 writes (formatted) nmctl to file.
 }
 \keyword{internal}
-

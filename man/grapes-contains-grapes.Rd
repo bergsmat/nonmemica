@@ -20,4 +20,3 @@ Checks whether x contains y, in natural syntax.
 \seealso{
 \code{\link{contains}}
 }
-

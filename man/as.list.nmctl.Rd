@@ -18,4 +18,3 @@ list
 Coerces nmctl to list.
 }
 \keyword{internal}
-

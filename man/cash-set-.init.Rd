@@ -20,4 +20,3 @@ init
 Sets init element.
 }
 \keyword{internal}
-

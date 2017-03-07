@@ -84,7 +84,6 @@ as.bootstrap.filepath <- function(x,skip=28,check.names=FALSE,lo='5',hi='95',ver
 #' 
 #' @inheritParams as.bootstrap
 #' @param project path to model directories
-#' @param opt alternative specification of project
 #' @param rundir model specific run directory
 #' @param pattern pattern to search for bootstrap file
 #' @param bootcsv path to bootstrap_results.csv or equivalent
@@ -95,8 +94,7 @@ as.bootstrap.filepath <- function(x,skip=28,check.names=FALSE,lo='5',hi='95',ver
 
 as.bootstrap.modelname <- function(
   x,
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
+  project = getOption('project', getwd() ),
   rundir = file.path(project,x),
   pattern='bootstrap_results.csv',
   bootcsv = dir(

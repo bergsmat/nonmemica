@@ -5,7 +5,7 @@
 #' x can be numeric or character model name, assuming project is identified by argument or option.
 #' @param x object of dispatch
 #' @param ... arguments to methods
-#' @seealso \code{\link{as.definitions.modelname}}
+#' @seealso \code{\link{as.definitions.character}}
 #' @export
 as.definitions <- function(x,...)UseMethod('as.definitions')
 
@@ -29,16 +29,7 @@ as.definitions.definitions <- function(x,...)x
 as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
 #' Create Model Item Definitions from Character
 #'
-#' Creates a model item definitions from a character string.
-#' 
-#' Reclassifies x as a modelname and calls as.definitions again.
-#' @inheritParams as.definitions
-#' @describeIn as.definitions character method
-#' @export
-as.definitions.character <- function(x,...){
-  class(x) <-  'modelname'
-  as.definitions(x,...)
-}
+
 #' Create Item Definitions from Model Name
 #'
 #' Creates item definitions from a model name. Scavenges definitions optionally 
@@ -51,7 +42,6 @@ as.definitions.character <- function(x,...){
 #' @param x a model name (numeric or character)
 #' @param verbose set FALSE to suppress messages
 #' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
 #' @param rundir specific model directory
 #' @param ctlfile path to control stream (pass length-zero argument to ignore)
 #' @param metafile path to definitions file (pass length-zero argument to ignore)
@@ -62,7 +52,7 @@ as.definitions.character <- function(x,...){
 #' @import csv
 #' @seealso \code{\link{as.xml_document.modelname}}
 #' @seealso \code{\link{as.bootstrap.modelname}}
-#' @seealso \code{\link{as.nmctl.modelname}}
+#' @seealso \code{\link{as.model.character}}
 #' @aliases definitions
 #' @examples
 #' library(magrittr)
@@ -70,13 +60,12 @@ as.definitions.character <- function(x,...){
 #' 1001 %>% as.definitions
 #' @return object of class definitions, or path to metafile if write = TRUE.
 #' @export
-as.definitions.modelname <- function(
+as.definitions.character <- function(
   x,
   verbose=FALSE,
-  opt = getOption('project'),
-  project = if(is.null(opt)) getwd() else opt, 
+  project = getOption('project', getwd() ),
   rundir = file.path(project,x), 
-  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  ctlfile = file.path(rundir,paste(sep='.',x,getOption('modex','ctl'))),
   metafile = file.path(rundir,paste0(x,'.def')),
   fields = c('symbol','label','unit'),
   read = length(metafile) == 1,
@@ -89,7 +78,7 @@ as.definitions.modelname <- function(
   if(length(ctlfile) == 1 & file.exists(ctlfile)){
     if(verbose)message('searching ',ctlfile)
     m1 <- x %>%
-      as.nmctl(verbose=verbose,rundir = rundir,ctlfile=ctlfile,...) %>%
+      as.model(verbose=verbose,rundir = rundir,ctlfile=ctlfile,...) %>%
       as.itemComments(fields=fields,...)
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){

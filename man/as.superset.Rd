@@ -17,4 +17,3 @@ Coerces to superset.
 \details{
 Generic, with methods for numeric and character.
 }
-

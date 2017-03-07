@@ -22,4 +22,3 @@ character
 \description{
 Identifies the datafile used by a model.
 }
-

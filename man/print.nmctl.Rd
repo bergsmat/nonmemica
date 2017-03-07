@@ -21,4 +21,3 @@ Print nmctl.
 Formats and prints.
 }
 \keyword{internal}
-

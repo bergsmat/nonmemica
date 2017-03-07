@@ -14,4 +14,3 @@ but(x, ...)
 \description{
 Identifies a distinctive feature of an object.
 }
-

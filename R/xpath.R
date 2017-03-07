@@ -66,7 +66,6 @@ as.xml_document.filepath <- function(x,strip.namespace=TRUE,...){
 #' Creates an xml_document from modelname
 #' @inheritParams as.xml_document
 #' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
 #' @param rundir specific model directory
 #' @param file actual xml storage location; overrides others if specified directly
 #' @return xml_document
@@ -75,8 +74,7 @@ as.xml_document.filepath <- function(x,strip.namespace=TRUE,...){
 
 as.xml_document.modelname <- function(
   x,
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
+  project = getOption('project', getwd() ),
   rundir = file.path(project,x), 
   file = file.path(rundir,paste0(x,'.xml')), 
   ...

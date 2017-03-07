@@ -14,4 +14,3 @@ as.nonmem(x, ...)
 \description{
 Generates NONMEM-style names.
 }
-

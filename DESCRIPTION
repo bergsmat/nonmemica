@@ -1,8 +1,8 @@
 Package: nonmemica
 Type: Package
 Title: Create and Evaluate NONMEM Models in a Project Context
-Version: 0.3
-Date: 2017-02-09
+Version: 0.5
+Date: 2017-03-07
 Author: Tim Bergsma
 Maintainer: Tim Bergsma <bergsmat@gmail.com>
 Description: Systematically creates and modifies NONMEM(R) control streams. Harvests
@@ -18,9 +18,9 @@ Imports:
  encode,
  csv
 Suggests:
- meta,
  ReporteRs,
  pander,
- knitr
-RoxygenNote: 5.0.1
+ knitr,
+ origami
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr

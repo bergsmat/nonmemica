@@ -18,4 +18,3 @@ matrixList
 Coerces to matrixList from initList. Non-block initList is expanded into list of matrices.
 }
 \keyword{internal}
-

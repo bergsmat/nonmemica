@@ -18,4 +18,3 @@ character
 Prints init.
 }
 \keyword{internal}
-

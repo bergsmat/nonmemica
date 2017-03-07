@@ -21,4 +21,3 @@ Identifies the order of an initList.
 Essentially the length of the list, or the length of the diagonal of a matrix (if BLOCK was defined).
 }
 \keyword{internal}
-

@@ -22,4 +22,3 @@ character
 \description{
 Identify those models in the lineage of models in x.
 }
-

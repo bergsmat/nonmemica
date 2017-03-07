@@ -14,4 +14,3 @@
 \description{
 Gets upper bounds for model initial estimates.
 }
-

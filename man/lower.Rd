@@ -14,4 +14,3 @@ lower(x, ...)
 \description{
 Gets lower Value.
 }
-

@@ -20,4 +20,3 @@ initList
 Subsets initList.
 }
 \keyword{internal}
-

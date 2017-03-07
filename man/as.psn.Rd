@@ -14,4 +14,3 @@ as.psn(x, ...)
 \description{
 Generates PsN-style names.
 }
-

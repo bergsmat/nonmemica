@@ -14,4 +14,3 @@ as.itemList(x, ...)
 \description{
 Converts to itemList.
 }
-

@@ -32,4 +32,3 @@ character
 \description{
 Identifies the model problem statement for character. Treats x as a vector of modelnames.
 }
-

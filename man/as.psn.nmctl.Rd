@@ -20,4 +20,3 @@ Generates PsN-style names for parameters declared in a NONMEM control stream obj
 \seealso{
 as.nmctl
 }
-

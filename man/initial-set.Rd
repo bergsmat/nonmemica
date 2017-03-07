@@ -14,4 +14,3 @@ initial(x) <- value
 \description{
 Sets initial Value.
 }
-

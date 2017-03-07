@@ -33,4 +33,3 @@ Tweaks a model by jittering initial estimates. Creates a new model directory
 in project context and places the model there. Copies helper files as well.
 Expects that x is a number.
 }
-

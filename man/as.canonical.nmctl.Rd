@@ -20,4 +20,3 @@ Generates canonical names for a NONMEM control stream object. Canonical names in
 \seealso{
 as.nmctl
 }
-

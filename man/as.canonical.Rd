@@ -14,4 +14,3 @@ as.canonical(x, ...)
 \description{
 Generates canonical names.
 }
-

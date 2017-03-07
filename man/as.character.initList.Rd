@@ -18,4 +18,3 @@ character
 Coerces initList to character.
 }
 \keyword{internal}
-

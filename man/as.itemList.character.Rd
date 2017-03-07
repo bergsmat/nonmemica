@@ -17,4 +17,3 @@ itemList
 \description{
 Converts to itemlist from character
 }
-

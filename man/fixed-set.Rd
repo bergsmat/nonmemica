@@ -15,4 +15,3 @@ fixed(x) <- value
 Sets value of fixed attribute.
 }
 \keyword{internal}
-

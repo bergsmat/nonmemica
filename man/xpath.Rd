@@ -42,9 +42,9 @@ The resulting nodeset is scavenged for text, and coerced to best of numeric or c
 
 \item \code{xml_document}: xml_document method
 }}
+
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% xpath('//etashrink/row/col')
 }
-

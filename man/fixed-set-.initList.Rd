@@ -18,4 +18,3 @@ initList
 Sets fixed attribute of initList.
 }
 \keyword{internal}
-

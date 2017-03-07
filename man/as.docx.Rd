@@ -2,8 +2,8 @@
 % Please edit documentation in R/docx.R
 \name{as.docx}
 \alias{as.docx}
-\alias{as.docx.data.frame}
 \alias{as.docx.docx}
+\alias{as.docx.data.frame}
 \alias{as.docx.partab}
 \title{Coerce to docx}
 \usage{
@@ -61,6 +61,7 @@ Returns the object.
 
 \item \code{partab}: partab method
 }}
+
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
@@ -75,4 +76,3 @@ options(project = system.file('project/model',package='nonmemica'))
 
 \code{\link[ReporteRs]{FlexTable}}
 }
-

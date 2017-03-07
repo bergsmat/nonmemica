@@ -14,27 +14,17 @@ globalVariables(c('symbol','run','feature','cov','ofv'))
 #' 
 #' Identifies a single model problem statement from character (i.e. model name).
 #' 
-#' @inheritParams  .problem
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
-#' @param rundir model run directory
-#' @param ctlext model file extension
-#' @param ctlfile name of model file
-#' @param ctlpath path to model file
+#' @param x character, a model name
+#' @param ... passed arguments, can over-ride default file extensions etc.
 #' @return character
 #' @export
 #' @keywords internal
+
 .problem.character <- function(
   x,
-  opt = getOption("project"), 
-  project = if (is.null(opt)) getwd() else opt, 
-  rundir = file.path(project, x),
-  ctlext = '.ctl',
-  ctlfile = paste0(x,ctlext),
-  ctlpath = file.path(rundir, ctlfile),
   ...
 ){
-  y <- read.nmctl(ctlpath)
+  y <- read.model(modelfile(x,...))
   p <- y$prob
   p <- sub('^ +','',p)
   p <- sub(' +$','',p)
@@ -58,30 +48,14 @@ problem <- function(x,...)UseMethod('problem')
 #' @export
 problem.numeric <- function(x,...)problem(as.character(x))
 
-
 #' Identify the Model Problem Statement for Character
 #' 
-#' Identifies the model problem statement for character. Treats x as a vector of modelnames.
+#' Identifies the model problem statement for character (model name).
 #' 
 #' @inheritParams problem
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
-#' @param rundir model run directory
-#' @param ctlext model file extension
-#' @param ctlfile name of model file
-#' @param ctlpath path to model file
 #' @return character
 #' @export
-problem.character <- function(
-  x,
-  opt = getOption("project"), 
-  project = if (is.null(opt)) getwd() else opt, 
-  rundir = file.path(project, x),
-  ctlext = '.ctl',
-  ctlfile = paste0(x,ctlext),
-  ctlpath = file.path(rundir, ctlfile),
-  ...
-)sapply(x,.problem,opt=opt,project=project,...)
+problem.character <- function(x,...)sapply(x,.problem, ...)
 
 #' Identify What Something is Like
 #' 
@@ -96,21 +70,14 @@ like <- function(x,...)UseMethod('like')
 #' 
 #' Identifies the relevant reference model, i.e. the 'parent' of x.
 #' @inheritParams like
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
 #' @return character
 #' @import encode
 #' @export
-like.default <- function(
-  x,
-  opt = getOption('project'),
-  project = if(is.null(opt)) getwd() else opt,
-  ...
-){
+like.default <- function(x, ...){
   m <- data.frame(
     stringsAsFactors=F,
     run=x,
-    value=problem(x,project=project,...)
+    value=problem(x,...)
   )
   v <- m$value[match(x,m$run)]
   c <- encode::codes(v,simplify=FALSE)
@@ -138,23 +105,14 @@ but <- function(x,...)UseMethod('but')
 #' 
 #' Identifies the distinctive feature of a model, i.e. how it differs from its parent (the reference model). x can be a vector.
 #' @inheritParams but
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
 #' @return character
 #' @export
-but.default <- function(
-  x,
-  opt=getOption('project'),
-  project = if(is.null(opt))getwd() else opt,
-  ...
-){
+but.default <- function(x, ...){
   m <- data.frame(
     stringsAsFactors=F,
     run=x,
-    value=problem(x,project=project,...)
+    value=problem(x,...)
   )
-  #m %<>% filter(parameter=='prob')
-  #stopifnot(all(m$run == x))
   v <- m$value[match(x,m$run)]
   c <- encode::codes(v,simplify=FALSE)
   d <- encode::decodes(v,simplify=FALSE)
@@ -196,17 +154,10 @@ cascade <- function(x,...){
 #' 
 #' Identify those models in the lineage of models in x.
 #' @inheritParams depends
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
 #' @return character
 #' @export
-depends.default <- function(
-  x,
-  opt=getOption('project'),
-  project = if(is.null(opt))getwd() else opt,
-  ...
-){
-  res <- lapply(x,dependsOne,project=project,append=append,...)
+depends.default <- function(x, ...){
+  res <- lapply(x,dependsOne,...)
   unionRollUp(res)
 }
 unionRollUp <- function(x,...)UseMethod('unionRollUp') 
@@ -251,8 +202,6 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' Creates a Runlog for character by treating x as modelname(s).  
 #' @inheritParams runlog
 #' @param dependencies whether to log runs in lineage(s) as well
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
 #' @param digits significance for parameters
 #' @param places rounding for objective function
 #' @return data.frame
@@ -260,14 +209,12 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 runlog.character <- function(
   x, 
   dependencies=F,
-  opt=getOption('project'),
-  project = if(is.null(opt)) getwd() else opt,
   digits = 3,
   places = 0,
   ...
 ){
-  dirs <- file.path(project,x)
-  x <- x[file.exists(dirs)]
+  mods <- sapply(x, modelfile, ...)
+  x <- x[file.exists(mods)]
   stopifnot(length(x) > 0)
   if(dependencies) x %<>% depends
   dummy <- data.frame(
@@ -292,7 +239,7 @@ runlog.character <- function(
       return(dummy)
     }
   )
-  r <- lapply(x,safe,project=project,digits=digits,places=places,...)
+  r <- lapply(x,safe,digits=digits,places=places,...)
   b <- do.call(bind_rows,r)
   b %<>% mutate(delta = as.numeric(ofv) - as.numeric(ofv)[match(like,run)])
   b
@@ -302,34 +249,32 @@ runlog.character <- function(
 #' 
 #' Tweaks a model by jittering initial estimates. Creates a new model directory
 #' in project context and places the model there. Copies helper files as well.
-#' Expects that x is a number.
-#' @inheritParams partab::tweak
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
+#' Expects that x is a number. Assumes nested directory structure (run-specific directories).
+#' @inheritParams tweak
+#' @param project project directory
 #' @param start a number to use as the first modelname
 #' @param n the number of variants to generate (named start:n)
-#' @param extension extension for the model file
 #' @param include regular expressions for files to copy to new directory
+#' @param ... pass ext to over-ride default model file extension
 #' @return character: vector of names for models created
 #' @export
 tweak.default <- function(
   x, 
-  opt=getOption('project'),
-  project = if(is.null(opt)) getwd() else opt,
+  project = getOption('project', getwd()),
   start=NULL, 
   n=10,
-  extension='.ctl',
-  include = '.def',
+  include = '.def$',
   ...
 ){
+  if(!getOption('nested',TRUE))stop('tweak assumes nested directory structure')
   stopifnot(length(x) == 1) # a run number
-  path <- file.path(project,x,paste0(x,extension))
-  ctl <- read.nmctl(path)
+  path <- modelfile(x, project = project, ...)
+  ctl <- read.model(path)
   ctl$problem <- paste0('   ',encode::encode(c('like','but'),c(x,'tweaked initials')))
   #set.seed(1)
   if(is.null(start)) start <- dir(project) %>% as.numeric %>% max(na.rm=TRUE) %>% `+`(1)
   for(i in seq(from=start,length.out=n)) dir.create(file.path(project,i))
-  for(i in seq(from=start,length.out=n)) ctl %>% tweak %>% write.nmctl(file.path(project,i,paste0(i,'.ctl')))
+  for(i in seq(from=start,length.out=n)) ctl %>% tweak %>% write.model(file.path(project,i,paste(i,extension,sep='.')))
   out <- seq(from=start,length.out=n)
   for(i in out) 
     for(p in include){
@@ -353,10 +298,10 @@ tweak.default <- function(
 #' @param x a model name, presumably interpretable as numeric
 #' @param but a short description of the characteristic difference from x
 #' @param y optional name for model to be created
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
+#' @param project project directory
+#' @param nested model files nested in run-specific directories
 #' @param overwrite whether to overwrite y if it exists
-#' @param extension extension for the model file
+#' @param ext extension for the model file
 #' @param include regular expressions for files to copy to new directory
 #' @param ... passed arguments
 #' @return the value of y
@@ -366,36 +311,46 @@ likebut <- function(
   x,
   but='better',
   y=NULL,
-  opt=getOption('project'),
-  project = if(is.null(opt)) getwd() else opt,
+  project = getOption('project', getwd() ),
+  nested = getOption('nested', TRUE),
   overwrite=FALSE,
-  extension = '.ctl',
-  include = '.def',
+  ext = getOption('modex','ctl'),
+  include = '\\.def$',
   ...
 ){
-  d <- dir(project)
-  suppressWarnings(d %<>% as.numeric)
-  d <- d[is.defined(d)]
-  d <- d %<>% as.numeric %>% max %>% `+`(1)
-  d <- padded(d)
-  if(is.null(y)) y <- d
-  if(file.exists(file.path(project,y)))if(!overwrite)stop(y,' already exists')
-  dir.create(file.path(project,y))
+  if(is.null(y)){
+    if(!nested){
+      d <- dir(project, pattern = paste0('\\.',ext,'$'))
+      d <- basename(d)
+      d <- text2decimal(d)
+    }else{
+      d <- dir(project)
+      suppressWarnings(d %<>% as.numeric)
+    }
+    d <- d[is.defined(d)]
+    d <- d %<>% as.numeric %>% max %>% `+`(1)
+    d <- padded(d)
+    y <- d
+  }
+  mod <- modelfile(y, project = project, nested = nested, ext = ext, ... )
+  if(file.exists(mod))if(!overwrite)stop(mod,' already exists')
+  srcdir <- modeldir(x, project = project, nested = nested, ...)
+  target <- modeldir(y, project = project, nested = nested,...)
+  dir.create(target)
   for(p in include){
-    srcdir <- file.path(project,x)
-    target <- file.path(project,y)
-    files  <- dir(srcdir,pattern = p)
-    as     <- sub(x,p,files)
+    pattern = if(nested) p else paste0(x,p)
+    files  <- dir(srcdir,pattern = pattern)
+    as     <- sub(x,y,files)
     file.copy(
       file.path(srcdir,files),
       file.path(target,as)
     )
   }
-  c <- read.nmctl(file.path(project,x,paste0(x,extension)))
+  c <- read.model(modelfile(x, project = project, nested = nested, ext = ext,...))
   like <- x
   c$problem <- encode::encode(c('like','but'),c(like,but),...)
   if(nchar(c$problem) > 58)warning('problem statement more than 40 chars')
-  write.nmctl(c, file.path(project,y,paste0(y,extension)))
+  write.model(c,modelfile(y, project = project, nested = nested, ext = ext,...))
   y
 }
 padded <- function (x, width = 4, ...)sprintf(glue("%0", width, ".0f"), x)
@@ -417,30 +372,37 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
   y
 }
 
-#' Identify the Datafile for a Model
+
+#' Coerce to Folded from Spec
+#' Coerces to folded from spec.  Harvests column names, labels and units.  Stacks these in conventional folded format.
 #' 
-#' Identifies the datafile used by a model.
-#' 
-#' @param x the model name
-#' @param opt alternative specification of project directory
-#' @param project direct specification of project directory
+#' @param x spec
 #' @param ... passed arguments
-#' @return character
+#' @return folded
 #' @export
-datafile <- function(
-  x,
-  ...,
-  opt=getOption('project'),
-  project = if(is.null(opt))getwd() else opt
-){
-  rundir <- file.path(project,x)
-  ctlfile <- paste0(x,'.ctl')
-  ctlpath <- file.path(rundir,ctlfile)
-  control <- read.nmctl(ctlpath)
-  dname <- getdname(control)
-  datafile <- resolve(dname,rundir)
-  datafile <- relativizePath(datafile)
-  datafile
+as.folded.spec <- function(x,...){
+  y <- x %>% select(VARIABLE = column, LABEL = label, GUIDE = guide)
+  y %<>% tidyr::gather(META, VALUE, LABEL, GUIDE)
+  class(y) <- 'data.frame'
+  y %<>% as.folded
+  y
+}
+
+#' Coerce to Folded from Definitions
+#' Coerces to folded from definitions  Harvests item, label, and unit for tabled items.  Stacks these in conventional folded format.
+#' 
+#' @param x definitions
+#' @param parameters whether to included parameter metadata
+#' @param ... passed arguments
+#' @return folded
+#' @export
+as.folded.definitions <- function(x, parameters = FALSE, ...){
+  y <- x %>% select(VARIABLE = item, LABEL = label, GUIDE = unit)
+  if(!parameters) y %<>% filter(!grepl('theta_|omega_|sigma_',VARIABLE))
+  y %<>% tidyr::gather(META, VALUE, LABEL, GUIDE)
+  class(y) <- 'data.frame'
+  y %<>% as.folded
+  y
 }
 
 .parameters <- function(x,digits=3,places=0,...){
@@ -532,11 +494,7 @@ estimates.numeric <- function(x,...)estimates(as.character(x,...))
 #' See \code{\link{parameters}} for a less formal interface.
 #' 
 #' @param x character (modelname)
-#' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
-#' @param rundir specific model directory
 #' @param xmlfile path to xml file
-#' @param ctlfile path to control stream
 #' @param strip.namespace whether to strip e.g. nm: from xml elements for easier xpath syntax
 #' @param digits passed to signif
 #' @param ... dots
@@ -547,16 +505,12 @@ estimates.numeric <- function(x,...)estimates(as.character(x,...))
 #' @import dplyr
 estimates.character <- function(
   x,
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
-  rundir = file.path(project,x),
-  xmlfile = file.path(rundir,paste0(x,'.xml')),
-  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  xmlfile = modelpath(x, ext = 'xml',...),
   strip.namespace=TRUE,
   digits = 3,
   ...
 ){
-  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,project=project,file=xmlfile,...)
+  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,file = xmlfile,...)
   theta   <- y %>% val_name('theta',  'theta','estimate')
 # thetase <- y %>% val_name('thetase','theta','se')
   sigma   <- y %>% row_col('sigma',   'sigma','estimate')
@@ -596,9 +550,6 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' See \code{\link{parameters}} for a less formal interface.
 #' 
 #' @param x character (modelname)
-#' @param project parent directory of model directories
-#' @param opt alternative argument for setting project
-#' @param rundir specific model directory
 #' @param xmlfile path to xml file
 #' @param ctlfile path to control stream
 #' @param strip.namespace whether to strip e.g. nm: from xml elements for easier xpath syntax
@@ -611,16 +562,12 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' @import dplyr
 errors.character <- function(
   x,
-  project = if(is.null(opt)) getwd() else opt, 
-  opt = getOption('project'),
-  rundir = file.path(project,x),
-  xmlfile = file.path(rundir,paste0(x,'.xml')),
-  ctlfile = file.path(rundir,paste0(x,'.ctl')),
+  xmlfile = modelpath(x, ext = 'xml', ...),
   strip.namespace=TRUE,
   digits = 3,
   ...
 ){
-  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,project=project,file=xmlfile,...)
+  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,file=xmlfile,...)
   # theta   <- y %>% val_name('theta',  'theta','estimate')
   thetase <- y %>% val_name('thetase','theta','se')
   # sigma   <- y %>% row_col('sigma',   'sigma','estimate')

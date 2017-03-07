@@ -20,4 +20,3 @@ element
 Selects nmctl element.
 }
 \keyword{internal}
-

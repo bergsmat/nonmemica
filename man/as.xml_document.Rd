@@ -2,11 +2,11 @@
 % Please edit documentation in R/xpath.R
 \name{as.xml_document}
 \alias{as.xml_document}
+\alias{as.xml_document.xml_document}
+\alias{as.xml_document.numeric}
 \alias{as.xml_document.character}
 \alias{as.xml_document.filepath}
 \alias{as.xml_document.modelname}
-\alias{as.xml_document.numeric}
-\alias{as.xml_document.xml_document}
 \title{Create an xml_document in a Project Context}
 \usage{
 as.xml_document(x, ...)
@@ -76,6 +76,7 @@ Creates an xml_document from modelname
 
 \item \code{modelname}: modelname method
 }}
+
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
@@ -84,4 +85,3 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 \code{\link{xpath}}
 }
-

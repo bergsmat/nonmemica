@@ -18,4 +18,3 @@ init
 Sets fixed init value.
 }
 \keyword{internal}
-

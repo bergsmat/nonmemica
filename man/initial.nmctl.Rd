@@ -14,4 +14,3 @@
 \description{
 Gets model initial estimates.
 }
-

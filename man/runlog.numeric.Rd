@@ -14,4 +14,3 @@
 \description{
 Creates a runlog for numeric by coercing to character.
 }
-

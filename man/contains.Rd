@@ -22,4 +22,3 @@ Checks whether text contains pattern.
 \seealso{
 \code{\link{\%contains\%}}
 }
-

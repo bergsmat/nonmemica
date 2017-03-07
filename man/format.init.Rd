@@ -18,4 +18,3 @@ character
 Formats init.
 }
 \keyword{internal}
-

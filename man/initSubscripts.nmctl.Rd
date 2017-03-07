@@ -18,4 +18,3 @@ integer
 Identifies subscripts of record indices of initial estimates for an object of class nmctl. If nmctl has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each initList in x (canonical order).
 }
 \keyword{internal}
-

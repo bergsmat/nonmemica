@@ -14,4 +14,3 @@
 \description{
 Generates canonical names for numeric by converting to parsed nmctl.
 }
-

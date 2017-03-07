@@ -35,5 +35,5 @@ Checks if initList is fixed.
 
 \item \code{initList}: initList method
 }}
-\keyword{internal}
 
+\keyword{internal}

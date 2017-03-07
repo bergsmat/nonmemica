@@ -14,4 +14,3 @@ upper(x, ...)
 \description{
 Gets upper Value.
 }
-

@@ -2,9 +2,9 @@
 % Please edit documentation in R/partab.R
 \name{as.partab}
 \alias{as.partab}
-\alias{as.partab.character}
-\alias{as.partab.numeric}
 \alias{as.partab.partab}
+\alias{as.partab.numeric}
+\alias{as.partab.character}
 \title{Create Model Parameter Table in Project Context}
 \usage{
 as.partab(x, ...)
@@ -46,7 +46,7 @@ Reclassifies x as a modelname and calls as.partab again.
 
 \item \code{character}: character method
 }}
+
 \seealso{
 \code{\link{as.partab.modelname}}
 }
-

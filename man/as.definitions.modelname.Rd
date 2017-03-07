@@ -56,4 +56,3 @@ options(project = system.file('project/model',package='nonmemica'))
 
 \code{\link{as.nmctl.modelname}}
 }
-

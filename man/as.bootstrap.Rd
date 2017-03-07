@@ -3,10 +3,10 @@
 \name{as.bootstrap}
 \alias{as.bootstrap}
 \alias{as.bootstrap.bootstrap}
+\alias{as.bootstrap.numeric}
 \alias{as.bootstrap.character}
 \alias{as.bootstrap.filepath}
 \alias{as.bootstrap.modelname}
-\alias{as.bootstrap.numeric}
 \title{Create a Bootstrap Table}
 \usage{
 as.bootstrap(x, ...)
@@ -91,6 +91,7 @@ Assumes project has been identified, model directory exists, and PsN bootstrap m
 
 \item \code{modelname}: modelname method
 }}
+
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
@@ -99,4 +100,3 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 \code{\link{as.bootstrap.modelname}}
 }
-

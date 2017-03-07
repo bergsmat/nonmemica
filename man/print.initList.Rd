@@ -18,4 +18,3 @@ character
 Prints initList.
 }
 \keyword{internal}
-

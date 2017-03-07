@@ -2,10 +2,10 @@
 % Please edit documentation in R/as.init.R
 \name{as.initList}
 \alias{as.initList}
-\alias{as.initList.character}
-\alias{as.initList.initList}
 \alias{as.initList.list}
 \alias{as.initList.numeric}
+\alias{as.initList.character}
+\alias{as.initList.initList}
 \title{Coerce to initList}
 \usage{
 as.initList(x, ...)
@@ -59,5 +59,5 @@ Coerces initList to initList
 
 \item \code{initList}: initList method
 }}
-\keyword{internal}
 
+\keyword{internal}

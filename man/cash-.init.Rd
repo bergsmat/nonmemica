@@ -18,4 +18,3 @@ numeric
 Selects init element.
 }
 \keyword{internal}
-

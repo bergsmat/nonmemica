@@ -18,4 +18,3 @@ character
 Formats initList.
 }
 \keyword{internal}
-

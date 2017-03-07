@@ -23,4 +23,3 @@ Read nmctl.
 Reads nmctl from a connection.
 }
 \keyword{internal}
-

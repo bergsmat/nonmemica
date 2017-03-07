@@ -17,4 +17,3 @@ Coerces to superset from numeric.
 \details{
 Converts number to character and revisits generic.
 }
-

@@ -14,4 +14,3 @@ errors(x, ...)
 \description{
 Gets errors.
 }
-
