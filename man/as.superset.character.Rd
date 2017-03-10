@@ -4,23 +4,13 @@
 \alias{as.superset.character}
 \title{Coerce to superset from character}
 \usage{
-\method{as.superset}{character}(x, project = if (is.null(opt)) getwd() else
-  opt, opt = getOption("project"), rundir = filename(project, run),
-  ctlfile = filename(rundir, run, ".ctl"), read.input = list(read.csv,
-  header = TRUE, as.is = TRUE), read.output = list(read.table, header = TRUE,
-  as.is = TRUE, skip = 1, comment.char = "", check.names = FALSE),
-  exclusive = NULL, digits = 5, visible = "VISIBLE", ...)
+\method{as.superset}{character}(x, read.input = list(read.csv, header = TRUE,
+  as.is = TRUE), read.output = list(read.table, header = TRUE, as.is = TRUE,
+  skip = 1, comment.char = "", check.names = FALSE), exclusive = NULL,
+  digits = 5, visible = "VISIBLE", ...)
 }
 \arguments{
 \item{x}{object}
-
-\item{project}{parent directory of model directories}
-
-\item{opt}{alternative argument for setting project}
-
-\item{rundir}{specific model directory}
-
-\item{ctlfile}{path to control stream}
 
 \item{read.input}{a methodology for acquiring the input}
 
@@ -43,7 +33,7 @@ Coerces to superset from character.
 \details{
 Treats character as a modelname.
 
-Given a model run run name (x) and project directory, `superset` figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
+Given a model name, (\code{project} passed or set as global option) superset() figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
 During integration, naming convention of the input is retained, and output column names are mapped by position, using the control stream input criteria. Output tables are restored to input dimensions using the "ignore" criteria, then checked for length: currently, superset ignores output tables having fewer rows than the input, as well as output tables whose row count is not a multiple of input row count.
 Output tables may contain versions of input columns. Disposition depends on the value of `exclusive`. If a character vector, it lists columns to exclude from output. If TRUE, all columns with re-used names will be dropped. If FALSE, such columns will be renamed (*.n, where n is table number). If NULL, only informative columns will be retained and renamed. A column is informative if any element is informative. An element is informative if it is newly generated (not NA and not zero, but original is NA) or if it is an alteration (non-NA, and different from non-NA original). If the column pair can be interpreted as numeric, "different" is determined using only the first `digits` digits.
 Only the first instance of any column among successive output tables is retained.

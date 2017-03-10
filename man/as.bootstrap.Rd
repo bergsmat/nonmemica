@@ -5,8 +5,6 @@
 \alias{as.bootstrap.bootstrap}
 \alias{as.bootstrap.numeric}
 \alias{as.bootstrap.character}
-\alias{as.bootstrap.filepath}
-\alias{as.bootstrap.modelname}
 \title{Create a Bootstrap Table}
 \usage{
 as.bootstrap(x, ...)
@@ -15,15 +13,10 @@ as.bootstrap(x, ...)
 
 \method{as.bootstrap}{numeric}(x, ...)
 
-\method{as.bootstrap}{character}(x, ...)
-
-\method{as.bootstrap}{filepath}(x, skip = 28, check.names = FALSE,
-  lo = "5", hi = "95", verbose = TRUE, ...)
-
-\method{as.bootstrap}{modelname}(x, project = if (is.null(opt)) getwd() else
-  opt, opt = getOption("project"), rundir = file.path(project, x),
-  pattern = "bootstrap_results.csv", bootcsv = dir(rundir, pattern =
-  pattern, recursive = TRUE, full.names = TRUE), ...)
+\method{as.bootstrap}{character}(x, skip = 28, check.names = FALSE,
+  lo = "5", hi = "95", verbose = TRUE,
+  pattern = "bootstrap_results.csv", bootcsv = dir(modeldir(x, ...), pattern
+  = pattern, recursive = TRUE, full.names = TRUE), ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -40,21 +33,11 @@ as.bootstrap(x, ...)
 
 \item{verbose}{display messages}
 
-\item{project}{path to model directories}
-
-\item{opt}{alternative specification of project}
-
-\item{rundir}{model specific run directory}
-
 \item{pattern}{pattern to search for bootstrap file}
 
 \item{bootcsv}{path to bootstrap_results.csv or equivalent}
 }
 \value{
-data.frame
-
-data.frame
-
 data.frame
 
 data.frame
@@ -70,14 +53,7 @@ Creates bootstrap from bootstrap.
 
 Creates bootstrap from numeric.
 
-Creates bootstrap from character.
-
-Creates a bootstrap table from a PsN bootstrap results csv filepath.
-
-Creates a bootstrap table from a modelname in Project Context.
-}
-\details{
-Assumes project has been identified, model directory exists, and PsN bootstrap method has been run for the model.  Scavenges for the last file matching pattern.
+Creates a bootstrap table from a PsN bootstrap results csv filepath. If \code{x} is not an existing file it is treated as a modelname and the results file is sought.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -86,10 +62,6 @@ Assumes project has been identified, model directory exists, and PsN bootstrap m
 \item \code{numeric}: numeric method
 
 \item \code{character}: character method
-
-\item \code{filepath}: filepath method
-
-\item \code{modelname}: modelname method
 }}
 
 \examples{
@@ -98,5 +70,5 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.bootstrap
 }
 \seealso{
-\code{\link{as.bootstrap.modelname}}
+\code{\link{as.bootstrap.character}}
 }

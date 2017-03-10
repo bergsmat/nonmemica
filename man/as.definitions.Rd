@@ -4,7 +4,6 @@
 \alias{as.definitions}
 \alias{as.definitions.definitions}
 \alias{as.definitions.numeric}
-\alias{as.definitions.character}
 \title{Harvest Model Item Definitions in Project Context}
 \usage{
 as.definitions(x, ...)
@@ -12,8 +11,6 @@ as.definitions(x, ...)
 \method{as.definitions}{definitions}(x, ...)
 
 \method{as.definitions}{numeric}(x, ...)
-
-\method{as.definitions}{character}(x, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -26,8 +23,6 @@ Havests model item definitions in project context.
 Creates a model item definitions from a definitions object.
 
 Creates a model item definitions from a number.
-
-Creates a model item definitions from a character string.
 }
 \details{
 x can be numeric or character model name, assuming project is identified by argument or option.
@@ -35,18 +30,14 @@ x can be numeric or character model name, assuming project is identified by argu
 Just returns the object unmodified.
 
 Just coerces to character and calls as.definitions again.
-
-Reclassifies x as a modelname and calls as.definitions again.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{definitions}: definitions method
 
 \item \code{numeric}: numeric method
-
-\item \code{character}: character method
 }}
 
 \seealso{
-\code{\link{as.definitions.modelname}}
+\code{\link{as.definitions.character}}
 }

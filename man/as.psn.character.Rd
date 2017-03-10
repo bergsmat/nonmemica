@@ -12,5 +12,5 @@
 \item{...}{passed arguments}
 }
 \description{
-Generates PsN-style names for numeric by converting to parsed nmctl.
+Generates PsN-style names for numeric by converting to parsed model.
 }

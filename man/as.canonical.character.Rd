@@ -12,5 +12,5 @@
 \item{...}{passed arguments}
 }
 \description{
-Generates canonical names for numeric by converting to parsed nmctl.
+Generates canonical names for numeric by converting to parsed model.
 }

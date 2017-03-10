@@ -28,10 +28,16 @@ as.partab.partab <- function(x,...)x
 #' @describeIn as.partab numeric method
 #' @export
 as.partab.numeric  <- function(x,...)as.partab(as.character(x),...)
-#' Create Model Parameter Table from Character
-#'
-#' Creates a model parameter table from a character string.
-#' 
+
+#' Create Model Parameter Table from xml_document
+#
+#' Creates a model parameter table from xml_document, evaluating the xpath expression and supplying arbitrary names for parameter and moment of parameter.
+#' @param x xml_document
+#' @param xpath character
+#' @param param character
+#' @param moment character
+#' @param ... passed arguments
+#' @return data.frame
 val_name <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/val')
   valpath   <- paste0(tokenpath,'/@name')
@@ -44,6 +50,16 @@ val_name <- function(x, xpath, param, moment,...){
   names(dat)[names(dat) == 'x'] <- moment
   dat
 }
+
+#' Create Indexe Model Parameter Table from xml_document
+#
+#' Creates a model parameter table from xml_document, evaluating the xpath expression, supplying parameter and moment labels, and documenting indices of rows and columns.
+#' @param x xml_document
+#' @param xpath character
+#' @param param character
+#' @param moment character
+#' @param ... passed arguments
+#' @return data.frame
 row_col <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/row/col')
   dat <- x %>% xpath(tokenpath) %>% as.halfmatrix %>% as.data.frame
@@ -69,8 +85,6 @@ row_col <- function(x, xpath, param, moment,...){
 #' @param verbose set FALSE to suppress messages
 #' @param lo the PsN bootstrap lower confidence limit (\%)
 #' @param hi the PsN bootstrap upper confidence limit (\%)
-#' @param project parent directory of model directories
-#' @param rundir specific model directory
 #' @param metafile optional metadata for parameter table (see also: fields)
 #' @param xmlfile path to xml file
 #' @param ctlfile path to control stream
@@ -91,8 +105,8 @@ row_col <- function(x, xpath, param, moment,...){
 #' @param ... passed to other functions
 #' @seealso \code{\link{as.docx.partab}}
 #' @seealso \code{\link{as.flextable.partab}}
-#' @seealso \code{\link{as.xml_document.modelname}}
-#' @seealso \code{\link{as.bootstrap.modelname}}
+#' @seealso \code{\link{as.xml_document.character}}
+#' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
 #' @seealso \code{\link[csv]{as.csv}}
 #' @aliases partab
@@ -107,11 +121,9 @@ as.partab.character <- function(
   verbose=FALSE,
   lo='5',
   hi='95',
-  project = getOption('project', getwd() ),
-  rundir = file.path(project,x),
-  metafile = file.path(rundir,paste0(x,'.def')),
-  xmlfile = file.path(rundir,paste0(x,'.xml')),
-  ctlfile = file.path(rundir,paste(sep = '.', x, getOption('modex','ctl'))),
+  metafile = modelpath(x,'def',...),
+  xmlfile = modelpath(x,'xml',...),
+  ctlfile = modelfile(x,...),
   bootcsv,
   strip.namespace=TRUE,
   skip=28,
@@ -128,18 +140,13 @@ as.partab.character <- function(
   nonzero = TRUE,
   ...
 ){
-  if(verbose)message('searching ',rundir)
   # SCAVENGE XML
-  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=verbose,project=project,file=xmlfile,...)
+  y <- xmlfile %>% as.xml_document(strip.namespace=strip.namespace,...)
   # SCAVENGE BOOTSTRAPS
-  args <- list(
-    x = x, skip=skip,check.names=check.names,lo=lo,hi=hi,
-    verbose=verbose,project=project
-  )
+  args <- list(x = x, skip=skip,check.names=check.names,lo=lo,hi=hi,verbose=verbose)
   if(!missing(bootcsv)) args <- c(args,list(bootcsv=bootcsv))
   args <- c(args,list(...))
   z <- tryCatch(do.call(as.bootstrap,args),error = function(e) if (verbose) e)
-  #z <- try(x %>% as.bootstrap(skip=skip,check.names=check.names,lo=lo,hi=hi,verbose=verbose,project=project,bootcsv=bootcsv,...))
   theta   <- y %>% val_name('theta',  'theta','estimate')
   thetase <- y %>% val_name('thetase','theta','se')
   sigma   <- y %>% row_col('sigma',   'sigma','estimate')

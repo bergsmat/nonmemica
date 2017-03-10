@@ -4,24 +4,13 @@
 \alias{errors.character}
 \title{Get Errors for Character.}
 \usage{
-\method{errors}{character}(x, project = if (is.null(opt)) getwd() else opt,
-  opt = getOption("project"), rundir = file.path(project, x),
-  xmlfile = file.path(rundir, paste0(x, ".xml")),
-  ctlfile = file.path(rundir, paste0(x, ".ctl")), strip.namespace = TRUE,
-  digits = 3, ...)
+\method{errors}{character}(x, xmlfile = modelpath(x, ext = "xml", ...),
+  strip.namespace = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{x}{character (modelname)}
 
-\item{project}{parent directory of model directories}
-
-\item{opt}{alternative argument for setting project}
-
-\item{rundir}{specific model directory}
-
 \item{xmlfile}{path to xml file}
-
-\item{ctlfile}{path to control stream}
 
 \item{strip.namespace}{whether to strip e.g. nm: from xml elements for easier xpath syntax}
 

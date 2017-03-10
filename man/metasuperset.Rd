@@ -4,15 +4,10 @@
 \alias{metasuperset}
 \title{Retrieve Model Outputs in Meta Format}
 \usage{
-metasuperset(x, opt = getOption("project"), project = if (is.null(opt))
-  getwd() else opt, group_by, meta = match.fun("meta")(x, ...), subset, ...)
+metasuperset(x, group_by, meta = match.fun("meta")(x, ...), subset, ...)
 }
 \arguments{
 \item{x}{model name}
-
-\item{opt}{alternative specification of project directory}
-
-\item{project}{direct specification of project directory}
 
 \item{group_by}{vector of key column names in superset, e.g. USUBJID, TIME}
 

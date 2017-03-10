@@ -187,30 +187,96 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 `[[.model` <- function (x, ..., drop = TRUE)NextMethod("[[")
 
 
-#' Extract model record type
+#' Extract Thetas
 #' 
-#' Extracts model record type.
+#' Extracts thetas.
 #' 
-#'@param x model
-#'@param ... dots
-#'@return modeltype (list)
+#'@param x object
+#'@param ... passed arguments
 #'@export
 #'@keywords internal
-as.modelType <- function(x,...)UseMethod('as.modelType')
+as.theta <- function(x,...)UseMethod('as.theta')
 
-#' Extract model record type from model
+#' Extract Thetas from Model
 #' 
-#' Extracts model record type from model.
+#' Extracts thetas from model.
 #' 
-#'@inheritParams as.modelType
-#'@param type theta omega or sigma
-#'@return modelType (list)
-#'@describeIn as.modelType model method
+#'@param x model
+#'@param ... passed arguments
+#'@return theta (subset of model)
 #'@export
-as.modelType.model <- function(x,type,...){
-  y <- x[names(x) %in% type ]
-  attr(y,'type') <- type
-  class(y) <- 'modelType'
+as.theta.model <- function(x,...){
+  y <- x[names(x) %in% 'theta' ]
+  class(y) <- union(c('theta','records'), class(y))
+  y
+}
+#' Extract Omegas
+#' 
+#' Extracts omegas.
+#' 
+#'@param x object
+#'@param ... passed arguments
+#'@export
+#'@keywords internal
+as.omega <- function(x,...)UseMethod('as.omega')
+
+#' Extract Omegas from Model
+#' 
+#' Extracts omegas from model.
+#' 
+#'@param x model
+#'@param ... passed arguments
+#'@return omega (subset of model)
+#'@export
+as.omega.model <- function(x,...){
+  y <- x[names(x) %in% 'omega' ]
+  class(y) <- union(c('omega','records'), class(y))
+  y
+}
+#' Extract Sigmas
+#' 
+#' Extracts sigmas.
+#' 
+#'@param x object
+#'@param ... passed arguments
+#'@export
+#'@keywords internal
+as.sigma <- function(x,...)UseMethod('as.sigma')
+
+#' Extract Sigmas from Model
+#' 
+#' Extracts sigmas from model.
+#' 
+#'@param x model
+#'@param ... passed arguments
+#'@return sigma (subset of model)
+#'@export
+as.sigma.model <- function(x,...){
+  y <- x[names(x) %in% 'sigma' ]
+  class(y) <- union(c('sigma','records'), class(y))
+  y
+}
+#' Extract Tables
+#' 
+#' Extracts tables.
+#' 
+#'@param x object
+#'@param ... passed arguments
+#'@export
+#'@keywords internal
+as.tab <- function(x,...)UseMethod('as.tab')
+
+#' Extract Tables from Model
+#' 
+#' Extracts tables from model.
+#' 
+#'@param x model
+#'@param ... passed arguments
+#'@return tab (subset of model)
+#'@export
+as.tab.model <- function(x,...){
+  y <- x[names(x) %in% 'table' ]
+  class(y) <- union(c('tab','records'), class(y))
   y
 }
 
@@ -224,22 +290,22 @@ as.modelType.model <- function(x,type,...){
 #' @keywords internal
 as.itemComments <- function(x,...)UseMethod('as.itemComments')
 
-#' Convert modelType to itemComments
+#' Convert Records to itemComments
 #' 
-#' Converts modelType to itemComments
+#' Converts Records to itemComments
 #' 
 #' @inheritParams as.itemComments
 #' @return data.frame
-#' @describeIn as.itemComments modelType method
+#' @describeIn as.itemComments record method
 #' @export
 #' 
-as.itemComments.modelType <- function(x,...){
-  type <- attr(x,'type')
+as.itemComments.records <- function(x,...){
   y <- list()
   prior <- 0
+  type = class(y)[[1]]
   for(i in seq_along(x)){
     this <- x[[i]]
-    y[[i]] <- as.itemComments(this,type=type, prior=prior)
+    y[[i]] <- as.itemComments(this, type=type, prior=prior)
     prior <- prior + ord(this)
   }
   y <- do.call(rbind,y)
@@ -247,23 +313,32 @@ as.itemComments.modelType <- function(x,...){
   y
 }
 
-#' Convert model to itemComments
+#' Convert Model to itemComments
 #' 
-#' Converts model to itemComments
+#' Converts model to itemComments.
 #' 
-#' @inheritParams as.itemComments
+#' @param x model
+#' @param ... passed arguments
 #' @param fields data items to scavenge from control stream comments
 #' @param expected parameters known from NONMEM output
 #' @param na string to use for NA values when writing default metafile
+#' @param tables whether to include table comments
 #' @return data.frame
 #' @describeIn as.itemComments model method
 #' @export
 #' 
-as.itemComments.model <- function(x,fields=c('symbol','unit','label'),expected=character(0),na=NA_character_,tables=TRUE, ...){
-  t <- x %>% as.modelType('theta') %>% as.itemComments
-  o <- x %>% as.modelType('omega') %>% as.itemComments
-  s <- x %>% as.modelType('sigma') %>% as.itemComments
-  b <- x %>% as.modelType('table') %>% as.itemComments
+as.itemComments.model <- function(
+  x,
+  fields=c('symbol','unit','label'),
+  expected=character(0),
+  na=NA_character_,
+  tables=TRUE, 
+  ...
+){
+  t <- x %>% as.theta %>% as.itemComments
+  o <- x %>% as.omega %>% as.itemComments
+  s <- x %>% as.sigma %>% as.itemComments
+  b <- x %>% as.tab   %>% as.itemComments
   y <- rbind(t,o,s)
   if(tables) y <- rbind(y,b)
   y <- cbind(y[,'item',drop=F], .renderComments(
@@ -374,13 +449,12 @@ print.itemList <-function(x,...)print(format(x,...))
 #' Converts itemList to itemComments
 #' 
 #' @inheritParams as.itemComments
-#' @param type item type: table
 #' @return data.frame
-#' @describeIn as.itemComments initList method
+#' @describeIn as.itemComments itemList method
 #' @export
 #' 
 
-as.itemComments.itemList <- function(x, type, prior, ...){
+as.itemComments.itemList <- function(x, ...){
   item <- sapply(x,as.character)
   comment <- sapply(x,function(i)attr(i,'comment'))
   dex <- cbind(item,comment)
@@ -389,12 +463,12 @@ as.itemComments.itemList <- function(x, type, prior, ...){
 }
 
 
-#' Convert initList to itemComments
+#' Coerce to itemComments from initList
 #' 
-#' Converts initList to itemComments
+#' Coerces to itemComments from initList.
 #' 
 #' @inheritParams as.itemComments
-#' @param type item type: theta, omega, sigma, or table
+#' @param type item type: theta, omega, sigma (tables give itemList not initList)
 #' @param prior number of prior items of this type (maybe imporant for numbering)
 #' @return data.frame
 #' @describeIn as.itemComments initList method
@@ -569,14 +643,14 @@ updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose
 #' @keywords internal
 as.matrixList <- function(x,...)UseMethod('as.matrixList')
 
-#' Coerce to List of Matrices from modelType
+#' Coerce to List of Matrices from Records
 #' 
-#' Coerces to list of matrices from modelType
+#' Coerces to list of matrices from Records
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.matrixList.modelType <- function(x,...){
+as.matrixList.records <- function(x,...){
   y <- lapply(x,as.matrixList)
   z <- do.call(c,y)
   z

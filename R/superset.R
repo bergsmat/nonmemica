@@ -28,7 +28,7 @@ as.superset.numeric <- function(x,...){
 #' 
 #' Treats character as a modelname.
 #' 
-#' Given a model run run name (x) and project directory, `superset` figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
+#' Given a model name, (\code{project} passed or set as global option) superset() figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
 
 # Normally, `superset` tries to bind output columns directly to input. Alternatively, if key is provided, it is used as an object model to allow an inferential left join of output onto input; this approach is riskier, but can back fill NA cells with values that are otherwise constant within left-subsets of the key.
 
@@ -43,9 +43,7 @@ as.superset.numeric <- function(x,...){
 # Tables created using FIRSTONLY can be summarized by superset if key is provided. Note that when key is provided, innocuous warnings result (e.g. 'nothing to merge') if items are tabled that are already present in the original data set.
 #' 
 #' @inheritParams as.superset
-#' @param project parent directory of model directories
-#' @param rundir specific model directory
-#' @param ctlfile path to control stream
+# @param project parent directory of model directories
 #  @param key the object model for the input data: vector of key column names in hierarchical order (e.g. USUBJID, TIME, CMT)
 #' @param read.input a methodology for acquiring the input
 #' @param read.output a methodology for acquiring the output
@@ -58,9 +56,6 @@ as.superset.numeric <- function(x,...){
 
 as.superset.character <- function(
   x,
-  project = getOption("project", getwd() ),
-  rundir = filename(project,run), 
-  ctlfile = filename(rundir, run, paste0('.',getOption('modex','ctl'))),
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
   read.output=list(read.table,header=TRUE,as.is=TRUE,skip=1,comment.char='',check.names=FALSE),
   exclusive=NULL,
@@ -69,23 +64,15 @@ as.superset.character <- function(
   ...
 ){
   if(length(x) != 1)stop('character is understood as a model name and must have length one')
-  run <- x
-  #stopifnot('header' %in% names(read.input))
-  if(!missing(run))run <- as.character(run)
-  if(!missing(rundir))rundir <- as.character(rundir)
-  if(missing(run) & missing(rundir) & missing(ctlfile))stop('one of run, rundir, or ctlfile must be supplied')
-  if(missing(run) & missing(ctlfile)) run <- basename(rundir)  	  
-  if(missing(run) & missing(rundir))run <- sub('[.][^.]+$','',basename(ctlfile))
-  if(missing(project) & !missing(rundir))project <- dirname(rundir)
-  if(missing(project) & missing(rundir) & !missing(ctlfile))project <- dirname(dirname(ctlfile))
-  dropped <- ignored(run=run,project=project,rundir=rundir,ctlfile=ctlfile,read.input=read.input,...)
+  #run <- x
+  ctlfile <- modelfile(x,...)
+  dropped <- ignored(x,read.input=read.input,...)
   control <- read.model(ctlfile)
-  dname <- getdname(control)
-  datafile <- resolve(dname,rundir)
-  if (!file.exists(datafile))stop(dname, " not visible from ", rundir, call. = FALSE)
+  datafile <- datafile(x,...)
+  if (!file.exists(datafile))stop(datafile, " not found ", call. = FALSE)
   outputdomain <- names(control) %contains% "tab"
   tables <- control[outputdomain]
-  paths <- .tablePaths(tables,rundir)
+  paths <- .tablePaths(tables,modeldir(x,...))
   labels <- .nminput(control)
   input <- .read.any(file=datafile,args=read.input)
   stopifnot(nrow(input)==length(dropped))
@@ -206,28 +193,18 @@ map <- function (x, from, to, strict = TRUE, ...)
     args <- c(args,file=file)
     do.call(fun,args)
   }
+
 # given a nonmem control stream, give an index to dropped input rows.
 ignored <- function(
-  run,
-  project=getwd(),
-  rundir = filename(project,run), 
-  ctlfile = filename(rundir, run, paste0('.', getOption('modex','ctl'))),
+  x,
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
   ...
 ){
   stopifnot('header' %in% names(read.input))
-  if(!missing(run))run <- as.character(run)
-  if(!missing(rundir))rundir <- as.character(rundir)
-  if(missing(run) & missing(rundir) & missing(ctlfile))stop('one of run, rundir, or ctlfile must be supplied')
-  if(missing(run) & missing(ctlfile)) run <- basename(rundir)  	  
-  if(missing(run) & missing(rundir))run <- sub('[.][^.]+$','',basename(ctlfile))
-  if(missing(project) & !missing(rundir))project <- dirname(rundir)
-  if(missing(project) & missing(rundir) & !missing(ctlfile))project <- dirname(dirname(ctlfile))
-  if(normalizePath(rundir)!=normalizePath(dirname(ctlfile)))warning('rundir does not specify parent of ctlfile')
+  ctlfile <- modelfile(x, ...)
   control <- read.model(ctlfile)
-  dname <- getdname(control)
-  datafile <- resolve(dname,rundir)
-  if (!file.exists(datafile))stop(dname, " not visible from ", rundir, call. = FALSE)
+  datafile <- datafile(x,...)
+  if (!file.exists(datafile))stop(datafile, " not found ", call. = FALSE)
   dropped <- .nmdropped(
   	data=.read.any(file=datafile,args=read.input),
   	lines=readLines(datafile),
@@ -518,33 +495,32 @@ function (x)
 #' Retrieves model outputs in meta format. Inputs should have EVID.
 #' 
 #' @param x model name
-#' @param project direct specification of project directory
 #' @param group_by vector of key column names in superset, e.g. USUBJID, TIME
 #' @param meta pre-folded metadata
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
 #' @return meta
+#' @import origami
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
 
 metasuperset <- function(
   x,
-  project = getOption('project', getwd() ),
+#  project = getOption('project', getwd() ),
   group_by, # = c('USUBJID','DATETIME'),
   meta = match.fun('meta')(x,...),
   # meta = as.definitions(x,...),
   subset,
   ...
 ){
-  requireNamespace('origami')
   stopifnot(length(x)==1)
-  y <- x %>% as.superset
+  y <- x %>% as.superset(...)
   y %<>% as.best('')
   y %<>% filter(VISIBLE==1)
   if(!missing(subset)){
-    subset <- as.logical(eval(parse(text=keep), envir=y))
-    y <- y[keep,] # y %<>% filter(EVID==0)
+    subset <- as.logical(eval(parse(text=subset), envir=y))
+    y <- y[subset,] # y %<>% filter(EVID==0)
   }
   # need <- c('item','symbol','label','unit')
   # miss <- setdiff(need, names(meta))
@@ -585,6 +561,7 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' Gets metadata for character, treating it as a model name.
 #' @inheritParams meta
 #' @export
+#' @import spec
 meta.character <- function(x,...){
   y <- data.frame()
   z <- data.frame()

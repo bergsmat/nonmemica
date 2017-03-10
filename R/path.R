@@ -20,7 +20,7 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 
 #' Resolve A Path to a Model-related File for Character
 #' 
-#' Resolves a path to a model-related file, treating \code{x} as a model name.
+#' Resolves a path to a model-related file, treating \code{x} as a model name. By default (\code{ext} is NULL) the run directory is returned.
 #' 
 #' @param x object
 #' @param ext file extension, no leading dot
@@ -31,12 +31,13 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 #' @export
 modelpath.character <- function(
   x,
-  ext,
+  ext = NULL,
   project = getOption('project', getwd()),
   nested = getOption('nested', TRUE),
   ...
 ){
   rundir <- if(nested) file.path(project, x) else project
+  if(is.null(ext)) return(rundir)
   filename <- paste(sep='.', x, ext)
   filepath <- file.path(rundir, filename)
   filepath
@@ -55,12 +56,22 @@ modelpath.character <- function(
 
 modelfile <- function(x, ext = getOption('modex','ctl'), ...)modelpath(x, ext = ext, ...)
 
+#' Identify the Directory for a Model
+#' 
+#' Identifies the directory used by a model.
+#' 
+#' @param x the model name
+#' @param ext model file extension
+#' @param ... passed arguments
+#' @return character
+#' @export
+modeldir <- function(x, ext, ...)modelpath(x, ext = NULL, ...)
+
 #' Identify the Datafile for a Model
 #' 
 #' Identifies the datafile used by a model.
 #' 
 #' @param x the model name or path to a control stream
-#' @param project direct specification of project directory
 #' @param ... ext can be passed to modelfile, etc.
 #' @return character
 #' @export
@@ -72,7 +83,7 @@ datafile <- function(
   if(!file.exists(x)) x <- modelfile(x, ...)
   control <- read.model(x,...)
   dname <- getdname(control)
-  datafile <- resolve(dname,rundir)
+  datafile <- resolve(dname,modeldir(x, ...))
   datafile <- relativizePath(datafile)
   datafile
 }
@@ -99,20 +110,6 @@ specfile <- function(
   specfile
 }
 
-#' Identify the Model Diretory for a Model
-#' 
-#' Identifies the model drectory of a model.
-#' 
-#' @param x the model name
-#' @param project project directory
-#' @param nested whether models are nested in like-named directories
-#' @param ... passed arguments
-#' @return character
-#' @export
 
-modeldir <- function(x, project = getOption('project',getwd()), nested = getOption('nested',TRUE, ...)){
-  if(!nested) return(project)
-  file.path(project, x)
-}
 
 

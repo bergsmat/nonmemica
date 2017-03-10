@@ -4,26 +4,24 @@
 \alias{tweak.default}
 \title{Tweak a Model}
 \usage{
-\method{tweak}{default}(x, opt = getOption("project"), project = if
-  (is.null(opt)) getwd() else opt, start = NULL, n = 10,
-  extension = ".ctl", include = ".def", ...)
+\method{tweak}{default}(x, project = getOption("project", getwd()),
+  ext = getOption("modex", "ctl"), start = NULL, n = 10,
+  include = ".def$", ...)
 }
 \arguments{
 \item{x}{object}
 
-\item{opt}{alternative specification of project directory}
+\item{project}{project directory}
 
-\item{project}{direct specification of project directory}
+\item{ext}{file extension for control streams}
 
 \item{start}{a number to use as the first modelname}
 
 \item{n}{the number of variants to generate (named start:n)}
 
-\item{extension}{extension for the model file}
-
 \item{include}{regular expressions for files to copy to new directory}
 
-\item{...}{dots}
+\item{...}{pass ext to over-ride default model file extension}
 }
 \value{
 character: vector of names for models created
@@ -31,5 +29,5 @@ character: vector of names for models created
 \description{
 Tweaks a model by jittering initial estimates. Creates a new model directory
 in project context and places the model there. Copies helper files as well.
-Expects that x is a number.
+Expects that x is a number. Assumes nested directory structure (run-specific directories).
 }

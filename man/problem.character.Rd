@@ -4,25 +4,10 @@
 \alias{problem.character}
 \title{Identify the Model Problem Statement for Character}
 \usage{
-\method{problem}{character}(x, opt = getOption("project"), project = if
-  (is.null(opt)) getwd() else opt, rundir = file.path(project, x),
-  ctlext = ".ctl", ctlfile = paste0(x, ctlext),
-  ctlpath = file.path(rundir, ctlfile), ...)
+\method{problem}{character}(x, ...)
 }
 \arguments{
 \item{x}{object}
-
-\item{opt}{alternative specification of project directory}
-
-\item{project}{direct specification of project directory}
-
-\item{rundir}{model run directory}
-
-\item{ctlext}{model file extension}
-
-\item{ctlfile}{name of model file}
-
-\item{ctlpath}{path to model file}
 
 \item{...}{passed arguments}
 }
@@ -30,5 +15,5 @@
 character
 }
 \description{
-Identifies the model problem statement for character. Treats x as a vector of modelnames.
+Identifies the model problem statement for character (model name).
 }

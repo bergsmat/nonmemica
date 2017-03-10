@@ -4,15 +4,10 @@
 \alias{depends.default}
 \title{Identify Model Dependencies}
 \usage{
-\method{depends}{default}(x, opt = getOption("project"), project = if
-  (is.null(opt)) getwd() else opt, ...)
+\method{depends}{default}(x, ...)
 }
 \arguments{
 \item{x}{object}
-
-\item{opt}{alternative specification of project directory}
-
-\item{project}{direct specification of project directory}
 
 \item{...}{passed arguments}
 }

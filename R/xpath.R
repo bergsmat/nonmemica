@@ -30,28 +30,18 @@ as.xml_document.xml_document <- function(x,...)x
 #' @export
 as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 
-#' Coerce character to xml_document
-#' 
-#' Coerces character to xml_document
-#' @inheritParams as.xml_document
-#' @return xml_document
-#' @describeIn as.xml_document character method
-#' @export
-as.xml_document.character <- function(x,...){
-  class(x) <- if(file.exists(x)) 'filepath' else 'modelname'
-  as.xml_document(x,...)
-}
-
-#' Create xml_document From Filepath
+#' Create xml_document From Character
 #'
-#' Creates an xml_document from filepath
+#' Creates an xml_document from character (modelname or filepath).
 #' @import xml2
 #' @inheritParams as.xml_document
 #' @param strip.namespace whether to strip e.g. nm: from xml elements
 #' @return xml_document
 #' @describeIn as.xml_document filepath method
 #' @export
-as.xml_document.filepath <- function(x,strip.namespace=TRUE,...){
+as.xml_document.character <- function(x,strip.namespace=TRUE,...){
+  # x is a model name or a file path
+  if(!file.exists(x)) x %<>% modelpath('xml',...)
   if(!strip.namespace)return(read_xml(x))
   x <- readLines(x)
   x <- paste(x,collapse=' ')
@@ -59,33 +49,6 @@ as.xml_document.filepath <- function(x,strip.namespace=TRUE,...){
   x <- gsub('</[a-zA-Z]+:','</',x)
   x <- gsub(' +[a-zA-Z]+:',' ',x)
   read_xml(x)
-}
-
-#' Create xml_document From modelname
-#'
-#' Creates an xml_document from modelname
-#' @inheritParams as.xml_document
-#' @param project parent directory of model directories
-#' @param rundir specific model directory
-#' @param file actual xml storage location; overrides others if specified directly
-#' @return xml_document
-#' @describeIn as.xml_document modelname method
-#' @export
-
-as.xml_document.modelname <- function(
-  x,
-  project = getOption('project', getwd() ),
-  rundir = file.path(project,x), 
-  file = file.path(rundir,paste0(x,'.xml')), 
-  ...
-){
-  class(file) <- 'filepath'
-  if(!file.exists(file))stop(
-    'file not found:', 
-    file,
-    '. Perhaps set arg project= or options(project=)'
-  )
-  as.xml_document(file)
 }
 
 #' Evaluate xpath Expression

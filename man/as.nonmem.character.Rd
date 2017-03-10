@@ -12,5 +12,5 @@
 \item{...}{passed arguments}
 }
 \description{
-Generates NONMEM-style names for numeric by converting to parsed nmctl.
+Generates NONMEM-style names for numeric by converting to parsed model.
 }

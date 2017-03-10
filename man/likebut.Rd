@@ -4,9 +4,9 @@
 \alias{likebut}
 \title{Modify a Model}
 \usage{
-likebut(x, but = "better", y = NULL, opt = getOption("project"),
-  project = if (is.null(opt)) getwd() else opt, overwrite = FALSE,
-  extension = ".ctl", include = ".def", ...)
+likebut(x, but = "better", y = NULL, project = getOption("project",
+  getwd()), nested = getOption("nested", TRUE), overwrite = FALSE,
+  ext = getOption("modex", "ctl"), include = "\\\\.def$", ...)
 }
 \arguments{
 \item{x}{a model name, presumably interpretable as numeric}
@@ -15,13 +15,13 @@ likebut(x, but = "better", y = NULL, opt = getOption("project"),
 
 \item{y}{optional name for model to be created}
 
-\item{opt}{alternative specification of project directory}
+\item{project}{project directory}
 
-\item{project}{direct specification of project directory}
+\item{nested}{model files nested in run-specific directories}
 
 \item{overwrite}{whether to overwrite y if it exists}
 
-\item{extension}{extension for the model file}
+\item{ext}{extension for the model file}
 
 \item{include}{regular expressions for files to copy to new directory}
 

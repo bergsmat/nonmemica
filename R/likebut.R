@@ -1,12 +1,13 @@
-globalVariables(c('symbol','run','feature','cov','ofv'))
+globalVariables(c('symbol','run','feature','cov','ofv','label','unit'))
+globalVariables(c('VARIABLE','META','VALUE','LABEL','VISIBLE','GUIDE'))
+globalVariables(c('column','guide'))
+
 #' Identify the Single Model Problem Statement
 #' 
 #' Identifies a single model problem statement.
 #' 
 #' @param x object
 #' @param ... passed arguments
-#' @export
-#' @keywords internal
 .problem <- function(x,...)UseMethod('.problem')
 
 
@@ -17,9 +18,6 @@ globalVariables(c('symbol','run','feature','cov','ofv'))
 #' @param x character, a model name
 #' @param ... passed arguments, can over-ride default file extensions etc.
 #' @return character
-#' @export
-#' @keywords internal
-
 .problem.character <- function(
   x,
   ...
@@ -252,6 +250,7 @@ runlog.character <- function(
 #' Expects that x is a number. Assumes nested directory structure (run-specific directories).
 #' @inheritParams tweak
 #' @param project project directory
+#' @param ext file extension for control streams
 #' @param start a number to use as the first modelname
 #' @param n the number of variants to generate (named start:n)
 #' @param include regular expressions for files to copy to new directory
@@ -261,6 +260,7 @@ runlog.character <- function(
 tweak.default <- function(
   x, 
   project = getOption('project', getwd()),
+  ext = getOption('modex','ctl'),
   start=NULL, 
   n=10,
   include = '.def$',
@@ -274,7 +274,7 @@ tweak.default <- function(
   #set.seed(1)
   if(is.null(start)) start <- dir(project) %>% as.numeric %>% max(na.rm=TRUE) %>% `+`(1)
   for(i in seq(from=start,length.out=n)) dir.create(file.path(project,i))
-  for(i in seq(from=start,length.out=n)) ctl %>% tweak %>% write.model(file.path(project,i,paste(i,extension,sep='.')))
+  for(i in seq(from=start,length.out=n)) ctl %>% tweak %>% write.model(file.path(project,i,paste(i,ext,sep='.')))
   out <- seq(from=start,length.out=n)
   for(i in out) 
     for(p in include){
@@ -335,7 +335,7 @@ likebut <- function(
   mod <- modelfile(y, project = project, nested = nested, ext = ext, ... )
   if(file.exists(mod))if(!overwrite)stop(mod,' already exists')
   srcdir <- modeldir(x, project = project, nested = nested, ...)
-  target <- modeldir(y, project = project, nested = nested,...)
+  target <- modeldir(y, project = project, nested = nested, ...)
   dir.create(target)
   for(p in include){
     pattern = if(nested) p else paste0(x,p)
@@ -378,6 +378,7 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 #' 
 #' @param x spec
 #' @param ... passed arguments
+#' @import origami
 #' @return folded
 #' @export
 as.folded.spec <- function(x,...){
@@ -551,7 +552,6 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' 
 #' @param x character (modelname)
 #' @param xmlfile path to xml file
-#' @param ctlfile path to control stream
 #' @param strip.namespace whether to strip e.g. nm: from xml elements for easier xpath syntax
 #' @param digits passed to signif
 #' @param ... dots

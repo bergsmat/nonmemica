@@ -41,8 +41,6 @@ as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
 #' @import dplyr
 #' @param x a model name (numeric or character)
 #' @param verbose set FALSE to suppress messages
-#' @param project parent directory of model directories
-#' @param rundir specific model directory
 #' @param ctlfile path to control stream (pass length-zero argument to ignore)
 #' @param metafile path to definitions file (pass length-zero argument to ignore)
 #' @param fields metadata fields to read from control stream if no metafile
@@ -50,8 +48,8 @@ as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
 #' @param write whether to write the definitions file
 #' @param ... passed to other functions
 #' @import csv
-#' @seealso \code{\link{as.xml_document.modelname}}
-#' @seealso \code{\link{as.bootstrap.modelname}}
+#' @seealso \code{\link{as.xml_document.character}}
+#' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
 #' @aliases definitions
 #' @examples
@@ -63,10 +61,8 @@ as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
 as.definitions.character <- function(
   x,
   verbose=FALSE,
-  project = getOption('project', getwd() ),
-  rundir = file.path(project,x), 
-  ctlfile = file.path(rundir,paste(sep='.',x,getOption('modex','ctl'))),
-  metafile = file.path(rundir,paste0(x,'.def')),
+  ctlfile = modelfile(x, ...),
+  metafile = modelpath(x,'def',...),
   fields = c('symbol','label','unit'),
   read = length(metafile) == 1,
   write = FALSE,
@@ -77,9 +73,7 @@ as.definitions.character <- function(
   
   if(length(ctlfile) == 1 & file.exists(ctlfile)){
     if(verbose)message('searching ',ctlfile)
-    m1 <- x %>%
-      as.model(verbose=verbose,rundir = rundir,ctlfile=ctlfile,...) %>%
-      as.itemComments(fields=fields,...)
+    m1 <- ctlfile %>% as.model(parse = TRUE) %>% as.itemComments(fields=fields,...)
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){
     if(verbose)message('searching ',metafile)

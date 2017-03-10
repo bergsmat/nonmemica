@@ -5,7 +5,7 @@
 \title{Coerce to Folded from Spec
 Coerces to folded from spec.  Harvests column names, labels and units.  Stacks these in conventional folded format.}
 \usage{
-as.folded.spec(x, ...)
+\method{as.folded}{spec}(x, ...)
 }
 \arguments{
 \item{x}{spec}

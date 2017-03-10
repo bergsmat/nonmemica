@@ -4,15 +4,10 @@
 \alias{like.default}
 \title{Identify the Relevant Reference Model}
 \usage{
-\method{like}{default}(x, opt = getOption("project"), project = if
-  (is.null(opt)) getwd() else opt, ...)
+\method{like}{default}(x, ...)
 }
 \arguments{
 \item{x}{object}
-
-\item{opt}{alternative specification of project directory}
-
-\item{project}{direct specification of project directory}
 
 \item{...}{passed arguments}
 }

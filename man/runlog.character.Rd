@@ -4,18 +4,13 @@
 \alias{runlog.character}
 \title{Create a Runlog for Character}
 \usage{
-\method{runlog}{character}(x, dependencies = F, opt = getOption("project"),
-  project = if (is.null(opt)) getwd() else opt, digits = 3, places = 0,
+\method{runlog}{character}(x, dependencies = F, digits = 3, places = 0,
   ...)
 }
 \arguments{
 \item{x}{object}
 
 \item{dependencies}{whether to log runs in lineage(s) as well}
-
-\item{opt}{alternative specification of project directory}
-
-\item{project}{direct specification of project directory}
 
 \item{digits}{significance for parameters}
 

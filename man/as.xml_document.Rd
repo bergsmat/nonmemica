@@ -5,8 +5,6 @@
 \alias{as.xml_document.xml_document}
 \alias{as.xml_document.numeric}
 \alias{as.xml_document.character}
-\alias{as.xml_document.filepath}
-\alias{as.xml_document.modelname}
 \title{Create an xml_document in a Project Context}
 \usage{
 as.xml_document(x, ...)
@@ -15,13 +13,7 @@ as.xml_document(x, ...)
 
 \method{as.xml_document}{numeric}(x, ...)
 
-\method{as.xml_document}{character}(x, ...)
-
-\method{as.xml_document}{filepath}(x, strip.namespace = TRUE, ...)
-
-\method{as.xml_document}{modelname}(x, project = if (is.null(opt)) getwd()
-  else opt, opt = getOption("project"), rundir = file.path(project, x),
-  file = file.path(rundir, paste0(x, ".xml")), ...)
+\method{as.xml_document}{character}(x, strip.namespace = TRUE, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -29,20 +21,8 @@ as.xml_document(x, ...)
 \item{...}{arguments to methods}
 
 \item{strip.namespace}{whether to strip e.g. nm: from xml elements}
-
-\item{project}{parent directory of model directories}
-
-\item{opt}{alternative argument for setting project}
-
-\item{rundir}{specific model directory}
-
-\item{file}{actual xml storage location; overrides others if specified directly}
 }
 \value{
-xml_document
-
-xml_document
-
 xml_document
 
 xml_document
@@ -58,11 +38,7 @@ Coerces xml_document to xml_document
 
 Coerces numeric to xml_document
 
-Coerces character to xml_document
-
-Creates an xml_document from filepath
-
-Creates an xml_document from modelname
+Creates an xml_document from character (modelname or filepath).
 }
 \section{Methods (by class)}{
 \itemize{
@@ -70,11 +46,7 @@ Creates an xml_document from modelname
 
 \item \code{numeric}: numeric method
 
-\item \code{character}: character method
-
-\item \code{filepath}: filepath method
-
-\item \code{modelname}: modelname method
+\item \code{character}: filepath method
 }}
 
 \examples{

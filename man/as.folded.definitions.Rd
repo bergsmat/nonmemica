@@ -5,7 +5,7 @@
 \title{Coerce to Folded from Definitions
 Coerces to folded from definitions  Harvests item, label, and unit for tabled items.  Stacks these in conventional folded format.}
 \usage{
-as.folded.definitions(x, parameters = FALSE, ...)
+\method{as.folded}{definitions}(x, parameters = FALSE, ...)
 }
 \arguments{
 \item{x}{definitions}

@@ -4,7 +4,6 @@
 \alias{as.partab}
 \alias{as.partab.partab}
 \alias{as.partab.numeric}
-\alias{as.partab.character}
 \title{Create Model Parameter Table in Project Context}
 \usage{
 as.partab(x, ...)
@@ -12,8 +11,6 @@ as.partab(x, ...)
 \method{as.partab}{partab}(x, ...)
 
 \method{as.partab}{numeric}(x, ...)
-
-\method{as.partab}{character}(x, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -26,8 +23,6 @@ Creates a model parameter table in project context.
 Creates a model parameter table from a partab object.
 
 Creates a model parameter table from a number.
-
-Creates a model parameter table from a character string.
 }
 \details{
 x can be numeric or character model name, assuming project is identified by argument or option.
@@ -35,18 +30,14 @@ x can be numeric or character model name, assuming project is identified by argu
 Just returns the object unmodified.
 
 Just coerces to character and calls as.partab again.
-
-Reclassifies x as a modelname and calls as.partab again.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{partab}: partab method
 
 \item \code{numeric}: numeric method
-
-\item \code{character}: character method
 }}
 
 \seealso{
-\code{\link{as.partab.modelname}}
+\code{\link{as.partab.character}}
 }
