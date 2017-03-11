@@ -1,32 +1,32 @@
-#' Harvest Model Item Definitions in Project Context
+#' Harvest Model Item Definitions
 #'
-#' Havests model item definitions in project context.
+#' Havests model item definitions.
 #' 
 #' x can be numeric or character model name, assuming project is identified by argument or option.
 #' @param x object of dispatch
 #' @param ... arguments to methods
-#' @seealso \code{\link{as.definitions.character}}
+#' @seealso \code{\link{definitions.character}}
 #' @export
-as.definitions <- function(x,...)UseMethod('as.definitions')
+definitions <- function(x,...)UseMethod('definitions')
 
 #' Create Model Item Definitions from definitions
 #'
 #' Creates a model item definitions from a definitions object.
 #' 
 #' Just returns the object unmodified.
-#' @inheritParams as.definitions
-#' @describeIn as.definitions definitions method
+#' @inheritParams definitions
+#' @describeIn definitions definitions method
 #' @export
-as.definitions.definitions <- function(x,...)x
+definitions.definitions <- function(x,...)x
 #' Create Model Item Definitions from Number.
 #'
 #' Creates a model item definitions from a number.
 #' 
-#' Just coerces to character and calls as.definitions again.
-#' @inheritParams as.definitions
-#' @describeIn as.definitions numeric method
+#' Just coerces to character and calls definitions again.
+#' @inheritParams definitions
+#' @describeIn definitions numeric method
 #' @export
-as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
+definitions.numeric  <- function(x,...)definitions(as.character(x),...)
 #' Create Model Item Definitions from Character
 #'
 
@@ -51,14 +51,13 @@ as.definitions.numeric  <- function(x,...)as.definitions(as.character(x),...)
 #' @seealso \code{\link{as.xml_document.character}}
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
-#' @aliases definitions
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
-#' 1001 %>% as.definitions
+#' 1001 %>% definitions
 #' @return object of class definitions, or path to metafile if write = TRUE.
 #' @export
-as.definitions.character <- function(
+definitions.character <- function(
   x,
   verbose=FALSE,
   ctlfile = modelfile(x, ...),
@@ -73,7 +72,7 @@ as.definitions.character <- function(
   
   if(length(ctlfile) == 1 & file.exists(ctlfile)){
     if(verbose)message('searching ',ctlfile)
-    m1 <- ctlfile %>% as.model(parse = TRUE) %>% as.itemComments(fields=fields,...)
+    m1 <- ctlfile %>% as.model(parse = TRUE) %>% comments(fields=fields,...)
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){
     if(verbose)message('searching ',metafile)

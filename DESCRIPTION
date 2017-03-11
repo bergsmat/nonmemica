@@ -17,7 +17,8 @@ Imports:
  encode,
  csv,
  origami,
- spec
+ spec,
+ lazyeval
 Suggests:
  ReporteRs,
  pander,

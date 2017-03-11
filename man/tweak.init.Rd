@@ -22,6 +22,6 @@ init
 Tweaks init.
 }
 \seealso{
-Other tweak: \code{\link{tweak.initList}},
+Other tweak: \code{\link{tweak.inits}},
   \code{\link{tweak.model}}, \code{\link{tweak}}
 }

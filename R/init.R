@@ -1,11 +1,3 @@
-# We need two object types:  theta list, and individual list members.
-# Class 'theta' will be a list of theta members, possibly with attributes.
-# Theta members will be vectors: low init up, with a fixed attribute.
-# Need get/set functions for individual members, and possibly for list as whole.
-# Need to support subset and element select on list.
-# Need to support conversion to character.
-# Need to support get/set fixed status.
-
 #' Coerce to init
 #' 
 #' Coerces to init
@@ -152,39 +144,39 @@ fixed.init <- function(x,...)!any(is.na(x)) & length(unique(x)) == 1
   }
   x
 }
-#' Coerce to initList
+#' Coerce to inits
 #' 
-#' Coerces to initList.
+#' Coerces to inits.
 #' @param x object
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.initList <- function(x,...)UseMethod('as.initList')
+as.inits <- function(x,...)UseMethod('as.inits')
 
-#' Coerce list to initList
+#' Coerce list to inits
 #' 
-#' Coerces list to initlist.
-#' @inheritParams as.initList
+#' Coerces list to inits.
+#' @inheritParams as.inits
 #' @param comment character
-#' @return initList
-#' @describeIn as.initList list method
+#' @return inits
+#' @describeIn as.inits list method
 #' @export
-as.initList.list <- function(x,comment=character(0),...){
+as.inits.list <- function(x,comment=character(0),...){
   stopifnot(length(x)>0,is.character(comment))
   is.init <- sapply(x,inherits,'init')
-  class(x) <- c('initList',class(x))
+  class(x) <- c('inits',class(x))
    comment(x) <- if(length(comment))comment else NA_character_
   x
 }
-#' Coerce initList to character
+#' Coerce inits to character
 #' 
-#' Coerces initList to character.
-#' @param x initList
+#' Coerces inits to character.
+#' @param x inits
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-as.character.initList <- function(x,...){
+as.character.inits <- function(x,...){
   com <- comment(x)
   padded <- attr(x,'padded')
   if(is.null(padded)) padded <- FALSE
@@ -194,25 +186,25 @@ as.character.initList <- function(x,...){
   y
 }
 
-#' Format initList
+#' Format inits
 #' 
-#' Formats initList.
-#' @param x initList
+#' Formats inits.
+#' @param x inits
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-format.initList <-function(x,...)as.character(x,...)
+format.inits <-function(x,...)as.character(x,...)
 
-#' Print initList
+#' Print inits
 #' 
-#' Prints initList.
-#' @param x initList
+#' Prints inits.
+#' @param x inits
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-print.initList <-function(x,...)print(format(x,...))
+print.inits <-function(x,...)print(format(x,...))
 .comments <- function(x)sub('^[^;]*;?(.*)$','\\1',x)
 .space2comma <- function(x){
   if(!length(x))return(x)
@@ -224,39 +216,39 @@ print.initList <-function(x,...)print(format(x,...))
     halves <- lapply(halves,.space2comma)
 }
 
-#' Subset initList
+#' Subset inits
 #' 
-#' Subsets initList.
-#' @param x initList
+#' Subsets inits.
+#' @param x inits
 #' @param ... dots
 #' @param drop logical
-#' @return initList
+#' @return inits
 #' @export
 #' @keywords internal
-`[.initList` <- function (x, ..., drop = TRUE){
+`[.inits` <- function (x, ..., drop = TRUE){
   cl <- oldClass(x)
   class(x) <- NULL
   val <- NextMethod("[")
   class(val) <- cl
   val
 }
-#' Coerce numeric to initList
+#' Coerce numeric to inits
 #' 
-#' Coerces numeric to initList
-#' @inheritParams as.initList
+#' Coerces numeric to inits
+#' @inheritParams as.inits
 #' @param fixed logical
 #' @param comment character
-#' @return initList
-#' @describeIn as.initList numeric method
+#' @return inits
+#' @describeIn as.inits numeric method
 #' @export
-as.initList.numeric <- function(x,fixed=FALSE,comment=character(0),...){
+as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
   stopifnot(is.logical(fixed),is.character(comment))
   fixed <- rep(fixed,length.out=length(x))
   y <- lapply(
     seq_along(x),
     function(i)as.init(x[[i]],fixed=fixed[[i]])
   )
-  y <- as.initList(y)
+  y <- as.inits(y)
   if(length(comment)) comment(y) <- comment
   y
 }
@@ -285,24 +277,24 @@ as.initList.numeric <- function(x,fixed=FALSE,comment=character(0),...){
   x
 }
 
-#' Check if initList is fixed
+#' Check if inits is fixed
 #' 
-#' Checks if initList is fixed.
+#' Checks if inits is fixed.
 #' @inheritParams fixed
 #' @return logical
-#' @describeIn fixed initList method
+#' @describeIn fixed inits method
 #' @export
-fixed.initList <- function(x,...)sapply(x,fixed)
+fixed.inits <- function(x,...)sapply(x,fixed)
 
-#' Set fixed attribute of initList
+#' Set fixed attribute of inits
 #' 
-#' Sets fixed attribute of initList.
-#' @param x initList
+#' Sets fixed attribute of inits.
+#' @param x inits
 #' @param value logical
-#' @return initList
+#' @return inits
 #' @export
 #' @keywords internal
-`fixed<-.initList` <- function(x,value){
+`fixed<-.inits` <- function(x,value){
   stopifnot(is.logical(value))
   value <- rep(value,length.out=length(x))
   for(i in seq_along(value))fixed(x[[i]]) <- value[[i]]
@@ -354,14 +346,14 @@ fixed.initList <- function(x,...)sapply(x,fixed)
   linenum <- cumsum(frst)
   linenum
 }
-#' Coerce character to initList
+#' Coerce character to inits
 #' 
-#' Coerces character to initList.
-#' @inheritParams as.initList
-#' @return initList
-#' @describeIn as.initList character method
+#' Coerces character to inits.
+#' @inheritParams as.inits
+#' @return inits
+#' @describeIn as.inits character method
 #' @export
-as.initList.character <- function(x,...){
+as.inits.character <- function(x,...){
   # final empty line is scrubbed by collapse=\n
   # chomp all line endings, count and store final empties
   x <- sub('\\s+$','',x)
@@ -404,7 +396,7 @@ as.initList.character <- function(x,...){
       out
     }
   )
-  out <- as.initList(inits,comment=globalcom)
+  out <- as.inits(inits,comment=globalcom)
   attr(out,'block') <- block
   attr(out,'padded') <- padded
   out
@@ -455,14 +447,14 @@ as.initList.character <- function(x,...){
   x <- as.init(x,fixed=fixed,comment=comment,...)
   x
 }
-#' Coerce initList to initList
+#' Coerce inits to inits
 #' 
-#' Coerces initList to initList
-#' @inheritParams as.initList
-#' @return initList
-#' @describeIn as.initList initList method
+#' Coerces inits to inits
+#' @inheritParams as.inits
+#' @return inits
+#' @describeIn as.inits inits method
 #' @export
-as.initList.initList <- function(x,...)x
+as.inits.inits <- function(x,...)x
 
 #' Tweak something
 #' 
@@ -490,16 +482,16 @@ tweak.init <- function(x,sd=0.13,digits=3,...){
 	x$init <- y
 	x
 }
-#' Tweak initList
+#' Tweak inits
 #' 
-#' Tweaks initList.
+#' Tweaks inits.
 #' @inheritParams tweak
 #' @param sd numeric
 #' @param digits integer
-#' @return initList
+#' @return inits
 #' @export
 #' @family tweak
-tweak.initList <- function(x,sd=0.13,digits=3,...){
+tweak.inits <- function(x,sd=0.13,digits=3,...){
 	x[] <- lapply(x,tweak,sd=sd,digits=digits,...)
 	x
 }
@@ -514,7 +506,7 @@ tweak.initList <- function(x,sd=0.13,digits=3,...){
 #' @family tweak
 tweak.model <- function(x,sd=0.13,digits=3,...){
 	stopifnot('theta' %in% names(x))
-	x$theta <- as.initList(x$theta)
+	x$theta <- as.inits(x$theta)
 	x$theta <- tweak(x$theta,sd=sd,digits=digits,...)
 	x
 }

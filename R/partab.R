@@ -1,33 +1,33 @@
 globalVariables(c('symbol','value'))
 
-#' Create Model Parameter Table in Project Context
+#' Create Parameter Table
 #'
-#' Creates a model parameter table in project context.
+#' Creates a parameter table.
 #' 
 #' x can be numeric or character model name, assuming project is identified by argument or option.
 #' @param x object of dispatch
 #' @param ... arguments to methods
-#' @seealso \code{\link{as.partab.character}}
+#' @seealso \code{\link{partab.character}}
 #' @export
-as.partab <- function(x,...)UseMethod('as.partab')
+partab <- function(x,...)UseMethod('partab')
 #' Create Model Parameter Table from partab
 #'
 #' Creates a model parameter table from a partab object.
 #' 
 #' Just returns the object unmodified.
-#' @inheritParams as.partab
-#' @describeIn as.partab partab method
+#' @inheritParams partab
+#' @describeIn partab partab method
 #' @export
-as.partab.partab <- function(x,...)x
+partab.partab <- function(x,...)x
 #' Create Model Parameter Table from Number.
 #'
 #' Creates a model parameter table from a number.
 #' 
-#' Just coerces to character and calls as.partab again.
-#' @inheritParams as.partab
-#' @describeIn as.partab numeric method
+#' Just coerces to character and calls partab again.
+#' @inheritParams partab
+#' @describeIn partab numeric method
 #' @export
-as.partab.numeric  <- function(x,...)as.partab(as.character(x),...)
+partab.numeric  <- function(x,...)partab(as.character(x),...)
 
 #' Create Model Parameter Table from xml_document
 #
@@ -109,14 +109,13 @@ row_col <- function(x, xpath, param, moment,...){
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
 #' @seealso \code{\link[csv]{as.csv}}
-#' @aliases partab
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
-#' 1001 %>% as.partab
+#' 1001 %>% partab
 #' @return object of class partab, data.frame
 #' @export
-as.partab.character <- function(
+partab.character <- function(
   x,
   verbose=FALSE,
   lo='5',
@@ -218,7 +217,7 @@ as.partab.character <- function(
   }
   if(relative && percent) param %<>% rename(prse = se)
   if(relative && !percent) param %<>% rename(rse = se)
-  meta <- as.definitions(x, ctlfile=ctlfile,metafile=metafile,...)
+  meta <- definitions(x, ctlfile=ctlfile,metafile=metafile,...)
   meta %<>% rename(parameter = item)
   param %<>% left_join(meta,by='parameter')
   class(param) <- union('partab', class(param))

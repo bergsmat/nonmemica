@@ -35,21 +35,21 @@ function(x,...){
 #' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
-as.canonical <- function(x,...)UseMethod('as.canonical')
+nms_canonical <- function(x,...)UseMethod('nms_canonical')
 
 #' Generate Canonical Names for Numeric
 #' 
 #' Generates canonical names for numeric by coercing to character.
-#' @inheritParams as.canonical
+#' @inheritParams nms_canonical
 #' @export
-as.canonical.numeric <- function(x,...)as.canonical(as.character(x,...),...)
+nms_canonical.numeric <- function(x,...)nms_canonical(as.character(x,...),...)
 
 #' Generate Canonical Names for Character
 #' 
-#' Generates canonical names for numeric by converting to parsed model.
-#' @inheritParams as.canonical
+#' Generates canonical names for character by converting to parsed model.
+#' @inheritParams nms_canonical
 #' @export
-as.canonical.character <- function(x,...)as.canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 
 #' Generate Canonical Names for model
@@ -62,11 +62,11 @@ as.canonical.character <- function(x,...)as.canonical(as.model(x,parse=TRUE,verb
 #' @seealso as.model
 #' @export
 
-as.canonical.model <- function(x,...){
+nms_canonical.model <- function(x,...){
   #y <- as.model(x,parse=TRUE,...)
-  comments <- as.itemComments(x,tables=FALSE,...)
+  comments <- comments(x,tables=FALSE,...)
   res <- comments$item
-  class(res) <- union('canonical',class(res))
+  class(res) <- union('nms_canonical',class(res))
   res
 }
 
@@ -76,21 +76,21 @@ as.canonical.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
-as.psn <- function(x,...)UseMethod('as.psn')
+nms_psn <- function(x,...)UseMethod('nms_psn')
 
 #' Generate PsN-style Names for Numeric
 #' 
 #' Generates PsN-style names for numeric by coercing to character.
-#' @inheritParams as.psn
+#' @inheritParams nms_psn
 #' @export
-as.psn.numeric <- function(x,...)as.psn(as.character(x,...),...)
+nms_psn.numeric <- function(x,...)nms_psn(as.character(x,...),...)
 
 #' Generate PsN-style Names for Character
 #' 
 #' Generates PsN-style names for numeric by converting to parsed model.
-#' @inheritParams as.psn
+#' @inheritParams nms_psn
 #' @export
-as.psn.character <- function(x,...)as.psn(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 #' Generate PsN-style Names for model
 #' 
@@ -101,12 +101,12 @@ as.psn.character <- function(x,...)as.psn(as.model(x,parse=TRUE,verbose=FALSE),.
 #' @return psn (character)
 #' @seealso as.model
 #' @export
-as.psn.model <- function(x,...){
-  comments <- as.itemComments(x,tables=FALSE,...)
+nms_psn.model <- function(x,...){
+  comments <- comments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   comments %<>% mutate(item = if_else(symbol %>% is.na, item, symbol)) # substitute
   res <- comments$item
-  class(res) <- union('psn',class(res))
+  class(res) <- union('nms_psn',class(res))
   res
 }
 
@@ -139,21 +139,21 @@ as.psn.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... passed arguments
 #' @export
-as.nonmem <- function(x,...)UseMethod('as.nonmem')
+nms_nonmem <- function(x,...)UseMethod('nms_nonmem')
 
 #' Generate NONMEM-style Names for Numeric
 #' 
 #' Generates NONMEM-style names for numeric by coercing to character.
-#' @inheritParams as.nonmem
+#' @inheritParams nms_nonmem
 #' @export
-as.nonmem.numeric <- function(x,...)as.nonmem(as.character(x,...),...)
+nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 
 #' Generate NONMEM-style Names for Character
 #' 
 #' Generates NONMEM-style names for numeric by converting to parsed model.
-#' @inheritParams as.nonmem
+#' @inheritParams nms_nonmem
 #' @export
-as.nonmem.character <- function(x,...)as.nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 #' Generate NONMEM-style Names for model
 #' 
@@ -164,10 +164,10 @@ as.nonmem.character <- function(x,...)as.nonmem(as.model(x,parse=TRUE,verbose=FA
 #' @return nonmem (character)
 #' @seealso as.model
 #' @export
-as.nonmem.model <- function(x,...){
-  comments <- as.itemComments(x,tables=FALSE,...)
+nms_nonmem.model <- function(x,...){
+  comments <- comments(x,tables=FALSE,...)
   comments %<>% mutate(item = item %>% .canonical2nonmem )
   res <- comments$item
-  class(res) <- union('nonmem',class(res))
+  class(res) <- union('nms_nonmem',class(res))
   res
 }

@@ -18,8 +18,8 @@ metasuperset(x, group_by, meta = match.fun("meta")(x, ...), subset, ...)
 \item{...}{passed arguments}
 }
 \value{
-meta
+folded
 }
 \description{
-Retrieves model outputs in meta format. Inputs should have EVID.
+Retrieves model outputs in meta format.
 }

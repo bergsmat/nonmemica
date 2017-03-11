@@ -8,7 +8,7 @@
 as.model(x, ...)
 
 \method{as.model}{character}(x, pattern = "^\\\\s*\\\\$(\\\\S+)(\\\\s.*)?$",
-  head = "\\\\1", tail = "\\\\2", parse = FALSE, ...)
+  head = "\\\\1", tail = "\\\\2", parse = TRUE, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -21,7 +21,7 @@ as.model(x, ...)
 
 \item{tail}{subpattern remaining}
 
-\item{parse}{whether to convert thetas omegas and sigmas to initList and tables to itemList}
+\item{parse}{whether to convert thetas omegas and sigmas to inits and tables to items}
 }
 \value{
 model

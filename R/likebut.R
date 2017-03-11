@@ -6,19 +6,9 @@ globalVariables(c('column','guide'))
 #' 
 #' Identifies a single model problem statement.
 #' 
-#' @param x object
+#' @param x character
 #' @param ... passed arguments
-.problem <- function(x,...)UseMethod('.problem')
-
-
-#' Identify the Single Model Problem Statement from Character
-#' 
-#' Identifies a single model problem statement from character (i.e. model name).
-#' 
-#' @param x character, a model name
-#' @param ... passed arguments, can over-ride default file extensions etc.
-#' @return character
-.problem.character <- function(
+.problem <- function(
   x,
   ...
 ){
@@ -408,7 +398,7 @@ as.folded.definitions <- function(x, parameters = FALSE, ...){
 
 .parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)
-  p <- x %>% as.partab(verbose=F,digits=digits)
+  p <- x %>% partab(verbose=F,digits=digits)
   # parfile <- paste(sep='/',getOption('project'),x,paste0(x,'.par'))
   if(!'symbol' %in% names(p))stop('symbol not defined in control stream nor *.def')
   need <- p %>% filter(symbol %>% is.na) %$% parameter
@@ -500,7 +490,7 @@ estimates.numeric <- function(x,...)estimates(as.character(x,...))
 #' @param digits passed to signif
 #' @param ... dots
 #' @return numeric
-#' @seealso as.canonical errors
+#' @seealso nms_canonical errors
 #' @export
 #' @import magrittr
 #' @import dplyr
@@ -523,7 +513,7 @@ estimates.character <- function(
   # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
   theta %<>% mutate(offdiag = 0)
   param <- rbind(theta,omega,sigma)
-  nms <- x %>% as.canonical
+  nms <- x %>% nms_canonical
   res <- with(param, estimate[match(nms,parameter)])
   res %<>% signif(digits)
   res
@@ -556,7 +546,7 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' @param digits passed to signif
 #' @param ... dots
 #' @return numeric
-#' @seealso as.canonical errors
+#' @seealso nms_canonical errors
 #' @export
 #' @import magrittr
 #' @import dplyr
@@ -579,7 +569,7 @@ errors.character <- function(
   # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
   thetase %<>% mutate(offdiag = 0)
   param <- rbind(thetase,omegase,sigmase)
-  nms <- x %>% as.canonical
+  nms <- x %>% nms_canonical
   res <- with(param, se[match(nms,parameter)])
   res %<>% signif(digits)
   res

@@ -3,14 +3,14 @@
 \name{fixed}
 \alias{fixed}
 \alias{fixed.init}
-\alias{fixed.initList}
+\alias{fixed.inits}
 \title{Check if something is fixed}
 \usage{
 fixed(x, ...)
 
 \method{fixed}{init}(x, ...)
 
-\method{fixed}{initList}(x, ...)
+\method{fixed}{inits}(x, ...)
 }
 \arguments{
 \item{x}{object}
@@ -27,13 +27,13 @@ Checks if something is fixed
 
 Checks if init is fixed.
 
-Checks if initList is fixed.
+Checks if inits is fixed.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{init}: init method
 
-\item \code{initList}: initList method
+\item \code{inits}: inits method
 }}
 
 \keyword{internal}

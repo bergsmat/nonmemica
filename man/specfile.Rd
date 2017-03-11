@@ -2,25 +2,16 @@
 % Please edit documentation in R/path.R
 \name{specfile}
 \alias{specfile}
-\title{Identify the Data Specification File for a Model}
+\title{Identify Specfile}
 \usage{
-specfile(x, find = "\\\\.csv$", use = ".spec", ...)
+specfile(x, ...)
 }
 \arguments{
-\item{x}{the model name}
+\item{x}{object}
 
-\item{find}{file extension to replace}
-
-\item{use}{file extension to use}
-
-\item{...}{pass ext over-ride default file extension in datafile()}
-}
-\value{
-character
+\item{...}{dots}
 }
 \description{
-Identifies the data specification file associated with the datafile used by a model. Identifies the datafile specified in the control stream, and substitutes a different extension.
+Identifies specfile.
 }
-\seealso{
-datafile
-}
+\keyword{internal}

@@ -8,7 +8,7 @@
 fixed.model <- function(x,...){
   i <- initDex(x)
   j <- initSubscripts(x)
-  nms <- as.canonical(x)
+  nms <- nms_canonical(x)
   stopifnot(length(i) == length(j),length(i) == length(nms))
   f <- logical(0)
   for(e in seq_along(nms))f <- append(f,fixed(x[[i[[e]]]][[j[[e]]]]))
@@ -29,7 +29,7 @@ fixed.model <- function(x,...){
   stopifnot(is.logical(value))
   i <- initDex(x)
   j <- initSubscripts(x)
-  nms <- as.canonical(x)
+  nms <- nms_canonical(x)
   stopifnot(length(i) == length(j),length(i) == length(nms))
   stopifnot(length(value) %in% c(1,length(nms)))
   value <- rep(value,length.out=length(nms))
@@ -41,7 +41,7 @@ fixed.model <- function(x,...){
 .getInitDetail.model <- function(x, y, ...){
   i <- initDex(x)
   j <- initSubscripts(x)
-  nms <- as.canonical(x)
+  nms <- nms_canonical(x)
   stopifnot(length(i) == length(j),length(i) == length(nms))
   d <- numeric(0)
   for(e in seq_along(nms))d <- append(d,x[[i[[e]]]][[j[[e]]]][[y]])
@@ -52,7 +52,7 @@ fixed.model <- function(x,...){
 .setInitDetail.model <- function(x, value, y, ...){
   i <- initDex(x)
   j <- initSubscripts(x)
-  nms <- as.canonical(x)
+  nms <- nms_canonical(x)
   stopifnot(length(i) == length(j),length(i) == length(nms), length(i) == length(value))
   for(e in seq_along(value)) x[[i[[e]]]][[j[[e]]]][[y]] <- value[[e]]
   x

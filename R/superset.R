@@ -7,7 +7,7 @@
 #' @param x object
 #' @param ... passed arguments
 #' @export
-as.superset <- function(x,...)UseMethod('as.superset')
+superset <- function(x,...)UseMethod('superset')
 
 #' Coerce to superset from numeric
 #' 
@@ -15,18 +15,16 @@ as.superset <- function(x,...)UseMethod('as.superset')
 #' 
 #' Converts number to character and revisits generic.
 #' 
-#' @inheritParams as.superset
+#' @inheritParams superset
 #' @export
-as.superset.numeric <- function(x,...){
+superset.numeric <- function(x,...){
   y <- as.character(x)
-  as.superset(y)
+  superset(y)
 }
 
 #' Coerce to superset from character
 #' 
-#' Coerces to superset from character.
-#' 
-#' Treats character as a modelname.
+#' Coerces to superset from character, treating \code{x} as a model name.
 #' 
 #' Given a model name, (\code{project} passed or set as global option) superset() figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
 
@@ -42,7 +40,7 @@ as.superset.numeric <- function(x,...){
  
 # Tables created using FIRSTONLY can be summarized by superset if key is provided. Note that when key is provided, innocuous warnings result (e.g. 'nothing to merge') if items are tabled that are already present in the original data set.
 #' 
-#' @inheritParams as.superset
+#' @inheritParams superset
 # @param project parent directory of model directories
 #  @param key the object model for the input data: vector of key column names in hierarchical order (e.g. USUBJID, TIME, CMT)
 #' @param read.input a methodology for acquiring the input
@@ -54,7 +52,7 @@ as.superset.numeric <- function(x,...){
 #' @import utils
 #' @export
 
-as.superset.character <- function(
+superset.character <- function(
   x,
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
   read.output=list(read.table,header=TRUE,as.is=TRUE,skip=1,comment.char='',check.names=FALSE),
@@ -76,7 +74,7 @@ as.superset.character <- function(
   labels <- .nminput(control)
   input <- .read.any(file=datafile,args=read.input)
   stopifnot(nrow(input)==length(dropped))
-  input[as.character(run)] <- as.integer(!dropped)
+  input[as.character(x)] <- as.integer(!dropped)
   if(!length(paths))return(input)
   if(length(labels)>ncol(input))stop('more nonmem aliases than data columns')
   output <- lapply(paths, .read.any, args=read.output)
@@ -90,7 +88,7 @@ as.superset.character <- function(
   output <- lapply(output,.restore,dropped=dropped)#expand
   res <- .superbind(c(list(input),output),exclusive=exclusive,digits=digits)
   rownames(res) <- NULL
-  if(length(visible) == 1) names(res)[names(res) == run] <- visible
+  if(length(visible) == 1) names(res)[names(res) == x] <- visible
   class(res) <- union('superset',class(res))
   res
 }
@@ -222,7 +220,7 @@ ignored <- function(
   seq_along(tables), 
   function(recnum)tryCatch(
     extfile(
-      tables[[recnum]],
+      as.character(tables[[recnum]]),
       dir=rundir,
       extreg='FILE'
     ),
@@ -492,14 +490,14 @@ function (x)
 
 #' Retrieve Model Outputs in Meta Format
 #' 
-#' Retrieves model outputs in meta format. Inputs should have EVID.
+#' Retrieves model outputs in meta format.
 #' 
 #' @param x model name
 #' @param group_by vector of key column names in superset, e.g. USUBJID, TIME
 #' @param meta pre-folded metadata
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
-#' @return meta
+#' @return folded
 #' @import origami
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
@@ -510,12 +508,11 @@ metasuperset <- function(
 #  project = getOption('project', getwd() ),
   group_by, # = c('USUBJID','DATETIME'),
   meta = match.fun('meta')(x,...),
-  # meta = as.definitions(x,...),
   subset,
   ...
 ){
   stopifnot(length(x)==1)
-  y <- x %>% as.superset(...)
+  y <- x %>% superset(...)
   y %<>% as.best('')
   y %<>% filter(VISIBLE==1)
   if(!missing(subset)){
@@ -562,16 +559,84 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' @inheritParams meta
 #' @export
 #' @import spec
+#' @return folded
 meta.character <- function(x,...){
   y <- data.frame()
   z <- data.frame()
   try(y <- x %>% specfile %>% read.spec %>% as.folded)
-  try(z <- x %>% as.definitions %>% as.folded)
+  try(z <- x %>% definitions %>% as.folded)
   res <- bind_rows(y,z)
+  res %<>% as.folded 
   res
 }
 
+#' Fold Numeric
+#' 
+#' Folds numeric, coercing to character
+#' @param x numeric
+#' @param ... passed to \code{fold}
+#' @export
+#' @import origami
+#' @keywords internal
+#' @seealso fold.character
+fold.numeric <- function(x,...)fold(as.character(x),...)
 
+#' Fold Character
+#' 
+#' Folds character, treating \code{x} as a model name.
+#' @param x numeric
+#' @param ... unquoted grouping variables, forwarded to \code{\link{fold_.character}}
+#' @param meta pre-folded metadata
+#' @param subset length-one character: a condition for filtering results, e.g. 'EVID #' @export
+#' @import origami
+#' @import lazyeval
+#' @keywords internal
+fold.character <- function(
+  x,
+  ...,
+  meta,
+  subset
+){
+  fold_.character(
+    x,
+    group_by = dots_capture(...),
+    meta = match.fun('meta')(x,...),
+    subset = subset
+  )
+}
+
+#' Fold Character with Standard Evaluation
+#' 
+#' Folds character (model name) using standard evaluation.
+#' 
+#' @param x character model name
+#' @param ... passed arguments
+#' @param group_by  columns to group by, i.e. key for the model's data (named values will be dropped)
+#' @param meta pre-folded metadata
+#' @param subset length-one character: a condition for filtering results, e.g. 'EVID 
+#' @import origami
+#' @export
+#' @return folded
+
+
+fold_.character <- function(
+  x,
+  ...,
+  group_by,
+  meta = match.fun('meta')(x,...),
+  subset
+){
+  if(length(group_by))group_by <- group_by[is.na(names(group_by)) | names(group_by) == '']
+  
+  metasuperset(
+    x = x,
+    group_by=group_by,
+    meta = meta,
+    subset = subset,
+    ...
+  )
+}
+  
 
 
 

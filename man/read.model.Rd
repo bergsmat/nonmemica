@@ -4,12 +4,12 @@
 \alias{read.model}
 \title{Read model}
 \usage{
-read.model(con, parse = FALSE, ...)
+read.model(con, parse = TRUE, ...)
 }
 \arguments{
 \item{con}{model connection}
 
-\item{parse}{whether to convert thetas to initList objects}
+\item{parse}{whether to convert thetas to inits objects}
 
 \item{...}{dots}
 }

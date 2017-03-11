@@ -67,29 +67,68 @@ modelfile <- function(x, ext = getOption('modex','ctl'), ...)modelpath(x, ext = 
 #' @export
 modeldir <- function(x, ext, ...)modelpath(x, ext = NULL, ...)
 
+
+#' Identify Datafile
+#' 
+#' Identifies datafile.
+#' @param x object
+#' @param ... dots
+#' @export
+#' @keywords internal
+datafile <- function(x,...)UseMethod('datafile')
+
+#' Identify Datafile from Numeric
+#' 
+#' Identifies datafile from numeric.
+#' @param x object
+#' @param ... dots
+#' @export
+#' @keywords internal
+datafile.numeric <- function(x,...)datafile(as.character(x),...)
+
 #' Identify the Datafile for a Model
 #' 
-#' Identifies the datafile used by a model.
-#' 
+#' Identifies the datafile used by a model.#' 
 #' @param x the model name or path to a control stream
 #' @param ... ext can be passed to modelfile, etc.
 #' @return character
 #' @export
 
-datafile <- function(
+datafile.character <- function(
   x,
   ...
 ){
+  ctlfile <- if(file.exists(x)) x else modelfile(x,...)
+  rundir  <- if(file.exists(x)) dirname(x) else modeldir(x,...)
   if(!file.exists(x)) x <- modelfile(x, ...)
-  control <- read.model(x,...)
+  control <- read.model(ctlfile,...)
   dname <- getdname(control)
-  datafile <- resolve(dname,modeldir(x, ...))
+  datafile <- resolve(dname,rundir)
   datafile <- relativizePath(datafile)
   datafile
 }
+
+#' Identify Specfile
+#' 
+#' Identifies specfile.
+#' @param x object
+#' @param ... dots
+#' @export
+#' @keywords internal
+specfile <- function(x,...)UseMethod('specfile')
+
+#' Identify Specfile from Numeric
+#' 
+#' Identifies specfile from numeric.
+#' @param x object
+#' @param ... dots
+#' @export
+#' @keywords internal
+specfile.numeric <- function(x,...)specfile(as.character(x),...)
+
 #' Identify the Data Specification File for a Model
 #' 
-#' Identifies the data specification file associated with the datafile used by a model. Identifies the datafile specified in the control stream, and substitutes a different extension.
+#' Identifies the data specification file associated with the datafile used by a model. Locates the datafile specified in the control stream, and substitutes a different extension.
 #' 
 #' @param x the model name
 #' @param find file extension to replace
@@ -99,13 +138,14 @@ datafile <- function(
 #' @return character
 #' @export
 
-specfile <- function(
+specfile.character <- function(
   x,
   find = '\\.csv$',
   use = '.spec',
   ...
 ){
   datafile <- datafile(x,...)
+  if(!grepl(find,datafile))stop(find, ' not found in ',datafile)
   specfile <- sub(find,use,datafile)
   specfile
 }

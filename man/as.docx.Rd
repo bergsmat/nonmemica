@@ -65,7 +65,7 @@ Returns the object.
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
-1001 \%>\% as.partab \%>\% as.docx \%>\% as.file('1001.docx')
+1001 \%>\% partab \%>\% as.docx \%>\% as.file('1001.docx')
 }
 \seealso{
 \code{link{as.docx.data.frame}}

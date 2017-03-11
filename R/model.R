@@ -45,13 +45,22 @@ function(x,...){
 as.list.model <-
 function(x,...)unclass(x)
 
+#' Coerce to Model from Numeric
+#' 
+#' Coerces to model from numeric by coercing to character.
+#' @param x object
+#' @param ... dots
+#' @export
+#' @keywords internal
+as.model.numeric <- function(x,...)as.model(as.character(x),...)
+
 #' Coerce character to model
 #' Coerces chacter to model.
 #' @inheritParams as.model
 #' @param pattern pattern to identify record declarations
 #' @param head subpattern to identify declaration type
 #' @param tail subpattern remaining
-#' @param parse whether to convert thetas omegas and sigmas to initList and tables to itemList
+#' @param parse whether to convert thetas omegas and sigmas to inits and tables to items
 #' @return list
 #' @describeIn as.model character method
 #' @export
@@ -61,12 +70,13 @@ function(
 	pattern='^\\s*\\$(\\S+)(\\s.*)?$',
 	head='\\1',
 	tail='\\2',
-  parse=FALSE,
+  parse=TRUE,
 	...
 ){
   if(length(x) == 1){
     if(!file.exists(x))x <- modelfile(x,...)
-      x <- read.model(con=x,parse=parse,...)
+    if(!file.exists(x))stop(x, ' does not exist as a file')
+    x <- readLines(x)
   }
   
 	flag <- grepl(pattern,x)
@@ -83,10 +93,10 @@ function(
 	omegas <- names(content)=='omega'
 	sigmas <- names(content)=='sigma'
 	tables <- names(content)=='table'
-	if(parse)content[thetas] <- lapply(content[thetas],as.initList)
-	if(parse)content[omegas] <- lapply(content[omegas],as.initList)
-	if(parse)content[sigmas] <- lapply(content[sigmas],as.initList)
-	if(parse)content[tables] <- lapply(content[tables],as.itemList)
+	if(parse)content[thetas] <- lapply(content[thetas],as.inits)
+	if(parse)content[omegas] <- lapply(content[omegas],as.inits)
+	if(parse)content[sigmas] <- lapply(content[sigmas],as.inits)
+	if(parse)content[tables] <- lapply(content[tables],as.items)
 	content
 }
 
@@ -122,13 +132,13 @@ function(x,...)print(format(x,...))
 #' 
 #' Reads model from a connection.
 #' @param con model connection
-#' @param parse whether to convert thetas to initList objects
+#' @param parse whether to convert thetas to inits objects
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
 read.model <-
-function(con,parse=FALSE,...)as.model(readLines(con),parse=parse,...)
+function(con,parse=TRUE,...)as.model(readLines(con),parse=parse,...)
 
 #' Write model
 #' 
@@ -280,42 +290,42 @@ as.tab.model <- function(x,...){
   y
 }
 
-#' Coerce to itemComments
+#' Extract Comments
 #' 
-#' Coerces to itemComments
+#' Extracts comments.
 #' 
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.itemComments <- function(x,...)UseMethod('as.itemComments')
+comments <- function(x,...)UseMethod('comments')
 
-#' Convert Records to itemComments
+#' Extract Comments from Records
 #' 
-#' Converts Records to itemComments
+#' Extracts comments from records.
 #' 
-#' @inheritParams as.itemComments
+#' @inheritParams comments
 #' @return data.frame
-#' @describeIn as.itemComments record method
+#' @describeIn comments record method
 #' @export
 #' 
-as.itemComments.records <- function(x,...){
+comments.records <- function(x,...){
   y <- list()
   prior <- 0
-  type = class(y)[[1]]
+  type = class(x)[[1]]
   for(i in seq_along(x)){
     this <- x[[i]]
-    y[[i]] <- as.itemComments(this, type=type, prior=prior)
+    y[[i]] <- comments(this, type=type, prior=prior)
     prior <- prior + ord(this)
   }
   y <- do.call(rbind,y)
-  class(y) <- union('itemComments',class(y))
+  class(y) <- union('comments',class(y))
   y
 }
 
-#' Convert Model to itemComments
+#' Extract Comments from Model
 #' 
-#' Converts model to itemComments.
+#' Extracts comments from model.
 #' 
 #' @param x model
 #' @param ... passed arguments
@@ -324,10 +334,10 @@ as.itemComments.records <- function(x,...){
 #' @param na string to use for NA values when writing default metafile
 #' @param tables whether to include table comments
 #' @return data.frame
-#' @describeIn as.itemComments model method
+#' @describeIn comments model method
 #' @export
 #' 
-as.itemComments.model <- function(
+comments.model <- function(
   x,
   fields=c('symbol','unit','label'),
   expected=character(0),
@@ -335,16 +345,16 @@ as.itemComments.model <- function(
   tables=TRUE, 
   ...
 ){
-  t <- x %>% as.theta %>% as.itemComments
-  o <- x %>% as.omega %>% as.itemComments
-  s <- x %>% as.sigma %>% as.itemComments
-  b <- x %>% as.tab   %>% as.itemComments
+  t <- x %>% as.theta %>% comments
+  o <- x %>% as.omega %>% comments
+  s <- x %>% as.sigma %>% comments
+  b <- x %>% as.tab   %>% comments
   y <- rbind(t,o,s)
   if(tables) y <- rbind(y,b)
   y <- cbind(y[,'item',drop=F], .renderComments(
     y$comment,fields=fields, na=na, ...))
   if(length(expected)) y <- data.frame(stringsAsFactors=F,item=expected) %>% left_join(y,by='item')
-  class(y) <- union('itemComments',class(y))
+  class(y) <- union('comments',class(y))
   y
 }
 
@@ -362,22 +372,22 @@ as.itemComments.model <- function(
   .renderComments(x=rem,fields=fields[-1],cumulative=cum, na=na)
 }
 
-#' Convert to itemList
+#' Convert to Items
 #' 
-#' Converts to itemList.
+#' Converts to items.
 #' 
 #' @param x object
 #' @param ... passed arguments
 #' @export
-as.itemList <- function(x,...)UseMethod('as.itemList')
+as.items <- function(x,...)UseMethod('as.items')
 
-#' Convert to itemList from Character
+#' Convert to Items from Character
 #' 
-#' Converts to itemlist from character
-#' @inheritParams as.itemList
-#' @return itemList
+#' Converts to items from character
+#' @inheritParams as.items
+#' @return items
 #' @export
-as.itemList.character <- function(x,...){
+as.items.character <- function(x,...){
   txt <- x
   # for nonmem table items.  'BY' not supported
   x <- sub('FILE *= *[^ ]+','',x) # filename must not contain space
@@ -408,74 +418,73 @@ as.itemList.character <- function(x,...){
     }
   }
   sets <- do.call(c,sets)
-  class(sets) <- c('itemList','list')
+  class(sets) <- c('items','list')
   attr(sets,'text') <- txt
   sets
 }
 
-#' Coerce itemList to Character
+#' Coerce Items to Character
 #' 
-#' Coerces itemList to character.
-#' @param x itemList
+#' Coerces items to character.
+#' @param x items
 #' @param ... dots
 #' @return character
 #' @export
-as.character.itemList <- function(x,...){
+as.character.items <- function(x,...){
   attr(x,'text')
 }
 
-#' Format itemList
+#' Format Items
 #' 
-#' Formats itemList.
-#' @param x itemList
+#' Formats items.
+#' @param x items
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-format.itemList <-function(x,...)as.character(x,...)
+format.items <-function(x,...)as.character(x,...)
 
-#' Print itemList
+#' Print Items
 #' 
-#' Prints itemList.
-#' @param x itemList
+#' Prints items.
+#' @param x items
 #' @param ... dots
 #' @return character
 #' @export
 #' @keywords internal
-print.itemList <-function(x,...)print(format(x,...))
+print.items <-function(x,...)print(format(x,...))
 
-#' Convert itemList to itemComments
+#' Extract Comments from Items
 #' 
-#' Converts itemList to itemComments
+#' Extracts comments from items.
 #' 
-#' @inheritParams as.itemComments
+#' @inheritParams comments
 #' @return data.frame
-#' @describeIn as.itemComments itemList method
+#' @describeIn comments items method
 #' @export
 #' 
 
-as.itemComments.itemList <- function(x, ...){
+comments.items <- function(x, ...){
   item <- sapply(x,as.character)
   comment <- sapply(x,function(i)attr(i,'comment'))
   dex <- cbind(item,comment)
-  class(dex) <- union('itemComments',class(dex))
+  class(dex) <- union('comments',class(dex))
   dex
 }
 
 
-#' Coerce to itemComments from initList
+#' Extract Comments from Inits
 #' 
-#' Coerces to itemComments from initList.
+#' Extracts comments from inits.
 #' 
-#' @inheritParams as.itemComments
-#' @param type item type: theta, omega, sigma (tables give itemList not initList)
+#' @inheritParams comments
+#' @param type item type: theta, omega, sigma (tables give items not inits)
 #' @param prior number of prior items of this type (maybe imporant for numbering)
 #' @return data.frame
-#' @describeIn as.itemComments initList method
+#' @describeIn comments inits method
 #' @export
 #' 
-
-as.itemComments.initList <- function(x, type, prior,...){
+comments.inits <- function(x, type, prior,...){
   block <- attr(x,'block')
   com <- lapply(x,function(i)attr(i,'comment'))
   com <- sapply(com, function(i){ # ensure single string
@@ -495,22 +504,22 @@ as.itemComments.initList <- function(x, type, prior,...){
   if(type %in% c('omega','sigma'))dex$item <- paste(sep='_', dex$item, dex$col)
   dex %<>% rename(comment = x)
   dex %<>% select(item,comment)
-  class(dex) <- union('itemComments',class(dex))
+  class(dex) <- union('comments',class(dex))
   dex
 }
 
-#' Identify the order of an initList
+#' Identify the order of an inits
 #' 
-#' Identifies the order of an initList.
+#' Identifies the order of an inits.
 #' 
 #' Essentially the length of the list, or the length of the diagonal of a matrix (if BLOCK was defined).
-#' @param x initList
+#' @param x inits
 #' @param ... dots
 #' @return numeric
 #' @export
 #' @keywords internal
 
-ord.initList <- function(x,...){
+ord.inits <- function(x,...){
   block <- attr(x,'block')
   len <- length(x)
   if(is.null(block)) return(len)
@@ -518,18 +527,18 @@ ord.initList <- function(x,...){
   return(block)
 }
 
-#' Identify the order of an itemList
+#' Identify the Order of an Items Object
 #' 
-#' Identifies the order of an itemList.
+#' Identifies the order of an items object.
 #' 
 #' Essentially the length of the list
-#' @param x itemList
+#' @param x items
 #' @param ... dots
 #' @return numeric
 #' @export
 #' @keywords internal
 
-ord.itemList <- function(x,...)length(x)
+ord.items <- function(x,...)length(x)
 
 
 #' Identify Indices of Initial Estimates
@@ -559,7 +568,7 @@ initDex.model <- function(x,...){
   c <- c(t,o,s)
   y <- x[c]
   l <- sapply(y,length)
-  parsed <- all(sapply(y,inherits,'initList'))
+  parsed <- all(sapply(y,inherits,'inits'))
   if(!parsed)return(integer(0))
   z <- rep(c,times=l)
   z
@@ -576,7 +585,7 @@ initSubscripts <- function(x,...)UseMethod('initSubscripts')
 
 #' Identify Subscripts of Initial Estimates in model
 #' 
-#' Identifies subscripts of record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each initList in x (canonical order).
+#' Identifies subscripts of record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each inits in x (canonical order).
 
 #' @param x model
 #' @param ... dots
@@ -592,7 +601,7 @@ initSubscripts.model <- function(x,...){
   c <- c(t,o,s)
   y <- x[c]
   l <- sapply(y,length)
-  parsed <- all(sapply(y,inherits,'initList'))
+  parsed <- all(sapply(y,inherits,'inits'))
   if(!parsed)return(integer(0))
   z <- do.call('c',lapply(l,seq_len))
   z <- as.integer(z)
@@ -641,7 +650,7 @@ updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.matrixList <- function(x,...)UseMethod('as.matrixList')
+as.matrices <- function(x,...)UseMethod('as.matrices')
 
 #' Coerce to List of Matrices from Records
 #' 
@@ -650,22 +659,22 @@ as.matrixList <- function(x,...)UseMethod('as.matrixList')
 #' @param ... dots
 #' @export
 #' @keywords internal
-as.matrixList.records <- function(x,...){
-  y <- lapply(x,as.matrixList)
+as.matrices.records <- function(x,...){
+  y <- lapply(x,as.matrices)
   z <- do.call(c,y)
   z
 }
 
-#' Coerce to matrixList from initList
+#' Coerce to Matrices from Inits
 #' 
-#' Coerces to matrixList from initList. Non-block initList is expanded into list of matrices.
+#' Coerces to matrices from inits. Non-block inits is expanded into list of matrices.
 #'
 #' @param x object of dispatch
 #' @param ... dots
-#' @return matrixList
+#' @return matrices
 #' @export
 #' @keywords internal
-as.matrixList.initList <- function(x,...){
+as.matrices.inits <- function(x,...){
   block <- attr(x,'block')
   y <- sapply(x, `[[`, 'init')
   stopifnot(length(y) >= 1)

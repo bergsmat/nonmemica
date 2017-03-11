@@ -11,6 +11,9 @@
 
 \item{...}{passed arguments}
 }
+\value{
+folded
+}
 \description{
 Gets metadata for character, treating it as a model name.
 }

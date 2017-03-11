@@ -2,18 +2,16 @@
 % Please edit documentation in R/path.R
 \name{datafile}
 \alias{datafile}
-\title{Identify the Datafile for a Model}
+\title{Identify Datafile}
 \usage{
 datafile(x, ...)
 }
 \arguments{
-\item{x}{the model name or path to a control stream}
+\item{x}{object}
 
-\item{...}{ext can be passed to modelfile, etc.}
-}
-\value{
-character
+\item{...}{dots}
 }
 \description{
-Identifies the datafile used by a model.
+Identifies datafile.
 }
+\keyword{internal}

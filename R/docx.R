@@ -15,7 +15,7 @@
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
-#' 1001 %>% as.partab %>% as.docx %>% as.file('1001.docx')
+#' 1001 %>% partab %>% as.docx %>% as.file('1001.docx')
 #' @export
 as.docx <- function(x,...)UseMethod('as.docx')
 #' Coerce docx to docx

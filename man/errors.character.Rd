@@ -26,5 +26,5 @@ Gets model asymptotic standard errors in canonical order, treating character as 
 See \code{\link{parameters}} for a less formal interface.
 }
 \seealso{
-as.canonical errors
+nms_canonical errors
 }
