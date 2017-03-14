@@ -4,7 +4,8 @@
 \alias{fold.character}
 \title{Fold Character}
 \usage{
-\method{fold}{character}(x, ..., meta, subset)
+\method{fold}{character}(x, ..., meta = match.fun("meta")(x, ...),
+  simplify = TRUE, sort = TRUE, subset)
 }
 \arguments{
 \item{x}{numeric}
@@ -13,7 +14,11 @@
 
 \item{meta}{pre-folded metadata}
 
-\item{subset}{length-one character: a condition for filtering results, e.g. 'EVID #' @export}
+\item{simplify}{whether to simplify the result}
+
+\item{sort}{whether to sort the result}
+
+\item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 1'}
 }
 \description{
 Folds character, treating \code{x} as a model name.

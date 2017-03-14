@@ -530,9 +530,9 @@ metasuperset <- function(
   meta %<>% filter(VARIABLE %in% targets)
   y %<>% select_(.dots = c(group_by,targets))
   y %<>% group_by_(.dots=group_by) 
-  y %<>% fold
+  y %<>% fold(...)
   y %<>% bind_rows(meta)
-  y %<>% as.folded
+  y %<>% as.folded(...)
   y
 }
 
@@ -587,20 +587,27 @@ fold.numeric <- function(x,...)fold(as.character(x),...)
 #' @param x numeric
 #' @param ... unquoted grouping variables, forwarded to \code{\link{fold_.character}}
 #' @param meta pre-folded metadata
-#' @param subset length-one character: a condition for filtering results, e.g. 'EVID #' @export
+#' @param simplify whether to simplify the result
+#' @param sort whether to sort the result
+#' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
+#' @export
 #' @import origami
 #' @import lazyeval
 #' @keywords internal
 fold.character <- function(
   x,
   ...,
-  meta,
+  meta = match.fun('meta')(x,...),
+  simplify = TRUE,
+  sort = TRUE,
   subset
 ){
   fold_.character(
     x,
     group_by = dots_capture(...),
-    meta = match.fun('meta')(x,...),
+    meta = meta,
+    simplify = simplify,
+    sort = sort,
     subset = subset
   )
 }
@@ -613,7 +620,9 @@ fold.character <- function(
 #' @param ... passed arguments
 #' @param group_by  columns to group by, i.e. key for the model's data (named values will be dropped)
 #' @param meta pre-folded metadata
-#' @param subset length-one character: a condition for filtering results, e.g. 'EVID 
+#' @param simplify whether to simplify the result
+#' @param sort whether to sort the result
+#' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
 #' @import origami
 #' @export
 #' @return folded
@@ -624,6 +633,8 @@ fold_.character <- function(
   ...,
   group_by,
   meta = match.fun('meta')(x,...),
+  simplify = TRUE,
+  sort = TRUE,
   subset
 ){
   if(length(group_by))group_by <- group_by[is.na(names(group_by)) | names(group_by) == '']
@@ -632,6 +643,8 @@ fold_.character <- function(
     x = x,
     group_by=group_by,
     meta = meta,
+    sort = sort,
+    simplify = simplify,
     subset = subset,
     ...
   )

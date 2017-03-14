@@ -5,7 +5,7 @@
 \title{Fold Character with Standard Evaluation}
 \usage{
 \method{fold_}{character}(x, ..., group_by, meta = match.fun("meta")(x, ...),
-  subset)
+  simplify = TRUE, sort = TRUE, subset)
 }
 \arguments{
 \item{x}{character model name}
@@ -16,7 +16,11 @@
 
 \item{meta}{pre-folded metadata}
 
-\item{subset}{length-one character: a condition for filtering results, e.g. 'EVID}
+\item{simplify}{whether to simplify the result}
+
+\item{sort}{whether to sort the result}
+
+\item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 1'}
 }
 \value{
 folded
