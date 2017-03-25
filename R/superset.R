@@ -493,7 +493,7 @@ function (x)
 #' Retrieves model outputs in meta format.
 #' 
 #' @param x model name
-#' @param group_by vector of key column names in superset, e.g. USUBJID, TIME
+#' @param groups vector of key column names in superset, e.g. USUBJID, TIME
 #' @param meta pre-folded metadata
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
@@ -506,7 +506,7 @@ function (x)
 metasuperset <- function(
   x,
 #  project = getOption('project', getwd() ),
-  group_by, # = c('USUBJID','DATETIME'),
+  groups, # = c('USUBJID','DATETIME'),
   meta = match.fun('meta')(x,...),
   subset,
   ...
@@ -528,11 +528,12 @@ metasuperset <- function(
   #   gather(META,VALUE,LABEL,GUIDE)
   targets <- intersect(meta$VARIABLE,names(y))
   meta %<>% filter(VARIABLE %in% targets)
-  y %<>% select_(.dots = c(group_by,targets))
-  y %<>% group_by_(.dots=group_by) 
-  y %<>% fold(...)
-  y %<>% bind_rows(meta)
-  y %<>% as.folded(...)
+  y %<>% select_(.dots = c(groups,targets))
+  # y %<>% group_by_(.dots=group_by) 
+  y %<>% fold(groups = groups, ...)
+  y <-  bind_rows(meta, y)
+  # y %<>% as.folded(...)
+  class(y) <- c('folded','data.frame')
   y
 }
 
@@ -602,9 +603,12 @@ fold.character <- function(
   sort = TRUE,
   subset
 ){
+  args <- dots_capture(...)
+  args <- lapply(args,f_rhs)
+  args <- sapply(args,as.character)
   fold_.character(
     x,
-    group_by = dots_capture(...),
+    groups = args,
     meta = meta,
     simplify = simplify,
     sort = sort,
@@ -618,7 +622,7 @@ fold.character <- function(
 #' 
 #' @param x character model name
 #' @param ... passed arguments
-#' @param group_by  columns to group by, i.e. key for the model's data (named values will be dropped)
+#' @param groups  columns to group by, i.e. key for the model's data (named values will be dropped)
 #' @param meta pre-folded metadata
 #' @param simplify whether to simplify the result
 #' @param sort whether to sort the result
@@ -631,17 +635,17 @@ fold.character <- function(
 fold_.character <- function(
   x,
   ...,
-  group_by,
+  groups,
   meta = match.fun('meta')(x,...),
   simplify = TRUE,
   sort = TRUE,
   subset
 ){
-  if(length(group_by))group_by <- group_by[is.na(names(group_by)) | names(group_by) == '']
-  
+  if(length(groups))groups <- groups[is.na(names(groups)) | names(groups) == '']
+  # need to convert to character
   metasuperset(
     x = x,
-    group_by=group_by,
+    groups=groups,
     meta = meta,
     sort = sort,
     simplify = simplify,
@@ -649,9 +653,57 @@ fold_.character <- function(
     ...
   )
 }
-  
+
+#' Unfold Numeric
+#'
+#' Unfolds numeric by coercing to character.
+#' @param x numeric
+#' @param ... passed arguments
+#' @export
+unfold.numeric <- function(x, ...)unfold(as.character(x),...)
+
+#' Unfold Character
+#'
+#' Unfold by treating character as model name.  A dataset
+#' is constructed by combining the meta version of the model input with a
+#' meta version of the model output and calling unfold with the result.
+#'
+#' @param x character
+#' @param ... passed arguments
+#' @seealso code{fold}
+#' @export
+#'
+unfold.character <- function(x,...){
+  z <- x %>% fold(...)
+  unfold(z,...)
+}
 
 
+#' Metaplot Numeric
+#'
+#' Plots numeric by coercing first to character.
+#' @param x object
+#' @param ... passed arguments
+#' @import metaplot
+#' @export
+metaplot.numeric <- function(x, ...)plot(as.character(x),...)
+
+#' Metaplot Character
+#'
+#' Plots character by treating as model name.  A dataset
+#' is constructed by combining the meta version of the model input with a
+#' meta version of the model output and calling metaplot with the result.
+#'
+#' @param x object
+#' @param ... passed arguments
+#' @import metaplot
+#' @seealso \code{fold}
+#' @export
+#'
+metaplot.character <- function(x,...){
+  z <- x %>% fold(...)
+  metaplot(z, ...)
+}
 
 
 

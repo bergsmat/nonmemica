@@ -18,7 +18,8 @@ Imports:
  csv,
  origami,
  spec,
- lazyeval
+ lazyeval,
+ metaplot
 Suggests:
  ReporteRs,
  pander,

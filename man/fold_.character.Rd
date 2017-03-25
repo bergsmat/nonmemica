@@ -4,7 +4,7 @@
 \alias{fold_.character}
 \title{Fold Character with Standard Evaluation}
 \usage{
-\method{fold_}{character}(x, ..., group_by, meta = match.fun("meta")(x, ...),
+\method{fold_}{character}(x, ..., groups, meta = match.fun("meta")(x, ...),
   simplify = TRUE, sort = TRUE, subset)
 }
 \arguments{
@@ -12,7 +12,7 @@
 
 \item{...}{passed arguments}
 
-\item{group_by}{columns to group by, i.e. key for the model's data (named values will be dropped)}
+\item{groups}{columns to group by, i.e. key for the model's data (named values will be dropped)}
 
 \item{meta}{pre-folded metadata}
 

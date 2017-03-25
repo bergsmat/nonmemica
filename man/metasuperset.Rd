@@ -4,12 +4,12 @@
 \alias{metasuperset}
 \title{Retrieve Model Outputs in Meta Format}
 \usage{
-metasuperset(x, group_by, meta = match.fun("meta")(x, ...), subset, ...)
+metasuperset(x, groups, meta = match.fun("meta")(x, ...), subset, ...)
 }
 \arguments{
 \item{x}{model name}
 
-\item{group_by}{vector of key column names in superset, e.g. USUBJID, TIME}
+\item{groups}{vector of key column names in superset, e.g. USUBJID, TIME}
 
 \item{meta}{pre-folded metadata}
 
