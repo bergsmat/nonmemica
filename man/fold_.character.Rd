@@ -4,13 +4,11 @@
 \alias{fold_.character}
 \title{Fold Character with Standard Evaluation}
 \usage{
-\method{fold_}{character}(x, ..., groups, meta = match.fun("meta")(x, ...),
-  simplify = TRUE, sort = TRUE, subset)
+\method{fold_}{character}(x, groups, meta = match.fun("meta")(x, ...),
+  simplify = TRUE, sort = TRUE, subset, ...)
 }
 \arguments{
 \item{x}{character model name}
-
-\item{...}{passed arguments}
 
 \item{groups}{columns to group by, i.e. key for the model's data (named values will be dropped)}
 
@@ -21,6 +19,8 @@
 \item{sort}{whether to sort the result}
 
 \item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 1'}
+
+\item{...}{passed arguments}
 }
 \value{
 folded

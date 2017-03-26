@@ -505,14 +505,13 @@ function (x)
 
 metasuperset <- function(
   x,
-#  project = getOption('project', getwd() ),
   groups, # = c('USUBJID','DATETIME'),
   meta = match.fun('meta')(x,...),
   subset,
   ...
 ){
   stopifnot(length(x)==1)
-  y <- x %>% superset(...)
+  y <- superset(x,...)
   y %<>% as.best('')
   y %<>% filter(VISIBLE==1)
   if(!missing(subset)){
@@ -527,10 +526,9 @@ metasuperset <- function(
   #   rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
   #   gather(META,VALUE,LABEL,GUIDE)
   targets <- intersect(meta$VARIABLE,names(y))
-  meta %<>% filter(VARIABLE %in% targets)
-  y %<>% select_(.dots = c(groups,targets))
-  # y %<>% group_by_(.dots=group_by) 
-  y %<>% fold(groups = groups, ...)
+  meta <- filter(meta, VARIABLE %in% targets)
+  y <- select_(y, .dots = c(groups,targets))
+  y <- fold_(y, groups = groups, ...)
   y <-  bind_rows(meta, y)
   # y %<>% as.folded(...)
   class(y) <- c('folded','data.frame')
@@ -605,15 +603,19 @@ fold.character <- function(
 ){
   args <- dots_capture(...)
   args <- lapply(args,f_rhs)
-  args <- sapply(args,as.character)
-  fold_.character(
-    x,
-    groups = args,
+  groups <- args[names(args) == '']
+  other  <- args[names(args) != '']
+  groups <- sapply(groups,as.character)
+  have <- list(
+    x = x,
+    groups = groups,
     meta = meta,
     simplify = simplify,
-    sort = sort,
-    subset = subset
+    sort = sort
   )
+  if(!missing(subset))have <- c(have,list(subset = subset))
+  have <- c(have,other)
+  do.call(fold_.character,have)
 }
 
 #' Fold Character with Standard Evaluation
@@ -634,12 +636,12 @@ fold.character <- function(
 
 fold_.character <- function(
   x,
-  ...,
   groups,
   meta = match.fun('meta')(x,...),
   simplify = TRUE,
   sort = TRUE,
-  subset
+  subset,
+  ...
 ){
   if(length(groups))groups <- groups[is.na(names(groups)) | names(groups) == '']
   # need to convert to character
