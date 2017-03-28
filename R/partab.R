@@ -43,10 +43,10 @@ val_name <- function(x, xpath, param, moment,...){
   valpath   <- paste0(tokenpath,'/@name')
   dat <- data.frame(
     stringsAsFactors=FALSE,
-    parameter = x %>% xpath(valpath) %>% padded(2),
-    x = x %>% xpath(tokenpath) %>% as.numeric
+    parameter =  padded(xpath(x,valpath),2),
+    x =  as.numeric(xpath(x,tokenpath))
   )
-  dat %<>% mutate(parameter = paste(sep='_',param,parameter))
+  dat <- mutate(dat,parameter = paste(sep='_',param,parameter))
   names(dat)[names(dat) == 'x'] <- moment
   dat
 }
@@ -62,10 +62,10 @@ val_name <- function(x, xpath, param, moment,...){
 #' @return data.frame
 row_col <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/row/col')
-  dat <- x %>% xpath(tokenpath) %>% as.halfmatrix %>% as.data.frame
-  dat %<>% mutate(parameter = paste(sep='_',param,row %>% padded(2),col %>% padded(2)))
-  dat %<>% mutate(offdiag = as.integer(row != col))
-  dat %<>% select(parameter,x, offdiag)
+  dat <- as.data.frame(as.halfmatrix(xpath(x,tokenpath)))
+  dat <- mutate(dat, parameter = paste(sep='_',param,padded(row,2),padded(col,2)))
+  dat <- mutate(dat, offdiag = as.integer(row != col))
+  dat <- select(dat, parameter,x, offdiag)
   names(dat)[names(dat) == 'x'] <- moment
   dat
 }
@@ -140,22 +140,22 @@ partab.character <- function(
   ...
 ){
   # SCAVENGE XML
-  y <- xmlfile %>% as.xml_document(strip.namespace=strip.namespace,...)
+  y <- as.xml_document(xmlfile, strip.namespace=strip.namespace,...)
   # SCAVENGE BOOTSTRAPS
   args <- list(x = x, skip=skip,check.names=check.names,lo=lo,hi=hi,verbose=verbose)
   if(!missing(bootcsv)) args <- c(args,list(bootcsv=bootcsv))
   args <- c(args,list(...))
   z <- tryCatch(do.call(as.bootstrap,args),error = function(e) if (verbose) e)
-  theta   <- y %>% val_name('theta',  'theta','estimate')
-  thetase <- y %>% val_name('thetase','theta','se')
-  sigma   <- y %>% row_col('sigma',   'sigma','estimate')
-  sigmase <- y %>% row_col('sigmase', 'sigma','se')
-  omega   <- y %>% row_col('omega',   'omega','estimate')
-  omegase <- y %>% row_col('omegase', 'omega','se')
-  theta %<>% left_join(thetase,by='parameter')
-  omega %<>% left_join(omegase,by=c('parameter','offdiag'))
-  sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
-  theta %<>% mutate(offdiag = 0)
+  theta   <- val_name(y, 'theta',  'theta','estimate')
+  thetase <- val_name(y, 'thetase','theta','se')
+  sigma   <- row_col(y, 'sigma',   'sigma','estimate')
+  sigmase <- row_col(y, 'sigmase', 'sigma','se')
+  omega   <- row_col(y, 'omega',   'omega','estimate')
+  omegase <- row_col(y, 'omegase', 'omega','se')
+  theta <- left_join(theta, thetase,by='parameter')
+  omega <- left_join(omega, omegase,by=c('parameter','offdiag'))
+  sigma <- left_join(sigma, sigmase,by=c('parameter','offdiag'))
+  theta <- mutate(theta, offdiag = 0)
   param <- rbind(theta,omega,sigma)
   if(inherits(z,'data.frame')){
     z <- z[-1,] # drop ofv
@@ -170,9 +170,7 @@ partab.character <- function(
         paste(
           paste(
             sep=':',
-            param %>% 
-              filter(offdiag==0) %$% 
-              parameter,
+            filter(param,offdiag==0)$parameter,
             row.names(z)
           ),
           '\n'
@@ -186,40 +184,40 @@ partab.character <- function(
     param$lo <- NA_real_
     param$hi <- NA_real_
   }
-  param %<>% select(-offdiag)
+  param <- select(param, -offdiag)
   if(nonzero){
-    param %<>% filter(!(estimate == 0 & parameter %contains% 'omega|sigma'))
+    param <- filter(param, !(estimate == 0 & parameter %contains% 'omega|sigma'))
   }
   if(relative){
-    param %<>% mutate(se = se / estimate) # rename rse below
+    param <- mutate(param, se = se / estimate) # rename rse below
     if(percent){
-    param %<>% mutate(se = se * 100) # rename prse below
+    param <- mutate(param, se = se * 100) # rename prse below
     }
   }
   if(length(digits)){
-    param %<>% mutate(estimate = estimate %>% signif(digits))
-    param %<>% mutate(se = se %>% signif(digits))
-    param %<>% mutate(lo = lo %>% signif(digits))
-    param %<>% mutate(hi = hi %>% signif(digits))
+    param <- mutate(param, estimate = signif(estimate, digits))
+    param <- mutate(param, se =  signif(se,digits))
+    param <- mutate(param, lo =  signif(lo,digits))
+    param <- mutate(param, hi =  signif(hi,digits))
   }
   if(format){
-    param %<>% mutate(estimate = estimate %>% as.character)
-    param %<>% mutate(se = se %>% as.character)
-    param %<>% mutate(lo = lo %>% as.character)
-    param %<>% mutate(hi = hi %>% as.character)
+    param <- mutate(param, estimate = as.character(estimate))
+    param <- mutate(param, se = as.character(se))
+    param <- mutate(param, lo = as.character(lo))
+    param <- mutate(param, hi = as.character(hi))
   }
-  if(all(is.na(param$lo)) && all(is.na(param$hi))) param %<>% select(-lo,-hi)
+  if(all(is.na(param$lo)) && all(is.na(param$hi))) param <- select(param,-lo,-hi)
   if(ci && 'lo' %in% names(param)){
     blank <- is.na(param$lo) & is.na(param$hi)
-    param %<>% mutate(ci = paste(sep=sep, lo, hi) %>% enclose(open,close))
-    param %<>% select(-lo, -hi)
+    param <- mutate(param, ci = enclose(paste(sep=sep, lo, hi),open,close))
+    param <- select(param, -lo, -hi)
     param$ci[blank] <- ''
   }
-  if(relative && percent) param %<>% rename(prse = se)
-  if(relative && !percent) param %<>% rename(rse = se)
+  if(relative && percent) param <- rename(param,prse = se)
+  if(relative && !percent) param <- rename(param,rse = se)
   meta <- definitions(x, ctlfile=ctlfile,metafile=metafile,...)
-  meta %<>% rename(parameter = item)
-  param %<>% left_join(meta,by='parameter')
+  meta <- rename(meta, parameter = item)
+  param <- left_join(param, meta,by='parameter')
   class(param) <- union('partab', class(param))
   param
 }

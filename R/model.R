@@ -345,15 +345,15 @@ comments.model <- function(
   tables=TRUE, 
   ...
 ){
-  t <- x %>% as.theta %>% comments
-  o <- x %>% as.omega %>% comments
-  s <- x %>% as.sigma %>% comments
-  b <- x %>% as.tab   %>% comments
+  t <-  comments(as.theta(x))
+  o <-  comments(as.omega(x))
+  s <-  comments(as.sigma(x))
+  b <-  comments(as.tab(x))
   y <- rbind(t,o,s)
   if(tables) y <- rbind(y,b)
   y <- cbind(y[,'item',drop=F], .renderComments(
     y$comment,fields=fields, na=na, ...))
-  if(length(expected)) y <- data.frame(stringsAsFactors=F,item=expected) %>% left_join(y,by='item')
+  if(length(expected)) y <- left_join(data.frame(stringsAsFactors=F,item=expected), y, by='item')
   class(y) <- union('comments',class(y))
   y
 }
@@ -399,8 +399,8 @@ as.items.character <- function(x,...){
   )
   for(i in reserved) x <- sub(i,'',x) # remove reserved words
   x <- gsub(' +',' ',x) # remove double spaces
-  x %<>% sub('^ *','',.) # rm leading spaces
-  x %<>% sub(' *$','',.) # rm trailing spaces
+  x <- sub('^ *','',x) # rm leading spaces
+  x <- sub(' *$','',x) # rm trailing spaces
   x <- x[!grepl('^;',x)] # rm pure comments
   x <- x[x!=''] # remove blank lines
   # each line is now a set of items followed by an optional comment that applies to the last item
@@ -502,8 +502,8 @@ comments.inits <- function(x, type, prior,...){
   dex$item <- type
   dex$item <- paste(sep='_',dex$item,dex$row)
   if(type %in% c('omega','sigma'))dex$item <- paste(sep='_', dex$item, dex$col)
-  dex %<>% rename(comment = x)
-  dex %<>% select(item,comment)
+  dex <- rename(dex,comment = x)
+  dex <- select(dex,item,comment)
   class(dex) <- union('comments',class(dex))
   dex
 }
@@ -638,7 +638,7 @@ updated.numeric <- function(x,...)updated(as.character(x),...)
 #' @export
 #' @keywords internal
 updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose=FALSE, ...){
-  y <- x %>% as.model(parse=TRUE,verbose=verbose,...)
+  y <- as.model(x, parse=TRUE,verbose=verbose,...)
   initial(y) <- initial
   y
 }
@@ -678,7 +678,7 @@ as.matrices.inits <- function(x,...){
   block <- attr(x,'block')
   y <- sapply(x, `[[`, 'init')
   stopifnot(length(y) >= 1)
-  if(block != 0) return(y %>% as.halfmatrix %>% as.matrix %>% list)
+  if(block != 0) return(list(as.matrix(as.halfmatrix(y))))
   return(lapply(y,as.matrix))
 }
 

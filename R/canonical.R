@@ -103,31 +103,31 @@ nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE)
 #' @export
 nms_psn.model <- function(x,...){
   comments <- comments(x,tables=FALSE,...)
-  comments %<>% mutate(item = item %>% .canonical2nonmem )
-  comments %<>% mutate(item = if_else(symbol %>% is.na, item, symbol)) # substitute
+  comments <- mutate(comments, item = .canonical2nonmem(item) )
+  comments <- mutate(comments, item = if_else(is.na(symbol), item, symbol)) # substitute
   res <- comments$item
   class(res) <- union('nms_psn',class(res))
   res
 }
 
 .canonical2nonmem <- function(x,...){
-  x %<>% toupper               # uppercase
-  x %<>% gsub( '_0+', '_',  . ) # unpadded indices
-  x %<>%  sub( '_',   '(',  . ) # first underscore (all)
-  x %<>%  sub( '_',   ',',  . ) # second underscore (ranef)
-  x %<>%  sub( '$',   ')',  . ) # close the interval
+  x <- toupper(x)               # uppercase
+  x <- gsub(x, '_0+', '_',  . ) # unpadded indices
+  x <- sub(x,  '_',   '(',  . ) # first underscore (all)
+  x <- sub(x,  '_',   ',',  . ) # second underscore (ranef)
+  x <- sub(x, '$',   ')',  . ) # close the interval
   t <- grepl('^THETA',x)
   x[t] <- gsub('\\(|)','',x[t]) # drop parens
   x
 }
 .nonmem2canonical <- function(x,...){
-  t <- x %>% tolower %>% sub('(^[a-z]+).*', '\\1', .)    # lowercase term, isolated
-  i <- x %>% text2decimal                       # first index
-  r <- x %>% grepl(',',.)                       # random effects are double-indexed
-  j <- x %>% sub('[^,]+','',.) %>% text2decimal # second index
+  t <- sub('(^[a-z]+).*', '\\1', tolower(x))    # lowercase term, isolated
+  i <- text2decimal(x)                      # first index
+  r <- grepl(',',x)                       # random effects are double-indexed
+  j <- text2decimal(sub('[^,]+','',x)) # second index
   j[!r] <- NA                                   # no second index if not ranef
-  i %<>% padded(2)
-  j %<>% padded(2)
+  i <- padded(j,2)
+  j <- padded(j,2)
   d <- ifelse(r, paste(i,j,sep='_'), i)         # one index or two
   o <- paste(t,d,sep='_')
   o
@@ -166,7 +166,7 @@ nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=
 #' @export
 nms_nonmem.model <- function(x,...){
   comments <- comments(x,tables=FALSE,...)
-  comments %<>% mutate(item = item %>% .canonical2nonmem )
+  comments <- mutate(commments,item = .canonical2nonmem(item))
   res <- comments$item
   class(res) <- union('nms_nonmem',class(res))
   res

@@ -97,8 +97,8 @@ superset.character <- function(
   stopifnot(is.data.frame(x),is.logical(dropped))
   if(any(is.na(dropped)))stop('dropped must not contain NA')
   #if(sum(!dropped)!=nrow(x))warning('row count does not match sum of non-dropped')
-  if(nrow(x)%%sum(!dropped)!=0)warning('row count not a multiple of non-dropped')
-  scale <- nrow(x)%/%sum(!dropped)
+  if(nrow(x) %% sum(!dropped)!=0)warning('row count not a multiple of non-dropped')
+  scale <- nrow(x) %/% sum(!dropped)
   dropped <- rep(dropped,scale)
   index <- rep(NA,length(dropped))
   index[!dropped] <- seq_len(nrow(x))
@@ -159,7 +159,7 @@ superset.character <- function(
       message('ignoring table ',i,': expected ', nrow(x),' rows but found ',nrow(y))
       y <- data.frame(row.names=1:nrow(x))
     }else{
-      x <- x[rep(seq_len(nrow(x)),nrow(y)%/% nrow(x)),]
+      x <- x[rep(seq_len(nrow(x)),nrow(y) %/% nrow(x)),]
     }
     stopifnot(nrow(y)==nrow(x))
     analogs <- intersect(names(x),names(y))
@@ -512,8 +512,8 @@ metasuperset <- function(
 ){
   stopifnot(length(x)==1)
   y <- superset(x,...)
-  y %<>% as.best('')
-  y %<>% filter(VISIBLE==1)
+  y <- as.best(y, '')
+  y <- filter(y, VISIBLE==1)
   if(!missing(subset)){
     subset <- as.logical(eval(parse(text=subset), envir=y))
     y <- y[subset,] # y %<>% filter(EVID==0)
@@ -562,10 +562,10 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 meta.character <- function(x,...){
   y <- data.frame()
   z <- data.frame()
-  try(y <- x %>% specfile %>% read.spec %>% as.folded)
-  try(z <- x %>% definitions %>% as.folded)
+  try(y <- as.folded(read.spec(specfile(x))))
+  try(z <- as.folded(definitions(x)))
   res <- bind_rows(y,z)
-  res %<>% as.folded 
+  res <- as.folded(res) 
   res
 }
 
@@ -676,7 +676,7 @@ unfold.numeric <- function(x, ...)unfold(as.character(x),...)
 #' @export
 #'
 unfold.character <- function(x,...){
-  z <- x %>% fold(...)
+  z <- fold(x,...)
   unfold(z,...)
 }
 
@@ -703,7 +703,7 @@ metaplot.numeric <- function(x, ...)plot(as.character(x),...)
 #' @export
 #'
 metaplot.character <- function(x,...){
-  z <- x %>% fold(...)
+  z <- fold(x,...)
   metaplot(z, ...)
 }
 

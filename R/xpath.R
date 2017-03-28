@@ -41,7 +41,7 @@ as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 #' @export
 as.xml_document.character <- function(x,strip.namespace=TRUE,...){
   # x is a model name or a file path
-  if(!file.exists(x)) x %<>% modelpath('xml',...)
+  if(!file.exists(x)) x <- modelpath(x, 'xml',...)
   if(!strip.namespace)return(read_xml(x))
   x <- readLines(x)
   x <- paste(x,collapse=' ')
@@ -86,10 +86,6 @@ xpath.default <- function(x,...)xpath(as.xml_document(x),...)
 #' @return vector
 #' @describeIn xpath xml_document method
 #' @export
-xpath.xml_document <- function(x, xpath,...){
-  x %>%
-    xml_find_all(xpath) %>%
-    xml_text %>%
-    as.best
-}
+xpath.xml_document <- function(x, xpath,...)as.best(xml_text(xml_find_all(x,xpath)))
+  
 

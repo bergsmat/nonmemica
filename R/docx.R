@@ -51,7 +51,8 @@ as.docx.data.frame <- function(
     empty_template = empty_template,
     list.definition = list.definition
   )
-  doc %<>% ReporteRs::addFlexTable(as.flextable(x,...),...)
+  doc <- ReporteRs::addFlexTable(doc, as.flextable(x,...),...)
+  doc
 }
 
 #' Coerce partab to docx
@@ -77,7 +78,7 @@ as.docx.partab <- function(
     list.definition = list.definition
   )
   tab <- as.flextable(x,...)
-  doc %<>% ReporteRs::addFlexTable(tab,...)
+  doc <- ReporteRs::addFlexTable(doc, tab,...)
   doc
 }
 
@@ -154,7 +155,8 @@ as.flextable.partab <- function(
     header.par.props = header.par.props,
     ...
   )
-  y %<>% ReporteRs::setFlexTableBorders(
+  y <- ReporteRs::setFlexTableBorders(
+    y,
     inner.vertical = inner.vertical,
     inner.horizontal = inner.horizontal,
     outer.vertical = outer.vertical,

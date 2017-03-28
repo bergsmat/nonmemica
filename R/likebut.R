@@ -163,10 +163,10 @@ unionRollUp.list <- function(x,...){
 .runlog <- function(x,...){
   stopifnot(length(x) == 1)
   p <- parameters(x,...)
-  p %<>% filter(symbol %in% c('min','cov','like','feature','ofv'))
-  p %<>% tidyr::spread_ ('symbol',x)
-  p %<>% mutate(run = x)
-  p %<>% select(run,like,feature,min,cov,ofv)
+  p <- filter(p, symbol %in% c('min','cov','like','feature','ofv'))
+  p <- tidyr::spread_ (p,'symbol',x)
+  p <- mutate(p, run = x)
+  p <- select(p, run,like,feature,min,cov,ofv)
   p
 }
 
@@ -204,7 +204,7 @@ runlog.character <- function(
   mods <- sapply(x, modelfile, ...)
   x <- x[file.exists(mods)]
   stopifnot(length(x) > 0)
-  if(dependencies) x %<>% depends
+  if(dependencies) x <- depends(x)
   dummy <- data.frame(
     stringsAsFactors = FALSE,
     run = character(0),
@@ -229,7 +229,7 @@ runlog.character <- function(
   )
   r <- lapply(x,safe,digits=digits,places=places,...)
   b <- do.call(bind_rows,r)
-  b %<>% mutate(delta = as.numeric(ofv) - as.numeric(ofv)[match(like,run)])
+  b <- mutate(b, delta = as.numeric(ofv) - as.numeric(ofv)[match(like,run)])
   b
 }
 
@@ -262,9 +262,9 @@ tweak.default <- function(
   ctl <- read.model(path)
   ctl$problem <- paste0('   ',encode::encode(c('like','but'),c(x,'tweaked initials')))
   #set.seed(1)
-  if(is.null(start)) start <- dir(project) %>% as.numeric %>% max(na.rm=TRUE) %>% `+`(1)
+  if(is.null(start)) start <- max(as.numeric(dir(project)),na.rm=TRUE) +1
   for(i in seq(from=start,length.out=n)) dir.create(file.path(project,i))
-  for(i in seq(from=start,length.out=n)) ctl %>% tweak %>% write.model(file.path(project,i,paste(i,ext,sep='.')))
+  for(i in seq(from=start,length.out=n)) write.model(tweak(ctl),file.path(project,i,paste(i,ext,sep='.')))
   out <- seq(from=start,length.out=n)
   for(i in out) 
     for(p in include){
@@ -315,10 +315,10 @@ likebut <- function(
       d <- text2decimal(d)
     }else{
       d <- dir(project)
-      suppressWarnings(d %<>% as.numeric)
+      suppressWarnings(d <- as.numeric(d))
     }
     d <- d[is.defined(d)]
-    d <- d %<>% as.numeric %>% max %>% `+`(1)
+    d <- max(as.numeric(d)) + 1
     d <- padded(d)
     y <- d
   }
@@ -372,10 +372,10 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 #' @return folded
 #' @export
 as.folded.spec <- function(x,...){
-  y <- x %>% select(VARIABLE = column, LABEL = label, GUIDE = guide)
-  y %<>% tidyr::gather(META, VALUE, LABEL, GUIDE)
+  y <- select(x, VARIABLE = column, LABEL = label, GUIDE = guide)
+  y <- tidyr::gather(y, META, VALUE, LABEL, GUIDE)
   class(y) <- 'data.frame'
-  y %<>% as.folded
+  y <- as.folded(y)
   y
 }
 
@@ -388,31 +388,31 @@ as.folded.spec <- function(x,...){
 #' @return folded
 #' @export
 as.folded.definitions <- function(x, parameters = FALSE, ...){
-  y <- x %>% select(VARIABLE = item, LABEL = label, GUIDE = unit)
-  if(!parameters) y %<>% filter(!grepl('theta_|omega_|sigma_',VARIABLE))
-  y %<>% tidyr::gather(META, VALUE, LABEL, GUIDE)
+  y <- select(x,VARIABLE = item, LABEL = label, GUIDE = unit)
+  if(!parameters) y <- filter(y, !grepl('theta_|omega_|sigma_',VARIABLE))
+  y <- tidyr::gather(y, META, VALUE, LABEL, GUIDE)
   class(y) <- 'data.frame'
-  y %<>% as.folded
+  y <- as.folded(y)
   y
 }
 
 .parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)
-  p <- x %>% partab(verbose=F,digits=digits)
+  p <- partab(x, verbose=F,digits=digits)
   # parfile <- paste(sep='/',getOption('project'),x,paste0(x,'.par'))
   if(!'symbol' %in% names(p))stop('symbol not defined in control stream nor *.def')
-  need <- p %>% filter(symbol %>% is.na) %$% parameter
-  if(length(need))warning('symbols undefined for ',need %>% paste(collapse=', '))
-  p %<>% select(symbol,estimate)
+  need <- filter(p, is.na(symbol))$parameter
+  if(length(need))warning('symbols undefined for ', paste(need, collapse=', '))
+  p <- select(p, symbol,estimate)
   p$estimate <- as.character(p$estimate)
-  p %<>% rename(value = estimate)
-  min <- x %>% xpath('//termination_status')
+  p <- rename(p, value = estimate)
+  min <- xpath(x, '//termination_status')
   if(length(min) == 0) min <- NA
-  cov <- x %>% xpath('//covariance_status/@error')
+  cov <- xpath(x, '//covariance_status/@error')
   if(length(cov) == 0) cov <- NA
-  ofv <- x %>% xpath('//final_objective_function') %>% round(digits=places)
+  ofv <- round(dgits=places,xpath(x, '//final_objective_function'))
   if(length(ofv) == 0) ofv <- NA
-  dat <- x %>% datafile
+  dat <- datafile(x)
   if(length(datafile) == 0) datafile <- NA
   like <- like(x,...)
   but <- but(x,...)
@@ -421,7 +421,7 @@ as.folded.definitions <- function(x, parameters = FALSE, ...){
     symbol = c('min','cov','like','ofv','dat','feature'),
     value = c(min,cov,like,ofv,dat,but)
   )
-  p %<>% bind_rows(met)
+  p <- bind_rows(p, met)
   p
 }
 
@@ -456,10 +456,10 @@ parameters.character <- function(x,...){
     y
   }
   m <- lapply(x,run,...)
-  m %<>% bind_rows
-  if(length(x) > 1) m %<>% filter(!symbol %in% c('dat','like','feature'))
-  m %<>% mutate(symbol = factor(symbol,levels=unique(symbol)))
-  m %<>% tidyr::spread(run,value)
+  m <- bind_rows(m)
+  if(length(x) > 1) m <- filter(m, !symbol %in% c('dat','like','feature'))
+  m <- mutate(m, symbol = factor(symbol,levels=unique(symbol)))
+  m <- tidyr::spread(m, run,value)
   m
 }
 
@@ -501,21 +501,21 @@ estimates.character <- function(
   digits = 3,
   ...
 ){
-  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,file = xmlfile,...)
-  theta   <- y %>% val_name('theta',  'theta','estimate')
+  y <- as.xml_document(x, strip.namespace=strip.namespace,verbose=FALSE,file = xmlfile,...)
+  theta   <- val_name(y, 'theta',  'theta','estimate')
 # thetase <- y %>% val_name('thetase','theta','se')
-  sigma   <- y %>% row_col('sigma',   'sigma','estimate')
-# sigmase <- y %>% row_col('sigmase', 'sigma','se')
-  omega   <- y %>% row_col('omega',   'omega','estimate')
+  sigma   <- row_col(y,'sigma',   'sigma','estimate')
+# sigmase <- y %>% row_col(y, 'sigmase', 'sigma','se')
+  omega   <- row_col(y, 'omega',   'omega','estimate')
 # omegase <- y %>% row_col('omegase', 'omega','se')
   # theta %<>% left_join(thetase,by='parameter')
   # omega %<>% left_join(omegase,by=c('parameter','offdiag'))
   # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
-  theta %<>% mutate(offdiag = 0)
+  theta <- mutate(theta, offdiag = 0)
   param <- rbind(theta,omega,sigma)
-  nms <- x %>% nms_canonical
+  nms <- nms_canonical(x)
   res <- with(param, estimate[match(nms,parameter)])
-  res %<>% signif(digits)
+  res <- signif(res, digits)
   res
 }
 
@@ -557,21 +557,21 @@ errors.character <- function(
   digits = 3,
   ...
 ){
-  y <- x %>% as.xml_document(strip.namespace=strip.namespace,verbose=FALSE,file=xmlfile,...)
+  y <- as.xml_document(x, strip.namespace=strip.namespace,verbose=FALSE,file=xmlfile,...)
   # theta   <- y %>% val_name('theta',  'theta','estimate')
-  thetase <- y %>% val_name('thetase','theta','se')
+  thetase <- val_name(y, 'thetase','theta','se')
   # sigma   <- y %>% row_col('sigma',   'sigma','estimate')
-  sigmase <- y %>% row_col('sigmase', 'sigma','se')
+  sigmase <- row_col(y, 'sigmase', 'sigma','se')
   # omega   <- y %>% row_col('omega',   'omega','estimate')
-  omegase <- y %>% row_col('omegase', 'omega','se')
+  omegase <- row_col(y, 'omegase', 'omega','se')
   # theta %<>% left_join(thetase,by='parameter')
   # omega %<>% left_join(omegase,by=c('parameter','offdiag'))
   # sigma %<>% left_join(sigmase,by=c('parameter','offdiag'))
-  thetase %<>% mutate(offdiag = 0)
+  thetase <- mutate(thetase, offdiag = 0)
   param <- rbind(thetase,omegase,sigmase)
-  nms <- x %>% nms_canonical
+  nms <-  nms_canonical(x)
   res <- with(param, se[match(nms,parameter)])
-  res %<>% signif(digits)
+  res <- signif(res,digits)
   res
 }
 

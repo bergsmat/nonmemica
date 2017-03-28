@@ -72,8 +72,7 @@ as.bootstrap.character <- function(
     x <- rev(bootcsv)[[1]] # use last
   }
   if(verbose) message('reading ',x)
-  x <- x %>% 
-    utils::read.csv(skip=skip,check.names=check.names,as.is=TRUE,...)
+  x <- utils::read.csv(x, skip=skip,check.names=check.names,as.is=TRUE,...)
   y <- x
   x <- x[c(1:8),] 
   row.names(x) <- text2decimal(x[,1])

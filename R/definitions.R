@@ -72,11 +72,11 @@ definitions.character <- function(
   
   if(length(ctlfile) == 1 & file.exists(ctlfile)){
     if(verbose)message('searching ',ctlfile)
-    m1 <- ctlfile %>% as.model(parse = TRUE) %>% comments(fields=fields,...)
+    m1 <- comments(as.model(ctlfile,parse=TRUE),fields=fields,...)
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){
     if(verbose)message('searching ',metafile)
-    m2 <- metafile %>% csv::as.csv(...)
+    m2 <- csv::as.csv(metafile, ...)
   }
   y <- full_join(m1,m2,by = intersect(names(m1),names(m2)))
   y <- unique(y)
@@ -84,7 +84,7 @@ definitions.character <- function(
   if(length(dups))warning('found conflicting metadata for ',paste(dups,collapse=', '))
   class(y) <- union('definitions', class(y))
   if(write & length(metafile) == 1) {
-    y %>% csv::as.csv(metafile,...)
+    csv::as.csv(y, metafile,...)
     return(metafile)
   }
   y
