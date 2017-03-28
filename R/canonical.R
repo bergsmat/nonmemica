@@ -112,10 +112,10 @@ nms_psn.model <- function(x,...){
 
 .canonical2nonmem <- function(x,...){
   x <- toupper(x)               # uppercase
-  x <- gsub(x, '_0+', '_',  . ) # unpadded indices
-  x <- sub(x,  '_',   '(',  . ) # first underscore (all)
-  x <- sub(x,  '_',   ',',  . ) # second underscore (ranef)
-  x <- sub(x, '$',   ')',  . ) # close the interval
+  x <- gsub( '_0+', '_',  x ) # unpadded indices
+  x <- sub(  '_',   '(',  x ) # first underscore (all)
+  x <- sub(  '_',   ',',  x ) # second underscore (ranef)
+  x <- sub(  '$',   ')',  x ) # close the interval
   t <- grepl('^THETA',x)
   x[t] <- gsub('\\(|)','',x[t]) # drop parens
   x
@@ -166,7 +166,7 @@ nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=
 #' @export
 nms_nonmem.model <- function(x,...){
   comments <- comments(x,tables=FALSE,...)
-  comments <- mutate(commments,item = .canonical2nonmem(item))
+  comments <- mutate(comments,item = .canonical2nonmem(item))
   res <- comments$item
   class(res) <- union('nms_nonmem',class(res))
   res

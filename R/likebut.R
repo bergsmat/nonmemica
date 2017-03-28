@@ -410,7 +410,7 @@ as.folded.definitions <- function(x, parameters = FALSE, ...){
   if(length(min) == 0) min <- NA
   cov <- xpath(x, '//covariance_status/@error')
   if(length(cov) == 0) cov <- NA
-  ofv <- round(dgits=places,xpath(x, '//final_objective_function'))
+  ofv <- round(digits=places,xpath(x, '//final_objective_function'))
   if(length(ofv) == 0) ofv <- NA
   dat <- datafile(x)
   if(length(datafile) == 0) datafile <- NA
