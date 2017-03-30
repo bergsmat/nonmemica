@@ -368,7 +368,7 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 #' 
 #' @param x spec
 #' @param ... passed arguments
-#' @import origami
+#' @import fold
 #' @return folded
 #' @export
 as.folded.spec <- function(x,...){

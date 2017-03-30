@@ -4,7 +4,7 @@
 \alias{metaplot.character}
 \title{Metaplot Character}
 \usage{
-metaplot.character(x, ...)
+\method{metaplot}{character}(x, ...)
 }
 \arguments{
 \item{x}{object}

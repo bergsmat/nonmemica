@@ -4,7 +4,7 @@
 \alias{metaplot.numeric}
 \title{Metaplot Numeric}
 \usage{
-metaplot.numeric(x, ...)
+\method{metaplot}{numeric}(x, ...)
 }
 \arguments{
 \item{x}{object}

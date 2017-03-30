@@ -15,12 +15,12 @@ Imports:
  xml2,
  encode,
  csv,
- origami,
+ fold,
  spec,
  lazyeval,
- metaplot
+ metaplot,
+ magrittr
 Suggests:
- magrittr,
  ReporteRs,
  pander,
  knitr

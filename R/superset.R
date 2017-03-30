@@ -498,7 +498,7 @@ function (x)
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
 #' @return folded
-#' @import origami
+#' @import fold
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
@@ -575,7 +575,7 @@ meta.character <- function(x,...){
 #' @param x numeric
 #' @param ... passed to \code{fold}
 #' @export
-#' @import origami
+#' @import fold
 #' @keywords internal
 #' @seealso fold.character
 fold.numeric <- function(x,...)fold(as.character(x),...)
@@ -590,7 +590,7 @@ fold.numeric <- function(x,...)fold(as.character(x),...)
 #' @param sort whether to sort the result
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
 #' @export
-#' @import origami
+#' @import fold
 #' @import lazyeval
 #' @keywords internal
 fold.character <- function(
@@ -629,7 +629,7 @@ fold.character <- function(
 #' @param simplify whether to simplify the result
 #' @param sort whether to sort the result
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
-#' @import origami
+#' @import fold
 #' @export
 #' @return folded
 
@@ -688,7 +688,7 @@ unfold.character <- function(x,...){
 #' @param ... passed arguments
 #' @import metaplot
 #' @export
-metaplot.numeric <- function(x, ...)plot(as.character(x),...)
+metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 
 #' Metaplot Character
 #'
