@@ -71,6 +71,7 @@ library(dplyr,warn.conflicts = FALSE)
 1001 \%>\% modelfile
 1001 \%>\% modelpath('xml')
 1001 \%>\% datafile
+datafile(1001) \%matches\% specfile(1001)
 1001 \%>\% specfile
 1001 \%>\% specfile \%>\% read.spec
 1001 \%>\% specfile \%>\% read.spec \%>\% as.folded
@@ -100,6 +101,7 @@ library(dplyr,warn.conflicts = FALSE)
 1001 \%>\% fold(ID,TIME,subset='MDV==0') \%>\% head
 
 # Make diagnostic plots.
+1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%$\% VARIABLE \%>\% unique
 1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(CWRESI, ref = 0)
 1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% 
 metaplot(CWRESI, TAD, SEX, yref=0, alpha = 0.1, ysmooth = TRUE)
