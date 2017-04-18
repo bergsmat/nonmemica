@@ -4,7 +4,8 @@
 \alias{as.character.inits}
 \title{Coerce inits to character}
 \usage{
-\method{as.character}{inits}(x, ...)
+\method{as.character}{inits}(x, pretty = TRUE, sep = ";", delim = " ; ",
+  widths = comwidth(x), ...)
 }
 \arguments{
 \item{x}{inits}

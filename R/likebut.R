@@ -8,7 +8,7 @@ globalVariables(c('column','guide'))
 #' 
 #' @param x character
 #' @param ... passed arguments
-.problem <- function(
+problem_ <- function(
   x,
   ...
 ){
@@ -43,7 +43,7 @@ problem.numeric <- function(x,...)problem(as.character(x))
 #' @inheritParams problem
 #' @return character
 #' @export
-problem.character <- function(x,...)sapply(x,.problem, ...)
+problem.character <- function(x,...)sapply(x,problem_, ...)
 
 #' Identify What Something is Like
 #' 
@@ -363,38 +363,6 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 }
 
 
-#' Coerce to Folded from Spec
-#' Coerces to folded from spec.  Harvests column names, labels and units.  Stacks these in conventional folded format.
-#' 
-#' @param x spec
-#' @param ... passed arguments
-#' @import fold
-#' @return folded
-#' @export
-as.folded.spec <- function(x,...){
-  y <- select(x, VARIABLE = column, LABEL = label, GUIDE = guide)
-  y <- tidyr::gather(y, META, VALUE, LABEL, GUIDE)
-  class(y) <- 'data.frame'
-  y <- as.folded(y)
-  y
-}
-
-#' Coerce to Folded from Definitions
-#' Coerces to folded from definitions  Harvests item, label, and unit for tabled items.  Stacks these in conventional folded format.
-#' 
-#' @param x definitions
-#' @param parameters whether to included parameter metadata
-#' @param ... passed arguments
-#' @return folded
-#' @export
-as.folded.definitions <- function(x, parameters = FALSE, ...){
-  y <- select(x,VARIABLE = item, LABEL = label, GUIDE = unit)
-  if(!parameters) y <- filter(y, !grepl('theta_|omega_|sigma_',VARIABLE))
-  y <- tidyr::gather(y, META, VALUE, LABEL, GUIDE)
-  class(y) <- 'data.frame'
-  y <- as.folded(y)
-  y
-}
 
 .parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)

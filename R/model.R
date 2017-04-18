@@ -19,10 +19,12 @@ function(x,...)UseMethod('as.model')
 #' @return model
 #' @export
 #' @keywords internal
-as.character.model <-
-function(x,...){
+as.character.model <- function(x,...){
 	if(length(x)==0) return(character(0))
-	x[] <- lapply(x,as.character) # to accommodate novel underlying object types
+  meta <- x[sapply(x,inherits,'items') | sapply(x,inherits,'inits')]
+  meta <- lapply(meta, comwidth)
+  widths <- maxWidths(meta)
+	x[] <- lapply(x,as.character,widths = widths) # to accommodate novel underlying object types
 	order <- sapply(x,length)
 	recnums <- 1:length(x)
 	record <- rep(recnums,order)
@@ -421,17 +423,6 @@ as.items.character <- function(x,...){
   class(sets) <- c('items','list')
   attr(sets,'text') <- txt
   sets
-}
-
-#' Coerce Items to Character
-#' 
-#' Coerces items to character.
-#' @param x items
-#' @param ... dots
-#' @return character
-#' @export
-as.character.items <- function(x,...){
-  attr(x,'text')
 }
 
 #' Format Items

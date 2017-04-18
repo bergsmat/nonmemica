@@ -176,14 +176,173 @@ as.inits.list <- function(x,comment=character(0),...){
 #' @return character
 #' @export
 #' @keywords internal
-as.character.inits <- function(x,...){
+as.character.inits <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths = comwidth(x), ...){
+  block <- attr(x, 'block')
   com <- comment(x)
   padded <- attr(x,'padded')
   if(is.null(padded)) padded <- FALSE
-  if(!is.null(com) & com != '') com <- paste(';',com)
+  if(!is.null(com) & com != '') com <- paste(sep,com)
   y <- c(com,unlist(lapply(x,as.character)))
   if(padded) y <- c(y,rep('',padded))
+  if(!is.null(block))if(block) y[[1]] <- paste(y[[1]], paste0('BLOCK',parens(block)))
+  if(pretty) y <- sapply(y,prettycom, widths, sep = sep, delim = delim, ...)
   y
+}
+
+#' Coerce Items to Character
+#' 
+#' Coerces items to character.
+#' @param x items
+#' @param pretty logical
+#' @param sep input delimiter
+#' @param delim output delimiter
+#' @param widths desired widths
+#' @param ... passed arguments
+#' @return character
+#' @export
+as.character.items <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths = comwidth(x), ...){
+  y <- attr(x,'text')
+  if(pretty) y <- sapply(y,prettycom, widths, sep = sep, delim = delim, ...)
+  y
+}
+
+#' Calculate Comment Widths for Items
+#' 
+#' Calculates comment widths for items
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+comwidth.items <- function(x, ...){
+  y <- attr(x,'text')
+  z <- comwidth(y)
+  z
+}
+
+#' Calculate Comment Widths for Inits
+#' 
+#' Calculates comment widths for inits
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+comwidth.inits <- function(x, ...){
+  com <- comment(x)
+  y <- c(com,unlist(lapply(x,as.character)))
+  z <- comwidth(y)
+  z
+}
+
+#' Calculate Comment Widths
+#' Calculates comment widths.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+comwidth <- function(x,...)UseMethod('comwidth')
+
+#' Calculate Comment Widths for Character
+#' 
+#' Calculates comment widths for character.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+comwidth.character <- function(x,...){
+  y <- lapply(x,comwidthOne)
+  w <- maxWidths(y,...)
+  w
+}
+
+#' Calculate Maximum Widths
+#' 
+#' Calculates maximum widths
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+maxWidths <- function(x,...)UseMethod('maxWidths')
+
+#' Calculate Maximum Widths for List
+#' 
+#' Calculates maximum widths for list
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+maxWidths <- function(x,...){
+  maxlen <- max(sapply(x,length))
+  for(i in seq_along(x)){
+    len <- length(x[[i]])
+    for(j in seq_len(maxlen - len)){
+      x[[i]] <- c(x[[i]], 0)
+    }
+  }
+  w <- do.call(cbind,x)
+  w <- apply(w,1,max)
+  w
+}
+
+#' Calculate Comment Widths for One Element
+#' 
+#' Calculates comment widths for one element.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+comwidthOne <- function(x,...)UseMethod('comwidthOne')
+
+#' Calculate Comment Widths for One Element of Character
+#' 
+#' Calculates Comment Widths for one element of character
+#' @param x object
+#' @param ... passed arguments
+#' @param split comment separator
+#' @export
+#' @keywords internal
+comwidthOne.character <- function(x,split = ';', ...){
+  y <- strsplit(x, split = split)[[1]]
+  y <- sub('^\\s+', '', y)
+  y <- sub('\\s+$', '', y)
+  z <- sapply(y, nchar)
+  z <- as.integer(z)
+  z
+}
+
+#' Pretty-print a Comment
+#' 
+#' Pretty-prints a comment.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+prettycom <- function(x, ...)UseMethod('prettycom')
+
+#' Pretty-print a Comment for Character
+#' 
+#' Pretty-prints a comment for character.
+#' @param x ... object
+#' @param widths integer
+#' @param sep input separator
+#' @param delim output separator
+#' @param ... passed arguments
+#' @export
+#' @keywords internal
+prettycom.character <- function(x, widths, sep, delim, ...){
+  stopifnot(length(x) == 1)
+  y <- strsplit(x, sep)[[1]]
+  y <- sub('^\\s+', '', y)
+  y <- sub('\\s+$', '', y)
+  stopifnot(length(widths) >= length(y))
+  for(i in seq_along(y)){
+    have <- nchar(y[[i]])
+    need <- widths[[i]]
+    tail <- rep(' ',need - have)
+    tail <- paste(tail, collapse = '')
+    y[[i]] <- paste0(y[[i]], tail)
+  }
+  z <- paste(y, collapse = delim)
+  z
 }
 
 #' Format inits
