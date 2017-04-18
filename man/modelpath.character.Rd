@@ -14,7 +14,7 @@
 
 \item{project}{project directory}
 
-\item{nested}{whether}
+\item{nested}{whether model files are nested in eponymous directories}
 
 \item{...}{passed arguments}
 }

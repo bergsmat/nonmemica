@@ -42,7 +42,7 @@ docx
 docx
 }
 \description{
-Coerces to docx
+Coerces to docx.
 
 Coerces docx to docx.
 

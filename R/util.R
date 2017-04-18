@@ -7,6 +7,7 @@
 #' @param ... arguments to methods
 #' @seealso \code{\link{\%contains\%}}
 #' @return logical
+#' @export
 #' @examples
 #' contains('a',letters)
 contains <- function(pattern,text,...){
@@ -22,6 +23,7 @@ contains <- function(pattern,text,...){
 #' @param y pattern
 #' @seealso \code{\link{contains}}
 #' @return logical
+#' @export
 #' @examples
 #' letters %contains% 'a'
 `%contains%` <- function(x,y)contains(y,x)
@@ -32,6 +34,7 @@ contains <- function(pattern,text,...){
 #' 
 #' @param x character
 #' @return numeric
+#' @export
 #' @examples
 #' text2decimal('30 mg')
 

@@ -24,8 +24,8 @@
 #' //like/x//but/y// where x is a reference model name and y is a feature
 #' difference from the reference model (see likebut() ).  This allows any 
 #' given model to be described by chaining together its legacy of features
-#' (see runlog() ), which generally works better than trying to exhaustively
-#'  describe it in the model name.
+#' (use runlog(depenencies = TRUE, ...) ), which generally works better than
+#'  trying to describe it exhaustively in the model name.
 #' 
 #' Second, Nonmemica only needs a single output table ($TABLE record). 
 #' Be sure to use ONEHEADER but avoid FIRSTONLY.  Nonmemica will integrate
@@ -37,84 +37,79 @@
 #' For model outputs (tabled items) supply column metadata directly in 
 #' the control stream (or a *.def file; see example and help).
 #' 
-#' @references \url{https://en.wikipedia.org/wiki/NONMEM}
-#' @references \url{http://www.iconplc.com/innovation/nonmem/}
-#' @references \url{https://uupharmacometrics.github.io/PsN/}
-#' @references \url{http://xpose.sourceforge.net/}
-#' @references \url{http://www.pirana-software.com/}
-#' @references \url{http://wfn.sourceforge.net/}
-#' @references \url{https://github.com/MikeKSmith/rspeaksnonmem}
-#' @references \url{https://r-forge.r-project.org/R/?group_id=1215}
-#' 
+#' @references \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
+#' @references \href{http://www.iconplc.com/innovation/nonmem/}{Icon}
+#' @references \href{https://uupharmacometrics.github.io/PsN/}{PsN}
+#' @references \href{http://xpose.sourceforge.net/}{Xpose}
+#' @references \href{http://www.pirana-software.com/}{Pirana}
+#' @references \href{http://wfn.sourceforge.net/}{Wings for NONMEM}
+#' @references \href{https://github.com/MikeKSmith/rspeaksnonmem}{RsN}
+#' @references \href{https://r-forge.r-project.org/R/?group_id=1215}{metrumrg}
 #' @examples
-# Create a working project.
-source <- system.file(package = 'nonmemica','project/model')
-target <- tempdir()
-source
-target
-file.copy(source,target,recursive = TRUE)
-options(project = target)
-
-# Load some packages
-library(magrittr)
-library(fold)
-library(metaplot)
-library(wrangle)
-# library(dplyr, warn.conflicts = F)
-# library(tidyr, warn.conflicts = F)
-# library(nonmemica) # was 0.4.1, now 0.5.2
-# library(csv)
-# library(knitr)
-# (pander)
-# library(lattice)
-# library(origami)
-# library(spec)
-#trellis.par.set(background = list(col = "transparent"))
-
-# Identify features of a model.
-1001 %>% modelpath
-1001 %>% modeldir
-1001 %>% modelfile
-1001 %>% modelpath('xml')
-1001 %>% datafile
-1001 %>% specfile
-1001 %>% specfile %>% read.spec
-1001 %>% specfile %>% read.spec %>% as.folded
-1001 %>% as.model
-1001 %>% as.model %>% comments
-1001 %>% definitions
-1001 %>% runlog(T)
-1001 %>% runlog
-1001 %>% partab
-1001 %>% num_parameters
-1001 %>% nms_canonical
-1001 %>% nms_psn
-1001 %>% nms_nonmem
-1001 %>% parameters
-1001 %>% errors
-1001 %>% as.model %>% initial
-1001 %>% as.model %>% lower
-1001 %>% as.model %>% upper
-1001 %>% as.model %>% fixed
-1001 %>% meta %>% class
-1001 %>% meta
-
-# Derive datasets.
-1001 %>% superset %>% head
-1001 %>% superset %>% group_by(ID,TIME) %>% status
-1001 %>% metasuperset(c('ID','TIME')) %>% head
-1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
-
-# Make diagnostic plots.
-1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(CWRESI, ref=0)
-1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(CWRESI, TAD, SEX, yref=0, alpha = 0.1, ysmooth = TRUE)
-1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, SEX, ref=0)
-1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(SEX, ETA1, ref=0)
-1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, ETA2, ETA3)
-
-# Derive models.
-1001 %>% likebut('duplicated',y = 1002, overwrite=TRUE )
-1001 %>% tweak
+#' # Create a working project.
+#' source <- system.file(package = 'nonmemica','project')
+#' target <- tempdir()
+#' source
+#' target
+#' file.copy(source,target,recursive = TRUE)
+#' project <- file.path(target,'project','model')
+#' project <- gsub('\\\\','/',project)
+#' options(project = project)
+#' 
+#' # Load some packages
+#' library(magrittr)
+#' library(fold)
+#' library(metaplot)
+#' library(wrangle)
+#' library(spec)
+#' 
+#' # Identify features of a model.
+#' 1001 %>% modelpath
+#' 1001 %>% modeldir
+#' 1001 %>% modelfile
+#' 1001 %>% modelpath('xml')
+#' 1001 %>% datafile
+#' 1001 %>% specfile
+#' 1001 %>% specfile %>% read.spec
+#' 1001 %>% specfile %>% read.spec %>% as.folded
+#' 1001 %>% as.model
+#' 1001 %>% as.model %>% comments
+#' 1001 %>% definitions
+#' 1001 %>% runlog(T)
+#' 1001 %>% runlog
+#' 1001 %>% partab
+#' 1001 %>% num_parameters
+#' 1001 %>% nms_canonical
+#' 1001 %>% nms_psn
+#' 1001 %>% nms_nonmem
+#' 1001 %>% parameters
+#' 1001 %>% errors
+#' 1001 %>% as.model %>% initial
+#' 1001 %>% as.model %>% lower
+#' 1001 %>% as.model %>% upper
+#' 1001 %>% as.model %>% fixed
+#' 1001 %>% meta %>% class
+#' 1001 %>% meta
+#' 
+#' # Derive datasets.
+#' 1001 %>% superset %>% head
+#' 1001 %>% superset %>% group_by(ID,TIME) %>% status
+#' 1001 %>% metasuperset(c('ID','TIME')) %>% head
+#' 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
+#' 
+#' # Make diagnostic plots.
+#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(CWRESI, ref=0)
+#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% 
+#' metaplot(CWRESI, TAD, SEX, yref=0, alpha = 0.1, ysmooth = TRUE)
+#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, SEX, ref=0)
+#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(SEX, ETA1, ref=0)
+#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, ETA2, ETA3)
+#' 
+#' # Derive models.
+#' 1001 %>% likebut('revised',y = 1002, overwrite=TRUE )
+#' # At this point, edit 1002.ctl to match whatever 'revised' means.
+#' # Then run it with NONMEM and post-process results as above.
+#' 1001 %>% tweak
 
 #' @docType package
 #' @name nonmemica

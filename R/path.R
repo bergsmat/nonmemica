@@ -25,7 +25,7 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 #' @param x object
 #' @param ext file extension, no leading dot
 #' @param project project directory
-#' @param nested whether 
+#' @param nested whether model files are nested in eponymous directories
 #' @param ... passed arguments
 #' @return character
 #' @export
