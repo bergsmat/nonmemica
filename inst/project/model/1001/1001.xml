@@ -5,12 +5,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2016-12-03T22:57:21.666</nm:start_datetime>
+<nm:start_datetime>2017-04-18T16:40:55.493</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROBLEM    //like/1001//but/2 CMT//
 $INPUT      C ID TIME SEQ=DROP EVID AMT DV SUBJ HOUR HEIGHT WT SEX AGE
             DOSE FED
-$DATA      phase1.csv IGNORE=C
+$DATA      drug.csv IGNORE=C
 $SUBROUTINE ADVAN4 TRANS4
 $PK
  CL=THETA(1)*EXP(ETA(1)) * THETA(6)**SEX * (WT/70)**THETA(7)
@@ -40,13 +40,26 @@ $OMEGA  BLOCK(3)
  .1  ;     IIV_Ka  ; interindividual variability on Ka
 $SIGMA  0.1  ;   ERR_PROP  ; proportional error
  0.1  ;    ERR_ADD  ; additive error
-$ESTIMATION MAXEVAL=9999 PRINT=5 NOABORT METHOD=1 INTER
-            MSFO=./1005.msf
+$ESTIMATION MAXEVAL=9999 PRINT=5 NOABORT METHOD=1 INTER MSFO=mod.msf
 $COVARIANCE PRINT=E
-$TABLE      NOPRINT FILE=1005.tab ONEHEADER ID AMT TIME EVID PRED IPRE
-            CWRES
-$TABLE      NOPRINT FILE=1005par.tab ONEHEADER ID TIME CL Q V2 V3 KA
-            ETA1 ETA2 ETA3
+$TABLE      NOPRINT FILE=mod.tab ONEHEADER ID ;ID;NONMEM subject identifier;
+            AMT ;AMT;dose amount;mg
+            TIME ;TIME;time;h
+            EVID ;EVID;event type;//0/observation//1/dose
+            PRED ;PRED;population prediction;ng/mL
+            IPRE ;IPRED;individual prediction;ng/mL
+            CWRESI ;CWRESI;conditional weighted residual;
+            CIWRESI ;CIWRESI;conditional indvividual weighted residual;
+$TABLE      NOPRINT FILE=mod2.tab ONEHEADER ID ;ID;NONMEM subject identifier;
+            TIME ;TIME;time;h
+            CL ;CLI;posthoc systemic clearance;L/h
+            V2 ;V2I;posthoc systemic volume;L
+            KA ;KAI;posthoc absorption rate;1/h
+            Q ;Q2I;posthoc intercompartmental clearance;1/h
+            V3 ;V3I;posthoc peripheral volume;L
+            ETA1 ;BSV_CL;clearance between-subject variability;
+            ETA2 ;BSV_V2;volume between-subject variability;
+            ETA3 ;BSV_KA;absorption between-subject variability;
 
 ]]></nm:control_stream>
 <nm:nmtran><![CDATA[
@@ -57,10 +70,10 @@ $TABLE      NOPRINT FILE=1005par.tab ONEHEADER ID TIME CL Q V2 V3 KA
 ]]></nm:nmtran>
 <nm:nonmem nm:version='7.3.0'>
 <nm:license_information><![CDATA[
-License Registered to: Pharsight Corporation (Certara)
-Expiration Date:    14 MAR 2017
-Current Date:        3 DEC 2016
-Days until program expires : 106
+License Registered to: Pharsight Corporation (Certara
+Expiration Date:    14 MAR 2018
+Current Date:       18 APR 2017
+Days until program expires : 331
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.3.0
@@ -145,7 +158,7 @@ Days until program expires : 106
  LFORMAT:
  RFORMAT:
 0USER-CHOSEN ITEMS:
- ID AMT TIME EVID IPRE CWRES
+ ID AMT TIME EVID IPRE CWRESI CIWRESI
 0-- TABLE   2 --
  PRINTED:                NO
  HEADER:                YES
@@ -154,7 +167,7 @@ Days until program expires : 106
  LFORMAT:
  RFORMAT:
 0USER-CHOSEN ITEMS:
- ID TIME CL Q V2 V3 KA ETA1 ETA2 ETA3
+ ID TIME CL V2 KA Q V3 ETA1 ETA2 ETA3
 1DOUBLE PRECISION PREDPP VERSION 7.3.0
 
  TWO COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN4)
@@ -195,6 +208,7 @@ Days until program expires : 106
 0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
 ]]></nm:problem_information>
 <nm:estimation nm:number='1' nm:type='0'>
+<nm:parallel_est nm:parafile='/tmp/1170537.1.E5-1650v3.q/parafile.pnm' nm:protocol='MPI' nm:nodes='5'/>
 <nm:table_series>1</nm:table_series>
 <nm:estimation_method>focei</nm:estimation_method>
 <nm:estimation_title>First Order Conditional Estimation with Interaction</nm:estimation_title>
@@ -222,14 +236,14 @@ Days until program expires : 106
 </nm:termination_txtmsg>
 <nm:etabar>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>-6.955409587186739E-004</nm:col>
-<nm:col nm:cname='ETA2'>-5.909935535962299E-004</nm:col>
-<nm:col nm:cname='ETA3'>1.025780422454786E-003</nm:col>
+<nm:col nm:cname='ETA1'>-6.955409587187655E-004</nm:col>
+<nm:col nm:cname='ETA2'>-5.909935535962293E-004</nm:col>
+<nm:col nm:cname='ETA3'>1.025780422454792E-003</nm:col>
 </nm:row>
 </nm:etabar>
 <nm:etabarse>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>7.131158866555908E-002</nm:col>
+<nm:col nm:cname='ETA1'>7.131158866555909E-002</nm:col>
 <nm:col nm:cname='ETA2'>4.696869602608622E-002</nm:col>
 <nm:col nm:cname='ETA3'>3.164714075738675E-002</nm:col>
 </nm:row>
@@ -243,16 +257,16 @@ Days until program expires : 106
 </nm:etabarn>
 <nm:etabarpval>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>0.992217871893718</nm:col>
+<nm:col nm:cname='ETA1'>0.992217871893717</nm:col>
 <nm:col nm:cname='ETA2'>0.989960656007030</nm:col>
 <nm:col nm:cname='ETA3'>0.974142540267391</nm:col>
 </nm:row>
 </nm:etabarpval>
 <nm:etashrink>
 <nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>1.21952725716284</nm:col>
+<nm:col nm:cname='ETA1'>1.21952725716282</nm:col>
 <nm:col nm:cname='ETA2'>2.15085348310329</nm:col>
-<nm:col nm:cname='ETA3'>6.05999904721706</nm:col>
+<nm:col nm:cname='ETA3'>6.05999904721703</nm:col>
 </nm:row>
 </nm:etashrink>
 <nm:ebvshrink>
@@ -268,11 +282,12 @@ Days until program expires : 106
 <nm:col nm:cname='EPS2'>7.05017342804153</nm:col>
 </nm:row>
 </nm:epsshrink>
-<nm:estimation_elapsed_time>2.68</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>1.62</nm:estimation_elapsed_time>
+<nm:parallel_cov nm:parafile='/tmp/1170537.1.E5-1650v3.q/parafile.pnm' nm:protocol='MPI' nm:nodes='5'/>
 <nm:covariance_information><![CDATA[
 ]]></nm:covariance_information>
 <nm:covariance_status nm:error='0' nm:numnegeigenvalues='-1' nm:mineigenvalue='0.000000000000000E+000' nm:maxeigenvalue='0.000000000000000E+000' nm:rms='0.000000000000000E+000'/>
-<nm:covariance_elapsed_time>3.43</nm:covariance_elapsed_time>
+<nm:covariance_elapsed_time>1.31</nm:covariance_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
 <nm:final_objective_function>2405.91625689056</nm:final_objective_function>
 <nm:theta>
@@ -915,6 +930,6 @@ Days until program expires : 106
 </nm:estimation>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2016-12-03T22:57:28.010</nm:stop_datetime>
-<nm:total_cputime>6.294</nm:total_cputime>
+<nm:stop_datetime>2017-04-18T16:40:58.621</nm:stop_datetime>
+<nm:total_cputime>10.577</nm:total_cputime>
 </nm:output>
