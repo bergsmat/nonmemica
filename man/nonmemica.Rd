@@ -53,6 +53,8 @@ target
 file.copy(source,target,recursive = TRUE)
 project <- file.path(target,'project','model')
 project <- gsub('\\\\\\\\','/',project)
+
+# Point project option at working project
 options(project = project)
 
 # Load some packages
@@ -61,6 +63,7 @@ library(fold)
 library(metaplot)
 library(wrangle)
 library(spec)
+library(dplyr,warn.conflicts = FALSE)
 
 # Identify features of a model.
 1001 \%>\% modelpath
@@ -74,7 +77,7 @@ library(spec)
 1001 \%>\% as.model
 1001 \%>\% as.model \%>\% comments
 1001 \%>\% definitions
-1001 \%>\% runlog(T)
+1001 \%>\% runlog(TRUE)
 1001 \%>\% runlog
 1001 \%>\% partab
 1001 \%>\% num_parameters
@@ -97,11 +100,11 @@ library(spec)
 1001 \%>\% fold(ID,TIME,subset='MDV==0') \%>\% head
 
 # Make diagnostic plots.
-1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(CWRESI, ref=0)
+1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(CWRESI, ref = 0)
 1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% 
 metaplot(CWRESI, TAD, SEX, yref=0, alpha = 0.1, ysmooth = TRUE)
-1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(ETA1, SEX, ref=0)
-1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(SEX, ETA1, ref=0)
+1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(ETA1, SEX, ref = 0)
+1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(SEX, ETA1, ref = 0)
 1001 \%>\% fold(ID,TIME,subset='MDV == 0') \%>\% metaplot(ETA1, ETA2, ETA3)
 
 # Derive models.
