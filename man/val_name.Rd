@@ -2,8 +2,7 @@
 % Please edit documentation in R/partab.R
 \name{val_name}
 \alias{val_name}
-\title{Create Model Parameter Table from xml_document
-Creates a model parameter table from xml_document, evaluating the xpath expression and supplying arbitrary names for parameter and moment of parameter.}
+\title{Create Model Parameter Table from Xml_document}
 \usage{
 val_name(x, xpath, param, moment, ...)
 }
@@ -22,6 +21,9 @@ val_name(x, xpath, param, moment, ...)
 data.frame
 }
 \description{
-Create Model Parameter Table from xml_document
-Creates a model parameter table from xml_document, evaluating the xpath expression and supplying arbitrary names for parameter and moment of parameter.
+Creates a model parameter table from xml_document.
+}
+\details{
+The function evaluates the xpath expression, 
+supplying arbitrary names for parameter and moment of parameter.
 }

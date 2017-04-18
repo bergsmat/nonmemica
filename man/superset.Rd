@@ -2,7 +2,7 @@
 % Please edit documentation in R/superset.R
 \name{superset}
 \alias{superset}
-\title{Coerce to superset}
+\title{Coerce to Superset}
 \usage{
 superset(x, ...)
 }

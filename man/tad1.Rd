@@ -3,7 +3,7 @@
 \docType{data}
 \name{tad1}
 \alias{tad1}
-\title{A NONMEM-like dataset}
+\title{A NONMEM-like Dataset}
 \usage{
 data(tad1)
 }

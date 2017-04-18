@@ -2,7 +2,7 @@
 % Please edit documentation in R/canonical.R
 \name{nms_nonmem.model}
 \alias{nms_nonmem.model}
-\title{Generate NONMEM-style Names for model}
+\title{Generate NONMEM-style Names for Model}
 \usage{
 \method{nms_nonmem}{model}(x, ...)
 }

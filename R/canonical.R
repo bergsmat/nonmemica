@@ -52,7 +52,7 @@ nms_canonical.numeric <- function(x,...)nms_canonical(as.character(x,...),...)
 nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 
-#' Generate Canonical Names for model
+#' Generate Canonical Names for Model
 #' 
 #' Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-cae conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
 #' 
@@ -92,7 +92,7 @@ nms_psn.numeric <- function(x,...)nms_psn(as.character(x,...),...)
 #' @export
 nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE),...)
 
-#' Generate PsN-style Names for model
+#' Generate PsN-style Names for Model
 #' 
 #' Generates PsN-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
 #' 
@@ -155,7 +155,7 @@ nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 #' @export
 nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
 
-#' Generate NONMEM-style Names for model
+#' Generate NONMEM-style Names for Model
 #' 
 #' Generates NONMEM-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
 #' 

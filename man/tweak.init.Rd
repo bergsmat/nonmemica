@@ -2,7 +2,7 @@
 % Please edit documentation in R/init.R
 \name{tweak.init}
 \alias{tweak.init}
-\title{Tweak init}
+\title{Tweak Init}
 \usage{
 \method{tweak}{init}(x, sd = 0.13, digits = 3, ...)
 }

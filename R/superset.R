@@ -1,4 +1,4 @@
-#' Coerce to superset
+#' Coerce to Superset
 #' 
 #' Coerces to superset.
 #' 
@@ -9,7 +9,7 @@
 #' @export
 superset <- function(x,...)UseMethod('superset')
 
-#' Coerce to superset from numeric
+#' Coerce to Superset from Numeric
 #' 
 #' Coerces to superset from numeric.
 #' 
@@ -22,7 +22,7 @@ superset.numeric <- function(x,...){
   superset(y)
 }
 
-#' Coerce to superset from character
+#' Coerce to Superset from Character
 #' 
 #' Coerces to superset from character, treating \code{x} as a model name.
 #' 

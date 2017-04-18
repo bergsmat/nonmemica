@@ -2,7 +2,7 @@
 % Please edit documentation in R/likebut.R
 \name{problem.numeric}
 \alias{problem.numeric}
-\title{Identify the Model Problem Statement for Numeric.}
+\title{Identify the Model Problem Statement for Numeric}
 \usage{
 \method{problem}{numeric}(x, ...)
 }

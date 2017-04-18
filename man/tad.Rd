@@ -2,7 +2,7 @@
 % Please edit documentation in R/tad.R
 \name{tad}
 \alias{tad}
-\title{Calculate time since most recent dose.}
+\title{Calculate Time Since Most Recent Dose}
 \usage{
 tad(x, dose = rep(FALSE, length(x)), addl = rep(0, length(x)), ii = rep(0,
   length(x)), index = rep(1, length(x)), pre = TRUE, ...)

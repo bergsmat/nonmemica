@@ -2,7 +2,7 @@
 % Please edit documentation in R/getset.R
 \name{fixed.model}
 \alias{fixed.model}
-\title{Check If model is Fixed}
+\title{Check If Model is Fixed}
 \usage{
 \method{fixed}{model}(x, ...)
 }

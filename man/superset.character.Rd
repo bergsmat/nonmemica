@@ -2,7 +2,7 @@
 % Please edit documentation in R/superset.R
 \name{superset.character}
 \alias{superset.character}
-\title{Coerce to superset from character}
+\title{Coerce to Superset from Character}
 \usage{
 \method{superset}{character}(x, read.input = list(read.csv, header = TRUE,
   as.is = TRUE), read.output = list(read.table, header = TRUE, as.is = TRUE,

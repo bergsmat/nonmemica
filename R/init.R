@@ -606,7 +606,7 @@ as.inits.character <- function(x,...){
   x <- as.init(x,fixed=fixed,comment=comment,...)
   x
 }
-#' Coerce inits to inits
+#' Coerce Inits to Inits
 #' 
 #' Coerces inits to inits
 #' @inheritParams as.inits
@@ -615,7 +615,7 @@ as.inits.character <- function(x,...){
 #' @export
 as.inits.inits <- function(x,...)x
 
-#' Tweak something
+#' Tweak Something
 #' 
 #' Tweaks something.
 #' @param x object
@@ -624,7 +624,7 @@ as.inits.inits <- function(x,...)x
 #' @family tweak
 tweak <- function(x,...)UseMethod('tweak')
 
-#' Tweak init
+#' Tweak Init
 #' 
 #' Tweaks init.
 #' @inheritParams tweak
@@ -654,7 +654,7 @@ tweak.inits <- function(x,sd=0.13,digits=3,...){
 	x[] <- lapply(x,tweak,sd=sd,digits=digits,...)
 	x
 }
-#' Tweak model
+#' Tweak Model
 #' 
 #' Tweaks model.
 #' @inheritParams tweak

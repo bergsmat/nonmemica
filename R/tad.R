@@ -36,7 +36,7 @@ tod <- function(
   z
 }
 
-#' Calculate time since most recent dose.
+#' Calculate Time Since Most Recent Dose
 #'
 #' Calculate time since most recent dose.
 #' @param x a numeric vector of event times
@@ -95,7 +95,7 @@ tad <- function(
   tad
 }
 
-#' A NONMEM-like dataset
+#' A NONMEM-like Dataset
 #'
 #' A dataset showing dose and and observation records for several subjects.
 #' Doses are duplicated across compartments 1 and 2 as for mixed absorption modeling.

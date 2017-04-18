@@ -2,7 +2,7 @@
 % Please edit documentation in R/util.R
 \name{is.defined}
 \alias{is.defined}
-\title{Check Whether elements are Defined.}
+\title{Check Whether Elements are Defined}
 \usage{
 is.defined(x)
 }

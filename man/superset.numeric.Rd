@@ -2,7 +2,7 @@
 % Please edit documentation in R/superset.R
 \name{superset.numeric}
 \alias{superset.numeric}
-\title{Coerce to superset from numeric}
+\title{Coerce to Superset from Numeric}
 \usage{
 \method{superset}{numeric}(x, ...)
 }

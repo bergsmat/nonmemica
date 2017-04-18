@@ -6,7 +6,7 @@ Author: Tim Bergsma
 Maintainer: Tim Bergsma <bergsmat@gmail.com>
 Description: Systematically creates and modifies NONMEM(R) control streams. Harvests
  NONMEM output, builds runlogs, creates derivative data, generates diagnostics.
- NONMEM (ICON plc.) is software for nonlinear mixed effects modeling.
+ See package?nonmemica .  NONMEM (ICON plc.) is software for nonlinear mixed effects modeling.
 License: GPL-3
 LazyData: TRUE
 Imports:

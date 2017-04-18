@@ -28,7 +28,7 @@ problem_ <- function(
 #' @export
 problem <- function(x,...)UseMethod('problem')
 
-#' Identify the Model Problem Statement for Numeric.
+#' Identify the Model Problem Statement for Numeric
 #' 
 #' Identifies the model problem statement for numeric. Coerces to character.
 #' 
@@ -233,7 +233,7 @@ runlog.character <- function(
   b
 }
 
-#' Tweak a Model
+#' Tweak a Model by Default
 #' 
 #' Tweaks a model by jittering initial estimates. Creates a new model directory
 #' in project context and places the model there. Copies helper files as well.
@@ -408,7 +408,7 @@ parameters <- function(x,...)UseMethod('parameters')
 #' @export
 parameters.numeric <- function(x,...)parameters(as.character(x,...))
 
-#' Get Parameters for Character.
+#' Get Parameters for Character
 #' 
 #' Gets parameters, treating character as model names. If x is length one, 
 #' slightly more details are returned such as datafile, reference model, and feature.
@@ -447,7 +447,7 @@ estimates <- function(x,...)UseMethod('estimates')
 #' @export
 estimates.numeric <- function(x,...)estimates(as.character(x,...))
 
-#' Get Estimates for Character.
+#' Get Estimates for Character
 #' 
 #' Gets model parameter estimates in canonical order, treating character as model names. 
 #' See \code{\link{parameters}} for a less formal interface.
@@ -503,7 +503,7 @@ errors <- function(x,...)UseMethod('errors')
 #' @export
 errors.numeric <- function(x,...)errors(as.character(x,...))
 
-#' Get Errors for Character.
+#' Get Errors for Character
 #' 
 #' Gets model asymptotic standard errors in canonical order, treating character as model names. 
 #' See \code{\link{parameters}} for a less formal interface.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/canonical.R
 \name{nms_canonical.model}
 \alias{nms_canonical.model}
-\title{Generate Canonical Names for model}
+\title{Generate Canonical Names for Model}
 \usage{
 \method{nms_canonical}{model}(x, ...)
 }

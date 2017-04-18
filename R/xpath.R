@@ -51,7 +51,7 @@ as.xml_document.character <- function(x,strip.namespace=TRUE,...){
   read_xml(x)
 }
 
-#' Evaluate xpath Expression
+#' Evaluate Xpath Expression
 #'
 #' Evaluates an xpath expression.
 #' 

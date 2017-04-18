@@ -4,7 +4,7 @@
 \alias{xpath}
 \alias{xpath.default}
 \alias{xpath.xml_document}
-\title{Evaluate xpath Expression}
+\title{Evaluate Xpath Expression}
 \usage{
 xpath(x, ...)
 

@@ -1,6 +1,6 @@
 #' Coerce to docx
 #'
-#' Coerces to docx
+#' Coerces to docx.
 #' @param x object of dispatch
 #' @param ... arguments to methods
 #' @param title passed to docx

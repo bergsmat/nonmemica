@@ -2,7 +2,7 @@
 % Please edit documentation in R/init.R
 \name{tweak}
 \alias{tweak}
-\title{Tweak something}
+\title{Tweak Something}
 \usage{
 tweak(x, ...)
 }

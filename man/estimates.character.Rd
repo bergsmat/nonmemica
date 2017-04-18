@@ -2,7 +2,7 @@
 % Please edit documentation in R/likebut.R
 \name{estimates.character}
 \alias{estimates.character}
-\title{Get Estimates for Character.}
+\title{Get Estimates for Character}
 \usage{
 \method{estimates}{character}(x, xmlfile = modelpath(x, ext = "xml", ...),
   strip.namespace = TRUE, digits = 3, ...)

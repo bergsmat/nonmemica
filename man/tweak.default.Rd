@@ -2,7 +2,7 @@
 % Please edit documentation in R/likebut.R
 \name{tweak.default}
 \alias{tweak.default}
-\title{Tweak a Model}
+\title{Tweak a Model by Default}
 \usage{
 \method{tweak}{default}(x, project = getOption("project", getwd()),
   ext = getOption("modex", "ctl"), start = NULL, n = 10,

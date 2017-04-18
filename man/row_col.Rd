@@ -2,8 +2,7 @@
 % Please edit documentation in R/partab.R
 \name{row_col}
 \alias{row_col}
-\title{Create Indexe Model Parameter Table from xml_document
-Creates a model parameter table from xml_document, evaluating the xpath expression, supplying parameter and moment labels, and documenting indices of rows and columns.}
+\title{Create Indexed Model Parameter Table from Xml_document}
 \usage{
 row_col(x, xpath, param, moment, ...)
 }
@@ -22,6 +21,9 @@ row_col(x, xpath, param, moment, ...)
 data.frame
 }
 \description{
-Create Indexe Model Parameter Table from xml_document
-Creates a model parameter table from xml_document, evaluating the xpath expression, supplying parameter and moment labels, and documenting indices of rows and columns.
+Creates a model parameter table from xml_document.
+}
+\details{
+The function evaluates the xpath expression, supplying parameter 
+and moment labels, and documenting indices of rows and columns.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/init.R
 \name{tweak.model}
 \alias{tweak.model}
-\title{Tweak model}
+\title{Tweak Model}
 \usage{
 \method{tweak}{model}(x, sd = 0.13, digits = 3, ...)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/likebut.R
 \name{parameters.character}
 \alias{parameters.character}
-\title{Get Parameters for Character.}
+\title{Get Parameters for Character}
 \usage{
 \method{parameters}{character}(x, ...)
 }

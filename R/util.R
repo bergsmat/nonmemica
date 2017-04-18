@@ -7,8 +7,8 @@
 #' @param ... arguments to methods
 #' @seealso \code{\link{\%contains\%}}
 #' @return logical
-# @examples
-# contains('a',letters)
+#' @examples
+#' contains('a',letters)
 contains <- function(pattern,text,...){
 	hits <- regexpr(pattern,text,...)
 	hits >=0
@@ -22,8 +22,8 @@ contains <- function(pattern,text,...){
 #' @param y pattern
 #' @seealso \code{\link{contains}}
 #' @return logical
-# @examples
-# letters %contains% 'a'
+#' @examples
+#' letters %contains% 'a'
 `%contains%` <- function(x,y)contains(y,x)
 
 #' Convert Text to Decimal
@@ -32,13 +32,13 @@ contains <- function(pattern,text,...){
 #' 
 #' @param x character
 #' @return numeric
-# @examples
-# text2decimal('30 mg')
+#' @examples
+#' text2decimal('30 mg')
 
 `text2decimal` <-
 function (x) as.numeric(sub("^[^0-9.+-]*([0-9.eE+-]+).*$", "\\1", as.character(x)))
 
-#' Check Whether elements are Defined.
+#' Check Whether Elements are Defined
 #'
 #' Checks whether elements are defined.  Inverse of is.na().
 #' 

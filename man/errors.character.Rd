@@ -2,7 +2,7 @@
 % Please edit documentation in R/likebut.R
 \name{errors.character}
 \alias{errors.character}
-\title{Get Errors for Character.}
+\title{Get Errors for Character}
 \usage{
 \method{errors}{character}(x, xmlfile = modelpath(x, ext = "xml", ...),
   strip.namespace = TRUE, digits = 3, ...)

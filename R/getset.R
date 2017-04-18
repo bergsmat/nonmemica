@@ -1,4 +1,4 @@
-#' Check If model is Fixed
+#' Check If Model is Fixed
 #' 
 #' Checks if model is fixed.  Returns a logical vector with element for each init, in canonical order.
 #' @inheritParams fixed

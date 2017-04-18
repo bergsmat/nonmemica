@@ -29,9 +29,12 @@ partab.partab <- function(x,...)x
 #' @export
 partab.numeric  <- function(x,...)partab(as.character(x),...)
 
-#' Create Model Parameter Table from xml_document
-#
-#' Creates a model parameter table from xml_document, evaluating the xpath expression and supplying arbitrary names for parameter and moment of parameter.
+#' Create Model Parameter Table from Xml_document
+#'
+#' Creates a model parameter table from xml_document.
+#' 
+#' The function evaluates the xpath expression, 
+#' supplying arbitrary names for parameter and moment of parameter.
 #' @param x xml_document
 #' @param xpath character
 #' @param param character
@@ -51,9 +54,12 @@ val_name <- function(x, xpath, param, moment,...){
   dat
 }
 
-#' Create Indexe Model Parameter Table from xml_document
-#
-#' Creates a model parameter table from xml_document, evaluating the xpath expression, supplying parameter and moment labels, and documenting indices of rows and columns.
+#' Create Indexed Model Parameter Table from Xml_document
+#'
+#' Creates a model parameter table from xml_document.
+#' 
+#' The function evaluates the xpath expression, supplying parameter 
+#' and moment labels, and documenting indices of rows and columns.
 #' @param x xml_document
 #' @param xpath character
 #' @param param character

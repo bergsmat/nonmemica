@@ -2,7 +2,7 @@
 % Please edit documentation in R/canonical.R
 \name{nms_psn.model}
 \alias{nms_psn.model}
-\title{Generate PsN-style Names for model}
+\title{Generate PsN-style Names for Model}
 \usage{
 \method{nms_psn}{model}(x, ...)
 }
