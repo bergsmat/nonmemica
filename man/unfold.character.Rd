@@ -17,5 +17,5 @@ is constructed by combining the meta version of the model input with a
 meta version of the model output and calling unfold with the result.
 }
 \seealso{
-code{fold}
+\code{fold.character}
 }

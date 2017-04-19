@@ -8,6 +8,8 @@ globalVariables(c('column','guide'))
 #' 
 #' @param x character
 #' @param ... passed arguments
+#' @keywords internal
+#' @export
 problem_ <- function(
   x,
   ...
@@ -26,6 +28,7 @@ problem_ <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 problem <- function(x,...)UseMethod('problem')
 
 #' Identify the Model Problem Statement for Numeric
@@ -34,6 +37,7 @@ problem <- function(x,...)UseMethod('problem')
 #' 
 #' @inheritParams problem
 #' @export
+#' @keywords internal
 problem.numeric <- function(x,...)problem(as.character(x))
 
 #' Identify the Model Problem Statement for Character
@@ -52,6 +56,7 @@ problem.character <- function(x,...)sapply(x,problem_, ...)
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 like <- function(x,...)UseMethod('like')
 
 #' Identify the Relevant Reference Model
@@ -60,6 +65,7 @@ like <- function(x,...)UseMethod('like')
 #' @inheritParams like
 #' @return character
 #' @import encode
+#' @keywords internal
 #' @export
 like.default <- function(x, ...){
   m <- data.frame(
@@ -87,6 +93,7 @@ like.default <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#'@keywords internal
 but <- function(x,...)UseMethod('but')
 
 #' Identify the Distinctive Feature of a Model
@@ -95,6 +102,7 @@ but <- function(x,...)UseMethod('but')
 #' @inheritParams but
 #' @return character
 #' @export
+#'@keywords internal
 but.default <- function(x, ...){
   m <- data.frame(
     stringsAsFactors=F,
@@ -122,6 +130,7 @@ but.default <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#'@keywords internal
 depends <- function(x,...)UseMethod('depends')
 
 dependsOne <- function(x,...){
@@ -176,6 +185,7 @@ unionRollUp.list <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 runlog <- function(x,...)UseMethod('runlog')
 
 #' Create a Runlog for Numeric
@@ -183,6 +193,7 @@ runlog <- function(x,...)UseMethod('runlog')
 #' Creates a runlog for numeric by coercing to character.
 #' @inheritParams runlog
 #' @export
+#' @keywords internal
 runlog.numeric <- function(x,...)runlog(as.character(x),...)
 
 #' Create a Runlog for Character
@@ -287,7 +298,7 @@ tweak.default <- function(
 #' in some fundamental way. 
 #' @param x a model name, presumably interpretable as numeric
 #' @param but a short description of the characteristic difference from x
-#' @param y optional name for model to be created
+#' @param y optional name for model to be created, auto-incremented by default
 #' @param project project directory
 #' @param nested model files nested in run-specific directories
 #' @param overwrite whether to overwrite y if it exists
@@ -343,7 +354,6 @@ likebut <- function(
   write.model(c,modelfile(y, project = project, nested = nested, ext = ext,...))
   y
 }
-padded <- function (x, width = 4, ...)sprintf(glue("%0", width, ".0f"), x)
 relativizePath <- function(x,dir=getwd(),sep='/',...){
   stopifnot(length(x)==1)
   stopifnot(file.info(dir)$isdir)
@@ -399,6 +409,7 @@ relativizePath <- function(x,dir=getwd(),sep='/',...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 parameters <- function(x,...)UseMethod('parameters')
 
 #' Get Parameters for Numeric
@@ -406,6 +417,7 @@ parameters <- function(x,...)UseMethod('parameters')
 #' Gets parameters for numeric by coercing to character.
 #' @inheritParams parameters
 #' @export
+#' @keywords internal
 parameters.numeric <- function(x,...)parameters(as.character(x,...))
 
 #' Get Parameters for Character
@@ -438,6 +450,7 @@ parameters.character <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 estimates <- function(x,...)UseMethod('estimates')
 
 #' Get Estimates for Numeric
@@ -445,6 +458,7 @@ estimates <- function(x,...)UseMethod('estimates')
 #' Gets estimates for numeric by coercing to character.
 #' @inheritParams estimates
 #' @export
+#' @keywords internal
 estimates.numeric <- function(x,...)estimates(as.character(x,...))
 
 #' Get Estimates for Character
@@ -493,7 +507,8 @@ estimates.character <- function(
 #' Gets errors.
 #' @param x object
 #' @param ... passed arguments
-#' @export
+#' @export 
+#' @keywords internal
 errors <- function(x,...)UseMethod('errors')
 
 #' Get Errors for Numeric
@@ -501,6 +516,7 @@ errors <- function(x,...)UseMethod('errors')
 #' Gets errors for numeric by coercing to character.
 #' @inheritParams errors
 #' @export
+#' @keywords internal
 errors.numeric <- function(x,...)errors(as.character(x,...))
 
 #' Get Errors for Character

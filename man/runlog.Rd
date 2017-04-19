@@ -14,3 +14,4 @@ runlog(x, ...)
 \description{
 Creates a runlog.
 }
+\keyword{internal}

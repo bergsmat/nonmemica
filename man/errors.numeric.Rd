@@ -14,3 +14,4 @@
 \description{
 Gets errors for numeric by coercing to character.
 }
+\keyword{internal}

@@ -27,3 +27,4 @@ Creates a model parameter table from xml_document.
 The function evaluates the xpath expression, 
 supplying arbitrary names for parameter and moment of parameter.
 }
+\keyword{internal}

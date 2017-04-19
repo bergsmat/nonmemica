@@ -3,14 +3,11 @@
 \name{partab}
 \alias{partab}
 \alias{partab.partab}
-\alias{partab.numeric}
 \title{Create Parameter Table}
 \usage{
 partab(x, ...)
 
 \method{partab}{partab}(x, ...)
-
-\method{partab}{numeric}(x, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -21,21 +18,15 @@ partab(x, ...)
 Creates a parameter table.
 
 Creates a model parameter table from a partab object.
-
-Creates a model parameter table from a number.
 }
 \details{
 x can be numeric or character model name, assuming project is identified by argument or option.
 
 Just returns the object unmodified.
-
-Just coerces to character and calls partab again.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{partab}: partab method
-
-\item \code{numeric}: numeric method
 }}
 
 \seealso{

@@ -19,3 +19,4 @@ character
 \description{
 Pad a numeric vector with leading zeros.
 }
+\keyword{internal}

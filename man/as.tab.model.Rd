@@ -17,3 +17,4 @@ tab (subset of model)
 \description{
 Extracts tables from model.
 }
+\keyword{internal}

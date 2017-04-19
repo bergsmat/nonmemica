@@ -14,3 +14,4 @@ upper(x, ...)
 \description{
 Gets upper Value.
 }
+\keyword{internal}

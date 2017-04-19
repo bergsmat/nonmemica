@@ -1,5 +1,8 @@
 #' Create and Evaluate NONMEM Models in a Project Context
 #' 
+#' Nonmemica (pronounced like 'America') creates and evaluates NONMEM
+#' models in a project context.
+#' 
 #' NONMEM (Icon plc.) is software for nonlinear mixed effects modeling.
 #' The foundational interface is a text file (control stream, typ. *.mod 
 #' or *.ctl) that specifies model input, structure, and output. There are
@@ -9,15 +12,17 @@
 #' 
 #' Nonmemica streamlines interactions with NONMEM. It adopts some
 #' established conventions and techniques (e.g. from PsN and metrumrg), but 
-#' introduces others that may be useful.
+#' introduces others that may be useful. Principally, it parses existing 
+#' control streams for systematic analysis and alteration. Relatively simple,
+#' single-problem control streams are supported; see the example.
 #' 
 #' Of course, NONMEM itself is licensed software that must be installed
 #' independently.  Nonmemica is largely indifferent to how NONMEM is 
 #' installed or invoked. However, several features depend on the *.xml 
-#' output that NONMEM creates. Also, the best-supported directory structure 
-#' is that which has numbers for model names, with all model-specific files 
-#' in a like-named subdirectory of a "project" directory. An example is 
-#' given below.
+#' output that NONMEM creates; make sure it is available. Also, the 
+#' best-supported directory structure is that which has numbers for 
+#' model names, with all model-specific files in eponymous subdirectories
+#' of a "project" directory. An example is given below.
 #' 
 #' Nonmemica adopts three control stream encoding conventions that merit
 #' special mention. First, the problem statement is encoded in the form
@@ -36,6 +41,21 @@
 #' inputs, use package spec to store column metadata in a companion file.
 #' For model outputs (tabled items) supply column metadata directly in 
 #' the control stream (or a *.def file; see example and help).
+#' 
+#' Nonmemica supports three global options: 'project' (default getwd() ) 
+#' is the parent directory of model-specific files or directories; 
+#' 'nested' (default TRUE) tells whether model-specific files are nested 
+#' within eponymous directories; 'modex' (default 'ctl') gives the file 
+#' extension for control streams.  In many cases you can pass these 
+#' options to the relevant functions; but since they likely won't change
+#' for the scope of a given project, it saves effort to set them as global 
+#' options (if they differ from the defaults) using e.g. options(project=).
+#' 
+#' Numbers make good names for models because it is never hard for you
+#' or the software to think of a new one.  That said, model names are
+#' typically processed as character in Nonmemica.  There are many generic
+#' functions with both numeric and character methods that simply assume
+#' the (length-one) argument you supply is a model name.
 #' 
 #' @references \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
 #' @references \href{http://www.iconplc.com/innovation/nonmem/}{Icon}
@@ -114,6 +134,8 @@
 #' 1001 %>% likebut('revised',y = 1002, overwrite=TRUE )
 #' # At this point, edit 1002.ctl to match whatever 'revised' means.
 #' # Then run it with NONMEM and post-process results as above.
+#' 
+#' # Make ten new models with slightly different initial estimates.
 #' 1001 %>% tweak
 
 #' @docType package

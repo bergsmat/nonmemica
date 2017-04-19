@@ -17,3 +17,4 @@ omega (subset of model)
 \description{
 Extracts omegas from model.
 }
+\keyword{internal}

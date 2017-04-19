@@ -17,3 +17,4 @@ character
 \description{
 Resolves a path to a model-related file, coercing \code{x} to character.
 }
+\keyword{internal}

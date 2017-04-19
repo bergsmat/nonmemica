@@ -25,9 +25,9 @@ partab.partab <- function(x,...)x
 #' 
 #' Just coerces to character and calls partab again.
 #' @inheritParams partab
-#' @describeIn partab numeric method
+#' @keywords internal
 #' @export
-partab.numeric  <- function(x,...)partab(as.character(x),...)
+partab.numeric <- function(x,...)partab(as.character(x),...)
 
 #' Create Model Parameter Table from Xml_document
 #'
@@ -41,6 +41,8 @@ partab.numeric  <- function(x,...)partab(as.character(x),...)
 #' @param moment character
 #' @param ... passed arguments
 #' @return data.frame
+#' @export
+#' @keywords internal
 val_name <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/val')
   valpath   <- paste0(tokenpath,'/@name')
@@ -66,6 +68,8 @@ val_name <- function(x, xpath, param, moment,...){
 #' @param moment character
 #' @param ... passed arguments
 #' @return data.frame
+#' @export
+#' @keywords internal
 row_col <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/row/col')
   dat <- as.data.frame(as.halfmatrix(xpath(x,tokenpath)))

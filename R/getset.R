@@ -65,6 +65,7 @@ fixed.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @keywords internal
 lower <- function(x,...)UseMethod('lower')
 
 #' Get Lower Bounds for Model Initial Estimates
@@ -82,6 +83,7 @@ lower.model <- function(x,...).getInitDetail(x,y='low',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @keywords internal
 `lower<-` <- function(x, value)UseMethod('lower<-')
 
 #' Set Lower Bounds for Model Initial Estimates
@@ -101,6 +103,7 @@ lower.model <- function(x,...).getInitDetail(x,y='low',...)
 #' @param ... dots
 # @describeIn getset get upper generic
 #' @export
+#' @keywords internal
 upper <- function(x,...)UseMethod('upper')
 
 #' Get Upper Bounds for Model Initial Estimates
@@ -118,6 +121,7 @@ upper.model <- function(x,...).getInitDetail(x,y='up',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @keywords internal
 `upper<-` <- function(x, value)UseMethod('upper<-')
 
 #' Set Upper Bounds for Model Initial Estimates
@@ -136,6 +140,7 @@ upper.model <- function(x,...).getInitDetail(x,y='up',...)
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @keywords internal
 initial <- function(x,...)UseMethod('initial')
 
 #' Get Model Initial Estimates
@@ -153,6 +158,7 @@ initial.model <- function(x,...).getInitDetail(x,y = 'init',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @keywords internal
 `initial<-` <- function(x, value)UseMethod('initial<-')
 
 #' Set Upper Bounds for Model Initial Estimates

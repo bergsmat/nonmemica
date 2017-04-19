@@ -34,6 +34,7 @@ function(x,...){
 #' Generates canonical names.
 #' @param x object of dispatch
 #' @param ... passed arguments
+#' @keywords internal
 #' @export
 nms_canonical <- function(x,...)UseMethod('nms_canonical')
 
@@ -42,6 +43,7 @@ nms_canonical <- function(x,...)UseMethod('nms_canonical')
 #' Generates canonical names for numeric by coercing to character.
 #' @inheritParams nms_canonical
 #' @export
+#' @keywords internal
 nms_canonical.numeric <- function(x,...)nms_canonical(as.character(x,...),...)
 
 #' Generate Canonical Names for Character
@@ -54,7 +56,7 @@ nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,ve
 
 #' Generate Canonical Names for Model
 #' 
-#' Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-cae conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
+#' Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-case conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
 #' 
 #' @param x a model designator
 #' @param ... passed arguments
@@ -75,6 +77,7 @@ nms_canonical.model <- function(x,...){
 #' Generates PsN-style names.
 #' @param x object of dispatch
 #' @param ... passed arguments
+#' @keywords internal
 #' @export
 nms_psn <- function(x,...)UseMethod('nms_psn')
 
@@ -83,6 +86,7 @@ nms_psn <- function(x,...)UseMethod('nms_psn')
 #' Generates PsN-style names for numeric by coercing to character.
 #' @inheritParams nms_psn
 #' @export
+#' @keywords internal
 nms_psn.numeric <- function(x,...)nms_psn(as.character(x,...),...)
 
 #' Generate PsN-style Names for Character
@@ -138,6 +142,7 @@ nms_psn.model <- function(x,...){
 #' Generates NONMEM-style names.
 #' @param x object of dispatch
 #' @param ... passed arguments
+#' @keywords internal
 #' @export
 nms_nonmem <- function(x,...)UseMethod('nms_nonmem')
 
@@ -146,6 +151,7 @@ nms_nonmem <- function(x,...)UseMethod('nms_nonmem')
 #' Generates NONMEM-style names for numeric by coercing to character.
 #' @inheritParams nms_nonmem
 #' @export
+#' @keywords internal
 nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 
 #' Generate NONMEM-style Names for Character

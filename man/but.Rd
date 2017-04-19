@@ -14,3 +14,4 @@ but(x, ...)
 \description{
 Identifies a distinctive feature of an object.
 }
+\keyword{internal}

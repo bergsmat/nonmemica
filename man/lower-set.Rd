@@ -14,3 +14,4 @@ lower(x) <- value
 \description{
 Sets lower Value.
 }
+\keyword{internal}

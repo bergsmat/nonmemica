@@ -21,3 +21,4 @@ character
 \description{
 Enclose in arbitrary characters
 }
+\keyword{internal}

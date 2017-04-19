@@ -14,3 +14,4 @@
 \description{
 Unfolds numeric by coercing to character.
 }
+\keyword{internal}

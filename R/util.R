@@ -8,6 +8,7 @@
 #' @seealso \code{\link{\%contains\%}}
 #' @return logical
 #' @export
+#' @keywords internal
 #' @examples
 #' contains('a',letters)
 contains <- function(pattern,text,...){
@@ -24,6 +25,7 @@ contains <- function(pattern,text,...){
 #' @seealso \code{\link{contains}}
 #' @return logical
 #' @export
+#' @keywords internal
 #' @examples
 #' letters %contains% 'a'
 `%contains%` <- function(x,y)contains(y,x)
@@ -35,6 +37,7 @@ contains <- function(pattern,text,...){
 #' @param x character
 #' @return numeric
 #' @export
+#' @keywords internal
 #' @examples
 #' text2decimal('30 mg')
 
@@ -50,6 +53,7 @@ function (x) as.numeric(sub("^[^0-9.+-]*([0-9.eE+-]+).*$", "\\1", as.character(x
 #' @examples
 #' is.defined(c(1,NA,2))
 #' @export
+#' @keywords internal
 
 is.defined <- function(x)!is.na(x)
 
@@ -59,6 +63,7 @@ is.defined <- function(x)!is.na(x)
 #' @param x vector
 #' @param y vector
 #' @return list: unique x, unique y, and intersection
+#' @keywords internal
 #' @examples
 #' pool(1:3,2:4)
 
@@ -71,9 +76,10 @@ pool <- function(x,y)list(x=setdiff(x,y),y=setdiff(y,x),both=intersect(x,y))
 #' @param x vector
 #' @param ... dots
 #' @return character
-
+#' @keywords internal
 #' @export
 parens <- function(x,...)paste0('(',x,')')
+
 #' Enclose in Arbitrary Characters
 #' 
 #' Enclose in arbitrary characters
@@ -82,6 +88,7 @@ parens <- function(x,...)paste0('(',x,')')
 #' @param close close string
 #' @param ... dots
 #' @return character
+#' @keywords internal
 #' @export
 enclose <- function(x,open,close,...)paste0(open,x,close)
 
@@ -92,10 +99,10 @@ enclose <- function(x,open,close,...)paste0(open,x,close)
 #' @param width desired number of characters
 #' @param ... ignored
 #' @return character
-
+#' @keywords internal
 #' @export
 #' 
-padded<-function (x, width = 4, ...) 
+padded <- function (x, width = 4, ...) 
   sprintf(paste0("%0", width, ".0f"), x)
 
 #' Convert to Best of Numeric or Character
@@ -107,6 +114,7 @@ padded<-function (x, width = 4, ...)
 #' @param ... passed to other methods
 #' @param prefix character to prepend to values in mixed numeric/character columns
 #' @param na.strings strings to treat as NA
+#' @keywords internal
 #' @export
 as.best <- function(x,...)UseMethod('as.best')
 
@@ -159,6 +167,7 @@ as.best.default <-
 #' Finds postions in a vector that differ from previous.  First position is defined TRUE.
 #' @param x vector
 #' @return logical
+#' @keywords internal
 #' @export
 `runhead` <-
   function(x){#not like last observation

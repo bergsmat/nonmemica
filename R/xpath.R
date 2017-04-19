@@ -26,7 +26,7 @@ as.xml_document.xml_document <- function(x,...)x
 #' Coerces numeric to xml_document
 #' @inheritParams as.xml_document
 #' @return xml_document
-#' @describeIn as.xml_document numeric method
+#' @keywords internal
 #' @export
 as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 

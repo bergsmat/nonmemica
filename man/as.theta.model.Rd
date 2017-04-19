@@ -17,3 +17,4 @@ theta (subset of model)
 \description{
 Extracts thetas from model.
 }
+\keyword{internal}

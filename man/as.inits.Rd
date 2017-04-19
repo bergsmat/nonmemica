@@ -3,7 +3,6 @@
 \name{as.inits}
 \alias{as.inits}
 \alias{as.inits.list}
-\alias{as.inits.numeric}
 \alias{as.inits.character}
 \alias{as.inits.inits}
 \title{Coerce to inits}
@@ -11,8 +10,6 @@
 as.inits(x, ...)
 
 \method{as.inits}{list}(x, comment = character(0), ...)
-
-\method{as.inits}{numeric}(x, fixed = FALSE, comment = character(0), ...)
 
 \method{as.inits}{character}(x, ...)
 
@@ -24,14 +21,8 @@ as.inits(x, ...)
 \item{...}{dots}
 
 \item{comment}{character}
-
-\item{fixed}{logical}
-
-\item{comment}{character}
 }
 \value{
-inits
-
 inits
 
 inits
@@ -43,8 +34,6 @@ Coerces to inits.
 
 Coerces list to inits.
 
-Coerces numeric to inits
-
 Coerces character to inits.
 
 Coerces inits to inits
@@ -52,8 +41,6 @@ Coerces inits to inits
 \section{Methods (by class)}{
 \itemize{
 \item \code{list}: list method
-
-\item \code{numeric}: numeric method
 
 \item \code{character}: character method
 

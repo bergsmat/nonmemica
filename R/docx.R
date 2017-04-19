@@ -172,6 +172,7 @@ as.flextable.partab <- function(
 #' @param x object
 #' @param ... passed to methods
 #' @export
+#' @keywords internal
 as.file <- function(x,...)UseMethod('as.file')
 
 #' Coerce docx to File

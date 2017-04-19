@@ -18,3 +18,4 @@ Tweaks something.
 Other tweak: \code{\link{tweak.inits}},
   \code{\link{tweak.init}}, \code{\link{tweak.model}}
 }
+\keyword{internal}

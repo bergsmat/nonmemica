@@ -14,3 +14,4 @@ estimates(x, ...)
 \description{
 Gets estimates
 }
+\keyword{internal}

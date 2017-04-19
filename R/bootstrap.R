@@ -6,6 +6,7 @@
 #' @param ... arguments to methods
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @export
+#' @keywords internal
 #' @return data.frame
 #' @examples
 #' library(magrittr)
@@ -29,7 +30,7 @@ as.bootstrap.bootstrap <- function(x,...)x
 #' 
 #' @inheritParams as.bootstrap
 #' @return data.frame
-#' @describeIn as.bootstrap numeric method
+#' @keywords internal
 #' @export
 as.bootstrap.numeric  <- function(x,...)as.bootstrap(as.character(x),...)
 

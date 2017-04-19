@@ -14,3 +14,4 @@ nms_nonmem(x, ...)
 \description{
 Generates NONMEM-style names.
 }
+\keyword{internal}

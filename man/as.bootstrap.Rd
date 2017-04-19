@@ -3,15 +3,12 @@
 \name{as.bootstrap}
 \alias{as.bootstrap}
 \alias{as.bootstrap.bootstrap}
-\alias{as.bootstrap.numeric}
 \alias{as.bootstrap.character}
 \title{Create a Bootstrap Table}
 \usage{
 as.bootstrap(x, ...)
 
 \method{as.bootstrap}{bootstrap}(x, ...)
-
-\method{as.bootstrap}{numeric}(x, ...)
 
 \method{as.bootstrap}{character}(x, skip = 28, check.names = FALSE,
   lo = "5", hi = "95", verbose = TRUE,
@@ -43,23 +40,17 @@ data.frame
 data.frame
 
 data.frame
-
-data.frame
 }
 \description{
 Creates a bootstrap table.
 
 Creates bootstrap from bootstrap.
 
-Creates bootstrap from numeric.
-
 Creates a bootstrap table from a PsN bootstrap results csv filepath. If \code{x} is not an existing file it is treated as a modelname and the results file is sought.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{bootstrap}: bootstrap method
-
-\item \code{numeric}: numeric method
 
 \item \code{character}: character method
 }}
@@ -72,3 +63,4 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 \code{\link{as.bootstrap.character}}
 }
+\keyword{internal}

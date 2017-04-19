@@ -17,3 +17,4 @@ character
 \description{
 Enclose in parentheses
 }
+\keyword{internal}

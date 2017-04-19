@@ -14,3 +14,4 @@
 \description{
 Creates the updated version of numeric by coercing to character.
 }
+\keyword{internal}

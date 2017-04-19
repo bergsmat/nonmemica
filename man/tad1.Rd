@@ -10,7 +10,6 @@ data(tad1)
 \description{
 A dataset showing dose and and observation records for several subjects.
 Doses are duplicated across compartments 1 and 2 as for mixed absorption modeling.
-C,ID,TIME,EVID,CMT,AMT,RATE,ADDL,II,DV
 }
 \details{
 \itemize{

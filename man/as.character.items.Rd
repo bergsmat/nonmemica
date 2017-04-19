@@ -26,3 +26,4 @@ character
 \description{
 Coerces items to character.
 }
+\keyword{internal}

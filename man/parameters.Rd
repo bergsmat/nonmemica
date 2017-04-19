@@ -14,3 +14,4 @@ parameters(x, ...)
 \description{
 Gets parameters.
 }
+\keyword{internal}

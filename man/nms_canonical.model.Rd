@@ -15,7 +15,7 @@
 canonical (character)
 }
 \description{
-Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-cae conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
+Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-case conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
 }
 \seealso{
 as.model

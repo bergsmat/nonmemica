@@ -14,3 +14,4 @@
 \description{
 Plots numeric by coercing first to character.
 }
+\keyword{internal}

@@ -104,15 +104,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="solution" class="section level2">
 <h2>Solution</h2>
-<p>The package <code>nonmemica</code> provides the function <code>as.partab</code> that creates a parameter table for a single NONMEM model. <code>as.partab</code> knows where the models live, because you explicitly pass a <code>project</code> argument or (if you are lazy like me) you set an option near the top of your script.</p>
+<p>The package <code>nonmemica</code> provides the function <code>partab</code> that creates a parameter table for a single NONMEM model. <code>partab</code> knows where the models live, because you explicitly pass a <code>project</code> argument or (if you are lazy like me) you set an option near the top of your script.</p>
 <p>Install and load <code>nonmemica</code> like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="dt">repos=</span><span class="ot">NULL</span>,<span class="st">'../nonmemica_0.1.zip'</span>) <span class="co"># supply your path and version</span>
 <span class="kw">library</span>(nonmemica)</code></pre></div>
 <p>Specify the project directory like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>, <span class="dt">project=</span><span class="st">'../model'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">project=</span><span class="st">'../model'</span>)</code></pre></div>
 <p>Or this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">project =</span> <span class="st">'../model'</span>)
-<span class="kw">as.partab</span>(<span class="dv">1001</span>)</code></pre></div>
+<span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 </div>
 <div id="a-word-about-object-orientation" class="section level2">
 <h2>A Word about Object Orientation</h2>
@@ -120,15 +120,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Briefly, object orientation means that a function does different things to different object types. Preparing a meal is very different from preparing a tax return. And formatting a <code>data.frame</code> is very different from formatting a <code>POSIXlt</code>. Try</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(format)</code></pre></div>
 <p>to see all ways things get formatted in R. Typically we just say <code>format</code> and R finds the right method, depending on what it is we are formatting.</p>
-<p><code>as.partab</code> is no different. If you say <code>as.partab(1001)</code>, the software sees that you are trying to create a parameter table from a number, which doesn’t really make sense. So it assumes 1001 is a model name, converts it to character, and goes looking for the function <code>as.partab.modelname()</code>. In fact, most of the interesting arguments to <code>as.partab</code> are actually documented under <code>as.partab.modelname</code> for this reason.</p>
+<p><code>partab</code> is no different. If you say <code>partab(1001)</code>, the software sees that you are trying to create a parameter table from a number, which doesn’t really make sense. So it assumes 1001 is a model name, converts it to character, and goes looking for the function <code>partab.modelname()</code>. In fact, most of the interesting arguments to <code>partab</code> are actually documented under <code>partab.modelname</code> for this reason.</p>
 </div>
 <div id="a-word-about-piping" class="section level2">
 <h2>A Word about Piping</h2>
 <p>You’ve probably noticed … R usage is undergoing a revolution. The <code>magrittr</code> package recently gave us a “forward pipe operator” that fundamentally changes how R can be used. Even if you don’t use piping, an awareness will help you understand the occasional example. For instance, the following have the same meaning.</p>
 <p>Traditional:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 <p>Piped:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>as.partab</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>partab</code></pre></div>
 <p>Essentially, the left-hand-side is the first argument to the function on the right-hand-side, and the result can be used as input to yet-another-function in an ongoing chain. That means we can express functionality in a natural order, rather than reverse-nested order. This:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span> %&gt;%<span class="st"> </span>sqrt %&gt;%<span class="st"> </span><span class="kw">signif</span>(<span class="dv">3</span>)</code></pre></div>
 <p>is easier to write and easier to understand (in my opinion) than this:</p>
@@ -137,21 +137,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="finding-estimates" class="section level2">
 <h2>Finding Estimates</h2>
-<p><code>as.partab</code> gets estimates and standard errors from <code>*.xml</code>. Make sure your NONMEM execution procedure calls for this file to be created and returned. It should appear in the model directory as a sibling of <code>*.lst</code>. If your xml file is in an unusual place, you can specify the path explicitly using the <code>xmlfile</code> argument (othewise <code>as.partab</code> will guess).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>, <span class="dt">xmlfile=</span><span class="st">'..model/1001.xml'</span>)</code></pre></div>
+<p><code>partab</code> gets estimates and standard errors from <code>*.xml</code>. Make sure your NONMEM execution procedure calls for this file to be created and returned. It should appear in the model directory as a sibling of <code>*.lst</code>. If your xml file is in an unusual place, you can specify the path explicitly using the <code>xmlfile</code> argument (othewise <code>partab</code> will guess).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">xmlfile=</span><span class="st">'..model/1001.xml'</span>)</code></pre></div>
 </div>
 <div id="finding-bootstraps" class="section level2">
 <h2>Finding Bootstraps</h2>
-<p><code>as.partab</code> gets bootstrap estimates from <code>bootstrap_dirx/bootstrap_results.csv</code> (in the model directory). This is created using PsN. <code>as.partab</code> will try to find the latest file if there are more than one. You can specify the path explicitly using the <code>bootcsv</code> argument.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>, <span class="dt">bootcsv=</span><span class="st">'..model/1001/bootstrap_results.csv'</span>)</code></pre></div>
+<p><code>partab</code> gets bootstrap estimates from <code>bootstrap_dirx/bootstrap_results.csv</code> (in the model directory). This is created using PsN. <code>partab</code> will try to find the latest file if there are more than one. You can specify the path explicitly using the <code>bootcsv</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">bootcsv=</span><span class="st">'..model/1001/bootstrap_results.csv'</span>)</code></pre></div>
 </div>
 <div id="finding-metadata" class="section level2">
 <h2>Finding Metadata</h2>
 <p>Let’s face it. NONMEM does not have integrated metadata. It knows the final estimate of THETA1, but it does not know what THETA1 means in human terms. A really useful parameter table should give a symbolic interpretation of THETA1, such as CL/F, units (if any), and hopefully a short definition.</p>
 <p>The bad news is: you have to supply these yourself. The good new is: if you do it systematically, you can save a lot of effort.</p>
-<p><code>as.partab</code> looks in two places for metadata. First, it looks in the control stream for the items mentioned in the <code>fields</code> argument. It will guess where the control stream is, but you can supply the <code>ctlfile</code> argument. You can also modify the fields argument to change what it seeks.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>, <span class="dt">ctlfile =</span> <span class="st">'../models/1001.ctl'</span>,<span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">'symbol'</span>,<span class="st">'label'</span>,<span class="st">'unit'</span>)).</code></pre></div>
-<p><code>as.partab</code> hopes to find each parameter on a line by itself, with semicolon-delimited fields trailing on the same line.</p>
+<p><code>partab</code> looks in two places for metadata. First, it looks in the control stream for the items mentioned in the <code>fields</code> argument. It will guess where the control stream is, but you can supply the <code>ctlfile</code> argument. You can also modify the fields argument to change what it seeks.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">ctlfile =</span> <span class="st">'../models/1001.ctl'</span>,<span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">'symbol'</span>,<span class="st">'label'</span>,<span class="st">'unit'</span>)).</code></pre></div>
+<p><code>partab</code> hopes to find each parameter on a line by itself, with semicolon-delimited fields trailing on the same line.</p>
 <pre><code>$THETA 
 (0,10,50)     ; CL/F; clearance;       L/h
 (0,10,100)    ; Vc/F; central volume;  L
@@ -167,7 +167,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
 <span class="kw">library</span>(nonmemica)
 <span class="kw">options</span>(<span class="dt">project =</span> <span class="kw">system.file</span>(<span class="st">'project/model'</span>,<span class="dt">package=</span><span class="st">'nonmemica'</span>))
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>as.definitions %&gt;%<span class="st"> </span>head</code></pre></div>
+<span class="dv">1001</span> %&gt;%<span class="st"> </span>definitions %&gt;%<span class="st"> </span>head</code></pre></div>
 <pre><code>##       item  symbol                        label unit
 ## 1 theta_01    CL/F                    clearance  L/h
 ## 2 theta_02    Vc/F               central volume    L
@@ -176,14 +176,14 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 ## 5 theta_05    Vp/F            peripheral volume    L
 ## 6 theta_06 MALE_CL     male effect on clearance &lt;NA&gt;</code></pre>
 <p>If you like, you can write out the defintions and edit them. You can change the file location or stick with the default. If you didn’t like exactly what was in the control stream, you can ignore it by passing a zero-length argument for ctlfile.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">as.definitions</span>(<span class="dt">write=</span>T)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">as.partab</span>(<span class="dt">ctlfile =</span> <span class="ot">NULL</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">definitions</span>(<span class="dt">write=</span>T)
+<span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">partab</span>(<span class="dt">ctlfile =</span> <span class="ot">NULL</span>)</code></pre></div>
 <p>The metafile needs to stay comma-separated. White space will be stripped, and blanks, spaces, or dots will be understood as NA.</p>
 </div>
 <div id="customizing-your-parameter-table" class="section level2">
 <h2>Customizing Your Parameter Table</h2>
 <p>By default, the parameter table looks like this (but if bootstraps can’t be found, the <code>ci</code> columm will be missing).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 <pre><code>##      parameter estimate  prse                 ci   symbol
 ## 1     theta_01     9.51  9.82       (7.24, 11.2)     CL/F
 ## 2     theta_02     22.8  9.56       (19.7, 25.4)     Vc/F
@@ -217,12 +217,12 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 ## 14                            proportional error &lt;NA&gt;
 ## 15                                additive error &lt;NA&gt;</code></pre>
 <p>If you want to modify the table, save it first.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">as.partab</span>(<span class="dv">1001</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 <p>For better debugging information, set <code>verbose = TRUE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.partab</span>(<span class="dv">1001</span>, <span class="dt">verbose=</span><span class="ot">TRUE</span>)</code></pre></div>
-<p><code>as.partab</code> uses <code>project</code> to guess where the run directory is, and uses that to guess where the source files are (<code>metafile</code>, <code>xmlfile</code>,<code>ctlfile</code>,<code>bootcsv</code>). If your source files are conventionally named, but in a strange directory, you save some typing by just specifying <code>rundir</code>.</p>
-<p>By default, <code>as.partab</code> grabs the 5th and 95th percentile of bootstraps as <code>lo</code> and <code>hi</code>, but you can specify other levels using the like-named arguments. <code>as.partab</code> formats these and other numerics as character(unless you say <code>format = F</code>), first limiting to the number of significant digits you specify (default <code>digits = 3</code>). If <code>ci = TRUE</code> (the default), <code>lo</code> and <code>hi</code> will be combined into a single interval using the default values for <code>open</code>, <code>sep</code>, and <code>close</code>. Also, you can get absolute standard errors by setting <code>relative = FALSE</code>. Let’s compare the default table above with something a bit more “raw”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">as.partab</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">verbose=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><code>partab</code> uses <code>project</code> to guess where the run directory is, and uses that to guess where the source files are (<code>metafile</code>, <code>xmlfile</code>,<code>ctlfile</code>,<code>bootcsv</code>). If your source files are conventionally named, but in a strange directory, you save some typing by just specifying <code>rundir</code>.</p>
+<p>By default, <code>partab</code> grabs the 5th and 95th percentile of bootstraps as <code>lo</code> and <code>hi</code>, but you can specify other levels using the like-named arguments. <code>partab</code> formats these and other numerics as character(unless you say <code>format = F</code>), first limiting to the number of significant digits you specify (default <code>digits = 3</code>). If <code>ci = TRUE</code> (the default), <code>lo</code> and <code>hi</code> will be combined into a single interval using the default values for <code>open</code>, <code>sep</code>, and <code>close</code>. Also, you can get absolute standard errors by setting <code>relative = FALSE</code>. Let’s compare the default table above with something a bit more “raw”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">partab</span>(
   <span class="dt">format =</span> F, 
   <span class="dt">ci =</span> F, 
   <span class="dt">relative =</span> F, 
@@ -266,7 +266,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <h2>Rendering Your Parameter Table</h2>
 <p>To some extent, the science of creating a parameter table is a separate issue from the aesthetics. How should you render the table for viewing by your audience? <code>nonmemica</code> is deliberately agnostic on this question, since there is no one right answer, and very many good ones. In an rmarkdown environment, consider <code>knitr::kable</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>as.partab %&gt;%<span class="st"> </span>kable</code></pre></div>
+<span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span>kable</code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -419,7 +419,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 </table>
 <p>You can also try <code>pander::pander</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>as.partab %&gt;%<span class="st"> </span><span class="kw">pander</span>(<span class="dt">justify=</span><span class="st">'right'</span>)</code></pre></div>
+<span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span><span class="kw">pander</span>(<span class="dt">justify=</span><span class="st">'right'</span>)</code></pre></div>
 <table style="width:79%;">
 <caption>Table continues below</caption>
 <colgroup>
@@ -623,8 +623,8 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <p>If your target audience needs a Word doc, try making one using built-in support for <code>ReporteRs</code>. You can also make a FlexTable first, and then make arbitrary modifications.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ReporteRs)</code></pre></div>
 <pre><code>## Loading required package: ReporteRsjars</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>as.partab %&gt;%<span class="st"> </span>as.docx %&gt;%<span class="st"> </span><span class="kw">as.file</span>(<span class="st">'1001.docx'</span>)
-x &lt;-<span class="st"> </span><span class="kw">as.flextable</span>(<span class="kw">as.partab</span>(<span class="dv">1001</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span>as.docx %&gt;%<span class="st"> </span><span class="kw">as.file</span>(<span class="st">'1001.docx'</span>)
+x &lt;-<span class="st"> </span><span class="kw">as.flextable</span>(<span class="kw">partab</span>(<span class="dv">1001</span>))
 x</code></pre></div>
 <table style="margin-left:0px;margin-right:auto;">
 <thead>
@@ -1220,7 +1220,7 @@ x</code></pre></div>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Making a NONMEM parameter table can be tedious. The <code>nonmemica</code> package provides <code>as.partab</code>, a flexible way of assembling the main sources of information and presenting them nicely. A good parameter table should have rich metadata: symbols, labels, and units at least. <code>as.partab</code> supports several options for encoding metadata systematically.</p>
+<p>Making a NONMEM parameter table can be tedious. The <code>nonmemica</code> package provides <code>partab</code>, a flexible way of assembling the main sources of information and presenting them nicely. A good parameter table should have rich metadata: symbols, labels, and units at least. <code>partab</code> supports several options for encoding metadata systematically.</p>
 </div>
 
 

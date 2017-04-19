@@ -14,3 +14,4 @@ lower(x, ...)
 \description{
 Gets lower Value.
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ items
 \description{
 Converts to items from character
 }
+\keyword{internal}

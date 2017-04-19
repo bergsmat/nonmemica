@@ -14,3 +14,4 @@ as.items(x, ...)
 \description{
 Converts to items.
 }
+\keyword{internal}

@@ -24,7 +24,7 @@ definitions.definitions <- function(x,...)x
 #' 
 #' Just coerces to character and calls definitions again.
 #' @inheritParams definitions
-#' @describeIn definitions numeric method
+#' @keywords internal
 #' @export
 definitions.numeric  <- function(x,...)definitions(as.character(x),...)
 #' Create Model Item Definitions from Character
@@ -39,18 +39,17 @@ definitions.numeric  <- function(x,...)definitions(as.character(x),...)
 #' 
 #' @import magrittr
 #' @import dplyr
-#' @param x a model name (numeric or character)
 #' @param verbose set FALSE to suppress messages
 #' @param ctlfile path to control stream (pass length-zero argument to ignore)
 #' @param metafile path to definitions file (pass length-zero argument to ignore)
 #' @param fields metadata fields to read from control stream if no metafile
 #' @param read whether to read the definitions file
 #' @param write whether to write the definitions file
-#' @param ... passed to other functions
 #' @import csv
 #' @seealso \code{\link{as.xml_document.character}}
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
+#' @describeIn definitions character method
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))

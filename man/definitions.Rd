@@ -3,41 +3,72 @@
 \name{definitions}
 \alias{definitions}
 \alias{definitions.definitions}
-\alias{definitions.numeric}
+\alias{definitions.character}
 \title{Harvest Model Item Definitions}
 \usage{
 definitions(x, ...)
 
 \method{definitions}{definitions}(x, ...)
 
-\method{definitions}{numeric}(x, ...)
+\method{definitions}{character}(x, verbose = FALSE, ctlfile = modelfile(x,
+  ...), metafile = modelpath(x, "def", ...), fields = c("symbol", "label",
+  "unit"), read = length(metafile) == 1, write = FALSE, ...)
 }
 \arguments{
 \item{x}{object of dispatch}
 
 \item{...}{arguments to methods}
+
+\item{verbose}{set FALSE to suppress messages}
+
+\item{ctlfile}{path to control stream (pass length-zero argument to ignore)}
+
+\item{metafile}{path to definitions file (pass length-zero argument to ignore)}
+
+\item{fields}{metadata fields to read from control stream if no metafile}
+
+\item{read}{whether to read the definitions file}
+
+\item{write}{whether to write the definitions file}
+}
+\value{
+object of class definitions, or path to metafile if write = TRUE.
 }
 \description{
 Havests model item definitions.
 
 Creates a model item definitions from a definitions object.
 
-Creates a model item definitions from a number.
+Create Item Definitions from Model Name
 }
 \details{
 x can be numeric or character model name, assuming project is identified by argument or option.
 
 Just returns the object unmodified.
 
-Just coerces to character and calls definitions again.
+Creates item definitions from a model name. Scavenges definitions optionally 
+from the control stream and optionally from the definitions file. Optionally
+writes the result to the definitions file. Always returns a data.frame with 
+at least the column 'item' but possibly no rows.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{definitions}: definitions method
 
-\item \code{numeric}: numeric method
+\item \code{character}: character method
 }}
 
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% definitions
+}
 \seealso{
 \code{\link{definitions.character}}
+
+\code{\link{as.xml_document.character}}
+
+\code{\link{as.bootstrap.character}}
+
+\code{\link{as.model.character}}
 }

@@ -31,3 +31,4 @@ Coerces docx to file.
 
 \code{\link[ReporteRs]{writeDoc}}
 }
+\keyword{internal}

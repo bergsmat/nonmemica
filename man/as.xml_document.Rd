@@ -3,15 +3,12 @@
 \name{as.xml_document}
 \alias{as.xml_document}
 \alias{as.xml_document.xml_document}
-\alias{as.xml_document.numeric}
 \alias{as.xml_document.character}
 \title{Create an xml_document in a Project Context}
 \usage{
 as.xml_document(x, ...)
 
 \method{as.xml_document}{xml_document}(x, ...)
-
-\method{as.xml_document}{numeric}(x, ...)
 
 \method{as.xml_document}{character}(x, strip.namespace = TRUE, ...)
 }
@@ -28,23 +25,17 @@ xml_document
 xml_document
 
 xml_document
-
-xml_document
 }
 \description{
 Creates an xml_document in a project context.
 
 Coerces xml_document to xml_document
 
-Coerces numeric to xml_document
-
 Creates an xml_document from character (modelname or filepath).
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{xml_document}: xml_document method
-
-\item \code{numeric}: numeric method
 
 \item \code{character}: filepath method
 }}

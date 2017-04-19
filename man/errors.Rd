@@ -14,3 +14,4 @@ errors(x, ...)
 \description{
 Gets errors.
 }
+\keyword{internal}

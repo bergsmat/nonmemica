@@ -17,3 +17,4 @@ sigma (subset of model)
 \description{
 Extracts sigmas from model.
 }
+\keyword{internal}

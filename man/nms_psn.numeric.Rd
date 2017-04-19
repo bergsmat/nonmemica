@@ -14,3 +14,4 @@
 \description{
 Generates PsN-style names for numeric by coercing to character.
 }
+\keyword{internal}

@@ -13,7 +13,7 @@ likebut(x, but = "better", y = NULL, project = getOption("project",
 
 \item{but}{a short description of the characteristic difference from x}
 
-\item{y}{optional name for model to be created}
+\item{y}{optional name for model to be created, auto-incremented by default}
 
 \item{project}{project directory}
 

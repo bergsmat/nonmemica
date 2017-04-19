@@ -15,3 +15,4 @@ logical
 \description{
 Finds postions in a vector that differ from previous.  First position is defined TRUE.
 }
+\keyword{internal}

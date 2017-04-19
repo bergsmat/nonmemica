@@ -14,3 +14,4 @@
 \description{
 Identifies the model problem statement for numeric. Coerces to character.
 }
+\keyword{internal}

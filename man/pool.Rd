@@ -20,3 +20,4 @@ Compare sets by evaluating both set differences, and the intersection.
 \examples{
 pool(1:3,2:4)
 }
+\keyword{internal}

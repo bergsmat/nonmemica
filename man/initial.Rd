@@ -14,3 +14,4 @@ initial(x, ...)
 \description{
 Gets initial Value.
 }
+\keyword{internal}

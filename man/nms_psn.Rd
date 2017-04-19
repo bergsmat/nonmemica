@@ -14,3 +14,4 @@ nms_psn(x, ...)
 \description{
 Generates PsN-style names.
 }
+\keyword{internal}

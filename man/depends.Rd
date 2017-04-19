@@ -14,3 +14,4 @@ depends(x, ...)
 \description{
 Identfies that on which something depends.
 }
+\keyword{internal}

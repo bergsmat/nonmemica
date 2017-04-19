@@ -25,3 +25,4 @@ contains('a',letters)
 \seealso{
 \code{\link{\%contains\%}}
 }
+\keyword{internal}

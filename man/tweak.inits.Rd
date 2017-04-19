@@ -25,3 +25,4 @@ Tweaks inits.
 Other tweak: \code{\link{tweak.init}},
   \code{\link{tweak.model}}, \code{\link{tweak}}
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ character
 \description{
 Identifies the relevant reference model, i.e. the 'parent' of x.
 }
+\keyword{internal}

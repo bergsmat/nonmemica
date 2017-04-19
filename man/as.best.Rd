@@ -46,3 +46,4 @@ Converts vector to numeric if doing so creates no new NA; otherwise to character
 \item \code{default}: default method
 }}
 
+\keyword{internal}

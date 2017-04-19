@@ -7,6 +7,7 @@
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 superset <- function(x,...)UseMethod('superset')
 
 #' Coerce to Superset from Numeric
@@ -17,6 +18,7 @@ superset <- function(x,...)UseMethod('superset')
 #' 
 #' @inheritParams superset
 #' @export
+#' @keywords internal
 superset.numeric <- function(x,...){
   y <- as.character(x)
   superset(y)
@@ -502,7 +504,6 @@ function (x)
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
-
 metasuperset <- function(
   x,
   groups, # = c('USUBJID','DATETIME'),
@@ -542,6 +543,7 @@ metasuperset <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 meta <- function(x,...)UseMethod('meta')
 
 #' Get Metadata for Numeric
@@ -550,6 +552,7 @@ meta <- function(x,...)UseMethod('meta')
 #' 
 #' @inheritParams meta
 #' @export
+#' @keywords internal
 meta.numeric <- function(x,...)meta(as.character(x),...)
 
 #' Get Metadata for Character
@@ -575,8 +578,8 @@ meta.character <- function(x,...){
 #' @param x numeric
 #' @param ... passed to \code{fold}
 #' @export
-#' @import fold
 #' @keywords internal
+#' @import fold
 #' @seealso fold.character
 fold.numeric <- function(x,...)fold(as.character(x),...)
 
@@ -662,6 +665,7 @@ fold_.character <- function(
 #' @param x numeric
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 unfold.numeric <- function(x, ...)unfold(as.character(x),...)
 
 #' Unfold Character
@@ -672,7 +676,7 @@ unfold.numeric <- function(x, ...)unfold(as.character(x),...)
 #'
 #' @param x character
 #' @param ... passed arguments
-#' @seealso code{fold}
+#' @seealso \code{fold.character}
 #' @export
 #'
 unfold.character <- function(x,...){
@@ -688,6 +692,7 @@ unfold.character <- function(x,...){
 #' @param ... passed arguments
 #' @import metaplot
 #' @export
+#' @keywords internal
 metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 
 #' Metaplot Character

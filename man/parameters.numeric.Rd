@@ -14,3 +14,4 @@
 \description{
 Gets parameters for numeric by coercing to character.
 }
+\keyword{internal}

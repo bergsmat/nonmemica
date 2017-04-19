@@ -23,3 +23,4 @@ letters \%contains\% 'a'
 \seealso{
 \code{\link{contains}}
 }
+\keyword{internal}

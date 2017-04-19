@@ -14,3 +14,4 @@ meta(x, ...)
 \description{
 Gets metadata.
 }
+\keyword{internal}

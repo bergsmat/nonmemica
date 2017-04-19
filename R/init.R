@@ -24,7 +24,7 @@ as.init.init <- function(x=numeric(0),fixed=FALSE,comment=character(0),...)as.in
 #' @param comment character
 #' @param ... dots
 #' @return init
-#' @describeIn as.init numeric method
+#' @keywords internal
 #' @export
 as.init.numeric <- function(x=numeric(0),fixed=FALSE,comment=character(0),...){
     #x may be one,two, or three values
@@ -199,6 +199,7 @@ as.character.inits <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths
 #' @param widths desired widths
 #' @param ... passed arguments
 #' @return character
+#' @keywords internal
 #' @export
 as.character.items <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths = comwidth(x), ...){
   y <- attr(x,'text')
@@ -398,7 +399,7 @@ print.inits <-function(x,...)print(format(x,...))
 #' @param fixed logical
 #' @param comment character
 #' @return inits
-#' @describeIn as.inits numeric method
+#' @keywords internal
 #' @export
 as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
   stopifnot(is.logical(fixed),is.character(comment))
@@ -622,6 +623,7 @@ as.inits.inits <- function(x,...)x
 #' @param ... dots
 #' @export
 #' @family tweak
+#' @keywords internal
 tweak <- function(x,...)UseMethod('tweak')
 
 #' Tweak Init
@@ -632,6 +634,7 @@ tweak <- function(x,...)UseMethod('tweak')
 #' @param digits integer
 #' @return init
 #' @export
+#' @keywords internal
 #' @family tweak
 tweak.init <- function(x,sd=0.13,digits=3,...){
 	scale <- stats::rnorm(1,mean=1,sd=sd)
@@ -649,6 +652,7 @@ tweak.init <- function(x,sd=0.13,digits=3,...){
 #' @param digits integer
 #' @return inits
 #' @export
+#' @keywords internal
 #' @family tweak
 tweak.inits <- function(x,sd=0.13,digits=3,...){
 	x[] <- lapply(x,tweak,sd=sd,digits=digits,...)

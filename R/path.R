@@ -16,6 +16,7 @@ modelpath <- function(x,...)UseMethod('modelpath')
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @keywords internal
 modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 
 #' Resolve A Path to a Model-related File for Character

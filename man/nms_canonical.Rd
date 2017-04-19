@@ -14,3 +14,4 @@ nms_canonical(x, ...)
 \description{
 Generates canonical names.
 }
+\keyword{internal}

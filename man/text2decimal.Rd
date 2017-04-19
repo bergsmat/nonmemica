@@ -18,3 +18,4 @@ Scavenge text for first reasonably-inferred numeric value.
 \examples{
 text2decimal('30 mg')
 }
+\keyword{internal}

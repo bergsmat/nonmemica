@@ -217,6 +217,7 @@ as.theta <- function(x,...)UseMethod('as.theta')
 #'@param ... passed arguments
 #'@return theta (subset of model)
 #'@export
+#'@keywords internal
 as.theta.model <- function(x,...){
   y <- x[names(x) %in% 'theta' ]
   class(y) <- union(c('theta','records'), class(y))
@@ -240,6 +241,7 @@ as.omega <- function(x,...)UseMethod('as.omega')
 #'@param ... passed arguments
 #'@return omega (subset of model)
 #'@export
+#'@keywords internal
 as.omega.model <- function(x,...){
   y <- x[names(x) %in% 'omega' ]
   class(y) <- union(c('omega','records'), class(y))
@@ -263,6 +265,7 @@ as.sigma <- function(x,...)UseMethod('as.sigma')
 #'@param ... passed arguments
 #'@return sigma (subset of model)
 #'@export
+#'@keywords internal
 as.sigma.model <- function(x,...){
   y <- x[names(x) %in% 'sigma' ]
   class(y) <- union(c('sigma','records'), class(y))
@@ -286,6 +289,7 @@ as.tab <- function(x,...)UseMethod('as.tab')
 #'@param ... passed arguments
 #'@return tab (subset of model)
 #'@export
+#'@keywords internal
 as.tab.model <- function(x,...){
   y <- x[names(x) %in% 'table' ]
   class(y) <- union(c('tab','records'), class(y))
@@ -310,6 +314,7 @@ comments <- function(x,...)UseMethod('comments')
 #' @return data.frame
 #' @describeIn comments record method
 #' @export
+#'@keywords internal
 #' 
 comments.records <- function(x,...){
   y <- list()
@@ -381,6 +386,7 @@ comments.model <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @keywords internal
 as.items <- function(x,...)UseMethod('as.items')
 
 #' Convert to Items from Character
@@ -389,6 +395,7 @@ as.items <- function(x,...)UseMethod('as.items')
 #' @inheritParams as.items
 #' @return items
 #' @export
+#' @keywords internal
 as.items.character <- function(x,...){
   txt <- x
   # for nonmem table items.  'BY' not supported
@@ -614,6 +621,7 @@ updated <- function(x,...)UseMethod('updated')
 #' Creates the updated version of numeric by coercing to character.
 #' @inheritParams updated
 #' @export
+#' @keywords internal
 updated.numeric <- function(x,...)updated(as.character(x),...)
 
 #' Create the Updated Version of Character
@@ -627,7 +635,6 @@ updated.numeric <- function(x,...)updated(as.character(x),...)
 #' @param ... dots
 #' @return model
 #' @export
-#' @keywords internal
 updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose=FALSE, ...){
   y <- as.model(x, parse=TRUE,verbose=verbose,...)
   initial(y) <- initial
