@@ -66,6 +66,10 @@ as.model.numeric <- function(x,...)as.model(as.character(x),...)
 #' @return list
 #' @describeIn as.model character method
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model
 as.model.character <-
 function(
 	x,
@@ -343,7 +347,10 @@ comments.records <- function(x,...){
 #' @return data.frame
 #' @describeIn comments model method
 #' @export
-#' 
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model %>% comments
 comments.model <- function(
   x,
   fields=c('symbol','unit','label'),

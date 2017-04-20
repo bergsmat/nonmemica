@@ -63,12 +63,14 @@ Returns the object.
 }}
 
 \examples{
+\donttest{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% partab \%>\% as.docx \%>\% as.file('1001.docx')
 }
+}
 \seealso{
-\code{link{as.docx.data.frame}}
+\code{\link{as.docx.data.frame}}
 
 \code{\link[ReporteRs]{docx}}
 

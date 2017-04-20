@@ -71,4 +71,9 @@ Extracts comments from inits.
 \item \code{inits}: inits method
 }}
 
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% as.model \%>\% comments
+}
 \keyword{internal}

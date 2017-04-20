@@ -20,7 +20,10 @@ function(x,...)UseMethod('num_parameters')
 #' @return integer
 #' @export
 #' @keywords internal
-
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% num_parameters
 num_parameters.default <-
 function(x,...){
 	y <- as.model(x,parse=TRUE,...)
@@ -51,8 +54,11 @@ nms_canonical.numeric <- function(x,...)nms_canonical(as.character(x,...),...)
 #' Generates canonical names for character by converting to parsed model.
 #' @inheritParams nms_canonical
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% nms_canonical
 nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
-
 
 #' Generate Canonical Names for Model
 #' 
@@ -94,6 +100,10 @@ nms_psn.numeric <- function(x,...)nms_psn(as.character(x,...),...)
 #' Generates PsN-style names for numeric by converting to parsed model.
 #' @inheritParams nms_psn
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% nms_psn
 nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 #' Generate PsN-style Names for Model
@@ -159,6 +169,10 @@ nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 #' Generates NONMEM-style names for numeric by converting to parsed model.
 #' @inheritParams nms_nonmem
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% nms_nonmem
 nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
 
 #' Generate NONMEM-style Names for Model

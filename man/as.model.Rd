@@ -39,4 +39,9 @@ Coerces chacter to model.
 \item \code{character}: character method
 }}
 
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% as.model
+}
 \keyword{internal}

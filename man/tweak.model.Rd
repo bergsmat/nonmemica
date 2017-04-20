@@ -21,6 +21,23 @@ model
 \description{
 Tweaks model.
 }
+\examples{
+# Create a working project.
+source <- system.file(package = 'nonmemica','project')
+target <- tempdir()
+target <- gsub('\\\\\\\\','/',target) # for windows
+source
+target
+file.copy(source,target,recursive = TRUE)
+project <- file.path(target,'project','model')
+
+# Point project option at working project
+options(project = project)
+library(magrittr)
+
+# Make ten new models with slightly different initial estimates.
+1001 \%>\% tweak
+}
 \seealso{
 Other tweak: \code{\link{tweak.inits}},
   \code{\link{tweak.init}}, \code{\link{tweak}}

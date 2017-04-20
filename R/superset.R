@@ -53,7 +53,13 @@ superset.numeric <- function(x,...){
 #' @return superset: a data.frame  where row count is a multiple of (typically equal to) input row count.
 #' @import utils
 #' @export
-
+#' @examples
+#' library(magrittr)
+#' library(dplyr)
+#' library(wrangle)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% superset %>% head
+#' 1001 %>% superset %>% group_by(ID,TIME) %>% status
 superset.character <- function(
   x,
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
@@ -461,14 +467,6 @@ function (x, ...)
   x$data <- x$data[!x$data == ""]
   sub("^([^ ]+).*$", "\\1", x$data[[1]])
 }
-absolute <- function(x)grepl('^/',x) | grepl('^.:',x)
-resolve <-
-function (file, dir) 
-  ifelse(
-    absolute(file),
-    file, 
-    file.path(dir, file)
-  )
 
 extfile <- 
 function (ctlfile, dir, extreg, ...) 
@@ -504,6 +502,10 @@ function (x)
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% metasuperset(c('ID','TIME')) %>% head
 metasuperset <- function(
   x,
   groups, # = c('USUBJID','DATETIME'),
@@ -562,6 +564,10 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' @export
 #' @import spec
 #' @return folded
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% meta
 meta.character <- function(x,...){
   y <- data.frame()
   z <- data.frame()
@@ -596,6 +602,11 @@ fold.numeric <- function(x,...)fold(as.character(x),...)
 #' @import fold
 #' @import lazyeval
 #' @keywords internal
+#' @examples
+#' library(magrittr)
+#' library(fold)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
 fold.character <- function(
   x,
   ...,
@@ -636,7 +647,6 @@ fold.character <- function(
 #' @export
 #' @return folded
 
-
 fold_.character <- function(
   x,
   groups,
@@ -646,6 +656,7 @@ fold_.character <- function(
   subset,
   ...
 ){
+  if(length(groups))if(is.null(names(groups)))names(groups) <- rep('',length(groups))
   if(length(groups))groups <- groups[is.na(names(groups)) | names(groups) == '']
   # need to convert to character
   metasuperset(
@@ -695,7 +706,7 @@ unfold.character <- function(x,...){
 #' @keywords internal
 metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 
-#' Metaplot Character
+#' Metaplot Character, Standard Evaluation
 #'
 #' Plots character by treating as model name.  A dataset
 #' is constructed by combining the meta version of the model input with a
@@ -703,21 +714,81 @@ metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 #'
 #' @param x object
 #' @param ... passed arguments
+#' @param groups  columns by which to group the dataset, passed to fold_
+#' @param meta pre-folded metadata; meta(x) by default
+#' @param simplify whether to simplify the result, passed to fold_
+#' @param sort whether to sort the result, passed to fold_
+#' @param subset a condition for filtering data, passed to fold_
+#' @param var variables to plot
 #' @import metaplot
 #' @seealso \code{fold}
 #' @export
-#'
-metaplot.character <- function(x,...){
-  z <- fold(x,...)
-  metaplot(z, ...)
+metaplot_.character <- function(
+  x,
+  groups,
+  meta = NULL,
+  simplify = TRUE,
+  sort = TRUE,
+  subset,
+  var,
+  ...
+){
+  if(is.null(meta)) meta <- meta
+  z <- fold_(x,groups = groups, meta = meta, simplify = simplify, sort = sort, subset = subset)
+  metaplot_(z, var, ...)
 }
-
-
-
-
-
-
-
-
-
+#' Metaplot Character, Nonstandard Evaluation
+#'
+#' Plots character by treating as model name.  A dataset
+#' is constructed by combining the meta version of the model input with a
+#' meta version of the model output and calling metaplot with the result.
+#'
+#' @param x object
+#' @param ... unquoted names of variables to plot, or other named arguments (passed)
+#' @param groups  columns by which to group the dataset, passed to fold_
+#' @param meta pre-folded metadata; meta(x) by default
+#' @param simplify whether to simplify the result, passed to fold_
+#' @param sort whether to sort the result, passed to fold_
+#' @param subset a condition for filtering data, passed to fold_
+#' @import metaplot
+#' @import lazyeval
+#' @seealso \code{fold}
+#' @export
+#' @examples
+#' library(magrittr)
+#' library(metaplot)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% metaplot(
+#'  CWRESI, TAD, SEX, 
+#'  groups = c('ID','TIME'), 
+#'  subset = 'MDV == 0',
+#'  yref=0, 
+#'  alpha = 0.1, 
+#'  ysmooth = TRUE
+#' )
+metaplot.character <- function(
+  x,
+  ...,
+  groups,
+  meta = match.fun('meta')(x),
+  simplify = TRUE,
+  sort = TRUE,
+  subset
+){
+  args <- dots_capture(...)
+  args <- lapply(args,f_rhs)
+  var  <- args[names(args) == '']
+  other<- args[names(args) != '']
+  var <- sapply(var,as.character)
+  val <- list(
+    x = x,
+    var = var,
+    groups = groups,
+    meta = meta,
+    simplify = simplify
+  )
+  if(!missing(subset)) val <- c(val,list(subset = subset))
+  val <- c(val, other)
+  do.call(metaplot_.character, val)
+}
 

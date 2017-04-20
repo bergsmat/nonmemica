@@ -4,8 +4,8 @@
 \alias{runlog.character}
 \title{Create a Runlog for Character}
 \usage{
-\method{runlog}{character}(x, dependencies = F, digits = 3, places = 0,
-  ...)
+\method{runlog}{character}(x, dependencies = FALSE, digits = 3,
+  places = 0, ...)
 }
 \arguments{
 \item{x}{object}
@@ -23,4 +23,9 @@ data.frame
 }
 \description{
 Creates a Runlog for character by treating x as modelname(s).
+}
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% runlog(dependencies = TRUE)
 }

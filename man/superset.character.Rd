@@ -37,3 +37,11 @@ Output tables may contain versions of input columns. Disposition depends on the 
 Only the first instance of any column among successive output tables is retained.
 In the control stream, avoid use of FIRSTONLY, as this alters the number of rows.
 }
+\examples{
+library(magrittr)
+library(dplyr)
+library(wrangle)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% superset \%>\% head
+1001 \%>\% superset \%>\% group_by(ID,TIME) \%>\% status
+}

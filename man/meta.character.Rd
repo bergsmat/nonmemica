@@ -17,3 +17,8 @@ folded
 \description{
 Gets metadata for character, treating it as a model name.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% meta
+}

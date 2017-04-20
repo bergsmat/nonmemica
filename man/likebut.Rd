@@ -35,3 +35,23 @@ Makes a copy of a model in a corresponding directory.  Problem statement is
 updated to reflect that the model is LIKE the reference model BUT different
 in some fundamental way.
 }
+\examples{
+# Create a working project.
+source <- system.file(package = 'nonmemica','project')
+target <- tempdir()
+target <- gsub('\\\\\\\\','/',target) # for windows
+source
+target
+file.copy(source,target,recursive = TRUE)
+project <- file.path(target,'project','model')
+
+# Point project option at working project
+options(project = project)
+library(magrittr)
+
+# Derive models.
+1001 \%>\% likebut('revised',y = 1002, overwrite=TRUE )
+
+# At this point, edit 1002.ctl to match whatever 'revised' means.
+# Then run it with NONMEM.
+}

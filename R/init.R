@@ -667,6 +667,22 @@ tweak.inits <- function(x,sd=0.13,digits=3,...){
 #' @return model
 #' @export
 #' @family tweak
+#' @examples
+#' # Create a working project.
+#' source <- system.file(package = 'nonmemica','project')
+#' target <- tempdir()
+#' target <- gsub('\\\\','/',target) # for windows
+#' source
+#' target
+#' file.copy(source,target,recursive = TRUE)
+#' project <- file.path(target,'project','model')
+#' 
+#' # Point project option at working project
+#' options(project = project)
+#' library(magrittr)
+#' 
+#' # Make ten new models with slightly different initial estimates.
+#' 1001 %>% tweak
 tweak.model <- function(x,sd=0.13,digits=3,...){
 	stopifnot('theta' %in% names(x))
 	x$theta <- as.inits(x$theta)

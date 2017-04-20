@@ -17,3 +17,8 @@ character
 \description{
 Resolves a path to a model-related file.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% modelpath
+}

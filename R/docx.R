@@ -7,15 +7,17 @@
 #' @param template passed to docx
 #' @param empty_template passed to docx
 #' @param list.definition passed to docx
-#' @seealso \code{link{as.docx.data.frame}}
+#' @seealso \code{\link{as.docx.data.frame}}
 #' @seealso \code{\link[ReporteRs]{docx}}
 #' @seealso \code{\link[ReporteRs]{addFlexTable}}
 #' @seealso \code{\link[ReporteRs]{FlexTable}}
 #' @return docx
 #' @examples
+#' \donttest{
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% partab %>% as.docx %>% as.file('1001.docx')
+#' }
 #' @export
 as.docx <- function(x,...)UseMethod('as.docx')
 #' Coerce docx to docx

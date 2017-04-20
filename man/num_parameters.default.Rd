@@ -21,4 +21,9 @@ Gets the number of declared parameters for a NONMEM model.
 Parameters fixed to some value are included, but unlike (*.ext) matrix off-diagonals
 are not included unless specified.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% num_parameters
+}
 \keyword{internal}

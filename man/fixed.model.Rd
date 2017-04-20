@@ -17,3 +17,8 @@ logical
 \description{
 Checks if model is fixed.  Returns a logical vector with element for each init, in canonical order.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% as.model \%>\% fixed
+}

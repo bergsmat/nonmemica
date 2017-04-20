@@ -25,6 +25,11 @@ numeric
 Gets model asymptotic standard errors in canonical order, treating character as model names. 
 See \code{\link{parameters}} for a less formal interface.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% errors
+}
 \seealso{
 nms_canonical errors
 }

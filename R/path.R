@@ -6,6 +6,10 @@
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @examples 
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% modelpath
 modelpath <- function(x,...)UseMethod('modelpath')
 
 #' Resolve A Path to a Model-related File for Numeric
@@ -54,7 +58,10 @@ modelpath.character <- function(
 #' @param ... passed arguments
 #' @return character
 #' @export
-
+#' @examples 
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% modelfile('xml')
 modelfile <- function(x, ext = getOption('modex','ctl'), ...)modelpath(x, ext = ext, ...)
 
 #' Identify the Directory for a Model
@@ -66,8 +73,11 @@ modelfile <- function(x, ext = getOption('modex','ctl'), ...)modelpath(x, ext = 
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @examples 
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% modeldir
 modeldir <- function(x, ext, ...)modelpath(x, ext = NULL, ...)
-
 
 #' Identify Datafile
 #' 
@@ -89,12 +99,27 @@ datafile.numeric <- function(x,...)datafile(as.character(x),...)
 
 #' Identify the Datafile for a Model
 #' 
-#' Identifies the datafile used by a model.#' 
+#' Identifies the datafile used by a model. 
+#' Expresses it relative to current working directory.
 #' @param x the model name or path to a control stream
 #' @param ... ext can be passed to modelfile, etc.
 #' @return character
 #' @export
-
+#' @examples
+#' library(fold)
+#' library(spec)
+#' source <- system.file(package = 'nonmemica','project')
+#' target <- tempdir()
+#' target <- gsub('\\\\','/',target) # for windows
+#' file.copy(source,target,recursive = TRUE)
+#' project <- file.path(target,'project','model')
+#' options(project = project)
+#' library(magrittr)
+#' 1001 %>% datafile
+#' datafile(1001) %matches% specfile(1001)
+#' 1001 %>% specfile
+#' 1001 %>% specfile %>% read.spec
+#' 1001 %>% specfile %>% read.spec %>% as.folded
 datafile.character <- function(
   x,
   ...
@@ -138,7 +163,21 @@ specfile.numeric <- function(x,...)specfile(as.character(x),...)
 #' @seealso datafile
 #' @return character
 #' @export
-
+#' @examples
+#' library(fold)
+#' library(spec)
+#' source <- system.file(package = 'nonmemica','project')
+#' target <- tempdir()
+#' target <- gsub('\\\\','/',target) # for windows
+#' file.copy(source,target,recursive = TRUE)
+#' project <- file.path(target,'project','model')
+#' options(project = project)
+#' library(magrittr)
+#' 1001 %>% datafile
+#' datafile(1001) %matches% specfile(1001)
+#' 1001 %>% specfile
+#' 1001 %>% specfile %>% read.spec
+#' 1001 %>% specfile %>% read.spec %>% as.folded
 specfile.character <- function(
   x,
   find = '\\.csv$',
@@ -151,6 +190,60 @@ specfile.character <- function(
   specfile
 }
 
+#' Relativize a Path
+#' 
+#' Relativizes a path. 
+#' 
+#' x and dir are first normalized, then x is expressed relative to dir.
+#' If x and dir are on different drives (i.e. C:/ D:/)  x is returned
+#' as an absolute path.
+#' @param x a file path
+#' @param dir a reference directory
+#' @param sep path separator
+#' @param ... ignored arguments
+relativizePath <- function(x,dir=getwd(),sep='/',...){
+  stopifnot(length(x)==1)
+  stopifnot(file.info(dir)$isdir)
+  y <- normalizePath(x,winslash='/')
+  z <- normalizePath(dir,winslash='/')
+  # test for different drives
+  if(!identical(substr(y,1,1),substr(z,1,1))){
+    return(y)
+  }
+  y <- strsplit(y,sep)[[1]]
+  z <- strsplit(z,sep)[[1]]
+  count <- 0
+  while(length(y) && length(z) && y[[1]] == z[[1]]){
+    y <- y[-1]
+    z <- z[-1]
+  }
+  z <- rep('..',length(z))
+  y <- c(z,y)
+  y <- do.call(file.path,as.list(y))
+  y
+}
+
+#' Check if File Path is Absolute
+#' 
+#' Checks if file path is absolute.
+#' @param x character (a file path)
+#' @return logical; TRUE if x starts with / or .: (e.g. C:)
+absolute <- function(x)grepl('^/',x) | grepl('^.:',x)
+
+#' Resolve File Path
+#' 
+#' Resolves a file path.  Returns the path if absolute.  If
+#' relative, concatenates the directory and file.
+#' @param file path to a file
+#' @param dir reference directory for a relative file path
+#' @return character
+resolve <-
+  function (file, dir) 
+    ifelse(
+      absolute(file),
+      file, 
+      file.path(dir, file)
+    )
 
 
 

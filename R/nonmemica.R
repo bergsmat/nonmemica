@@ -1,14 +1,14 @@
 #' Create and Evaluate NONMEM Models in a Project Context
 #' 
-#' Nonmemica (pronounced like 'America') creates and evaluates NONMEM
+#' Nonmemica (emphasis like 'America') creates and evaluates NONMEM
 #' models in a project context.
 #' 
-#' NONMEM (Icon plc.) is software for nonlinear mixed effects modeling.
-#' The foundational interface is a text file (control stream, typ. *.mod 
-#' or *.ctl) that specifies model input, structure, and output. There are
-#' many add-on interfaces for NONMEM (see references for a few examples).
-#' However, much day-to-day modeling, even for R users, involves substantial
-#' manual interventions.
+#' NONMEM (ICON Development Solutions) is software for nonlinear mixed 
+#' effects modeling. The fundamental interface is a text file (control 
+#' stream, typ. *.mod or *.ctl) that specifies model input, structure, 
+#' and output. There are many add-on interfaces for NONMEM (see references 
+#' for a few examples). However, much day-to-day modeling, even for R users,
+#' involves substantial manual interventions.
 #' 
 #' Nonmemica streamlines interactions with NONMEM. It adopts some
 #' established conventions and techniques (e.g. from PsN and metrumrg), but 
@@ -38,7 +38,9 @@
 #' (see superset() ).
 #' 
 #' Third, Nonmemica supports integrated metadata. With respect to model 
-#' inputs, use package spec to store column metadata in a companion file.
+#' inputs, use package spec to store column metadata in a companion file
+#' (a data specification, e.g. *.spec). Keep the data file and data 
+#' specification in a central location, not copied to the model directory.
 #' For model outputs (tabled items) supply column metadata directly in 
 #' the control stream (or a *.def file; see example and help).
 #' 
@@ -66,14 +68,15 @@
 #' @references \href{https://github.com/MikeKSmith/rspeaksnonmem}{RsN}
 #' @references \href{https://r-forge.r-project.org/R/?group_id=1215}{metrumrg}
 #' @examples
+#' \donttest{
 #' # Create a working project.
 #' source <- system.file(package = 'nonmemica','project')
 #' target <- tempdir()
+#' target <- gsub('\\\\','/',target) # for windows
 #' source
 #' target
 #' file.copy(source,target,recursive = TRUE)
 #' project <- file.path(target,'project','model')
-#' project <- gsub('\\\\','/',project)
 #' 
 #' # Point project option at working project
 #' options(project = project)
@@ -124,11 +127,31 @@
 #' # Make diagnostic plots.
 #' 1001 %>% fold(ID,TIME,subset='MDV == 0') %$% VARIABLE %>% unique
 #' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(CWRESI, ref = 0)
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% 
-#' metaplot(CWRESI, TAD, SEX, yref=0, alpha = 0.1, ysmooth = TRUE)
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, SEX, ref = 0)
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(SEX, ETA1, ref = 0)
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(ETA1, ETA2, ETA3)
+#' 1001 %>% metaplot(
+#'  CWRESI, TAD, SEX, 
+#'  groups = c('ID','TIME'), 
+#'  subset = 'MDV == 0',
+#'  yref=0, 
+#'  alpha = 0.1, 
+#'  ysmooth = TRUE
+#' )
+#' 1001 %>% metaplot(
+#'  ETA1, SEX, 
+#'  ref = 0,
+#'  groups = c('ID','TIME'),
+#'  subset = 'MDV == 0'
+#' )
+#' 1001 %>% metaplot(
+#'  SEX, ETA1, 
+#'  ref = 0,
+#'  groups = c('ID','TIME'),
+#'  subset = 'MDV == 0'
+#' )
+#' 1001 %>% metaplot(
+#'  ETA1, ETA2, ETA3,
+#'  groups = c('ID','TIME'),
+#'  subset = 'MDV == 0'
+#' )
 #' 
 #' # Derive models.
 #' 1001 %>% likebut('revised',y = 1002, overwrite=TRUE )
@@ -137,6 +160,7 @@
 #' 
 #' # Make ten new models with slightly different initial estimates.
 #' 1001 %>% tweak
+#' }
 
 #' @docType package
 #' @name nonmemica

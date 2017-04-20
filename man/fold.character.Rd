@@ -23,4 +23,10 @@
 \description{
 Folds character, treating \code{x} as a model name.
 }
+\examples{
+library(magrittr)
+library(fold)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% fold(ID,TIME,subset='MDV==0') \%>\% head
+}
 \keyword{internal}

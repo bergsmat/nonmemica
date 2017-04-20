@@ -14,3 +14,8 @@
 \description{
 Generates PsN-style names for numeric by converting to parsed model.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% nms_psn
+}

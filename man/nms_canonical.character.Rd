@@ -14,3 +14,8 @@
 \description{
 Generates canonical names for character by converting to parsed model.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% nms_canonical
+}

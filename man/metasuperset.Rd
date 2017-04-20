@@ -23,3 +23,8 @@ folded
 \description{
 Retrieves model outputs in meta format.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% metasuperset(c('ID','TIME')) \%>\% head
+}

@@ -19,3 +19,8 @@ character
 \description{
 Identifies the directory used by a model.
 }
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% modeldir
+}

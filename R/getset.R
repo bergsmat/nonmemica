@@ -5,6 +5,10 @@
 #' @return logical
 # @describeIn getset model method
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model %>% fixed
 fixed.model <- function(x,...){
   i <- initDex(x)
   j <- initSubscripts(x)
@@ -75,6 +79,10 @@ lower <- function(x,...)UseMethod('lower')
 #' @param ... dots
 # @describeIn getset model method for getting lower bounds
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model %>% lower
 lower.model <- function(x,...).getInitDetail(x,y='low',...)
 
 #' Set Lower Value
@@ -113,6 +121,10 @@ upper <- function(x,...)UseMethod('upper')
 #' @param ... dots
 # @describeIn getset model method for getting upper bounds
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model %>% upper
 upper.model <- function(x,...).getInitDetail(x,y='up',...)
 
 #' Set Upper Value
@@ -150,6 +162,10 @@ initial <- function(x,...)UseMethod('initial')
 #' @param ... dots
 # @describeIn getset model method for getting initial estimates
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% as.model %>% initial
 initial.model <- function(x,...).getInitDetail(x,y = 'init',...)
 
 #' Set Initial Value

@@ -205,9 +205,13 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' @param places rounding for objective function
 #' @return data.frame
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% runlog(dependencies = TRUE)
 runlog.character <- function(
   x, 
-  dependencies=F,
+  dependencies = FALSE,
   digits = 3,
   places = 0,
   ...
@@ -307,7 +311,25 @@ tweak.default <- function(
 #' @param ... passed arguments
 #' @return the value of y
 #' @export
- 
+#' @examples
+#' # Create a working project.
+#' source <- system.file(package = 'nonmemica','project')
+#' target <- tempdir()
+#' target <- gsub('\\\\','/',target) # for windows
+#' source
+#' target
+#' file.copy(source,target,recursive = TRUE)
+#' project <- file.path(target,'project','model')
+#' 
+#' # Point project option at working project
+#' options(project = project)
+#' library(magrittr)
+#' 
+#' # Derive models.
+#' 1001 %>% likebut('revised',y = 1002, overwrite=TRUE )
+#' 
+#' # At this point, edit 1002.ctl to match whatever 'revised' means.
+#' # Then run it with NONMEM.
 likebut <- function(
   x,
   but='better',
@@ -354,26 +376,6 @@ likebut <- function(
   write.model(c,modelfile(y, project = project, nested = nested, ext = ext,...))
   y
 }
-relativizePath <- function(x,dir=getwd(),sep='/',...){
-  stopifnot(length(x)==1)
-  stopifnot(file.info(dir)$isdir)
-  y <- normalizePath(x,winslash='/')
-  z <- normalizePath(dir,winslash='/')
-  y <- strsplit(y,sep)[[1]]
-  z <- strsplit(z,sep)[[1]]
-  count <- 0
-  while(length(y) && length(z) && y[[1]] == z[[1]]){
-    y <- y[-1]
-    z <- z[-1]
-  }
-  z <- rep('..',length(z))
-  y <- c(z,y)
-  y <- do.call(file.path,as.list(y))
-  y
-}
-
-
-
 .parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)
   p <- partab(x, verbose=F,digits=digits)
@@ -429,6 +431,10 @@ parameters.numeric <- function(x,...)parameters(as.character(x,...))
 #' @inheritParams parameters
 #' @return data.frame
 #' @export
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% parameters
 parameters.character <- function(x,...){
   run <- function(x,...){
     y <- .parameters(x,...)
@@ -476,6 +482,10 @@ estimates.numeric <- function(x,...)estimates(as.character(x,...))
 #' @export
 #' @import magrittr
 #' @import dplyr
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% estimates
 estimates.character <- function(
   x,
   xmlfile = modelpath(x, ext = 'xml',...),
@@ -534,6 +544,10 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' @export
 #' @import magrittr
 #' @import dplyr
+#' @examples
+#' library(magrittr)
+#' options(project = system.file('project/model',package='nonmemica'))
+#' 1001 %>% errors
 errors.character <- function(
   x,
   xmlfile = modelpath(x, ext = 'xml', ...),

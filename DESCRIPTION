@@ -1,12 +1,13 @@
 Package: nonmemica
 Type: Package
 Title: Create and Evaluate NONMEM Models in a Project Context
-Version: 0.6.0
+Version: 0.7.0
 Author: Tim Bergsma
 Maintainer: Tim Bergsma <bergsmat@gmail.com>
 Description: Systematically creates and modifies NONMEM(R) control streams. Harvests
- NONMEM output, builds runlogs, creates derivative data, generates diagnostics.
- See package?nonmemica .  NONMEM (ICON plc.) is software for nonlinear mixed effects modeling.
+ NONMEM output, builds run logs, creates derivative data, generates diagnostics.
+ See package?nonmemica .  NONMEM (ICON Development Solutions) is software for 
+ nonlinear mixed effects modeling.
 License: GPL-3
 LazyData: TRUE
 Imports:
