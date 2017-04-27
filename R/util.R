@@ -7,10 +7,10 @@
 #' @param ... arguments to methods
 #' @seealso \code{\link{\%contains\%}}
 #' @return logical
-#' @export
-#' @keywords internal
-#' @examples
-#' contains('a',letters)
+# @export
+# @keywords internal
+# @examples
+# contains('a',letters)
 contains <- function(pattern,text,...){
 	hits <- regexpr(pattern,text,...)
 	hits >=0

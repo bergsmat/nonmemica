@@ -19,10 +19,6 @@ logical
 \description{
 Checks whether text contains pattern.
 }
-\examples{
-contains('a',letters)
-}
 \seealso{
 \code{\link{\%contains\%}}
 }
-\keyword{internal}
