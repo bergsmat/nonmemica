@@ -68,7 +68,7 @@ as.bootstrap.character <- function(
   ),  
   ...
 ){
-  if(!file.exists(x)){ # x is modelname
+  if(!file_test('-f',x)){ # x is modelname
     if(!length(bootcsv))stop('bootcsv: file(s) not found')
     x <- rev(bootcsv)[[1]] # use last
   }

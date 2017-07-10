@@ -124,9 +124,9 @@ datafile.character <- function(
   x,
   ...
 ){
-  ctlfile <- if(file.exists(x)) x else modelfile(x,...)
-  rundir  <- if(file.exists(x)) dirname(x) else modeldir(x,...)
-  if(!file.exists(x)) x <- modelfile(x, ...)
+  ctlfile <- if(file_test('-f',x)) x else modelfile(x,...)
+  rundir  <- if(file_test('-f',x)) dirname(x) else modeldir(x,...)
+  if(!file_test('-f',x)) x <- modelfile(x, ...)
   control <- read.model(ctlfile,...)
   dname <- getdname(control)
   datafile <- resolve(dname,rundir)

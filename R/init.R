@@ -596,6 +596,7 @@ as.inits.character <- function(x,...){
   x <- gsub('FIXED','',x)
   x <- gsub('FIX','',x)
   x <- gsub('\n','',x)
+  x <- gsub('\t','',x)
   x <- sub('(','',x,fixed=TRUE)
   x <- sub(')','',x,fixed=TRUE)
   x <- gsub(' +',' ',x)

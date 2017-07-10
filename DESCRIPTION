@@ -1,7 +1,7 @@
 Package: nonmemica
 Type: Package
 Title: Create and Evaluate NONMEM Models in a Project Context
-Version: 0.7.2
+Version: 0.7.4
 Author: Tim Bergsma
 Maintainer: Tim Bergsma <bergsmat@gmail.com>
 Description: Systematically creates and modifies NONMEM(R) control streams. Harvests
@@ -11,16 +11,17 @@ Description: Systematically creates and modifies NONMEM(R) control streams. Harv
 License: GPL-3
 LazyData: TRUE
 Imports:
- dplyr,
+ dplyr (>= 0.7.1),
  tidyr,
  xml2,
  encode,
  csv,
- fold,
+ fold (>= 0.2.1),
  spec,
  lazyeval,
- metaplot,
- magrittr
+ metaplot (>= 0.1.4),
+ magrittr,
+ rlang
 Suggests:
  ReporteRs,
  pander,

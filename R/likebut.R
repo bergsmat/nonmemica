@@ -152,6 +152,7 @@ cascade <- function(x,...){
 #' Identify those models in the lineage of models in x.
 #' @inheritParams depends
 #' @return character
+#' @importFrom rlang UQS
 #' @export
 depends.default <- function(x, ...){
   res <- lapply(x,dependsOne,...)
@@ -172,10 +173,11 @@ unionRollUp.list <- function(x,...){
 .runlog <- function(x,...){
   stopifnot(length(x) == 1)
   p <- parameters(x,...)
-  p <- filter(p, symbol %in% c('min','cov','like','feature','ofv'))
-  p <- tidyr::spread_ (p,'symbol',x)
+  p <- filter(p, symbol %in% c('min','cov','like','feature','npar','ofv'))
+  names(p) <- c('symbol','x') # rlang::expr(spread(p, symbol, UQS(syms(x)))) seems right but gives "Invalid column specification
+  p <- tidyr::spread(p,symbol,x)
   p <- mutate(p, run = x)
-  p <- select(p, run,like,feature,min,cov,ofv)
+  p <- select(p, run,like,feature,min,cov,npar,ofv)
   p
 }
 
@@ -392,14 +394,16 @@ likebut <- function(
   if(length(cov) == 0) cov <- NA
   ofv <- round(digits=places,xpath(x, '//final_objective_function'))
   if(length(ofv) == 0) ofv <- NA
+  npar <- sum(!fixed(as.model(x)))
+  if(length(npar) == 0) npar <- NA
   dat <- datafile(x)
   if(length(datafile) == 0) datafile <- NA
   like <- like(x,...)
   but <- but(x,...)
   met <- data.frame(
     stringsAsFactors = F,
-    symbol = c('min','cov','like','ofv','dat','feature'),
-    value = c(min,cov,like,ofv,dat,but)
+    symbol = c('min','cov','like','ofv','npar','dat','feature'),
+    value = c(min,cov,like,ofv,npar,dat,but)
   )
   p <- bind_rows(p, met)
   p

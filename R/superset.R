@@ -530,8 +530,8 @@ metasuperset <- function(
   #   gather(META,VALUE,LABEL,GUIDE)
   targets <- intersect(meta$VARIABLE,names(y))
   meta <- filter(meta, VARIABLE %in% targets)
-  y <- select_(y, .dots = c(groups,targets))
-  y <- fold_(y, groups = groups, ...)
+  y <- select(y, UQS(c(groups,targets)))
+  y <- fold(y,UQS(groups))
   y <-  bind_rows(meta, y)
   # y %<>% as.folded(...)
   class(y) <- c('folded','data.frame')
@@ -592,21 +592,24 @@ fold.numeric <- function(x,...)fold(as.character(x),...)
 #' Fold Character
 #' 
 #' Folds character, treating \code{x} as a model name.
-#' @param x numeric
-#' @param ... unquoted grouping variables, forwarded to \code{\link{fold_.character}}
+#' @param x character
+#' @param ... unquoted grouping variables
 #' @param meta pre-folded metadata
 #' @param simplify whether to simplify the result
 #' @param sort whether to sort the result
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
 #' @export
 #' @import fold
-#' @import lazyeval
+#' @importFrom rlang UQS
+#' @importFrom rlang quos
 #' @keywords internal
+#' @return folded
 #' @examples
 #' library(magrittr)
 #' library(fold)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
+
 fold.character <- function(
   x,
   ...,
@@ -615,7 +618,7 @@ fold.character <- function(
   sort = TRUE,
   subset
 ){
-  args <- dots_capture(...)
+  args <- quos(...)
   args <- lapply(args,f_rhs)
   groups <- args[names(args) == '']
   other  <- args[names(args) != '']
@@ -629,7 +632,7 @@ fold.character <- function(
   )
   if(!missing(subset))have <- c(have,list(subset = subset))
   have <- c(have,other)
-  do.call(fold_.character,have)
+  do.call(fold_character,have)
 }
 
 #' Fold Character with Standard Evaluation
@@ -644,10 +647,9 @@ fold.character <- function(
 #' @param sort whether to sort the result
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
 #' @import fold
-#' @export
 #' @return folded
 
-fold_.character <- function(
+fold_character <- function(
   x,
   groups,
   meta = match.fun('meta')(x,...),
@@ -714,16 +716,17 @@ metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 #'
 #' @param x object
 #' @param ... passed arguments
-#' @param groups  columns by which to group the dataset, passed to fold_
+#' @param groups  columns by which to group the dataset, passed to fold()
 #' @param meta pre-folded metadata; meta(x) by default
-#' @param simplify whether to simplify the result, passed to fold_
-#' @param sort whether to sort the result, passed to fold_
-#' @param subset a condition for filtering data, passed to fold_
+#' @param simplify whether to simplify the result, passed to fold()
+#' @param sort whether to sort the result, passed to fold()
+#' @param subset a condition for filtering data, passed to fold()
 #' @param var variables to plot
 #' @import metaplot
+#' @importFrom rlang UQS
+#' @importFrom rlang syms
 #' @seealso \code{fold}
-#' @export
-metaplot_.character <- function(
+metaplot_character <- function(
   x,
   groups,
   meta = NULL,
@@ -734,10 +737,10 @@ metaplot_.character <- function(
   ...
 ){
   if(is.null(meta)) meta <- meta
-  z <- fold_(x,groups = groups, meta = meta, simplify = simplify, sort = sort, subset = subset)
-  metaplot_(z, var, ...)
+  z <- fold(x,UQS(groups), meta = meta, simplify = simplify, sort = sort, subset = subset)
+  metaplot(z, UQS(syms(var)), ...)
 }
-#' Metaplot Character, Nonstandard Evaluation
+#' Metaplot Character
 #'
 #' Plots character by treating as model name.  A dataset
 #' is constructed by combining the meta version of the model input with a
@@ -745,12 +748,13 @@ metaplot_.character <- function(
 #'
 #' @param x object
 #' @param ... unquoted names of variables to plot, or other named arguments (passed)
-#' @param groups  columns by which to group the dataset, passed to fold_
+#' @param groups  columns by which to group the dataset, passed to fold()
 #' @param meta pre-folded metadata; meta(x) by default
-#' @param simplify whether to simplify the result, passed to fold_
-#' @param sort whether to sort the result, passed to fold_
-#' @param subset a condition for filtering data, passed to fold_
+#' @param simplify whether to simplify the result, passed to fold()
+#' @param sort whether to sort the result, passed to fold()
+#' @param subset a condition for filtering data, passed to fold()
 #' @import metaplot
+#' @importFrom rlang quos
 #' @import lazyeval
 #' @seealso \code{fold}
 #' @export
@@ -775,7 +779,7 @@ metaplot.character <- function(
   sort = TRUE,
   subset
 ){
-  args <- dots_capture(...)
+  args <- quos(...)
   args <- lapply(args,f_rhs)
   var  <- args[names(args) == '']
   other<- args[names(args) != '']
@@ -789,6 +793,6 @@ metaplot.character <- function(
   )
   if(!missing(subset)) val <- c(val,list(subset = subset))
   val <- c(val, other)
-  do.call(metaplot_.character, val)
+  do.call(metaplot_character, val)
 }
 

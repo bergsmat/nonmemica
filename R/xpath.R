@@ -41,7 +41,7 @@ as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 #' @export
 as.xml_document.character <- function(x,strip.namespace=TRUE,...){
   # x is a model name or a file path
-  if(!file.exists(x)) x <- modelpath(x, 'xml',...)
+  if(!file_test('-f', x)) x <- modelpath(x, 'xml',...)
   if(!strip.namespace)return(read_xml(x))
   x <- readLines(x)
   x <- paste(x,collapse=' ')

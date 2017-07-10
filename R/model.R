@@ -80,8 +80,8 @@ function(
 	...
 ){
   if(length(x) == 1){
-    if(!file.exists(x))x <- modelfile(x,...)
-    if(!file.exists(x))stop(x, ' does not exist as a file')
+    if(!file_test('-f',x))x <- modelfile(x,...)
+    if(!file_test('-f',x))stop(x, ' does not exist as a file')
     x <- readLines(x)
   }
   

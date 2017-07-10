@@ -199,7 +199,7 @@ partab.character <- function(
     param <- filter(param, !(estimate == 0 & parameter %contains% 'omega|sigma'))
   }
   if(relative){
-    param <- mutate(param, se = se / estimate) # rename rse below
+    param <- mutate(param, se = abs(se / estimate)) # rename rse below
     if(percent){
     param <- mutate(param, se = se * 100) # rename prse below
     }

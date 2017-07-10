@@ -10,7 +10,7 @@
 \arguments{
 \item{x}{numeric}
 
-\item{...}{unquoted grouping variables, forwarded to \code{\link{fold_.character}}}
+\item{...}{unquoted grouping variables}
 
 \item{meta}{pre-folded metadata}
 
@@ -19,6 +19,9 @@
 \item{sort}{whether to sort the result}
 
 \item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 1'}
+}
+\value{
+folded
 }
 \description{
 Folds character, treating \code{x} as a model name.
