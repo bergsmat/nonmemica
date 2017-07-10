@@ -1,6 +1,6 @@
 globalVariables(c('symbol','run','feature','cov','ofv','label','unit'))
 globalVariables(c('VARIABLE','META','VALUE','LABEL','VISIBLE','GUIDE'))
-globalVariables(c('column','guide'))
+globalVariables(c('column','guide','npar'))
 
 #' Identify the Single Model Problem Statement
 #' 

@@ -8,7 +8,7 @@
   simplify = TRUE, sort = TRUE, subset)
 }
 \arguments{
-\item{x}{numeric}
+\item{x}{character}
 
 \item{...}{unquoted grouping variables}
 
