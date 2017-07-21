@@ -8,6 +8,7 @@
 #' @param ... passed arguments
 #' @export
 #' @keywords internal
+#' @seealso \code{\link{superset.numeric}} \code{\link{superset.character}}
 superset <- function(x,...)UseMethod('superset')
 
 #' Coerce to Superset from Numeric
@@ -19,6 +20,7 @@ superset <- function(x,...)UseMethod('superset')
 #' @inheritParams superset
 #' @export
 #' @keywords internal
+#' @seealso \code{\link{superset.character}}
 superset.numeric <- function(x,...){
   y <- as.character(x)
   superset(y)
@@ -73,7 +75,7 @@ superset.character <- function(
   #run <- x
   ctlfile <- modelfile(x,...)
   dropped <- ignored(x,read.input=read.input,...)
-  control <- read.model(ctlfile)
+  control <- read.model(ctlfile,...)
   datafile <- datafile(x,...)
   if (!file.exists(datafile))stop(datafile, " not found ", call. = FALSE)
   outputdomain <- names(control) %contains% "tab"

@@ -176,3 +176,40 @@ as.best.default <-
     n
   }
 
+#' Impute Missing Vector Values
+#' 
+#' \code{locf()} implements 'last observation carried forward': \code{NA}'s are imputed with the most recent non-\code{NA} value. \code{nocb()} is the complement: 'next observation carried backward': \code{NA}'s are imputed with the next non-NA value. \code{forbak()} first executes \code{locf()}, then \code{nocb()}, so that even leading NAs are imputed. If even one non-NA value is present, \code{forbak()} should not return any \code{NA}'s. \code{bakfor()} does the reverse.
+#' 
+#' @param x a vector possibly with some missing values and some non-missing values
+#' @return a vector like \code{x}
+#' @keywords internal
+#' @export 
+#' @describeIn locf locf last observation carried forward
+#' @examples
+#' locf(c(NA,1,2,NA,NA,3,NA,4,NA))
+#' nocb(c(NA,1,2,NA,NA,3,NA,4,NA))
+#' forbak(c(NA,1,2,NA,NA,3,NA,4,NA))
+`locf` <-
+  function(x){
+    good <- !is.na(x)
+    positions <- seq(length(x))
+    good.positions <- good * positions
+    last.good.position <- cummax(good.positions)
+    last.good.position[last.good.position==0] <- NA
+    x[last.good.position]
+  }
+
+#' @describeIn locf forbak locf followed by nocb
+#' @export
+`forbak` <-
+  function(x)nocb(locf(x))
+
+#' @describeIn locf bakfor nocb followed by locf
+#' @export
+`bakfor` <-
+  function(x)locf(nocb(x))
+
+#' @describeIn locf nocb next observation carried backward
+#' @export
+`nocb` <-
+  function(x)rev(locf(rev(x)))

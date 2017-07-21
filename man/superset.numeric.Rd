@@ -17,4 +17,7 @@ Coerces to superset from numeric.
 \details{
 Converts number to character and revisits generic.
 }
+\seealso{
+\code{\link{superset.character}}
+}
 \keyword{internal}

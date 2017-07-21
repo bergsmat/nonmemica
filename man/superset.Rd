@@ -17,4 +17,7 @@ Coerces to superset.
 \details{
 Generic, with methods for numeric and character.
 }
+\seealso{
+\code{\link{superset.numeric}} \code{\link{superset.character}}
+}
 \keyword{internal}

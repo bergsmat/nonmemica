@@ -271,7 +271,8 @@ maxWidths <- function(x,...)UseMethod('maxWidths')
 #' @param ... passed arguments
 #' @export
 #' @keywords internal
-maxWidths <- function(x,...){
+maxWidths.list <- function(x,...){
+  if(length(x) == 0) return(0)
   maxlen <- max(sapply(x,length))
   for(i in seq_along(x)){
     len <- length(x[[i]])
