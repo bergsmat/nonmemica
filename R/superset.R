@@ -561,7 +561,7 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 
 #' Get Metadata for Character
 #' 
-#' Gets metadata for character, treating it as a model name.
+#' Gets metadata for character, treating it as a model name. Blends metadata from specfile with metadata from control stream, removing both exact duplicates as well as redefined values (with warning).  
 #' @inheritParams meta
 #' @export
 #' @import spec
@@ -576,6 +576,15 @@ meta.character <- function(x,...){
   try(y <- as.folded(read.spec(specfile(x))))
   try(z <- as.folded(definitions(x)))
   res <- bind_rows(y,z)
+  res <-  unique(res)
+  keys <- res[,c('VARIABLE','META')]
+  dups <- keys[duplicated(keys),]
+  dups <- unique(dups)
+  if(nrow(dups)){
+    tags <- paste(dups$VARIABLE, dups$META, sep = '_')
+    warning('removing conflicting metadata for ',paste(tags,collapse=', '))
+    res <- res[!duplicated(keys),]
+  }
   res <- as.folded(res) 
   res
 }
@@ -738,7 +747,7 @@ metaplot_character <- function(
   var,
   ...
 ){
-  if(is.null(meta)) meta <- meta
+  if(is.null(meta)) meta <- meta(x)
   z <- fold(x,UQS(groups), meta = meta, simplify = simplify, sort = sort, subset = subset)
   metaplot(z, UQS(syms(var)), ...)
 }

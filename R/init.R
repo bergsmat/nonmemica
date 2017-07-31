@@ -41,7 +41,7 @@ as.init.numeric <- function(x=numeric(0),fixed=FALSE,comment=character(0),...){
   if(y['low'] > y['up']) stop('lower bound must not be greater than upper bound')
   if(!is.na(y['init']))stopifnot(y['low'] <= y['init'],y['init'] <= y['up'])
   if(fixed & is.na(y['init']))stop('initial cannot be fixed if missing')
-  if(!fixed & !is.na(y['init']) & y['init']==0)stop('initial must be fixed if zero')
+  # if(!fixed & !is.na(y['init']) & y['init'] == 0)warning('initial should be fixed if zero\n')
 	if(fixed) y[c('low','init','up')] <- y['init']
   if(length(comment))comment(y) <- comment
 	y
