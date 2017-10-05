@@ -39,6 +39,7 @@ library(magrittr)
 1001 \%>\% tweak
 }
 \seealso{
-Other tweak: \code{\link{tweak.inits}},
-  \code{\link{tweak.init}}, \code{\link{tweak}}
+Other tweak: \code{\link{tweak.default}},
+  \code{\link{tweak.inits}}, \code{\link{tweak.init}},
+  \code{\link{tweak}}
 }

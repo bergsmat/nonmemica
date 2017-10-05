@@ -112,6 +112,8 @@ row_col <- function(x, xpath, param, moment,...){
 #' @param relative transform standard errors to relative standard errors: rse replaces se
 #' @param percent if relative is true, express as percent (else ignore): prse replaces se
 #' @param nonzero limit random effects to those with nonzero estimates
+#' @param shrinkage whether to include percent shrinkage on random effects
+#' @param correlation whether to include correlation of random effects (as percent if \code{percent} is true)
 #' @param ... passed to other functions
 #' @seealso \code{\link{as.docx.partab}}
 #' @seealso \code{\link{as.flextable.partab}}
@@ -123,6 +125,7 @@ row_col <- function(x, xpath, param, moment,...){
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% partab
+#' 1001 %>% partab(shrinkage = TRUE, correlation = TRUE)
 #' @return object of class partab, data.frame
 #' @export
 partab.character <- function(
@@ -147,6 +150,8 @@ partab.character <- function(
   relative = TRUE,
   percent=relative,
   nonzero = TRUE,
+  shrinkage = FALSE,
+  correlation = FALSE,
   ...
 ){
   # SCAVENGE XML
@@ -166,7 +171,15 @@ partab.character <- function(
   omega <- left_join(omega, omegase,by=c('parameter','offdiag'))
   sigma <- left_join(sigma, sigmase,by=c('parameter','offdiag'))
   theta <- mutate(theta, offdiag = 0)
-  param <- rbind(theta,omega,sigma)
+  etashrink <- xpath(y,'//etashrink/row/col')
+  epsshrink <- xpath(y,'//sigma/row/col')
+  etacor <- row_col(y, 'omegac', 'omega','correlation')
+  epscor <- row_col(y, 'sigmac','sigma','correlation')
+  cor <- suppressWarnings(bind_rows(etacor, epscor))
+  if(shrinkage && length(etashrink) == sum(omega$offdiag == 0)) omega$shrinkage[omega$offdiag == 0] <- etashrink
+  if(shrinkage && length(epsshrink) == sum(sigma$offdiag == 0)) sigma$shrinkage[sigma$offdiag == 0] <- epsshrink
+  param <- suppressWarnings(bind_rows(theta,omega,sigma))
+  if(correlation && nrow(cor)) param %<>% left_join(cor)
   if(inherits(z,'data.frame')){
     z <- z[-1,] # drop ofv
     need <- nrow(param) - sum(param$offdiag)
@@ -204,11 +217,18 @@ partab.character <- function(
     param <- mutate(param, se = se * 100) # rename prse below
     }
   }
+  if(percent){
+    if('correlation' %in% names(param)){
+      param <- mutate(param, correlation = correlation * 100)
+    }
+  }
   if(length(digits)){
     param <- mutate(param, estimate = signif(estimate, digits))
     param <- mutate(param, se =  signif(se,digits))
     param <- mutate(param, lo =  signif(lo,digits))
     param <- mutate(param, hi =  signif(hi,digits))
+    if('correlation' %in% names(param)) param <- mutate(param, correlation = signif(correlation,digits))
+    if('shrinkage' %in% names(param)) param <- mutate(param, shrinkage = signif(shrinkage,digits))
   }
   if(format){
     param <- mutate(param, estimate = as.character(estimate))

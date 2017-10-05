@@ -31,3 +31,8 @@ Tweaks a model by jittering initial estimates. Creates a new model directory
 in project context and places the model there. Copies helper files as well.
 Expects that x is a number. Assumes nested directory structure (run-specific directories).
 }
+\seealso{
+Other tweak: \code{\link{tweak.inits}},
+  \code{\link{tweak.init}}, \code{\link{tweak.model}},
+  \code{\link{tweak}}
+}

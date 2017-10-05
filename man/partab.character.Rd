@@ -9,7 +9,8 @@
   ctlfile = modelfile(x, ...), bootcsv, strip.namespace = TRUE, skip = 28,
   check.names = FALSE, digits = 3, ci = TRUE, open = "(", close = ")",
   sep = ", ", format = TRUE, fields = c("symbol", "label", "unit"),
-  relative = TRUE, percent = relative, nonzero = TRUE, ...)
+  relative = TRUE, percent = relative, nonzero = TRUE,
+  shrinkage = FALSE, correlation = FALSE, ...)
 }
 \arguments{
 \item{x}{a model name (numeric or character)}
@@ -54,6 +55,10 @@
 
 \item{nonzero}{limit random effects to those with nonzero estimates}
 
+\item{shrinkage}{whether to include percent shrinkage on random effects}
+
+\item{correlation}{whether to include correlation of random effects (as percent if \code{percent} is true)}
+
 \item{...}{passed to other functions}
 }
 \value{
@@ -72,6 +77,7 @@ Metadata can be added to the parameter table two ways: as markup in the control 
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% partab
+1001 \%>\% partab(shrinkage = TRUE, correlation = TRUE)
 }
 \seealso{
 \code{\link{as.docx.partab}}

@@ -1,3 +1,138 @@
+#' Create Specification for Model Inputs and Outputs
+#'
+#' Create a specification for the result of superset().  
+#' @param x object
+#' @param ... passed arguments
+#' @export
+superspec <- function(x, ...)UseMethod('superspec')
+
+#' Create Specification for Model Inputs and Outputs From Numeric
+#'
+#' Create a specification for the result of superset() from numeric by coercing to character.  
+#' @param x numeric
+#' @param ... passed arguments
+#' @export
+superspec.numeric <- function(x, ...){
+  y <- as.character(x)
+  superspec(y, ...)
+}
+
+#' Create Specification for Model Inputs and Outputs From Character
+#'
+#' Create a specification for the result of superset() from character by treating as a model name. By default, gives a spec template for superset(x). Tries to supplement with labels and units from parent specification, if it exists.  Tries to supplement with any additional labels and units in definitions(x).  Defers to actual data if provided. Specify \code{exclusive}, \code{visible}, and \code{after} as for \code{superset}.
+#' @param x character
+#' @param include column names in output to consider adding
+#' @param exclude column names in output to reject 
+#' @param rename logical: whether to keep and rename columns with re-used names
+#' @param visible a name for the flag column indicating visibility
+#' @param after place new columns after this column; at end by default (NULL); TRUE places them after 
+#' @param data an alternative dataset on which to model the specification
+#' @param ... passed arguments
+#' @export
+superspec.character <- function(
+  x, 
+  #exclusive = NULL,
+  include = character(0),
+  exclude = character(0),
+  rename = NULL,
+  visible = 'VISIBLE',
+  after = NULL,
+  data = NULL, 
+  ...
+){
+  if(is.null(data)) data <- superset(
+    x, 
+    #exclusive = exclusive, 
+    include = include,
+    exclude = exclude,
+    rename = rename,
+    visible = visible, 
+    after = after, 
+    ...
+  )
+  ospec <- try(x %>% specfile %>% read.spec)
+  def <- definitions(x)
+  spec <- specification(data)
+  if(ospec %>% inherits('spec')){
+    spec$label <- ospec$label[match(spec$column, ospec$column)]
+    spec$guide <- ospec$guide[match(spec$column, ospec$column)]
+  }
+  if('label' %in% names(def))spec$label <- ifelse(is.defined(spec$label), spec$label, def$label[match(spec$column, def$symbol)])
+  if('unit' %in% names(def))spec$guide <- ifelse(is.defined(spec$guide), spec$guide, def$unit[match(spec$column, def$symbol)])
+  if(visible %in% spec$column){
+    spec$label[spec$column == visible] <- 'visibility of record during modeling'
+    spec$guide[spec$column == visible] <- '//0/not visible//1/visible//'
+  }
+  spec
+}
+
+#' Move the Columns of a Data Frame Relative to Each Other
+#' 
+#' Move the columns of a data.frame relative to each other.
+#' @param x data.frame
+#' @param who a character vector of column names to move, or a logical vector of length names(x), or a vector of indices
+#' @param after column after which to put who: may be character, integer, NA, or NULL
+#' @param ... ignored
+#' @export
+#' @return data.frame
+#' 
+shuffle <- function (x, who, after = NA, ...) 
+{
+  names(x) <- make.unique(names(x))
+  who <- names(x[, who, drop = FALSE])
+  nms <- names(x)[!names(x) %in% who]
+  if (is.null(after)) 
+    after <- length(nms)
+  if (is.na(after)) 
+    after <- 0
+  if (length(after) == 0) 
+    after <- length(nms)
+  if (is.character(after)) 
+    after <- match(after, nms, nomatch = 0)
+  if (after < 0) 
+    after <- length(nms)
+  if (after > length(nms)) 
+    after <- length(nms)
+  nms <- append(nms, who, after = after)
+  x[nms]
+}
+
+#' Calculate Number of Inputs
+#' 
+#' Calculates number of inputs.
+#' @param x object
+#' @param ... passed arguments
+#' @export
+ninput <- function(x, ...)UseMethod('ninput')
+#' Calculate Number of Inputs for Numeric
+#' 
+#' Calculates number of inputs for numeric by coercing to character.
+#' @param x numeric
+#' @param ... passed arguments
+#' @export
+ninput.numeric <- function(x,...){
+  y <- as.character(x)
+  ninput(y, ...)
+}
+#' Calculate Number of Inputs for Character
+#' 
+#' Calculates number of inputs for character by treating as a model name.
+#' @param x character
+#' @param ... passed arguments
+#' @export
+#' @return integer
+ninput.character <- function(x,...){
+  y <- as.model(x, parse = FALSE)
+  y <- y$input
+  y <- sub(';.*','',y)
+  y <- paste(y, collapse = ' ')
+  y <- gsub('\\s*=\\s*','=',y)
+  y <- strsplit(y,'[ ,]+')
+  y <- y[[1]]
+  y <- y[y != '']
+  length(y)
+}
+
 #' Coerce to Superset
 #' 
 #' Coerces to superset.
@@ -23,7 +158,7 @@ superset <- function(x,...)UseMethod('superset')
 #' @seealso \code{\link{superset.character}}
 superset.numeric <- function(x,...){
   y <- as.character(x)
-  superset(y)
+  superset(y, ...)
 }
 
 #' Coerce to Superset from Character
@@ -32,11 +167,9 @@ superset.numeric <- function(x,...){
 #' 
 #' Given a model name, (\code{project} passed or set as global option) superset() figures out the run directory and location of a NONMEM control stream. It reads the control stream to identify the run-time location of input and output files, as well as the "ignore" (and/or "accept") criteria that relate extent of input records to extent of output records. `read.input` and `read.output` are lists consisting of functions and arguments appropriate for reading input and output file formats, respectively. The ignore criteria will be reconstructed per row so that output can be mapped unambiguously to input. A column named VISIBLE is bound to the input data, showing 1 where a record was visible to NONMEM, and 0 otherwise.
 
-# Normally, `superset` tries to bind output columns directly to input. Alternatively, if key is provided, it is used as an object model to allow an inferential left join of output onto input; this approach is riskier, but can back fill NA cells with values that are otherwise constant within left-subsets of the key.
-
 #' During integration, naming convention of the input is retained, and output column names are mapped by position, using the control stream input criteria. Output tables are restored to input dimensions using the "ignore" criteria, then checked for length: currently, superset ignores output tables having fewer rows than the input, as well as output tables whose row count is not a multiple of input row count.
 
-#' Output tables may contain versions of input columns. Disposition depends on the value of `exclusive`. If a character vector, it lists columns to exclude from output. If TRUE, all columns with re-used names will be dropped. If FALSE, such columns will be renamed (*.n, where n is table number). If NULL, only informative columns will be retained and renamed. A column is informative if any element is informative. An element is informative if it is newly generated (not NA and not zero, but original is NA) or if it is an alteration (non-NA, and different from non-NA original). If the column pair can be interpreted as numeric, "different" is determined using only the first `digits` digits.
+#' Output tables may contain versions of input columns. Disposition depends on the values of \code{include}, \code{exclude}, and \code{rename}. If \code{include} has length, other columns are excluded.  Then, if \code{exclude} has length, these columns are excluded. Then, if \code{rename} is FALSE all remaining columns with re-used names will be dropped. If TRUE, such columns will be renamed (*.n, where n is table number). If NULL, only informative columns will be retained and renamed. A column is informative if any element is informative. An element is informative if it is newly generated (not NA and not zero, but original is NA) or if it is an alteration (non-NA, and different from non-NA original). If the column pair can be interpreted as numeric, "different" is determined using only the first \code{digits} digits.
 
 #' Only the first instance of any column among successive output tables is retained.
  
@@ -49,9 +182,14 @@ superset.numeric <- function(x,...){
 #  @param key the object model for the input data: vector of key column names in hierarchical order (e.g. USUBJID, TIME, CMT)
 #' @param read.input a methodology for acquiring the input
 #' @param read.output a methodology for acquiring the output
-#' @param exclusive character vector of output column names to exclude; or logical: whether to keep columns with re-used names
+#' @param include column names in output to consider adding
+#' @param exclude column names in output to reject 
+#' @param rename logical: whether to keep and rename columns with re-used names
 #' @param digits significant digits for assessing informativeness when exclusive=NULL
 #' @param visible a name for the flag column indicating visibility
+#' @param after place new columns after this column; at end by default (NULL); TRUE places them after last model-visible column (see input statement) 
+#' @param groups character vector of groupings within which any imputations will be performed
+#' @param imputation a list of functions (or arguments to match.fun()) to perform imputations within cells defined by groups: e.g. generalize, forbak, etc (to be tried in succession for new columns only). 
 #' @return superset: a data.frame  where row count is a multiple of (typically equal to) input row count.
 #' @import utils
 #' @export
@@ -64,13 +202,20 @@ superset.numeric <- function(x,...){
 #' 1001 %>% superset %>% group_by(ID,TIME) %>% status
 superset.character <- function(
   x,
-  read.input=list(read.csv,header=TRUE,as.is=TRUE),
-  read.output=list(read.table,header=TRUE,as.is=TRUE,skip=1,comment.char='',check.names=FALSE),
-  exclusive=NULL,
-  digits=5,
-  visible='VISIBLE',
+  read.input = list(read.csv,header=TRUE,as.is=TRUE), # na.strings = c("", "\\s", ".", "NA")
+  read.output = list(read.table,header=TRUE,as.is=TRUE,skip=1,comment.char='',check.names=FALSE,na.strings = c("", "\\s", ".", "NA")),
+  include = character(0),
+  exclude = character(0),
+  rename = NULL,
+  digits = 5,
+  visible = 'VISIBLE',
+  after = NULL,
+  groups = character(0),
+  imputation = generalize,
   ...
 ){
+  if(!is.list(imputation))if(length(imputation) == 1) imputation <- list(imputation)
+  if(is.logical(after))if(after)after <- ninput(x)
   if(length(x) != 1)stop('character is understood as a model name and must have length one')
   #run <- x
   ctlfile <- modelfile(x,...)
@@ -84,9 +229,9 @@ superset.character <- function(
   labels <- .nminput(control)
   input <- .read.any(file=datafile,args=read.input)
   stopifnot(nrow(input)==length(dropped))
-  input[as.character(x)] <- as.integer(!dropped)
   if(!length(paths))return(input)
-  if(length(labels)>ncol(input))stop('more nonmem aliases than data columns')
+  if(length(labels) > ncol(input))stop('more nonmem aliases than data columns')
+  input[x] <- as.integer(!dropped)
   output <- lapply(paths, .read.any, args=read.output)
   analogs <- names(input)[seq_along(labels)]
   output <- lapply(output,.revert,labels=labels,analogs=analogs)
@@ -96,11 +241,44 @@ superset.character <- function(
   #if(length(key)) return(.markup(lst=c(list(input),output),key=key))
   output <- .distill(output)#drop repeat columns
   output <- lapply(output,.restore,dropped=dropped)#expand
-  res <- .superbind(c(list(input),output),exclusive=exclusive,digits=digits)
+  output <- lapply(output, .select, include = include, exclude = exclude)
+  res <- .superbind(
+    c(list(input),output),
+    rename = rename,
+    digits = digits
+  )
   rownames(res) <- NULL
-  if(length(visible) == 1) names(res)[names(res) == x] <- visible
+  node <- match(x, names(res))
+  new <- character(0)
+  if(ncol(res) > node) new <- names(res)[(node+1):ncol(res)]
+  if(length(groups))if(length(imputation)){
+    res <- group_by(res, UQS(lapply(groups, as.symbol)))
+    res <- mutate_at(res, .vars = new, .funs = do.call(funs, imputation))
+    res <- ungroup(res)
+  } 
+  if(!is.null(after))res <- shuffle(res, who = new, after = after)
+  if(length(visible) == 1) names(res)[names(res) == x] <- visible else res[[x]] <- NULL
   class(res) <- union('superset',class(res))
   res
+}
+
+#' Generalize a Nonmissing Value
+#' 
+#' #Generalize a nonmissing value.  If there is only one such among zero or more NA, impute that value for all NA.
+#' @param x vector
+#' @param ... ignored
+#' @export
+generalize <- function(x,...){
+  y <- unique(x[!is.na(x)])
+  if(length(y) == 1) x[is.na(x)] <- y
+  x
+}
+
+.select <- function(x, include = character(0), exclude = character(0), ...){ # limit to columns of interest
+  nms <- names(x)
+  if(length(include)) nms <- intersect(nms, include)
+  nms <- setdiff(nms, exclude)
+  x[,nms,drop = FALSE]
 }
 
 .restore <- function(x,dropped,...){ # add records wherever dropped is TRUE
@@ -155,16 +333,31 @@ superset.character <- function(
       altered <- !is.na(x) & !is.na(y) & x != y
       any(generated | altered)
 }
-.superbind <- function(lst,i=0,exclusive=NULL,digits=5,x=data.frame(),...){ # recursively cbind with auto-rename and exclusivity options
+.superbind <- function(
+  lst,
+  i=0,
+  # exclusive=NULL,
+  # include = character(0),
+  # exclude = character(0),
+  rename = NULL,
+  digits=5,
+  # node = 'visible',
+  x=data.frame(),
+  ...
+){ # recursively cbind with auto-rename and exclusivity options
     if(!length(lst))return(x)
     stopifnot(is.list(lst),is.data.frame(lst[[1]]))
+    stopifnot(is.null(rename) || is.logical(rename))
+    # if(length(include)) include <- c(include,node)
+    # if(length(exclude)) exclude <- setdiff(exclude,node)
     y <- lst[[1]]
     lst <- lst[-1]
-    if(is.character(exclusive)) y <- y[,names(y)[!names(y) %in% exclusive],drop=FALSE]
+    # if(length(include)) y <- y[,names(y) %in% include, drop = FALSE]
+    # if(length(exclude)) y <- y[,!names(y) %in% exclude, drop = FALSE]
+    # #if(is.character(exclusive)) y <- y[,names(y)[!names(y) %in% exclusive],drop=FALSE]
     if(nrow(x)==0) x <- data.frame(row.names=1:nrow(y))
     if(
-    	(nrow(y) %% nrow(x) != 0) ||
-	(nrow(y) == 0)
+    	(nrow(y) %% nrow(x) != 0) || (nrow(y) == 0)
     ){
       message('ignoring table ',i,': expected ', nrow(x),' rows but found ',nrow(y))
       y <- data.frame(row.names=1:nrow(x))
@@ -173,19 +366,29 @@ superset.character <- function(
     }
     stopifnot(nrow(y)==nrow(x))
     analogs <- intersect(names(x),names(y))
-    #(implicitly, y cols with new names are informative.)
+    # implicitly, y cols with new names are informative.
     index <- sapply(analogs, function(col).informative(x[[col]],y[[col]],digits=digits))
     goodDups <- character(0)
     if(length(analogs))goodDups <- analogs[index]
     badDups <- setdiff(analogs,goodDups)
-    #every analog y column will be renamed or dropped (or both).
-    if(is.null(exclusive)) y <- y[,!names(y) %in% badDups,drop=FALSE]
-    else if(is.logical(exclusive))if(exclusive==TRUE) y <- y[,!names(y) %in% analogs,drop=FALSE]
+    # every analog y column will be renamed or dropped (or both).
+    if(is.null(rename)) y <- y[,!names(y) %in% badDups,drop=FALSE]
+    else if(rename == FALSE) y <- y[,!names(y) %in% analogs,drop=FALSE]
     fix <- names(y) %in% analogs
-    if(any(fix))names(y)[fix] <- map(names(y)[fix],from=analogs,to=paste0(analogs,'.',i))
+    if(any(fix)) names(y)[fix] <- map(names(y)[fix],from=analogs,to=paste0(analogs,'.',i))
     x <- cbind(x,y)
     rownames(x) <- NULL
-    .superbind(lst=lst, i=i+1, exclusive=exclusive,digits=digits,x=x,...)
+    .superbind(
+      lst=lst, 
+      i=i + 1, 
+      #exclusive=exclusive,
+      # include = include,
+      # exclude = exclude,
+      rename = rename,
+      digits=digits,
+      x=x,
+      ...
+    )
 }
 map <- function (x, from, to, strict = TRUE, ...) 
 {

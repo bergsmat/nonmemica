@@ -263,6 +263,7 @@ runlog.character <- function(
 #' @param include regular expressions for files to copy to new directory
 #' @param ... pass ext to over-ride default model file extension
 #' @return character: vector of names for models created
+#' @family tweak
 #' @export
 tweak.default <- function(
   x, 

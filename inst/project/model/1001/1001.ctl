@@ -3,7 +3,7 @@ $INPUT C ID TIME SEQ=DROP EVID AMT DV SUBJ HOUR HEIGHT WT SEX AGE DOSE FED
 $DATA ../../data/derived/drug.csv IGNORE=C
 $SUBROUTINE ADVAN4 TRANS4
 $PK
- CL=THETA(1)*EXP(ETA(1)) * THETA(6)**SEX * (WT/70)**THETA(7)
+ CL=THETA(1)*EXP(ETA(1)) * (WT/70)**THETA(6) * THETA(7)**SEX
  V2 =THETA(2)*EXP(ETA(2))
  KA=THETA(3)*EXP(ETA(3))
  Q  =THETA(4)
@@ -20,8 +20,8 @@ $THETA
 (0,0.2, 5)    ;Ka;absorption rate constant;1/h
 (0,10,50)     ;Q/F;intercompartmental clearance;L/h
 (0,100,1000)  ;Vp/F;peripheral volume;L
-(0,1,2)       ;MALE_CL;male effect on clearance;
 (0,0.75,3)    ;WT_CL;weight effect on clearance;
+(0,1,2)       ;MALE_CL;male effect on clearance;
 
 $OMEGA BLOCK(3)
 .1            ;IIV_CL;interindividual variability on clearance
