@@ -4,9 +4,9 @@ $DATA ../../data/derived/drug.csv IGNORE=C
 $SUBROUTINE ADVAN2 TRANS2
 $PK
  CL=THETA(1)*EXP(ETA(1))
- V2 =THETA(2)*EXP(ETA(2))
+ V =THETA(2)*EXP(ETA(2))
  KA=THETA(3)*EXP(ETA(3))
- S2=V2
+ S1=V
  
 $ERROR
  Y=F*(1+ERR(1))
@@ -41,10 +41,8 @@ $TABLE NOPRINT FILE=mod2.tab ONEHEADER
 ID                              ; ID       ; NONMEM subject identifier                    
 TIME                            ; TIME     ; time                                          ; h                      
 CL                              ; CLI      ; posthoc systemic clearance                    ; L/h                    
-V2                              ; V2I      ; posthoc systemic volume                       ; L                      
+V                               ; V2I      ; posthoc systemic volume                       ; L                      
 KA                              ; KAI      ; posthoc absorption rate                       ; 1/h                    
-Q                               ; Q2I      ; posthoc intercompartmental clearance          ; 1/h                    
-V3                              ; V3I      ; posthoc peripheral volume                     ; L                      
 ETA1                            ; BSV_CL   ; clearance between-subject variability        
 ETA2                            ; BSV_V2   ; volume between-subject variability           
 ETA3                            ; BSV_KA   ; absorption between-subject variability       

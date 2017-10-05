@@ -1,0 +1,11 @@
+doing nmtran
+cp: cannot stat ‘FSUBS’: No such file or directory
+cat: FSUBS.f90: No such file or directory
+ 
+ AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.
+ 
+ AN ERROR WAS FOUND ON LINE  32 AT THE APPROXIMATE POSITION NOTED:
+             CIWRESI ; CIWRESI  ; conditional indvividual weighted residual
+             X      
+ THE CHARACTERS IN ERROR ARE: CIWRESI
+ 479  THIS ITEM IS NOT LISTED IN MODULE NMPRD4 AND MAY NOT BE DISPLAYED.      
