@@ -3,6 +3,7 @@
 #' Create a specification for the result of superset().  
 #' @param x object
 #' @param ... passed arguments
+#' @seealso \code{\link{superspec.character}}
 #' @export
 superspec <- function(x, ...)UseMethod('superspec')
 
@@ -57,8 +58,8 @@ superspec.character <- function(
     spec$label <- ospec$label[match(spec$column, ospec$column)]
     spec$guide <- ospec$guide[match(spec$column, ospec$column)]
   }
-  if('label' %in% names(def))spec$label <- ifelse(is.defined(spec$label), spec$label, def$label[match(spec$column, def$symbol)])
-  if('unit' %in% names(def))spec$guide <- ifelse(is.defined(spec$guide), spec$guide, def$unit[match(spec$column, def$symbol)])
+  if('label' %in% names(def))spec$label <- ifelse(is.defined(spec$label), spec$label, def$label[match(spec$column, def$item)])
+  if('unit' %in% names(def))spec$guide <- ifelse(is.defined(spec$guide), spec$guide, def$unit[match(spec$column, def$item)])
   if(visible %in% spec$column){
     spec$label[spec$column == visible] <- 'visibility of record during modeling'
     spec$guide[spec$column == visible] <- '//0/not visible//1/visible//'

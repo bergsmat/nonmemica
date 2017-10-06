@@ -329,7 +329,11 @@ comments.records <- function(x,...){
     y[[i]] <- comments(this, type=type, prior=prior)
     prior <- prior + ord(this)
   }
-  y <- do.call(rbind,y)
+  y <- if(length(y)){
+    do.call(rbind,y)
+  } else {
+    data.frame(item=character(0),comment=character(0))
+  }
   class(y) <- union('comments',class(y))
   y
 }

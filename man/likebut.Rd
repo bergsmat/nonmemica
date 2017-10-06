@@ -55,3 +55,6 @@ library(magrittr)
 # At this point, edit 1002.ctl to match whatever 'revised' means.
 # Then run it with NONMEM.
 }
+\seealso{
+\code{\link{runlog.character}}
+}

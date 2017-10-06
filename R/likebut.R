@@ -186,6 +186,7 @@ unionRollUp.list <- function(x,...){
 #' Creates a runlog.
 #' @param x object
 #' @param ... passed arguments
+#' @seealso \code{\link{runlog.character}}
 #' @export
 #' @keywords internal
 runlog <- function(x,...)UseMethod('runlog')
@@ -206,11 +207,19 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' @param digits significance for parameters
 #' @param places rounding for objective function
 #' @return data.frame
+#' @seealso \code{\link{likebut}}
 #' @export
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
-#' 1001 %>% runlog(dependencies = TRUE)
+#' # likebut(2001,'2 cmt', 2002)              # edit manually, then ...
+#' # likebut(2002,'add. err.', 2003)          # edit manually, then ...
+#' # likebut(2003,'allo. WT on CL',2004)      # edit manually, then ...
+#' # likebut(2004,'estimate allometry', 2005) # edit manually, then ...
+#' # likebut(2005,'SEX on CL', 2006)          # edit manually, then ...
+#' # likebut(2006,'full block omega', 2007)   # edit manually, then run all
+
+#' 2007 %>% runlog(dependencies = TRUE)
 runlog.character <- function(
   x, 
   dependencies = FALSE,
@@ -313,6 +322,7 @@ tweak.default <- function(
 #' @param include regular expressions for files to copy to new directory
 #' @param ... passed arguments
 #' @return the value of y
+#' @seealso \code{\link{runlog.character}}
 #' @export
 #' @examples
 #' # Create a working project.

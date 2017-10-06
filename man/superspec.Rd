@@ -14,3 +14,6 @@ superspec(x, ...)
 \description{
 Create a specification for the result of superset().
 }
+\seealso{
+\code{\link{superspec.character}}
+}

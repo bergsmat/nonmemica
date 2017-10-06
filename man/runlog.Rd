@@ -14,4 +14,7 @@ runlog(x, ...)
 \description{
 Creates a runlog.
 }
+\seealso{
+\code{\link{runlog.character}}
+}
 \keyword{internal}
