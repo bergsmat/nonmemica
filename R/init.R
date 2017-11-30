@@ -657,7 +657,7 @@ tweak.init <- function(x,sd=0.13,digits=3,...){
 #' @keywords internal
 #' @family tweak
 tweak.inits <- function(x,sd=0.13,digits=3,...){
-	x[] <- lapply(x,tweak,sd=sd,digits=digits,...)
+	x[!fixed(x)] <- lapply(x[!fixed(x)],tweak,sd=sd,digits=digits,...)
 	x
 }
 #' Tweak Model
@@ -687,8 +687,10 @@ tweak.inits <- function(x,sd=0.13,digits=3,...){
 #' 1001 %>% tweak
 tweak.model <- function(x,sd=0.13,digits=3,...){
 	stopifnot('theta' %in% names(x))
-	x$theta <- as.inits(x$theta)
-	x$theta <- tweak(x$theta,sd=sd,digits=digits,...)
+	# x$theta <- as.inits(x$theta)
+  x[names(x) == 'theta'] <- lapply(x[names(x) == 'theta'], as.inits)
+	# x$theta <- tweak(x$theta,sd=sd,digits=digits,...)
+  x[names(x) == 'theta'] <- lapply(x[names(x) == 'theta'], tweak, sd = sd, digits = digits,...)
 	x
 }
 	

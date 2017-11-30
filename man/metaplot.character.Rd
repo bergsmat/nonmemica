@@ -31,6 +31,7 @@ meta version of the model output and calling metaplot with the result.
 library(magrittr)
 library(metaplot)
 options(project = system.file('project/model',package='nonmemica'))
+\dontrun{
 1001 \%>\% metaplot(
  CWRESI, TAD, SEX, 
  groups = c('ID','TIME'), 
@@ -39,6 +40,7 @@ options(project = system.file('project/model',package='nonmemica'))
  alpha = 0.1, 
  ysmooth = TRUE
 )
+}
 }
 \seealso{
 \code{fold}

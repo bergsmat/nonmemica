@@ -953,7 +953,8 @@ metaplot_character <- function(
 ){
   if(is.null(meta)) meta <- meta(x)
   z <- fold(x,UQS(groups), meta = meta, simplify = simplify, sort = sort, subset = subset)
-  metaplot(z, UQS(syms(var)), ...)
+  z %<>% pack
+  metaplot(z, !!!var, ...)
 }
 #' Metaplot Character
 #'
@@ -977,6 +978,7 @@ metaplot_character <- function(
 #' library(magrittr)
 #' library(metaplot)
 #' options(project = system.file('project/model',package='nonmemica'))
+#' \dontrun{
 #' 1001 %>% metaplot(
 #'  CWRESI, TAD, SEX, 
 #'  groups = c('ID','TIME'), 
@@ -985,6 +987,7 @@ metaplot_character <- function(
 #'  alpha = 0.1, 
 #'  ysmooth = TRUE
 #' )
+#' }
 metaplot.character <- function(
   x,
   ...,
