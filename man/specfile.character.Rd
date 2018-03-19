@@ -22,7 +22,6 @@ character
 Identifies the data specification file associated with the datafile used by a model. Locates the datafile specified in the control stream, and substitutes a different extension.
 }
 \examples{
-library(fold)
 library(spec)
 source <- system.file(package = 'nonmemica','project')
 target <- tempdir()
@@ -35,7 +34,6 @@ library(magrittr)
 datafile(1001) \%matches\% specfile(1001)
 1001 \%>\% specfile
 1001 \%>\% specfile \%>\% read.spec
-1001 \%>\% specfile \%>\% read.spec \%>\% as.folded
 }
 \seealso{
 datafile

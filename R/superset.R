@@ -200,7 +200,7 @@ superset.numeric <- function(x,...){
 #' library(wrangle)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% superset %>% head
-#' 1001 %>% superset %>% group_by(ID,TIME) %>% status
+#' 1001 %>% superset %>% filter(VISIBLE == 1) %>% group_by(ID,TIME) %>% status
 superset.character <- function(
   x,
   read.input = list(read.csv,header=TRUE,as.is=TRUE), # na.strings = c("", "\\s", ".", "NA")
@@ -303,24 +303,6 @@ generalize <- function(x,...){
     known <- c(known,names(y))
     c(list(y),.distill(x[-1],known=known,...)) # recursion
 }
-# .markup <- function(lst,key,...){ # recursively amend using raised.keyed
-#     stopifnot(is.list(lst),!!length(lst),is.data.frame(lst[[1]]))
-#     x <- lst[[1]]
-#     lst <- lst[-1]
-#     if(!length(lst))return(x)
-#     y <- lst[[1]]
-#     lst <- lst[-1]
-#     ind <- key[key %in% names(y)]
-#     y <- as.keyed(y,ind)
-#     x$metrumrg.markup <- 1:nrow(x)
-#     x <- as.keyed(x,'metrumrg.markup')
-#     z <- x^y # the magic
-#     if(any(is.na(z$metrumrg.markup)))stop('pseudo rows introduced')
-#     z <- sort(as.keyed(z,'metrumrg.markup'))
-#     z$metrumrg.markup <- NULL
-#     z <- as.data.frame(z,...)
-#     .markup(c(list(z),lst),key=key,...)
-# }
 .informative <- function(x,y,digits=5){
       stopifnot(length(x)==length(y))
       # convert x and y to canonical form
@@ -694,17 +676,16 @@ extractPath <-
 function (x) 
   sub("(^.*(MSFO?|FILE) *= *)([^ ]*)(.*$)", "\\3", x, ignore.case = TRUE)
 
-#' Retrieve Model Outputs in Meta Format
+#' Retrieve Model Outputs with Metadata
 #' 
-#' Retrieves model outputs in meta format.
+#' Retrieves model outputs with metadata.
 #' 
 #' @param x model name
 #' @param groups vector of key column names in superset, e.g. USUBJID, TIME
-#' @param meta pre-folded metadata
+#' @param meta metadata with column 'item' and possibly attributes such as 'label' and 'guide'
 #' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 0'
 #' @param ... passed arguments
-#' @return folded
-#' @import fold
+#' @return data.frame
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
@@ -725,22 +706,15 @@ metasuperset <- function(
   y <- filter(y, VISIBLE==1)
   if(!missing(subset)){
     subset <- as.logical(eval(parse(text=subset), envir=y))
-    y <- y[subset,] # y %<>% filter(EVID==0)
+    y <- y[subset,,drop = FALSE] 
   }
-  # need <- c('item','symbol','label','unit')
-  # miss <- setdiff(need, names(meta))
-  # if(length(miss))stop('meta is missing columns ', paste(miss,collapse=', '))
-  # meta %<>% 
-  #   select(item,label,unit) %>%
-  #   rename(VARIABLE=item,LABEL=label,GUIDE=unit) %>%
-  #   gather(META,VALUE,LABEL,GUIDE)
-  targets <- intersect(meta$VARIABLE,names(y))
-  meta <- filter(meta, VARIABLE %in% targets)
-  y <- select(y, UQS(c(groups,targets)))
-  y <- fold(y,UQS(groups))
-  y <-  bind_rows(meta, y)
-  # y %<>% as.folded(...)
-  class(y) <- c('folded','data.frame')
+  targets <- intersect(names(y), meta$item)
+  attrs <- setdiff(names(meta), 'item')
+  for(col in targets){
+    for(at in attrs){
+      attr(y[[col]], at) <- meta[[at]][meta$item == col]
+    }
+  }
   y
 }
 
@@ -769,7 +743,7 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' @inheritParams meta
 #' @export
 #' @import spec
-#' @return folded
+#' @return data.frame
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -777,139 +751,26 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 meta.character <- function(x,...){
   y <- data.frame()
   z <- data.frame()
-  try(y <- as.folded(read.spec(specfile(x))))
-  try(z <- as.folded(definitions(x)))
+  try(y <- read.spec(specfile(x)))
+  try(z <- definitions(x))
+  y <- y[,c('column','label','guide'),drop = FALSE]
+  names(y)[names(y) == 'column'] <- 'item'
+  names(z)[names(z) == 'unit'] <- 'guide'
   res <- bind_rows(y,z)
   res <-  unique(res)
-  keys <- res[,c('VARIABLE','META')]
-  dups <- keys[duplicated(keys),]
-  dups <- unique(dups)
-  if(nrow(dups)){
-    tags <- paste(dups$VARIABLE, dups$META, sep = '_')
-    warning('removing conflicting metadata for ',paste(tags,collapse=', '))
-    res <- res[!duplicated(keys),]
+  if(any(duplicated(res$item))){
+    warning('removing duplicate definitions')
+    res <- res[!duplicated(res$item),,drop = FALSE]
   }
-  res <- as.folded(res) 
+  # keys <- res[,c('VARIABLE','META')]
+  # dups <- keys[duplicated(keys),]
+  # dups <- unique(dups)
+  # if(nrow(dups)){
+  #   tags <- paste(dups$VARIABLE, dups$META, sep = '_')
+  #   warning('removing conflicting metadata for ',paste(tags,collapse=', '))
+  #   res <- res[!duplicated(keys),]
+  # }
   res
-}
-
-#' Fold Numeric
-#' 
-#' Folds numeric, coercing to character
-#' @param x numeric
-#' @param ... passed to \code{fold}
-#' @export
-#' @keywords internal
-#' @import fold
-#' @seealso fold.character
-fold.numeric <- function(x,...)fold(as.character(x),...)
-
-#' Fold Character
-#' 
-#' Folds character, treating \code{x} as a model name.
-#' @param x character
-#' @param ... unquoted grouping variables
-#' @param meta pre-folded metadata
-#' @param simplify whether to simplify the result
-#' @param sort whether to sort the result
-#' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
-#' @export
-#' @import fold
-#' @importFrom rlang UQS
-#' @importFrom rlang quos
-#' @keywords internal
-#' @return folded
-#' @examples
-#' library(magrittr)
-#' library(fold)
-#' options(project = system.file('project/model',package='nonmemica'))
-#' 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
-
-fold.character <- function(
-  x,
-  ...,
-  meta = match.fun('meta')(x,...),
-  simplify = TRUE,
-  sort = TRUE,
-  subset
-){
-  args <- quos(...)
-  args <- lapply(args,f_rhs)
-  groups <- args[names(args) == '']
-  other  <- args[names(args) != '']
-  groups <- sapply(groups,as.character)
-  have <- list(
-    x = x,
-    groups = groups,
-    meta = meta,
-    simplify = simplify,
-    sort = sort
-  )
-  if(!missing(subset))have <- c(have,list(subset = subset))
-  have <- c(have,other)
-  do.call(fold_character,have)
-}
-
-#' Fold Character with Standard Evaluation
-#' 
-#' Folds character (model name) using standard evaluation.
-#' 
-#' @param x character model name
-#' @param ... passed arguments
-#' @param groups  columns to group by, i.e. key for the model's data (named values will be dropped)
-#' @param meta pre-folded metadata
-#' @param simplify whether to simplify the result
-#' @param sort whether to sort the result
-#' @param subset length-one character: a condition for filtering results, e.g. 'EVID == 1'
-#' @import fold
-#' @return folded
-
-fold_character <- function(
-  x,
-  groups,
-  meta = match.fun('meta')(x,...),
-  simplify = TRUE,
-  sort = TRUE,
-  subset,
-  ...
-){
-  if(length(groups))if(is.null(names(groups)))names(groups) <- rep('',length(groups))
-  if(length(groups))groups <- groups[is.na(names(groups)) | names(groups) == '']
-  # need to convert to character
-  metasuperset(
-    x = x,
-    groups=groups,
-    meta = meta,
-    sort = sort,
-    simplify = simplify,
-    subset = subset,
-    ...
-  )
-}
-
-#' Unfold Numeric
-#'
-#' Unfolds numeric by coercing to character.
-#' @param x numeric
-#' @param ... passed arguments
-#' @export
-#' @keywords internal
-unfold.numeric <- function(x, ...)unfold(as.character(x),...)
-
-#' Unfold Character
-#'
-#' Unfold by treating character as model name.  A dataset
-#' is constructed by combining the meta version of the model input with a
-#' meta version of the model output and calling unfold with the result.
-#'
-#' @param x character
-#' @param ... passed arguments
-#' @seealso \code{fold.character}
-#' @export
-#'
-unfold.character <- function(x,...){
-  z <- fold(x,...)
-  unfold(z,...)
 }
 
 
@@ -926,34 +787,29 @@ metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 #' Metaplot Character, Standard Evaluation
 #'
 #' Plots character by treating as model name.  A dataset
-#' is constructed by combining the meta version of the model input with a
-#' meta version of the model output and calling metaplot with the result.
+#' is constructed by combining the model input with a
+#' the model output and calling metaplot with the result.
 #'
 #' @param x object
 #' @param ... passed arguments
-#' @param groups  columns by which to group the dataset, passed to fold()
-#' @param meta pre-folded metadata; meta(x) by default
-#' @param simplify whether to simplify the result, passed to fold()
-#' @param sort whether to sort the result, passed to fold()
-#' @param subset a condition for filtering data, passed to fold()
+#' @param groups  columns by which to group the dataset
+#' @param meta metadata; meta(x) by default
+#' @param subset a condition for filtering data
 #' @param var variables to plot
 #' @import metaplot
 #' @importFrom rlang UQS
 #' @importFrom rlang syms
-#' @seealso \code{fold}
 metaplot_character <- function(
   x,
   groups,
   meta = NULL,
-  simplify = TRUE,
-  sort = TRUE,
   subset,
   var,
   ...
 ){
   if(is.null(meta)) meta <- meta(x)
-  z <- fold(x,UQS(groups), meta = meta, simplify = simplify, sort = sort, subset = subset)
-  z %<>% pack
+  z <- metasuperset(x,UQS(groups), meta = meta, subset = subset)
+  #z %<>% pack
   metaplot(z, !!!var, ...)
 }
 #' Metaplot Character
@@ -964,15 +820,12 @@ metaplot_character <- function(
 #'
 #' @param x object
 #' @param ... unquoted names of variables to plot, or other named arguments (passed)
-#' @param groups  columns by which to group the dataset, passed to fold()
-#' @param meta pre-folded metadata; meta(x) by default
-#' @param simplify whether to simplify the result, passed to fold()
-#' @param sort whether to sort the result, passed to fold()
-#' @param subset a condition for filtering data, passed to fold()
+#' @param groups  columns by which to group the dataset
+#' @param meta metadata; meta(x) by default
+#' @param subset a condition for filtering data
 #' @import metaplot
 #' @importFrom rlang quos
 #' @import lazyeval
-#' @seealso \code{fold}
 #' @export
 #' @examples
 #' library(magrittr)
@@ -983,8 +836,7 @@ metaplot_character <- function(
 #'  CWRESI, TAD, SEX, 
 #'  groups = c('ID','TIME'), 
 #'  subset = 'MDV == 0',
-#'  yref=0, 
-#'  alpha = 0.1, 
+#'  yref = 0, 
 #'  ysmooth = TRUE
 #' )
 #' }
@@ -993,8 +845,6 @@ metaplot.character <- function(
   ...,
   groups,
   meta = match.fun('meta')(x),
-  simplify = TRUE,
-  sort = TRUE,
   subset
 ){
   args <- quos(...)
@@ -1006,8 +856,7 @@ metaplot.character <- function(
     x = x,
     var = var,
     groups = groups,
-    meta = meta,
-    simplify = simplify
+    meta = meta
   )
   if(!missing(subset)) val <- c(val,list(subset = subset))
   val <- c(val, other)

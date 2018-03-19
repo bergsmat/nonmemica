@@ -4,21 +4,16 @@
 \alias{metaplot_character}
 \title{Metaplot Character, Standard Evaluation}
 \usage{
-metaplot_character(x, groups, meta = NULL, simplify = TRUE, sort = TRUE,
-  subset, var, ...)
+metaplot_character(x, groups, meta = NULL, subset, var, ...)
 }
 \arguments{
 \item{x}{object}
 
-\item{groups}{columns by which to group the dataset, passed to fold()}
+\item{groups}{columns by which to group the dataset}
 
-\item{meta}{pre-folded metadata; meta(x) by default}
+\item{meta}{metadata; meta(x) by default}
 
-\item{simplify}{whether to simplify the result, passed to fold()}
-
-\item{sort}{whether to sort the result, passed to fold()}
-
-\item{subset}{a condition for filtering data, passed to fold()}
+\item{subset}{a condition for filtering data}
 
 \item{var}{variables to plot}
 
@@ -26,9 +21,6 @@ metaplot_character(x, groups, meta = NULL, simplify = TRUE, sort = TRUE,
 }
 \description{
 Plots character by treating as model name.  A dataset
-is constructed by combining the meta version of the model input with a
-meta version of the model output and calling metaplot with the result.
-}
-\seealso{
-\code{fold}
+is constructed by combining the model input with a
+the model output and calling metaplot with the result.
 }

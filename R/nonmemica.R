@@ -83,7 +83,6 @@
 #' 
 #' # Load some packages
 #' library(magrittr)
-#' library(fold)
 #' library(metaplot)
 #' library(wrangle)
 #' library(spec)
@@ -98,7 +97,6 @@
 #' datafile(1001) %matches% specfile(1001)
 #' 1001 %>% specfile
 #' 1001 %>% specfile %>% read.spec
-#' 1001 %>% specfile %>% read.spec %>% as.folded
 #' 1001 %>% as.model
 #' 1001 %>% as.model %>% comments
 #' 1001 %>% definitions
@@ -120,19 +118,16 @@
 #' 
 #' # Derive datasets.
 #' 1001 %>% superset %>% head
-#' 1001 %>% superset %>% group_by(ID,TIME) %>% status
+#' 1001 %>% superset %>% filter(VISIBLE == 1) %>% group_by(ID,TIME) %>% status
 #' 1001 %>% metasuperset(c('ID','TIME')) %>% head
-#' 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
+#' 1001 %>% metasuperset(c('ID','TIME')) %>% sapply(attr,'label')
 #' 
 #' # Make diagnostic plots.
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %$% VARIABLE %>% unique
-#' 1001 %>% fold(ID,TIME,subset='MDV == 0') %>% metaplot(CWRESI, ref = 0)
 #' 1001 %>% metaplot(
 #'  CWRESI, TAD, SEX, 
 #'  groups = c('ID','TIME'), 
 #'  subset = 'MDV == 0',
 #'  yref=0, 
-#'  alpha = 0.1, 
 #'  ysmooth = TRUE
 #' )
 #' 1001 %>% metaplot(

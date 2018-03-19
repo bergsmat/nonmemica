@@ -106,7 +106,6 @@ datafile.numeric <- function(x,...)datafile(as.character(x),...)
 #' @return character
 #' @export
 #' @examples
-#' library(fold)
 #' library(spec)
 #' source <- system.file(package = 'nonmemica','project')
 #' target <- tempdir()
@@ -119,7 +118,6 @@ datafile.numeric <- function(x,...)datafile(as.character(x),...)
 #' datafile(1001) %matches% specfile(1001)
 #' 1001 %>% specfile
 #' 1001 %>% specfile %>% read.spec
-#' 1001 %>% specfile %>% read.spec %>% as.folded
 datafile.character <- function(
   x,
   ...
@@ -164,7 +162,6 @@ specfile.numeric <- function(x,...)specfile(as.character(x),...)
 #' @return character
 #' @export
 #' @examples
-#' library(fold)
 #' library(spec)
 #' source <- system.file(package = 'nonmemica','project')
 #' target <- tempdir()
@@ -177,7 +174,6 @@ specfile.numeric <- function(x,...)specfile(as.character(x),...)
 #' datafile(1001) %matches% specfile(1001)
 #' 1001 %>% specfile
 #' 1001 %>% specfile %>% read.spec
-#' 1001 %>% specfile %>% read.spec %>% as.folded
 specfile.character <- function(
   x,
   find = '\\.csv$',

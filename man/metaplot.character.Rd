@@ -5,22 +5,18 @@
 \title{Metaplot Character}
 \usage{
 \method{metaplot}{character}(x, ..., groups, meta = match.fun("meta")(x),
-  simplify = TRUE, sort = TRUE, subset)
+  subset)
 }
 \arguments{
 \item{x}{object}
 
 \item{...}{unquoted names of variables to plot, or other named arguments (passed)}
 
-\item{groups}{columns by which to group the dataset, passed to fold()}
+\item{groups}{columns by which to group the dataset}
 
-\item{meta}{pre-folded metadata; meta(x) by default}
+\item{meta}{metadata; meta(x) by default}
 
-\item{simplify}{whether to simplify the result, passed to fold()}
-
-\item{sort}{whether to sort the result, passed to fold()}
-
-\item{subset}{a condition for filtering data, passed to fold()}
+\item{subset}{a condition for filtering data}
 }
 \description{
 Plots character by treating as model name.  A dataset
@@ -36,12 +32,8 @@ options(project = system.file('project/model',package='nonmemica'))
  CWRESI, TAD, SEX, 
  groups = c('ID','TIME'), 
  subset = 'MDV == 0',
- yref=0, 
- alpha = 0.1, 
+ yref = 0, 
  ysmooth = TRUE
 )
 }
-}
-\seealso{
-\code{fold}
 }

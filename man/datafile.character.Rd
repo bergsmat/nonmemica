@@ -19,7 +19,6 @@ Identifies the datafile used by a model.
 Expresses it relative to current working directory.
 }
 \examples{
-library(fold)
 library(spec)
 source <- system.file(package = 'nonmemica','project')
 target <- tempdir()
@@ -32,5 +31,4 @@ library(magrittr)
 datafile(1001) \%matches\% specfile(1001)
 1001 \%>\% specfile
 1001 \%>\% specfile \%>\% read.spec
-1001 \%>\% specfile \%>\% read.spec \%>\% as.folded
 }

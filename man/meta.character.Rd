@@ -12,7 +12,7 @@
 \item{...}{passed arguments}
 }
 \value{
-folded
+data.frame
 }
 \description{
 Gets metadata for character, treating it as a model name. Blends metadata from specfile with metadata from control stream, removing both exact duplicates as well as redefined values (with warning).

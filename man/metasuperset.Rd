@@ -2,7 +2,7 @@
 % Please edit documentation in R/superset.R
 \name{metasuperset}
 \alias{metasuperset}
-\title{Retrieve Model Outputs in Meta Format}
+\title{Retrieve Model Outputs with Metadata}
 \usage{
 metasuperset(x, groups, meta = match.fun("meta")(x, ...), subset, ...)
 }
@@ -11,17 +11,17 @@ metasuperset(x, groups, meta = match.fun("meta")(x, ...), subset, ...)
 
 \item{groups}{vector of key column names in superset, e.g. USUBJID, TIME}
 
-\item{meta}{pre-folded metadata}
+\item{meta}{metadata with column 'item' and possibly attributes such as 'label' and 'guide'}
 
 \item{subset}{length-one character: a condition for filtering results, e.g. 'EVID == 0'}
 
 \item{...}{passed arguments}
 }
 \value{
-folded
+data.frame
 }
 \description{
-Retrieves model outputs in meta format.
+Retrieves model outputs with metadata.
 }
 \examples{
 library(magrittr)
