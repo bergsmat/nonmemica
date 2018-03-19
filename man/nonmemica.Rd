@@ -146,10 +146,6 @@ datafile(1001) \%matches\% specfile(1001)
  groups = c('ID','TIME'),
  subset = 'MDV == 0'
 )
-1001 \%>\% 
-metasuperset(c('ID','TIME')) \%>\% 
-filter(MDV == 0) \%>\% str
-metaplot(ETA1, ETA2, ETA3)
 
 # Derive models.
 1001 \%>\% likebut('revised',y = 1002, overwrite=TRUE )
