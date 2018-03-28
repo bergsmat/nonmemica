@@ -115,8 +115,6 @@ row_col <- function(x, xpath, param, moment,...){
 #' @param shrinkage whether to include percent shrinkage on random effects
 #' @param correlation whether to include correlation of random effects (as percent if \code{percent} is true)
 #' @param ... passed to other functions
-#' @seealso \code{\link{as.docx.partab}}
-#' @seealso \code{\link{as.flextable.partab}}
 #' @seealso \code{\link{as.xml_document.character}}
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}

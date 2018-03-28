@@ -44,7 +44,7 @@ The package `nonmemica` provides the function `partab` that creates a parameter 
 
 Install and load `nonmemica` like this:
 ```{r eval=FALSE}
-install.packages(repos=NULL,'../nonmemica_0.1.zip') # supply your path and version
+install.packages('nonmemica')
 library(nonmemica)
 ```
 ```{r echo=FALSE, results='hide'}
@@ -190,14 +190,6 @@ You can also try `pander::pander`.
 ```{r}
 library(pander)
 1001 %>% partab %>% pander(justify='right')
-```
-
-If your target audience needs a Word doc, try making one using built-in support for `ReporteRs`.  You can also make a FlexTable first, and then make arbitrary modifications.
-```{r}
-library(ReporteRs)
-1001 %>% partab %>% as.docx %>% as.file('1001.docx')
-x <- as.flextable(partab(1001))
-x
 ```
 
 ## Getting Help

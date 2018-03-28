@@ -1,25 +1,25 @@
 ## ----eval=FALSE----------------------------------------------------------
-#  install.packages(repos=NULL,'../nonmemica_0.1.zip') # supply your path and version
+#  install.packages('nonmemica')
 #  library(nonmemica)
 
 ## ----echo=FALSE, results='hide'------------------------------------------
 library(nonmemica)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001, project='../model')
+#  partab(1001, project='../model')
 
 ## ----eval=FALSE----------------------------------------------------------
 #  options(project = '../model')
-#  as.partab(1001)
+#  partab(1001)
 
 ## ----eval=FALSE----------------------------------------------------------
 #  methods(format)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001)
+#  partab(1001)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  1001 %>% as.partab
+#  1001 %>% partab
 
 ## ----eval=FALSE----------------------------------------------------------
 #  2 %>% sqrt %>% signif(3)
@@ -28,35 +28,35 @@ library(nonmemica)
 #  signif(sqrt(2),digits=3)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001, xmlfile='..model/1001.xml')
+#  partab(1001, xmlfile='..model/1001.xml')
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001, bootcsv='..model/1001/bootstrap_results.csv')
+#  partab(1001, bootcsv='..model/1001/bootstrap_results.csv')
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001, ctlfile = '../models/1001.ctl',fields = c('symbol','label','unit')).
+#  partab(1001, ctlfile = '../models/1001.ctl',fields = c('symbol','label','unit')).
 
 ## ------------------------------------------------------------------------
 library(magrittr)
 library(nonmemica)
 options(project = system.file('project/model',package='nonmemica'))
-1001 %>% as.definitions %>% head
+1001 %>% definitions %>% head
 
 ## ----eval = FALSE--------------------------------------------------------
-#  1001 %>% as.definitions(write=T)
-#  1001 %>% as.partab(ctlfile = NULL)
+#  1001 %>% definitions(write=T)
+#  1001 %>% partab(ctlfile = NULL)
 
 ## ------------------------------------------------------------------------
-as.partab(1001)
+partab(1001)
 
 ## ------------------------------------------------------------------------
-x <- as.partab(1001)
+x <- partab(1001)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  as.partab(1001, verbose=TRUE)
+#  partab(1001, verbose=TRUE)
 
 ## ------------------------------------------------------------------------
-1001 %>% as.partab(
+1001 %>% partab(
   format = F, 
   ci = F, 
   relative = F, 
@@ -65,15 +65,9 @@ x <- as.partab(1001)
 
 ## ------------------------------------------------------------------------
 library(knitr)
-1001 %>% as.partab %>% kable
+1001 %>% partab %>% kable
 
 ## ------------------------------------------------------------------------
 library(pander)
-1001 %>% as.partab %>% pander(justify='right')
-
-## ------------------------------------------------------------------------
-library(ReporteRs)
-1001 %>% as.partab %>% as.docx %>% as.file('1001.docx')
-x <- as.flextable(as.partab(1001))
-x
+1001 %>% partab %>% pander(justify='right')
 

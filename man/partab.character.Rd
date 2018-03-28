@@ -80,10 +80,6 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% partab(shrinkage = TRUE, correlation = TRUE)
 }
 \seealso{
-\code{\link{as.docx.partab}}
-
-\code{\link{as.flextable.partab}}
-
 \code{\link{as.xml_document.character}}
 
 \code{\link{as.bootstrap.character}}

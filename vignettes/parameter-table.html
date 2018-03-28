@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Tim Bergsma" />
 
-<meta name="date" content="2017-02-14" />
+<meta name="date" content="2018-03-28" />
 
 <title>Creating a Nonmem Parameter Table</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Creating a Nonmem Parameter Table</h1>
 <h4 class="author"><em>Tim Bergsma</em></h4>
-<h4 class="date"><em>2017-02-14</em></h4>
+<h4 class="date"><em>2018-03-28</em></h4>
 
 
 
@@ -106,7 +106,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Solution</h2>
 <p>The package <code>nonmemica</code> provides the function <code>partab</code> that creates a parameter table for a single NONMEM model. <code>partab</code> knows where the models live, because you explicitly pass a <code>project</code> argument or (if you are lazy like me) you set an option near the top of your script.</p>
 <p>Install and load <code>nonmemica</code> like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="dt">repos=</span><span class="ot">NULL</span>,<span class="st">'../nonmemica_0.1.zip'</span>) <span class="co"># supply your path and version</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">'nonmemica'</span>)
 <span class="kw">library</span>(nonmemica)</code></pre></div>
 <p>Specify the project directory like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">project=</span><span class="st">'../model'</span>)</code></pre></div>
@@ -120,7 +120,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Briefly, object orientation means that a function does different things to different object types. Preparing a meal is very different from preparing a tax return. And formatting a <code>data.frame</code> is very different from formatting a <code>POSIXlt</code>. Try</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(format)</code></pre></div>
 <p>to see all ways things get formatted in R. Typically we just say <code>format</code> and R finds the right method, depending on what it is we are formatting.</p>
-<p><code>partab</code> is no different. If you say <code>partab(1001)</code>, the software sees that you are trying to create a parameter table from a number, which doesn’t really make sense. So it assumes 1001 is a model name, converts it to character, and goes looking for the function <code>partab.modelname()</code>. In fact, most of the interesting arguments to <code>partab</code> are actually documented under <code>partab.modelname</code> for this reason.</p>
+<p><code>partab</code> is no different. If you say <code>partab(1001)</code>, the software sees that you are trying to create a parameter table from a number, which doesn’t really make sense. So it assumes 1001 is a model name, converts it to character, and goes looking for the function <code>partab.character()</code>. In fact, most of the interesting arguments to <code>partab</code> are actually documented under <code>partab.character</code> for this reason.</p>
 </div>
 <div id="a-word-about-piping" class="section level2">
 <h2>A Word about Piping</h2>
@@ -128,9 +128,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Traditional:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 <p>Piped:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>partab</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span>partab</code></pre></div>
 <p>Essentially, the left-hand-side is the first argument to the function on the right-hand-side, and the result can be used as input to yet-another-function in an ongoing chain. That means we can express functionality in a natural order, rather than reverse-nested order. This:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span> %&gt;%<span class="st"> </span>sqrt %&gt;%<span class="st"> </span><span class="kw">signif</span>(<span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span>sqrt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">signif</span>(<span class="dv">3</span>)</code></pre></div>
 <p>is easier to write and easier to understand (in my opinion) than this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">signif</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>),<span class="dt">digits=</span><span class="dv">3</span>)</code></pre></div>
 <p>but the two are equivalent.</p>
@@ -164,50 +164,51 @@ IPRE          ; IPRED; individual prediction;      ng/mL
 CL            ; CLI;   posthoc systemic clearance; L/h
 ETA1          ; BSV_CL; clearance variability;</code></pre>
 <p>Of course, these won’t show up in a parameter table, but you’ll see them in a list of item definitions if you do this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
-<span class="kw">library</span>(nonmemica)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)</code></pre></div>
+<pre><code>## Warning: package 'magrittr' was built under R version 3.4.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nonmemica)
 <span class="kw">options</span>(<span class="dt">project =</span> <span class="kw">system.file</span>(<span class="st">'project/model'</span>,<span class="dt">package=</span><span class="st">'nonmemica'</span>))
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>definitions %&gt;%<span class="st"> </span>head</code></pre></div>
-<pre><code>##       item  symbol                        label unit
-## 1 theta_01    CL/F                    clearance  L/h
-## 2 theta_02    Vc/F               central volume    L
-## 3 theta_03      Ka     absorption rate constant  1/h
-## 4 theta_04     Q/F intercompartmental clearance  L/h
-## 5 theta_05    Vp/F            peripheral volume    L
-## 6 theta_06 MALE_CL     male effect on clearance &lt;NA&gt;</code></pre>
+<span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span>definitions <span class="op">%&gt;%</span><span class="st"> </span>head</code></pre></div>
+<pre><code>##       item symbol                        label unit
+## 1 theta_01   CL/F                    clearance  L/h
+## 2 theta_02   Vc/F               central volume    L
+## 3 theta_03     Ka     absorption rate constant  1/h
+## 4 theta_04    Q/F intercompartmental clearance  L/h
+## 5 theta_05   Vp/F            peripheral volume    L
+## 6 theta_06  WT_CL   weight effect on clearance &lt;NA&gt;</code></pre>
 <p>If you like, you can write out the defintions and edit them. You can change the file location or stick with the default. If you didn’t like exactly what was in the control stream, you can ignore it by passing a zero-length argument for ctlfile.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">definitions</span>(<span class="dt">write=</span>T)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">partab</span>(<span class="dt">ctlfile =</span> <span class="ot">NULL</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">definitions</span>(<span class="dt">write=</span>T)
+<span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">partab</span>(<span class="dt">ctlfile =</span> <span class="ot">NULL</span>)</code></pre></div>
 <p>The metafile needs to stay comma-separated. White space will be stripped, and blanks, spaces, or dots will be understood as NA.</p>
 </div>
 <div id="customizing-your-parameter-table" class="section level2">
 <h2>Customizing Your Parameter Table</h2>
 <p>By default, the parameter table looks like this (but if bootstraps can’t be found, the <code>ci</code> columm will be missing).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
-<pre><code>##      parameter estimate  prse                 ci   symbol
-## 1     theta_01     9.51  9.82       (7.24, 11.2)     CL/F
-## 2     theta_02     22.8  9.56       (19.7, 25.4)     Vc/F
-## 3     theta_03   0.0714  7.35   (0.0646, 0.0803)       Ka
-## 4     theta_04     3.47  15.4       (3.02, 4.59)      Q/F
-## 5     theta_05      113    21        (90.5, 380)     Vp/F
-## 6     theta_06     1.02  11.1        (0.88, 1.3)  MALE_CL
-## 7     theta_07     1.19  28.3       (0.53, 1.73)    WT_CL
-## 8  omega_01_01    0.214  22.8     (0.151, 0.319)   IIV_CL
-## 9  omega_02_01    0.121  26.4                        CL_V
-## 10 omega_02_02   0.0945  33.2      (0.07, 0.179)   IIV_Vc
-## 11 omega_03_01  -0.0116  -173                       CL_Ka
-## 12 omega_03_02  -0.0372 -36.1                       Vc_Ka
-## 13 omega_03_03   0.0466  34.7    (0.0475, 0.146)   IIV_Ka
-## 14 sigma_01_01   0.0492    11   (-0.039, 0.0165) ERR_PROP
-## 15 sigma_02_02    0.202  33.5 (-0.0512, -0.0097)  ERR_ADD
+<pre><code>##      parameter estimate prse                 ci   symbol
+## 1     theta_01     9.51 9.82       (7.24, 11.2)     CL/F
+## 2     theta_02     22.8 9.56       (19.7, 25.4)     Vc/F
+## 3     theta_03   0.0714 7.35   (0.0646, 0.0803)       Ka
+## 4     theta_04     3.47 15.4       (3.02, 4.59)      Q/F
+## 5     theta_05      113   21        (90.5, 380)     Vp/F
+## 6     theta_06     1.02 11.1        (0.88, 1.3)    WT_CL
+## 7     theta_07     1.19 28.3       (0.53, 1.73)  MALE_CL
+## 8  omega_01_01    0.214 22.8     (0.151, 0.319)   IIV_CL
+## 9  omega_02_01    0.121 26.4                        CL_V
+## 10 omega_02_02   0.0945 33.2      (0.07, 0.179)   IIV_Vc
+## 11 omega_03_01  -0.0116  173                       CL_Ka
+## 12 omega_03_02  -0.0372 36.1                       Vc_Ka
+## 13 omega_03_03   0.0466 34.7    (0.0475, 0.146)   IIV_Ka
+## 14 sigma_01_01   0.0492   11   (-0.039, 0.0165) ERR_PROP
+## 15 sigma_02_02    0.202 33.5 (-0.0512, -0.0097)  ERR_ADD
 ##                                            label unit
 ## 1                                      clearance  L/h
 ## 2                                 central volume    L
 ## 3                       absorption rate constant  1/h
 ## 4                   intercompartmental clearance  L/h
 ## 5                              peripheral volume    L
-## 6                       male effect on clearance &lt;NA&gt;
-## 7                     weight effect on clearance &lt;NA&gt;
+## 6                     weight effect on clearance &lt;NA&gt;
+## 7                       male effect on clearance &lt;NA&gt;
 ## 8       interindividual variability on clearance &lt;NA&gt;
 ## 9    interindividual clearance-volume covariance &lt;NA&gt;
 ## 10 interindividual variability on central volume &lt;NA&gt;
@@ -220,9 +221,9 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">partab</span>(<span class="dv">1001</span>)</code></pre></div>
 <p>For better debugging information, set <code>verbose = TRUE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partab</span>(<span class="dv">1001</span>, <span class="dt">verbose=</span><span class="ot">TRUE</span>)</code></pre></div>
-<p><code>partab</code> uses <code>project</code> to guess where the run directory is, and uses that to guess where the source files are (<code>metafile</code>, <code>xmlfile</code>,<code>ctlfile</code>,<code>bootcsv</code>). If your source files are conventionally named, but in a strange directory, you save some typing by just specifying <code>rundir</code>.</p>
+<p><code>partab</code> uses global options <code>project</code> and <code>nested</code> to guess where the run directory is, and uses that to guess where the source files are (<code>metafile</code>, <code>xmlfile</code>,<code>ctlfile</code>,<code>bootcsv</code>). You can supply any of these directly.</p>
 <p>By default, <code>partab</code> grabs the 5th and 95th percentile of bootstraps as <code>lo</code> and <code>hi</code>, but you can specify other levels using the like-named arguments. <code>partab</code> formats these and other numerics as character(unless you say <code>format = F</code>), first limiting to the number of significant digits you specify (default <code>digits = 3</code>). If <code>ci = TRUE</code> (the default), <code>lo</code> and <code>hi</code> will be combined into a single interval using the default values for <code>open</code>, <code>sep</code>, and <code>close</code>. Also, you can get absolute standard errors by setting <code>relative = FALSE</code>. Let’s compare the default table above with something a bit more “raw”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span><span class="kw">partab</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">partab</span>(
   <span class="dt">format =</span> F, 
   <span class="dt">ci =</span> F, 
   <span class="dt">relative =</span> F, 
@@ -250,8 +251,8 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 ## 3        Ka                      absorption rate constant  1/h
 ## 4       Q/F                  intercompartmental clearance  L/h
 ## 5      Vp/F                             peripheral volume    L
-## 6   MALE_CL                      male effect on clearance &lt;NA&gt;
-## 7     WT_CL                    weight effect on clearance &lt;NA&gt;
+## 6     WT_CL                    weight effect on clearance &lt;NA&gt;
+## 7   MALE_CL                      male effect on clearance &lt;NA&gt;
 ## 8    IIV_CL      interindividual variability on clearance &lt;NA&gt;
 ## 9      CL_V   interindividual clearance-volume covariance &lt;NA&gt;
 ## 10   IIV_Vc interindividual variability on central volume &lt;NA&gt;
@@ -266,7 +267,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <h2>Rendering Your Parameter Table</h2>
 <p>To some extent, the science of creating a parameter table is a separate issue from the aesthetics. How should you render the table for viewing by your audience? <code>nonmemica</code> is deliberately agnostic on this question, since there is no one right answer, and very many good ones. In an rmarkdown environment, consider <code>knitr::kable</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span>kable</code></pre></div>
+<span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span>partab <span class="op">%&gt;%</span><span class="st"> </span>kable</code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -330,8 +331,8 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <td align="left">1.02</td>
 <td align="left">11.1</td>
 <td align="left">(0.88, 1.3)</td>
-<td align="left">MALE_CL</td>
-<td align="left">male effect on clearance</td>
+<td align="left">WT_CL</td>
+<td align="left">weight effect on clearance</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -339,8 +340,8 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <td align="left">1.19</td>
 <td align="left">28.3</td>
 <td align="left">(0.53, 1.73)</td>
-<td align="left">WT_CL</td>
-<td align="left">weight effect on clearance</td>
+<td align="left">MALE_CL</td>
+<td align="left">male effect on clearance</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -373,7 +374,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <tr class="odd">
 <td align="left">omega_03_01</td>
 <td align="left">-0.0116</td>
-<td align="left">-173</td>
+<td align="left">173</td>
 <td align="left"></td>
 <td align="left">CL_Ka</td>
 <td align="left">interindividual clearance-Ka covariance</td>
@@ -382,7 +383,7 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <tr class="even">
 <td align="left">omega_03_02</td>
 <td align="left">-0.0372</td>
-<td align="left">-36.1</td>
+<td align="left">36.1</td>
 <td align="left"></td>
 <td align="left">Vc_Ka</td>
 <td align="left">interindividual volume-Ka covariance</td>
@@ -418,16 +419,17 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 </tbody>
 </table>
 <p>You can also try <code>pander::pander</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)
-<span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span><span class="kw">pander</span>(<span class="dt">justify=</span><span class="st">'right'</span>)</code></pre></div>
-<table style="width:79%;">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)</code></pre></div>
+<pre><code>## Warning: package 'pander' was built under R version 3.4.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> <span class="op">%&gt;%</span><span class="st"> </span>partab <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>(<span class="dt">justify=</span><span class="st">'right'</span>)</code></pre></div>
+<table style="width:88%;">
 <caption>Table continues below</caption>
 <colgroup>
-<col width="16%"></col>
+<col width="19%"></col>
 <col width="15%"></col>
 <col width="9%"></col>
-<col width="26%"></col>
-<col width="11%"></col>
+<col width="29%"></col>
+<col width="13%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -479,14 +481,14 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <td align="right">1.02</td>
 <td align="right">11.1</td>
 <td align="right">(0.88, 1.3)</td>
-<td align="right">MALE_CL</td>
+<td align="right">WT_CL</td>
 </tr>
 <tr class="odd">
 <td align="right">theta_07</td>
 <td align="right">1.19</td>
 <td align="right">28.3</td>
 <td align="right">(0.53, 1.73)</td>
-<td align="right">WT_CL</td>
+<td align="right">MALE_CL</td>
 </tr>
 <tr class="even">
 <td align="right">omega_01_01</td>
@@ -512,14 +514,14 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <tr class="odd">
 <td align="right">omega_03_01</td>
 <td align="right">-0.0116</td>
-<td align="right">-173</td>
+<td align="right">173</td>
 <td align="right"></td>
 <td align="right">CL_Ka</td>
 </tr>
 <tr class="even">
 <td align="right">omega_03_02</td>
 <td align="right">-0.0372</td>
-<td align="right">-36.1</td>
+<td align="right">36.1</td>
 <td align="right"></td>
 <td align="right">Vc_Ka</td>
 </tr>
@@ -546,9 +548,9 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 </tr>
 </tbody>
 </table>
-<table style="width:51%;">
+<table style="width:54%;">
 <colgroup>
-<col width="43%"></col>
+<col width="45%"></col>
 <col width="8%"></col>
 </colgroup>
 <thead>
@@ -579,11 +581,11 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 <td align="right">L</td>
 </tr>
 <tr class="even">
-<td align="right">male effect on clearance</td>
+<td align="right">weight effect on clearance</td>
 <td align="right">NA</td>
 </tr>
 <tr class="odd">
-<td align="right">weight effect on clearance</td>
+<td align="right">male effect on clearance</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
@@ -620,599 +622,6 @@ ETA1          ; BSV_CL; clearance variability;</code></pre>
 </tr>
 </tbody>
 </table>
-<p>If your target audience needs a Word doc, try making one using built-in support for <code>ReporteRs</code>. You can also make a FlexTable first, and then make arbitrary modifications.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ReporteRs)</code></pre></div>
-<pre><code>## Loading required package: ReporteRsjars</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1001</span> %&gt;%<span class="st"> </span>partab %&gt;%<span class="st"> </span>as.docx %&gt;%<span class="st"> </span><span class="kw">as.file</span>(<span class="st">'1001.docx'</span>)
-x &lt;-<span class="st"> </span><span class="kw">as.flextable</span>(<span class="kw">partab</span>(<span class="dv">1001</span>))
-x</code></pre></div>
-<table style="margin-left:0px;margin-right:auto;">
-<thead>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">parameter</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">estimate</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">prse</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">ci</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">symbol</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">label</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;font-weight:bold;color:rgba(0, 0, 0, 1);">unit</span>
-</p>
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_01</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">9.51</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">9.82</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(7.24, 11.2)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">CL/F</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">clearance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:2px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">L/h</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_02</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">22.8</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">9.56</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(19.7, 25.4)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">Vc/F</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">central volume</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">L</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_03</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.0714</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">7.35</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.0646, 0.0803)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">Ka</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">absorption rate constant</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">1/h</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_04</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">3.47</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">15.4</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(3.02, 4.59)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">Q/F</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">intercompartmental clearance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">L/h</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_05</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">113</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">21</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(90.5, 380)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">Vp/F</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">peripheral volume</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">L</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_06</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">1.02</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">11.1</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.88, 1.3)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">MALE_CL</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">male effect on clearance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">theta_07</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">1.19</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">28.3</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.53, 1.73)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">WT_CL</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">weight effect on clearance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_01_01</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.214</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">22.8</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.151, 0.319)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">IIV_CL</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual variability on clearance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_02_01</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.121</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">26.4</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">CL_V</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual clearance-volume covariance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_02_02</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.0945</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">33.2</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.07, 0.179)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">IIV_Vc</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual variability on central volume</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_03_01</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">-0.0116</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">-173</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">CL_Ka</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual clearance-Ka covariance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_03_02</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">-0.0372</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">-36.1</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">Vc_Ka</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual volume-Ka covariance</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">omega_03_03</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.0466</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">34.7</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(0.0475, 0.146)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">IIV_Ka</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">interindividual variability on Ka</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">sigma_01_01</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.0492</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">11</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(-0.039, 0.0165)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">ERR_PROP</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">proportional error</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">sigma_02_02</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">0.202</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">33.5</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">(-0.0512, -0.0097)</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">ERR_ADD</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:11pt;font-family:Times New Roman;color:rgba(0, 0, 0, 1);">additive error</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:2px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:0pt;padding-right:0pt;padding-top:0pt;padding-bottom:0pt;">
-<p style="text-align:left;padding-top:5pt;padding-bottom:5pt;padding-right:5pt;padding-left:5pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-</tr>
-</tbody>
-<tfoot>
-</tfoot>
-</table>
 </div>
 <div id="getting-help" class="section level2">
 <h2>Getting Help</h2>
@@ -1230,7 +639,7 @@ x</code></pre></div>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
