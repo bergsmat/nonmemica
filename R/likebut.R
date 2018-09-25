@@ -16,6 +16,8 @@ problem_ <- function(
 ){
   y <- read.model(modelfile(x,...))
   p <- y$prob
+  p <- p[p != '']
+  if(length(p) != 1) warning('problem statement does not have exactly one non-blank line')
   p <- sub('^ +','',p)
   p <- sub(' +$','',p)
   p

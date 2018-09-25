@@ -1,3 +1,6 @@
+# bug: can't parse model if estimate on same line as $[THETA|OMEGA|SIGMA]
+# bug: can't parse DV=DV1 in INPUT statement
+
 globalVariables(c('item','.','parameter','estimate','se'))
 
 #' Coerce to NONMEM Control Object
