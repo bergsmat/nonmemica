@@ -712,7 +712,8 @@ metasuperset <- function(
   attrs <- setdiff(names(meta), 'item')
   for(col in targets){
     for(at in attrs){
-      attr(y[[col]], at) <- meta[[at]][meta$item == col]
+      a <- meta[[at]][meta$item == col]
+      if(!is.null(a))if(!is.na(a)) attr(y[[col]], at) <- a
     }
   }
   y

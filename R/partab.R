@@ -202,8 +202,8 @@ partab.character <- function(
       param$hi[i] <- z$hi
     }
   }else{
-    param$lo <- NA_real_
-    param$hi <- NA_real_
+    param$lo <- rep(NA_real_, nrow(param))
+    param$hi <- rep(NA_real_, nrow(param))
   }
   param <- select(param, -offdiag)
   if(nonzero){

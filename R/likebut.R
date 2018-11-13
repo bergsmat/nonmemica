@@ -405,8 +405,13 @@ likebut <- function(
   if(length(min) == 0) min <- NA
   cov <- xpath(x, '//covariance_status/@error')
   if(length(cov) == 0) cov <- NA
-  ofv <- round(digits=places,xpath(x, '//final_objective_function'))
-  if(length(ofv) == 0) ofv <- NA
+  ofv <- xpath(x, '//final_objective_function')
+  #ofv <- round(digits=places,xpath(x, '//final_objective_function'))
+  if(length(ofv) == 0){
+    ofv <- NA
+  }else{
+    ofv <- round(digits=places, ofv)
+  }
   npar <- sum(!fixed(as.model(x)))
   if(length(npar) == 0) npar <- NA
   dat <- datafile(x)
