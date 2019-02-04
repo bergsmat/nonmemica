@@ -742,6 +742,7 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' 
 #' Gets metadata for character, treating it as a model name. Blends metadata from specfile with metadata from control stream, removing both exact duplicates as well as redefined values (with warning).  
 #' @inheritParams meta
+#' @param simplify logical: remove range information from guide text
 #' @export
 #' @import spec
 #' @return data.frame
@@ -749,11 +750,13 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% meta
-meta.character <- function(x,...){
+meta.character <- function(x, simplify = TRUE, ...){
   y <- data.frame()
   z <- data.frame()
   try(y <- read.spec(specfile(x)))
   try(z <- definitions(x))
+  e <- encoded(y)
+  if(simplify)y$guide[!e] <- guidetext(y)[!e]
   y <- y[,c('column','label','guide'),drop = FALSE]
   names(y)[names(y) == 'column'] <- 'item'
   names(z)[names(z) == 'unit'] <- 'guide'

@@ -4,10 +4,12 @@
 \alias{meta.character}
 \title{Get Metadata for Character}
 \usage{
-\method{meta}{character}(x, ...)
+\method{meta}{character}(x, simplify = TRUE, ...)
 }
 \arguments{
 \item{x}{object}
+
+\item{simplify}{logical: remove range information from guide text}
 
 \item{...}{passed arguments}
 }
