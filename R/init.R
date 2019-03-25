@@ -163,9 +163,9 @@ as.inits <- function(x,...)UseMethod('as.inits')
 #' @export
 as.inits.list <- function(x,comment=character(0),...){
   stopifnot(length(x)>0,is.character(comment))
-  is.init <- sapply(x,inherits,'init')
+  is.init <- sapply(x,inherits,'init') ## test?
   class(x) <- c('inits',class(x))
-   comment(x) <- if(length(comment))comment else NA_character_
+   comment(x) <- if(length(comment))comment else '' # NA_character_
   x
 }
 #' Coerce inits to character
@@ -181,7 +181,7 @@ as.character.inits <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths
   com <- comment(x)
   padded <- attr(x,'padded')
   if(is.null(padded)) padded <- FALSE
-  if(!is.null(com) & com != '') com <- paste(sep,com)
+  if(!is.null(com))if(!is.na(com))if(com != '') com <- paste(sep,com)
   y <- c(com,unlist(lapply(x,as.character)))
   if(padded) y <- c(y,rep('',padded))
   if(!is.null(block))if(block) y[[1]] <- paste(y[[1]], paste0('BLOCK',parens(block)))

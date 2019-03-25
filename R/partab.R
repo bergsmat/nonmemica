@@ -170,7 +170,7 @@ partab.character <- function(
   sigma <- left_join(sigma, sigmase,by=c('parameter','offdiag'))
   theta <- mutate(theta, offdiag = 0)
   etashrink <- xpath(y,'//etashrink/row/col')
-  epsshrink <- xpath(y,'//sigma/row/col')
+  epsshrink <- xpath(y,'//epsshrink/row/col')
   etacor <- row_col(y, 'omegac', 'omega','correlation')
   epscor <- row_col(y, 'sigmac','sigma','correlation')
   cor <- suppressWarnings(bind_rows(etacor, epscor))

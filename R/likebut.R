@@ -442,7 +442,7 @@ parameters <- function(x,...)UseMethod('parameters')
 #' @inheritParams parameters
 #' @export
 #' @keywords internal
-parameters.numeric <- function(x,...)parameters(as.character(x,...))
+parameters.numeric <- function(x,...)parameters(as.character(x),...)
 
 #' Get Parameters for Character
 #' 
