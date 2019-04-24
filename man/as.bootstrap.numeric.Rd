@@ -17,4 +17,7 @@ data.frame
 \description{
 Creates bootstrap from numeric.
 }
+\seealso{
+Other as.bootstrap: \code{\link{as.bootstrap}}
+}
 \keyword{internal}

@@ -17,4 +17,11 @@ character
 \description{
 Enclose in parentheses
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{locf}}, \code{\link{padded}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

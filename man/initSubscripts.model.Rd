@@ -17,4 +17,7 @@ integer
 \description{
 Identifies subscripts of record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each inits in x (canonical order).
 }
+\seealso{
+Other initSubscripts: \code{\link{initSubscripts}}
+}
 \keyword{internal}

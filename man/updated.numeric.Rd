@@ -14,4 +14,8 @@
 \description{
 Creates the updated version of numeric by coercing to character.
 }
+\seealso{
+Other updated: \code{\link{updated.character}},
+  \code{\link{updated}}
+}
 \keyword{internal}

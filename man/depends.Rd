@@ -14,4 +14,7 @@ depends(x, ...)
 \description{
 Identfies that on which something depends.
 }
+\seealso{
+Other depends: \code{\link{depends.default}}
+}
 \keyword{internal}

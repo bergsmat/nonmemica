@@ -27,4 +27,6 @@ Calculates time of most recent dose.
 }
 \seealso{
 \code{\link{tad}}
+
+Other tad: \code{\link{tad}}
 }

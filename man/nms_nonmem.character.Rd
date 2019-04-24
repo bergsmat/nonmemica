@@ -19,3 +19,8 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% nms_nonmem
 }
+\seealso{
+Other nms_nonmem: \code{\link{nms_nonmem.model}},
+  \code{\link{nms_nonmem.numeric}},
+  \code{\link{nms_nonmem}}
+}

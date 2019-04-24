@@ -6,6 +6,7 @@
 #' @param x object of dispatch
 #' @param ... arguments to methods
 #' @seealso \code{\link{definitions.character}}
+#' @family definitions
 #' @export
 definitions <- function(x,...)UseMethod('definitions')
 
@@ -16,6 +17,7 @@ definitions <- function(x,...)UseMethod('definitions')
 #' Just returns the object unmodified.
 #' @inheritParams definitions
 #' @describeIn definitions definitions method
+#' @family definitions
 #' @export
 definitions.definitions <- function(x,...)x
 #' Create Model Item Definitions from Number.
@@ -25,6 +27,7 @@ definitions.definitions <- function(x,...)x
 #' Just coerces to character and calls definitions again.
 #' @inheritParams definitions
 #' @keywords internal
+#' @family definitions
 #' @export
 definitions.numeric  <- function(x,...)definitions(as.character(x),...)
 #' Create Model Item Definitions from Character
@@ -50,6 +53,7 @@ definitions.numeric  <- function(x,...)definitions(as.character(x),...)
 #' @seealso \code{\link{as.bootstrap.character}}
 #' @seealso \code{\link{as.model.character}}
 #' @describeIn definitions character method
+#' @family definitions
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))

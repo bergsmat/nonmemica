@@ -62,5 +62,11 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 \code{\link{as.bootstrap.character}}
+
+Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
+
+Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
+
+Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
 }
 \keyword{internal}

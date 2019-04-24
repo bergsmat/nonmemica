@@ -20,4 +20,7 @@ Identifies the order of an items object.
 \details{
 Essentially the length of the list
 }
+\seealso{
+Other ord: \code{\link{ord.inits}}
+}
 \keyword{internal}

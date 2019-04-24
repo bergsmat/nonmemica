@@ -47,4 +47,13 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 \code{\link{xpath}}
+
+Other xpath: \code{\link{as.xml_document.numeric}},
+  \code{\link{xpath}}
+
+Other xpath: \code{\link{as.xml_document.numeric}},
+  \code{\link{xpath}}
+
+Other xpath: \code{\link{as.xml_document.numeric}},
+  \code{\link{xpath}}
 }

@@ -14,4 +14,7 @@ like(x, ...)
 \description{
 Identifies what something is like.
 }
+\seealso{
+Other like: \code{\link{like.default}}
+}
 \keyword{internal}

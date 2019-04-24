@@ -14,4 +14,7 @@ comwidthOne(x, ...)
 \description{
 Calculates comment widths for one element.
 }
+\seealso{
+Other comwidthOne: \code{\link{comwidthOne.character}}
+}
 \keyword{internal}

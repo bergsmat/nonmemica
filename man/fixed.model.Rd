@@ -22,3 +22,8 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model \%>\% fixed
 }
+\seealso{
+Other fixed: \code{\link{fixed<-.inits}},
+  \code{\link{fixed<-.init}}, \code{\link{fixed<-.model}},
+  \code{\link{fixed<-}}, \code{\link{fixed}}
+}

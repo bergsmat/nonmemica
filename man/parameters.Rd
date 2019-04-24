@@ -14,4 +14,8 @@ parameters(x, ...)
 \description{
 Gets parameters.
 }
+\seealso{
+Other parameters: \code{\link{parameters.character}},
+  \code{\link{parameters.numeric}}
+}
 \keyword{internal}

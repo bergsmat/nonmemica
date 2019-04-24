@@ -14,4 +14,8 @@
 \description{
 Coerces to list of matrices from Records
 }
+\seealso{
+Other as.matrices: \code{\link{as.matrices.inits}},
+  \code{\link{as.matrices}}
+}
 \keyword{internal}

@@ -17,4 +17,8 @@ Creates a model parameter table from a number.
 \details{
 Just coerces to character and calls partab again.
 }
+\seealso{
+Other partab: \code{\link{partab.character}},
+  \code{\link{partab}}
+}
 \keyword{internal}

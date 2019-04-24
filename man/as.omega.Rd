@@ -14,4 +14,7 @@ as.omega(x, ...)
 \description{
 Extracts omegas.
 }
+\seealso{
+Other as.omega: \code{\link{as.omega.model}}
+}
 \keyword{internal}

@@ -17,4 +17,9 @@ init
 \description{
 Sets fixed init value.
 }
+\seealso{
+Other fixed: \code{\link{fixed.model}},
+  \code{\link{fixed<-.inits}}, \code{\link{fixed<-.model}},
+  \code{\link{fixed<-}}, \code{\link{fixed}}
+}
 \keyword{internal}

@@ -14,4 +14,9 @@ nms_nonmem(x, ...)
 \description{
 Generates NONMEM-style names.
 }
+\seealso{
+Other nms_nonmem: \code{\link{nms_nonmem.character}},
+  \code{\link{nms_nonmem.model}},
+  \code{\link{nms_nonmem.numeric}}
+}
 \keyword{internal}

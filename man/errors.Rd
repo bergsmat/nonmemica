@@ -14,4 +14,8 @@ errors(x, ...)
 \description{
 Gets errors.
 }
+\seealso{
+Other errors: \code{\link{errors.character}},
+  \code{\link{errors.numeric}}
+}
 \keyword{internal}

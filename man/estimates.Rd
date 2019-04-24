@@ -14,4 +14,8 @@ estimates(x, ...)
 \description{
 Gets estimates
 }
+\seealso{
+Other estimates: \code{\link{estimates.character}},
+  \code{\link{estimates.numeric}}
+}
 \keyword{internal}

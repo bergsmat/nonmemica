@@ -17,4 +17,7 @@ Creates a model item definitions from a number.
 \details{
 Just coerces to character and calls definitions again.
 }
+\seealso{
+Other definitions: \code{\link{definitions}}
+}
 \keyword{internal}

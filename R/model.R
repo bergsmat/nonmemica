@@ -9,6 +9,7 @@ globalVariables(c('item','.','parameter','estimate','se'))
 #' @param x object of dispatch
 #' @param ... dots
 #' @return model
+#' @family as.model
 #' @export
 #' @keywords internal
 as.model <-
@@ -21,6 +22,7 @@ function(x,...)UseMethod('as.model')
 #' @param ... dots
 #' @return model
 #' @export
+#' @family as.character
 #' @keywords internal
 as.character.model <- function(x,...){
 	if(length(x)==0) return(character(0))
@@ -46,6 +48,7 @@ as.character.model <- function(x,...){
 #' @param ... dots
 #' @return list
 #' @export
+#' @family as.list
 #' @keywords internal
 as.list.model <-
 function(x,...)unclass(x)
@@ -56,6 +59,7 @@ function(x,...)unclass(x)
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family as.model
 #' @keywords internal
 as.model.numeric <- function(x,...)as.model(as.character(x),...)
 
@@ -69,6 +73,7 @@ as.model.numeric <- function(x,...)as.model(as.character(x),...)
 #' @return list
 #' @describeIn as.model character method
 #' @export
+#' @family as.model
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -118,6 +123,7 @@ function(
 #' @param ... dots
 #' @return character
 #' @export
+#' @family format
 #' @keywords internal
 format.model <-
 function(x,...)as.character(x,...)
@@ -131,6 +137,7 @@ function(x,...)as.character(x,...)
 #' @param ... dots
 #' @return character
 #' @export
+#' @family print
 #' @keywords internal
 print.model <-
 function(x,...)print(format(x,...))
@@ -145,6 +152,7 @@ function(x,...)print(format(x,...))
 #' @param ... dots
 #' @return character
 #' @export
+#' @family as.model
 #' @keywords internal
 read.model <-
 function(con,parse=TRUE,...)as.model(readLines(con),parse=parse,...)
@@ -162,6 +170,7 @@ function(con,parse=TRUE,...)as.model(readLines(con),parse=parse,...)
 #' @param ... dots
 #' @return used for side effects
 #' @export
+#' @family as.model
 #' @keywords internal
 
 write.model <-
@@ -185,6 +194,7 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 #' @param drop passed to subset
 #' @return model
 #' @export
+#' @family as.model
 #' @keywords internal
 `[.model` <- function (x, ..., drop = TRUE){
     cl <- oldClass(x)
@@ -201,6 +211,7 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 #' @param drop passed to element select
 #' @return element
 #' @export
+#' @family as.model
 #' @keywords internal
 
 `[[.model` <- function (x, ..., drop = TRUE)NextMethod("[[")
@@ -213,6 +224,7 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 #'@param x object
 #'@param ... passed arguments
 #'@export
+#'@family as.theta
 #'@keywords internal
 as.theta <- function(x,...)UseMethod('as.theta')
 
@@ -224,6 +236,7 @@ as.theta <- function(x,...)UseMethod('as.theta')
 #'@param ... passed arguments
 #'@return theta (subset of model)
 #'@export
+#'@family as.theta
 #'@keywords internal
 as.theta.model <- function(x,...){
   y <- x[names(x) %in% 'theta' ]
@@ -237,6 +250,7 @@ as.theta.model <- function(x,...){
 #'@param x object
 #'@param ... passed arguments
 #'@export
+#'@family as.omega
 #'@keywords internal
 as.omega <- function(x,...)UseMethod('as.omega')
 
@@ -248,6 +262,7 @@ as.omega <- function(x,...)UseMethod('as.omega')
 #'@param ... passed arguments
 #'@return omega (subset of model)
 #'@export
+#'@family as.omega
 #'@keywords internal
 as.omega.model <- function(x,...){
   y <- x[names(x) %in% 'omega' ]
@@ -272,6 +287,7 @@ as.sigma <- function(x,...)UseMethod('as.sigma')
 #'@param ... passed arguments
 #'@return sigma (subset of model)
 #'@export
+#'@family as.sigma
 #'@keywords internal
 as.sigma.model <- function(x,...){
   y <- x[names(x) %in% 'sigma' ]
@@ -285,6 +301,7 @@ as.sigma.model <- function(x,...){
 #'@param x object
 #'@param ... passed arguments
 #'@export
+#'@family as.tab
 #'@keywords internal
 as.tab <- function(x,...)UseMethod('as.tab')
 
@@ -296,6 +313,7 @@ as.tab <- function(x,...)UseMethod('as.tab')
 #'@param ... passed arguments
 #'@return tab (subset of model)
 #'@export
+#'@family as.tab
 #'@keywords internal
 as.tab.model <- function(x,...){
   y <- x[names(x) %in% 'table' ]
@@ -310,6 +328,7 @@ as.tab.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family comments
 #' @keywords internal
 comments <- function(x,...)UseMethod('comments')
 
@@ -321,6 +340,7 @@ comments <- function(x,...)UseMethod('comments')
 #' @return data.frame
 #' @describeIn comments record method
 #' @export
+#' @family comments
 #'@keywords internal
 #' 
 comments.records <- function(x,...){
@@ -354,6 +374,7 @@ comments.records <- function(x,...){
 #' @return data.frame
 #' @describeIn comments model method
 #' @export
+#' @family comments
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -400,6 +421,7 @@ comments.model <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family as.itmes
 #' @keywords internal
 as.items <- function(x,...)UseMethod('as.items')
 
@@ -409,6 +431,7 @@ as.items <- function(x,...)UseMethod('as.items')
 #' @inheritParams as.items
 #' @return items
 #' @export
+#' @family as.items
 #' @keywords internal
 as.items.character <- function(x,...){
   txt <- x
@@ -453,6 +476,7 @@ as.items.character <- function(x,...){
 #' @param ... dots
 #' @return character
 #' @export
+#' @family format
 #' @keywords internal
 format.items <-function(x,...)as.character(x,...)
 
@@ -463,6 +487,7 @@ format.items <-function(x,...)as.character(x,...)
 #' @param ... dots
 #' @return character
 #' @export
+#' @family print
 #' @keywords internal
 print.items <-function(x,...)print(format(x,...))
 
@@ -474,6 +499,7 @@ print.items <-function(x,...)print(format(x,...))
 #' @return data.frame
 #' @describeIn comments items method
 #' @export
+#' @family comments
 #' 
 
 comments.items <- function(x, ...){
@@ -495,6 +521,7 @@ comments.items <- function(x, ...){
 #' @return data.frame
 #' @describeIn comments inits method
 #' @export
+#' @family comments
 #' 
 comments.inits <- function(x, type, prior,...){
   block <- attr(x,'block')
@@ -529,6 +556,7 @@ comments.inits <- function(x, type, prior,...){
 #' @param ... dots
 #' @return numeric
 #' @export
+#' @family ord
 #' @keywords internal
 
 ord.inits <- function(x,...){
@@ -548,6 +576,7 @@ ord.inits <- function(x,...){
 #' @param ... dots
 #' @return numeric
 #' @export
+#' @family ord
 #' @keywords internal
 
 ord.items <- function(x,...)length(x)
@@ -559,6 +588,7 @@ ord.items <- function(x,...)length(x)
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family initDex
 #' @keywords internal
 initDex <- function(x,...)UseMethod('initDex')
 
@@ -570,6 +600,7 @@ initDex <- function(x,...)UseMethod('initDex')
 #' @param ... dots
 #' @return integer
 #' @export
+#' @family initDex
 #' @keywords internal
 #' 
 initDex.model <- function(x,...){
@@ -592,6 +623,7 @@ initDex.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family initSubscripts
 #' @keywords internal
 initSubscripts <- function(x,...)UseMethod('initSubscripts')
 
@@ -603,6 +635,7 @@ initSubscripts <- function(x,...)UseMethod('initSubscripts')
 #' @param ... dots
 #' @return integer
 #' @export
+#' @family initSubscripts
 #' @keywords internal
 #' 
 initSubscripts.model <- function(x,...){
@@ -627,6 +660,7 @@ initSubscripts.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family updated
 #' @keywords internal
 updated <- function(x,...)UseMethod('updated')
 
@@ -635,6 +669,7 @@ updated <- function(x,...)UseMethod('updated')
 #' Creates the updated version of numeric by coercing to character.
 #' @inheritParams updated
 #' @export
+#' @family updated
 #' @keywords internal
 updated.numeric <- function(x,...)updated(as.character(x),...)
 
@@ -649,6 +684,7 @@ updated.numeric <- function(x,...)updated(as.character(x),...)
 #' @param ... dots
 #' @return model
 #' @export
+#' @family updated
 updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose=FALSE, ...){
   y <- as.model(x, parse=TRUE,verbose=verbose,...)
   initial(y) <- initial
@@ -661,6 +697,7 @@ updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family as.matrices
 #' @keywords internal
 as.matrices <- function(x,...)UseMethod('as.matrices')
 
@@ -670,6 +707,7 @@ as.matrices <- function(x,...)UseMethod('as.matrices')
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family as.matrices
 #' @keywords internal
 as.matrices.records <- function(x,...){
   y <- lapply(x,as.matrices)
@@ -685,6 +723,7 @@ as.matrices.records <- function(x,...){
 #' @param ... dots
 #' @return matrices
 #' @export
+#' @family as.matrices
 #' @keywords internal
 as.matrices.inits <- function(x,...){
   block <- attr(x,'block')

@@ -20,4 +20,7 @@ Identifies the order of an inits.
 \details{
 Essentially the length of the list, or the length of the diagonal of a matrix (if BLOCK was defined).
 }
+\seealso{
+Other ord: \code{\link{ord.items}}
+}
 \keyword{internal}

@@ -22,4 +22,9 @@ Read model.
 \details{
 Reads model from a connection.
 }
+\seealso{
+Other as.model: \code{\link{[.model}},
+  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
+  \code{\link{as.model}}, \code{\link{write.model}}
+}
 \keyword{internal}

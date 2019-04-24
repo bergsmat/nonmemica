@@ -14,4 +14,8 @@
 \description{
 Gets errors for numeric by coercing to character.
 }
+\seealso{
+Other errors: \code{\link{errors.character}},
+  \code{\link{errors}}
+}
 \keyword{internal}

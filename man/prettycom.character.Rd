@@ -20,4 +20,7 @@
 \description{
 Pretty-prints a comment for character.
 }
+\seealso{
+Other prettycom: \code{\link{prettycom}}
+}
 \keyword{internal}

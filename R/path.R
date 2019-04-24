@@ -6,6 +6,7 @@
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @family path
 #' @examples 
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -20,6 +21,7 @@ modelpath <- function(x,...)UseMethod('modelpath')
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @family path
 #' @keywords internal
 modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 
@@ -34,6 +36,7 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @family path
 modelpath.character <- function(
   x,
   ext = NULL,
@@ -58,6 +61,7 @@ modelpath.character <- function(
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @family path
 #' @examples 
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -73,6 +77,7 @@ modelfile <- function(x, ext = getOption('modex','ctl'), ...)modelpath(x, ext = 
 #' @param ... passed arguments
 #' @return character
 #' @export
+#' @family path
 #' @examples 
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -85,6 +90,7 @@ modeldir <- function(x, ext, ...)modelpath(x, ext = NULL, ...)
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family path
 #' @keywords internal
 datafile <- function(x,...)UseMethod('datafile')
 
@@ -94,6 +100,7 @@ datafile <- function(x,...)UseMethod('datafile')
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family path
 #' @keywords internal
 datafile.numeric <- function(x,...)datafile(as.character(x),...)
 
@@ -105,6 +112,7 @@ datafile.numeric <- function(x,...)datafile(as.character(x),...)
 #' @param ... ext can be passed to modelfile, etc.
 #' @return character
 #' @export
+#' @family path
 #' @examples
 #' library(spec)
 #' source <- system.file(package = 'nonmemica','project')
@@ -138,6 +146,7 @@ datafile.character <- function(
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family path
 #' @keywords internal
 specfile <- function(x,...)UseMethod('specfile')
 
@@ -147,6 +156,7 @@ specfile <- function(x,...)UseMethod('specfile')
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family path
 #' @keywords internal
 specfile.numeric <- function(x,...)specfile(as.character(x),...)
 
@@ -161,6 +171,7 @@ specfile.numeric <- function(x,...)specfile(as.character(x),...)
 #' @seealso datafile
 #' @return character
 #' @export
+#' @family path
 #' @examples
 #' library(spec)
 #' source <- system.file(package = 'nonmemica','project')

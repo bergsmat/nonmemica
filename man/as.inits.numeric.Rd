@@ -21,4 +21,7 @@ inits
 \description{
 Coerces numeric to inits
 }
+\seealso{
+Other as.inits: \code{\link{as.inits}}
+}
 \keyword{internal}

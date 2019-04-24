@@ -14,4 +14,8 @@ initial(x) <- value
 \description{
 Sets initial Value.
 }
+\seealso{
+Other initial: \code{\link{initial.model}},
+  \code{\link{initial<-.model}}, \code{\link{initial}}
+}
 \keyword{internal}

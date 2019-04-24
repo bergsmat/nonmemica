@@ -22,4 +22,7 @@ init
 \description{
 Coerces numeric to init
 }
+\seealso{
+Other as.init: \code{\link{as.init}}
+}
 \keyword{internal}

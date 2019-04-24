@@ -14,4 +14,7 @@ maxWidths(x, ...)
 \description{
 Calculates maximum widths
 }
+\seealso{
+Other maxWidths: \code{\link{maxWidths.list}}
+}
 \keyword{internal}

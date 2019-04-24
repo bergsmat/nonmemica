@@ -10,6 +10,7 @@ globalVariables(c('column','guide','npar'))
 #' @param ... passed arguments
 #' @keywords internal
 #' @export
+#' @family problem
 problem_ <- function(
   x,
   ...
@@ -30,6 +31,7 @@ problem_ <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family problem
 #' @keywords internal
 problem <- function(x,...)UseMethod('problem')
 
@@ -39,6 +41,7 @@ problem <- function(x,...)UseMethod('problem')
 #' 
 #' @inheritParams problem
 #' @export
+#' @family problem
 #' @keywords internal
 problem.numeric <- function(x,...)problem(as.character(x))
 
@@ -49,6 +52,7 @@ problem.numeric <- function(x,...)problem(as.character(x))
 #' @inheritParams problem
 #' @return character
 #' @export
+#' @family problem
 problem.character <- function(x,...)sapply(x,problem_, ...)
 
 #' Identify What Something is Like
@@ -58,6 +62,7 @@ problem.character <- function(x,...)sapply(x,problem_, ...)
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family like
 #' @keywords internal
 like <- function(x,...)UseMethod('like')
 
@@ -69,6 +74,7 @@ like <- function(x,...)UseMethod('like')
 #' @import encode
 #' @keywords internal
 #' @export
+#' @family like
 like.default <- function(x, ...){
   m <- data.frame(
     stringsAsFactors=F,
@@ -95,6 +101,7 @@ like.default <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family but
 #'@keywords internal
 but <- function(x,...)UseMethod('but')
 
@@ -104,6 +111,7 @@ but <- function(x,...)UseMethod('but')
 #' @inheritParams but
 #' @return character
 #' @export
+#' @family but
 #'@keywords internal
 but.default <- function(x, ...){
   m <- data.frame(
@@ -132,6 +140,7 @@ but.default <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family depends
 #'@keywords internal
 depends <- function(x,...)UseMethod('depends')
 
@@ -156,6 +165,7 @@ cascade <- function(x,...){
 #' @return character
 #' @importFrom rlang UQS
 #' @export
+#' @family depends
 depends.default <- function(x, ...){
   res <- lapply(x,dependsOne,...)
   unionRollUp(res)
@@ -190,6 +200,7 @@ unionRollUp.list <- function(x,...){
 #' @param ... passed arguments
 #' @seealso \code{\link{runlog.character}}
 #' @export
+#' @family runlog
 #' @keywords internal
 runlog <- function(x,...)UseMethod('runlog')
 
@@ -198,6 +209,7 @@ runlog <- function(x,...)UseMethod('runlog')
 #' Creates a runlog for numeric by coercing to character.
 #' @inheritParams runlog
 #' @export
+#' @family runlog
 #' @keywords internal
 runlog.numeric <- function(x,...)runlog(as.character(x),...)
 
@@ -211,6 +223,7 @@ runlog.numeric <- function(x,...)runlog(as.character(x),...)
 #' @return data.frame
 #' @seealso \code{\link{likebut}}
 #' @export
+#' @family runlog
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -326,6 +339,7 @@ tweak.default <- function(
 #' @return the value of y
 #' @seealso \code{\link{runlog.character}}
 #' @export
+#' @family likebut
 #' @examples
 #' # Create a working project.
 #' source <- system.file(package = 'nonmemica','project')
@@ -433,6 +447,7 @@ likebut <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family parameters
 #' @keywords internal
 parameters <- function(x,...)UseMethod('parameters')
 
@@ -441,6 +456,7 @@ parameters <- function(x,...)UseMethod('parameters')
 #' Gets parameters for numeric by coercing to character.
 #' @inheritParams parameters
 #' @export
+#' @family parameters
 #' @keywords internal
 parameters.numeric <- function(x,...)parameters(as.character(x),...)
 
@@ -451,13 +467,15 @@ parameters.numeric <- function(x,...)parameters(as.character(x),...)
 #' Otherwise results are bound together, one model per column.
 #' See \code{\link{estimates}} and \code{\link{errors}} for a more formal interface to model estimates and asymptotic standard errors.
 #' @inheritParams parameters
+#' @param simplify if x is length one and simplify is TRUE, return a named vector
 #' @return data.frame
 #' @export
+#' @family parameters
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% parameters
-parameters.character <- function(x,...){
+parameters.character <- function(x, simplify = FALSE, ...){
   run <- function(x,...){
     y <- .parameters(x,...)
     y$run <- x
@@ -468,6 +486,11 @@ parameters.character <- function(x,...){
   if(length(x) > 1) m <- filter(m, !symbol %in% c('dat','like','feature'))
   m <- mutate(m, symbol = factor(symbol,levels=unique(symbol)))
   m <- tidyr::spread(m, run,value)
+  if(length(x) == 1 && simplify){
+    o <- m[,2]
+    names(o) <- m[,1]
+    return(o)
+  }
   m
 }
 
@@ -478,6 +501,7 @@ parameters.character <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family estimates
 #' @keywords internal
 estimates <- function(x,...)UseMethod('estimates')
 
@@ -486,6 +510,7 @@ estimates <- function(x,...)UseMethod('estimates')
 #' Gets estimates for numeric by coercing to character.
 #' @inheritParams estimates
 #' @export
+#' @family estimates
 #' @keywords internal
 estimates.numeric <- function(x,...)estimates(as.character(x,...))
 
@@ -502,6 +527,7 @@ estimates.numeric <- function(x,...)estimates(as.character(x,...))
 #' @return numeric
 #' @seealso nms_canonical errors
 #' @export
+#' @family estimates
 #' @import magrittr
 #' @import dplyr
 #' @examples
@@ -540,6 +566,7 @@ estimates.character <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export 
+#' @family errors
 #' @keywords internal
 errors <- function(x,...)UseMethod('errors')
 
@@ -548,6 +575,7 @@ errors <- function(x,...)UseMethod('errors')
 #' Gets errors for numeric by coercing to character.
 #' @inheritParams errors
 #' @export
+#' @family errors
 #' @keywords internal
 errors.numeric <- function(x,...)errors(as.character(x,...))
 
@@ -564,6 +592,7 @@ errors.numeric <- function(x,...)errors(as.character(x,...))
 #' @return numeric
 #' @seealso nms_canonical errors
 #' @export
+#' @family errors
 #' @import magrittr
 #' @import dplyr
 #' @examples

@@ -26,7 +26,7 @@ tad(x, dose = rep(FALSE, length(x)), addl = rep(0, length(x)), ii = rep(0,
 numeric
 }
 \description{
-Calculate time since most recent dose.
+Calculate time since most recent dose.  Considers ADDL, but may not work with simultaneous dose records.
 }
 \examples{
 data(tad1)
@@ -43,4 +43,6 @@ head(x)
 }
 \seealso{
 \code{\link{tod}}
+
+Other tad: \code{\link{tod}}
 }

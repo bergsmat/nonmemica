@@ -20,4 +20,11 @@ Compare sets by evaluating both set differences, and the intersection.
 \examples{
 pool(1:3,2:4)
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{locf}}, \code{\link{padded}},
+  \code{\link{parens}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

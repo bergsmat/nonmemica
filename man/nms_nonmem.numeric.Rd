@@ -14,4 +14,8 @@
 \description{
 Generates NONMEM-style names for numeric by coercing to character.
 }
+\seealso{
+Other nms_nonmem: \code{\link{nms_nonmem.character}},
+  \code{\link{nms_nonmem.model}}, \code{\link{nms_nonmem}}
+}
 \keyword{internal}

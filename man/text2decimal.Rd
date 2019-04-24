@@ -18,4 +18,11 @@ Scavenge text for first reasonably-inferred numeric value.
 \examples{
 text2decimal('30 mg')
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{locf}}, \code{\link{padded}},
+  \code{\link{parens}}, \code{\link{pool}},
+  \code{\link{runhead}}
+}
 \keyword{internal}

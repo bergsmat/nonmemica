@@ -17,4 +17,7 @@ omega (subset of model)
 \description{
 Extracts omegas from model.
 }
+\seealso{
+Other as.omega: \code{\link{as.omega}}
+}
 \keyword{internal}

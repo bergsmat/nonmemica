@@ -14,4 +14,8 @@
 \description{
 Gets parameters for numeric by coercing to character.
 }
+\seealso{
+Other parameters: \code{\link{parameters.character}},
+  \code{\link{parameters}}
+}
 \keyword{internal}

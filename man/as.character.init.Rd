@@ -17,4 +17,9 @@ character
 \description{
 Coerces init to character.
 }
+\seealso{
+Other as.character: \code{\link{as.character.inits}},
+  \code{\link{as.character.items}},
+  \code{\link{as.character.model}}
+}
 \keyword{internal}

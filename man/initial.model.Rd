@@ -19,3 +19,7 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model \%>\% initial
 }
+\seealso{
+Other initial: \code{\link{initial<-.model}},
+  \code{\link{initial<-}}, \code{\link{initial}}
+}

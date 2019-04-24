@@ -5,6 +5,7 @@
 #' @return logical
 # @describeIn getset model method
 #' @export
+#' @family fixed
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -27,6 +28,7 @@ fixed.model <- function(x,...){
 #' @return model
 # @describeIn getset model method for setting fixed
 #' @export
+#' @family fixed
 #' @keywords internal
 
 `fixed<-.model` <- function(x,value){
@@ -69,6 +71,7 @@ fixed.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family lower
 #' @keywords internal
 lower <- function(x,...)UseMethod('lower')
 
@@ -79,6 +82,7 @@ lower <- function(x,...)UseMethod('lower')
 #' @param ... dots
 # @describeIn getset model method for getting lower bounds
 #' @export
+#' @family lower
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -91,6 +95,7 @@ lower.model <- function(x,...).getInitDetail(x,y='low',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @family lower
 #' @keywords internal
 `lower<-` <- function(x, value)UseMethod('lower<-')
 
@@ -101,6 +106,7 @@ lower.model <- function(x,...).getInitDetail(x,y='low',...)
 #' @param value numeric
 # @describeIn getset model method for setting lower bounds
 #' @export
+#' @family lower
 `lower<-.model` <- function(x, value).setInitDetail(x, value = value, y = 'low')
 
 ### GET/SET UPPER ###################################33
@@ -111,6 +117,7 @@ lower.model <- function(x,...).getInitDetail(x,y='low',...)
 #' @param ... dots
 # @describeIn getset get upper generic
 #' @export
+#' @family upper
 #' @keywords internal
 upper <- function(x,...)UseMethod('upper')
 
@@ -121,6 +128,7 @@ upper <- function(x,...)UseMethod('upper')
 #' @param ... dots
 # @describeIn getset model method for getting upper bounds
 #' @export
+#' @family upper
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -133,6 +141,7 @@ upper.model <- function(x,...).getInitDetail(x,y='up',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @family upper
 #' @keywords internal
 `upper<-` <- function(x, value)UseMethod('upper<-')
 
@@ -143,6 +152,7 @@ upper.model <- function(x,...).getInitDetail(x,y='up',...)
 #' @param value numeric
 # @describeIn getset model method for setting upper bounds
 #' @export
+#' @family upper
 `upper<-.model` <- function(x, value).setInitDetail(x,value = value, y = 'up')
 
 ### GET/SET INITIAL ESTIMATE ###################################33
@@ -152,6 +162,7 @@ upper.model <- function(x,...).getInitDetail(x,y='up',...)
 #' @param x object of dispatch
 #' @param ... dots
 #' @export
+#' @family initial
 #' @keywords internal
 initial <- function(x,...)UseMethod('initial')
 
@@ -162,6 +173,7 @@ initial <- function(x,...)UseMethod('initial')
 #' @param ... dots
 # @describeIn getset model method for getting initial estimates
 #' @export
+#' @family initial
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -174,6 +186,7 @@ initial.model <- function(x,...).getInitDetail(x,y = 'init',...)
 #' @param x object of dispatch
 #' @param value right hand side
 #' @export
+#' @family initial
 #' @keywords internal
 `initial<-` <- function(x, value)UseMethod('initial<-')
 
@@ -184,4 +197,5 @@ initial.model <- function(x,...).getInitDetail(x,y = 'init',...)
 #' @param value numeric
 # @describeIn initials model method for setting upper bounds
 #' @export
+#' @family initial
 `initial<-.model` <- function(x, value).setInitDetail(x, value = value, y = 'init')

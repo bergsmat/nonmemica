@@ -14,4 +14,8 @@ upper(x) <- value
 \description{
 Sets upper Value.
 }
+\seealso{
+Other upper: \code{\link{upper.model}},
+  \code{\link{upper<-.model}}, \code{\link{upper}}
+}
 \keyword{internal}

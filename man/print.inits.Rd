@@ -17,4 +17,8 @@ character
 \description{
 Prints inits.
 }
+\seealso{
+Other print: \code{\link{print.init}},
+  \code{\link{print.items}}, \code{\link{print.model}}
+}
 \keyword{internal}

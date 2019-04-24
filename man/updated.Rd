@@ -14,4 +14,8 @@ updated(x, ...)
 \description{
 Creates the updated version of something. Don't confuse with stats::update.
 }
+\seealso{
+Other updated: \code{\link{updated.character}},
+  \code{\link{updated.numeric}}
+}
 \keyword{internal}

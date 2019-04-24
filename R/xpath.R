@@ -10,6 +10,7 @@
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% as.xml_document
 #' @export
+#' @family xpath
 as.xml_document <- function(x,...)UseMethod('as.xml_document')
 
 #' Coerce xml_document to xml_document
@@ -19,6 +20,7 @@ as.xml_document <- function(x,...)UseMethod('as.xml_document')
 #' @return xml_document
 #' @describeIn as.xml_document xml_document method
 #' @export
+#' @family xpath
 as.xml_document.xml_document <- function(x,...)x
 
 #' Coerce numeric to xml_document
@@ -28,6 +30,7 @@ as.xml_document.xml_document <- function(x,...)x
 #' @return xml_document
 #' @keywords internal
 #' @export
+#' @family xpath
 as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 
 #' Create xml_document From Character
@@ -39,6 +42,7 @@ as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 #' @return xml_document
 #' @describeIn as.xml_document filepath method
 #' @export
+#' @family xpath
 as.xml_document.character <- function(x,strip.namespace=TRUE,...){
   # x is a model name or a file path
   if(!file_test('-f', x)) x <- modelpath(x, 'xml',...)
@@ -59,6 +63,7 @@ as.xml_document.character <- function(x,strip.namespace=TRUE,...){
 #' @param x xml_document
 #' @param ... passed arguments
 #' @export
+#' @family xpath
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -72,6 +77,7 @@ xpath <- function(x,...)UseMethod('xpath')
 #' @return vector
 #' @describeIn xpath default method
 #' @export
+#' @family xpath
 xpath.default <- function(x,...)xpath(as.xml_document(x),...)
 
 #' Evaluate xpath Expression in Document Context
@@ -86,6 +92,7 @@ xpath.default <- function(x,...)xpath(as.xml_document(x),...)
 #' @return vector
 #' @describeIn xpath xml_document method
 #' @export
+#' @family xpath
 xpath.xml_document <- function(x, xpath,...)as.best(xml_text(xml_find_all(x,xpath)))
   
 

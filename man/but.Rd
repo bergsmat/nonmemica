@@ -14,4 +14,7 @@ but(x, ...)
 \description{
 Identifies a distinctive feature of an object.
 }
+\seealso{
+Other but: \code{\link{but.default}}
+}
 \keyword{internal}

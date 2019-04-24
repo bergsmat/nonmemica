@@ -19,4 +19,11 @@ character
 \description{
 Pad a numeric vector with leading zeros.
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{locf}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

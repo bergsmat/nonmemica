@@ -25,6 +25,7 @@ contains <- function(pattern,text,...){
 #' @seealso \code{\link{contains}}
 #' @return logical
 #' @export
+#' @family util
 #' @keywords internal
 #' @examples
 #' letters %contains% 'a'
@@ -37,6 +38,7 @@ contains <- function(pattern,text,...){
 #' @param x character
 #' @return numeric
 #' @export
+#' @family util
 #' @keywords internal
 #' @examples
 #' text2decimal('30 mg')
@@ -64,6 +66,7 @@ is.defined <- function(x)!is.na(x)
 #' @param y vector
 #' @return list: unique x, unique y, and intersection
 #' @keywords internal
+#' @family util
 #' @examples
 #' pool(1:3,2:4)
 
@@ -78,6 +81,7 @@ pool <- function(x,y)list(x=setdiff(x,y),y=setdiff(y,x),both=intersect(x,y))
 #' @return character
 #' @keywords internal
 #' @export
+#' @family util
 parens <- function(x,...)paste0('(',x,')')
 
 #' Enclose in Arbitrary Characters
@@ -90,6 +94,7 @@ parens <- function(x,...)paste0('(',x,')')
 #' @return character
 #' @keywords internal
 #' @export
+#' @family util
 enclose <- function(x,open,close,...)paste0(open,x,close)
 
 #' Pad Numeric with Zeros
@@ -101,6 +106,7 @@ enclose <- function(x,open,close,...)paste0(open,x,close)
 #' @return character
 #' @keywords internal
 #' @export
+#' @family util
 #' 
 padded <- function (x, width = 4, ...) 
   sprintf(paste0("%0", width, ".0f"), x)
@@ -116,6 +122,7 @@ padded <- function (x, width = 4, ...)
 #' @param na.strings strings to treat as NA
 #' @keywords internal
 #' @export
+#' @family util
 as.best <- function(x,...)UseMethod('as.best')
 
 #' Convert Dataframe Columns to Best of Numeric or Character
@@ -127,6 +134,7 @@ as.best <- function(x,...)UseMethod('as.best')
 #' @return data.frame
 #' @describeIn as.best data.frame method
 #' @export
+#' @family util
 as.best.data.frame <- function(x,prefix='#',...){
   for(col in names(x)){
     tryCatch(
@@ -144,6 +152,7 @@ as.best.data.frame <- function(x,prefix='#',...){
 #' @inheritParams as.best
 #' @describeIn as.best default method
 #' @export
+#' @family util
 as.best.default <-
   function(x,prefix='',na.strings=c('.','NA',''),...){
     stopifnot(length(prefix)<=1)
@@ -169,6 +178,7 @@ as.best.default <-
 #' @return logical
 #' @keywords internal
 #' @export
+#' @family util
 `runhead` <-
   function(x){#not like last observation
     n <- x != dplyr::lag(x)
@@ -184,6 +194,7 @@ as.best.default <-
 #' @return a vector like \code{x}
 #' @keywords internal
 #' @export 
+#' @family util
 #' @describeIn locf locf last observation carried forward
 #' @examples
 #' locf(c(NA,1,2,NA,NA,3,NA,4,NA))
@@ -201,15 +212,18 @@ as.best.default <-
 
 #' @describeIn locf forbak locf followed by nocb
 #' @export
+#' @family util
 `forbak` <-
   function(x)nocb(locf(x))
 
 #' @describeIn locf bakfor nocb followed by locf
 #' @export
+#' @family util
 `bakfor` <-
   function(x)locf(nocb(x))
 
 #' @describeIn locf nocb next observation carried backward
 #' @export
+#' @family util
 `nocb` <-
   function(x)rev(locf(rev(x)))

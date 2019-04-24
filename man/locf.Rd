@@ -40,4 +40,29 @@ locf(c(NA,1,2,NA,NA,3,NA,4,NA))
 nocb(c(NA,1,2,NA,NA,3,NA,4,NA))
 forbak(c(NA,1,2,NA,NA,3,NA,4,NA))
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

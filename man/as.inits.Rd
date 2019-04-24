@@ -47,4 +47,13 @@ Coerces inits to inits
 \item \code{inits}: inits method
 }}
 
+\seealso{
+Other as.inits: \code{\link{as.inits.numeric}}
+
+Other as.inits: \code{\link{as.inits.numeric}}
+
+Other as.inits: \code{\link{as.inits.numeric}}
+
+Other as.inits: \code{\link{as.inits.numeric}}
+}
 \keyword{internal}

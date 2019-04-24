@@ -57,3 +57,17 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% superset \%>\% head
 1001 \%>\% superset \%>\% filter(VISIBLE == 1) \%>\% group_by(ID,TIME) \%>\% status
 }
+\seealso{
+Other superset: \code{\link{generalize}},
+  \code{\link{meta.character}}, \code{\link{meta.numeric}},
+  \code{\link{metaplot.character}},
+  \code{\link{metaplot.numeric}},
+  \code{\link{metaplot_character}},
+  \code{\link{metasuperset}}, \code{\link{meta}},
+  \code{\link{ninput.character}},
+  \code{\link{ninput.numeric}}, \code{\link{ninput}},
+  \code{\link{shuffle}}, \code{\link{superset.numeric}},
+  \code{\link{superset}},
+  \code{\link{superspec.character}},
+  \code{\link{superspec.numeric}}, \code{\link{superspec}}
+}

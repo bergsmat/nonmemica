@@ -14,4 +14,13 @@
 \description{
 Identifies datafile from numeric.
 }
+\seealso{
+Other path: \code{\link{datafile.character}},
+  \code{\link{datafile}}, \code{\link{modeldir}},
+  \code{\link{modelfile}},
+  \code{\link{modelpath.character}},
+  \code{\link{modelpath.numeric}}, \code{\link{modelpath}},
+  \code{\link{specfile.character}},
+  \code{\link{specfile.numeric}}, \code{\link{specfile}}
+}
 \keyword{internal}

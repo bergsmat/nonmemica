@@ -20,4 +20,8 @@ Print model.
 \details{
 Formats and prints.
 }
+\seealso{
+Other print: \code{\link{print.inits}},
+  \code{\link{print.init}}, \code{\link{print.items}}
+}
 \keyword{internal}

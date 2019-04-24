@@ -24,3 +24,11 @@ character
 \description{
 Resolves a path to a model-related file, treating \code{x} as a model name. By default (\code{ext} is NULL) the run directory is returned.
 }
+\seealso{
+Other path: \code{\link{datafile.character}},
+  \code{\link{datafile.numeric}}, \code{\link{datafile}},
+  \code{\link{modeldir}}, \code{\link{modelfile}},
+  \code{\link{modelpath.numeric}}, \code{\link{modelpath}},
+  \code{\link{specfile.character}},
+  \code{\link{specfile.numeric}}, \code{\link{specfile}}
+}

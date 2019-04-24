@@ -34,4 +34,9 @@ Coerces init to init
 \item \code{init}: init method
 }}
 
+\seealso{
+Other as.init: \code{\link{as.init.numeric}}
+
+Other as.init: \code{\link{as.init.numeric}}
+}
 \keyword{internal}

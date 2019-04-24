@@ -71,4 +71,10 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{as.bootstrap.character}}
 
 \code{\link{as.model.character}}
+
+Other definitions: \code{\link{definitions.numeric}}
+
+Other definitions: \code{\link{definitions.numeric}}
+
+Other definitions: \code{\link{definitions.numeric}}
 }

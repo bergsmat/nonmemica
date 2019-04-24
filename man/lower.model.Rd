@@ -19,3 +19,7 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model \%>\% lower
 }
+\seealso{
+Other lower: \code{\link{lower<-.model}},
+  \code{\link{lower<-}}, \code{\link{lower}}
+}

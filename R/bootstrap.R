@@ -5,6 +5,7 @@
 #' @param x object of dispatch
 #' @param ... arguments to methods
 #' @seealso \code{\link{as.bootstrap.character}}
+#' @family as.bootstrap
 #' @export
 #' @keywords internal
 #' @return data.frame
@@ -21,6 +22,7 @@ as.bootstrap <- function(x,...)UseMethod('as.bootstrap')
 #' @inheritParams as.bootstrap
 #' @return data.frame
 #' @describeIn as.bootstrap bootstrap method
+#' @family as.bootstrap
 #' @export
 as.bootstrap.bootstrap <- function(x,...)x
 
@@ -30,6 +32,7 @@ as.bootstrap.bootstrap <- function(x,...)x
 #' 
 #' @inheritParams as.bootstrap
 #' @return data.frame
+#' @family as.bootstrap
 #' @keywords internal
 #' @export
 as.bootstrap.numeric  <- function(x,...)as.bootstrap(as.character(x),...)
@@ -50,6 +53,7 @@ as.bootstrap.numeric  <- function(x,...)as.bootstrap(as.character(x),...)
 #' @param bootcsv path to bootstrap_results.csv or equivalent
 #' @return data.frame
 #' @describeIn as.bootstrap character method
+#' @family as.bootstrap
 #' @export
 
 as.bootstrap.character <- function(

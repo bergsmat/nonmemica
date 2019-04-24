@@ -19,4 +19,7 @@ init
 \description{
 Sets init element.
 }
+\seealso{
+Other init: \code{\link{$.init}}
+}
 \keyword{internal}

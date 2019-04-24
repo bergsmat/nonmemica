@@ -15,4 +15,11 @@ logical
 \description{
 Finds postions in a vector that differ from previous.  First position is defined TRUE.
 }
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{as.best}}, \code{\link{enclose}},
+  \code{\link{locf}}, \code{\link{padded}},
+  \code{\link{parens}}, \code{\link{pool}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

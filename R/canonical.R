@@ -153,6 +153,7 @@ nms_psn.model <- function(x,...){
 #' @param x object of dispatch
 #' @param ... passed arguments
 #' @keywords internal
+#' @family nms_nonmem
 #' @export
 nms_nonmem <- function(x,...)UseMethod('nms_nonmem')
 
@@ -161,6 +162,7 @@ nms_nonmem <- function(x,...)UseMethod('nms_nonmem')
 #' Generates NONMEM-style names for numeric by coercing to character.
 #' @inheritParams nms_nonmem
 #' @export
+#' @family nms_nonmem
 #' @keywords internal
 nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 
@@ -169,6 +171,7 @@ nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 #' Generates NONMEM-style names for numeric by converting to parsed model.
 #' @inheritParams nms_nonmem
 #' @export
+#' @family nms_nonmem
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -182,6 +185,7 @@ nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=
 #' @param x a model designator
 #' @param ... passed arguments
 #' @return nonmem (character)
+#' @family nms_nonmem
 #' @seealso as.model
 #' @export
 nms_nonmem.model <- function(x,...){

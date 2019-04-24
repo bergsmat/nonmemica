@@ -36,4 +36,17 @@ Checks if inits is fixed.
 \item \code{inits}: inits method
 }}
 
+\seealso{
+Other fixed: \code{\link{fixed.model}},
+  \code{\link{fixed<-.inits}}, \code{\link{fixed<-.init}},
+  \code{\link{fixed<-.model}}, \code{\link{fixed<-}}
+
+Other fixed: \code{\link{fixed.model}},
+  \code{\link{fixed<-.inits}}, \code{\link{fixed<-.init}},
+  \code{\link{fixed<-.model}}, \code{\link{fixed<-}}
+
+Other fixed: \code{\link{fixed.model}},
+  \code{\link{fixed<-.inits}}, \code{\link{fixed<-.init}},
+  \code{\link{fixed<-.model}}, \code{\link{fixed<-}}
+}
 \keyword{internal}

@@ -14,4 +14,8 @@
 \description{
 Gets estimates for numeric by coercing to character.
 }
+\seealso{
+Other estimates: \code{\link{estimates.character}},
+  \code{\link{estimates}}
+}
 \keyword{internal}

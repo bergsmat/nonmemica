@@ -14,4 +14,7 @@ initSubscripts(x, ...)
 \description{
 Identifies subscripts.
 }
+\seealso{
+Other initSubscripts: \code{\link{initSubscripts.model}}
+}
 \keyword{internal}

@@ -17,4 +17,7 @@ numeric
 \description{
 Selects init element.
 }
+\seealso{
+Other init: \code{\link{$<-.init}}
+}
 \keyword{internal}

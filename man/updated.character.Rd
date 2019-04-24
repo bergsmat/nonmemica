@@ -24,3 +24,7 @@ model
 \description{
 Creates the updated version of character by treating as a modelname. Parses the associated control stream and ammends the initial estimates to reflect model results (as per xml file).
 }
+\seealso{
+Other updated: \code{\link{updated.numeric}},
+  \code{\link{updated}}
+}

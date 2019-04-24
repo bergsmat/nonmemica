@@ -17,4 +17,7 @@ character
 \description{
 Identifies the distinctive feature of a model, i.e. how it differs from its parent (the reference model). x can be a vector.
 }
+\seealso{
+Other but: \code{\link{but}}
+}
 \keyword{internal}

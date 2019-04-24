@@ -44,4 +44,13 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model
 }
+\seealso{
+Other as.model: \code{\link{[.model}},
+  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
+  \code{\link{read.model}}, \code{\link{write.model}}
+
+Other as.model: \code{\link{[.model}},
+  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
+  \code{\link{read.model}}, \code{\link{write.model}}
+}
 \keyword{internal}

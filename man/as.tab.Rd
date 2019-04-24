@@ -14,4 +14,7 @@ as.tab(x, ...)
 \description{
 Extracts tables.
 }
+\seealso{
+Other as.tab: \code{\link{as.tab.model}}
+}
 \keyword{internal}

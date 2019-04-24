@@ -32,4 +32,7 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 nms_canonical errors
+
+Other errors: \code{\link{errors.numeric}},
+  \code{\link{errors}}
 }

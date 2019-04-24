@@ -17,4 +17,8 @@ character
 \description{
 Formats items.
 }
+\seealso{
+Other format: \code{\link{format.inits}},
+  \code{\link{format.init}}, \code{\link{format.model}}
+}
 \keyword{internal}

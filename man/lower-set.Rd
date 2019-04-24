@@ -14,4 +14,8 @@ lower(x) <- value
 \description{
 Sets lower Value.
 }
+\seealso{
+Other lower: \code{\link{lower.model}},
+  \code{\link{lower<-.model}}, \code{\link{lower}}
+}
 \keyword{internal}

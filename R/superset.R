@@ -5,6 +5,7 @@
 #' @param ... passed arguments
 #' @seealso \code{\link{superspec.character}}
 #' @export
+#' @family superset
 superspec <- function(x, ...)UseMethod('superspec')
 
 #' Create Specification for Model Inputs and Outputs From Numeric
@@ -13,6 +14,7 @@ superspec <- function(x, ...)UseMethod('superspec')
 #' @param x numeric
 #' @param ... passed arguments
 #' @export
+#' @family superset
 superspec.numeric <- function(x, ...){
   y <- as.character(x)
   superspec(y, ...)
@@ -30,6 +32,7 @@ superspec.numeric <- function(x, ...){
 #' @param data an alternative dataset on which to model the specification
 #' @param ... passed arguments
 #' @export
+#' @family superset
 superspec.character <- function(
   x, 
   #exclusive = NULL,
@@ -75,6 +78,7 @@ superspec.character <- function(
 #' @param after column after which to put who: may be character, integer, NA, or NULL
 #' @param ... ignored
 #' @export
+#' @family superset
 #' @return data.frame
 #' 
 shuffle <- function (x, who, after = NA, ...) 
@@ -104,6 +108,7 @@ shuffle <- function (x, who, after = NA, ...)
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family superset
 ninput <- function(x, ...)UseMethod('ninput')
 #' Calculate Number of Inputs for Numeric
 #' 
@@ -111,6 +116,7 @@ ninput <- function(x, ...)UseMethod('ninput')
 #' @param x numeric
 #' @param ... passed arguments
 #' @export
+#' @family superset
 ninput.numeric <- function(x,...){
   y <- as.character(x)
   ninput(y, ...)
@@ -121,6 +127,7 @@ ninput.numeric <- function(x,...){
 #' @param x character
 #' @param ... passed arguments
 #' @export
+#' @family superset
 #' @return integer
 ninput.character <- function(x,...){
   y <- as.model(x, parse = FALSE)
@@ -143,6 +150,7 @@ ninput.character <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family superset
 #' @keywords internal
 #' @seealso \code{\link{superset.numeric}} \code{\link{superset.character}}
 superset <- function(x,...)UseMethod('superset')
@@ -155,6 +163,7 @@ superset <- function(x,...)UseMethod('superset')
 #' 
 #' @inheritParams superset
 #' @export
+#' @family superset
 #' @keywords internal
 #' @seealso \code{\link{superset.character}}
 superset.numeric <- function(x,...){
@@ -194,6 +203,7 @@ superset.numeric <- function(x,...){
 #' @return superset: a data.frame  where row count is a multiple of (typically equal to) input row count.
 #' @import utils
 #' @export
+#' @family superset
 #' @examples
 #' library(magrittr)
 #' library(dplyr)
@@ -269,6 +279,7 @@ superset.character <- function(
 #' @param x vector
 #' @param ... ignored
 #' @export
+#' @family superset
 generalize <- function(x,...){
   y <- unique(x[!is.na(x)])
   if(length(y) == 1) x[is.na(x)] <- y
@@ -689,6 +700,7 @@ function (x)
 #' @importFrom tidyr gather
 #' @importFrom tidyr gather_
 #' @export
+#' @family superset
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -697,17 +709,18 @@ metasuperset <- function(
   x,
   groups, # = c('USUBJID','DATETIME'),
   meta = match.fun('meta')(x,...),
-  subset,
+  subset = getOption('metasuperset_subset',NULL),
   ...
 ){
   stopifnot(length(x)==1)
   y <- superset(x,...)
   y <- as.best(y, '')
-  y <- filter(y, VISIBLE==1)
+  #y <- filter(y, VISIBLE==1)
   if(!missing(subset)){
+    if(!is.null(subset)){
     subset <- as.logical(eval(parse(text=subset), envir=y))
     y <- y[subset,,drop = FALSE] 
-  }
+  }}
   targets <- intersect(names(y), meta$item)
   attrs <- setdiff(names(meta), 'item')
   for(col in targets){
@@ -726,6 +739,7 @@ metasuperset <- function(
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family superset
 #' @keywords internal
 meta <- function(x,...)UseMethod('meta')
 
@@ -735,6 +749,7 @@ meta <- function(x,...)UseMethod('meta')
 #' 
 #' @inheritParams meta
 #' @export
+#' @family superset
 #' @keywords internal
 meta.numeric <- function(x,...)meta(as.character(x),...)
 
@@ -746,6 +761,7 @@ meta.numeric <- function(x,...)meta(as.character(x),...)
 #' @export
 #' @import spec
 #' @return data.frame
+#' @family superset
 #' @examples
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
@@ -785,6 +801,7 @@ meta.character <- function(x, simplify = TRUE, ...){
 #' @param ... passed arguments
 #' @import metaplot
 #' @export
+#' @family superset
 #' @keywords internal
 metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 
@@ -803,6 +820,7 @@ metaplot.numeric <- function(x, ...)metaplot(as.character(x),...)
 #' @import metaplot
 #' @importFrom rlang UQS
 #' @importFrom rlang syms
+#' @family superset
 metaplot_character <- function(
   x,
   groups,
@@ -831,6 +849,7 @@ metaplot_character <- function(
 #' @importFrom rlang quos
 #' @import lazyeval
 #' @export
+#' @family superset
 #' @examples
 #' library(magrittr)
 #' library(metaplot)

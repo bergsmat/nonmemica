@@ -17,4 +17,7 @@ theta (subset of model)
 \description{
 Extracts thetas from model.
 }
+\seealso{
+Other as.theta: \code{\link{as.theta}}
+}
 \keyword{internal}

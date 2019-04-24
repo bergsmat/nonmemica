@@ -17,4 +17,9 @@ model
 \description{
 Coerces NONMEM control stream object to character.
 }
+\seealso{
+Other as.character: \code{\link{as.character.inits}},
+  \code{\link{as.character.init}},
+  \code{\link{as.character.items}}
+}
 \keyword{internal}

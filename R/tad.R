@@ -8,6 +8,7 @@
 #' @param pre assume that simultaneous sample precedes implied dose
 #' @param ... ignored
 #' @export
+#' @family tad
 #' @return numeric
 #' @seealso \code{\link{tad}}
 
@@ -38,7 +39,7 @@ tod <- function(
 
 #' Calculate Time Since Most Recent Dose
 #'
-#' Calculate time since most recent dose.
+#' Calculate time since most recent dose.  Considers ADDL, but may not work with simultaneous dose records.
 #' @param x a numeric vector of event times
 #' @param dose length x logical indicating which of x are dose times
 #' @param addl length x integer: number of additional doses
@@ -47,6 +48,7 @@ tod <- function(
 #' @param pre assume that simultaneous sample precedes implied dose
 #' @param ... passed to tod()
 #' @export
+#' @family tad
 #' @return numeric
 #' @seealso \code{\link{tod}}
 #' @examples

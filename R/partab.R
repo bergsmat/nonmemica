@@ -9,6 +9,7 @@ globalVariables(c('symbol','value'))
 #' @param ... arguments to methods
 #' @seealso \code{\link{partab.character}}
 #' @export
+#' @family partab
 partab <- function(x,...)UseMethod('partab')
 #' Create Model Parameter Table from partab
 #'
@@ -18,6 +19,7 @@ partab <- function(x,...)UseMethod('partab')
 #' @inheritParams partab
 #' @describeIn partab partab method
 #' @export
+#' @family partab
 partab.partab <- function(x,...)x
 #' Create Model Parameter Table from Number.
 #'
@@ -27,6 +29,7 @@ partab.partab <- function(x,...)x
 #' @inheritParams partab
 #' @keywords internal
 #' @export
+#' @family partab
 partab.numeric <- function(x,...)partab(as.character(x),...)
 
 #' Create Model Parameter Table from Xml_document
@@ -42,6 +45,7 @@ partab.numeric <- function(x,...)partab(as.character(x),...)
 #' @param ... passed arguments
 #' @return data.frame
 #' @export
+#' @family val_name
 #' @keywords internal
 val_name <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/val')
@@ -69,6 +73,7 @@ val_name <- function(x, xpath, param, moment,...){
 #' @param ... passed arguments
 #' @return data.frame
 #' @export
+#' @family row_col
 #' @keywords internal
 row_col <- function(x, xpath, param, moment,...){
   tokenpath <- paste0('//',xpath,'/row/col')
@@ -126,6 +131,7 @@ row_col <- function(x, xpath, param, moment,...){
 #' 1001 %>% partab(shrinkage = TRUE, correlation = TRUE)
 #' @return object of class partab, data.frame
 #' @export
+#' @family partab
 partab.character <- function(
   x,
   verbose=FALSE,

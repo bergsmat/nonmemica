@@ -4,10 +4,12 @@
 \alias{parameters.character}
 \title{Get Parameters for Character}
 \usage{
-\method{parameters}{character}(x, ...)
+\method{parameters}{character}(x, simplify = FALSE, ...)
 }
 \arguments{
 \item{x}{object}
+
+\item{simplify}{if x is length one and simplify is TRUE, return a named vector}
 
 \item{...}{passed arguments}
 }
@@ -24,4 +26,8 @@ See \code{\link{estimates}} and \code{\link{errors}} for a more formal interface
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% parameters
+}
+\seealso{
+Other parameters: \code{\link{parameters.numeric}},
+  \code{\link{parameters}}
 }

@@ -14,4 +14,9 @@
 \description{
 Coerces to model from numeric by coercing to character.
 }
+\seealso{
+Other as.model: \code{\link{[.model}},
+  \code{\link{[[.model}}, \code{\link{as.model}},
+  \code{\link{read.model}}, \code{\link{write.model}}
+}
 \keyword{internal}

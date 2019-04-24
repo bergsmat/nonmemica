@@ -87,4 +87,7 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{as.model.character}}
 
 \code{\link[csv]{as.csv}}
+
+Other partab: \code{\link{partab.numeric}},
+  \code{\link{partab}}
 }

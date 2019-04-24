@@ -17,3 +17,7 @@ character
 \description{
 Identifies the model problem statement for character (model name).
 }
+\seealso{
+Other problem: \code{\link{problem.numeric}},
+  \code{\link{problem_}}, \code{\link{problem}}
+}

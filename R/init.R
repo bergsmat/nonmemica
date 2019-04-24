@@ -1,10 +1,11 @@
 #' Coerce to init
 #' 
 #' Coerces to init
-#'@param x object
-#'@param ... dots
-#'@export
-#'@keywords internal
+#' @param x object
+#' @param ... dots
+#' @export
+#' @family as.init
+#' @keywords internal
 as.init <- function(x,...)UseMethod('as.init')
 #' Coerce init to init
 #' 
@@ -15,6 +16,7 @@ as.init <- function(x,...)UseMethod('as.init')
 #' @param ... dots
 #' @return init
 #' @describeIn as.init init method
+#' @family as.init
 #' @export
 as.init.init <- function(x=numeric(0),fixed=FALSE,comment=character(0),...)as.init.numeric(x=x,fixed=fixed,comment=comment,...)
 
@@ -26,6 +28,7 @@ as.init.init <- function(x=numeric(0),fixed=FALSE,comment=character(0),...)as.in
 #' @return init
 #' @keywords internal
 #' @export
+#' @family as.init
 as.init.numeric <- function(x=numeric(0),fixed=FALSE,comment=character(0),...){
     #x may be one,two, or three values
 	#init, low/init, or low/init/up
@@ -53,6 +56,7 @@ as.init.numeric <- function(x=numeric(0),fixed=FALSE,comment=character(0),...){
 #' @inheritParams as.init
 #' @return character
 #' @export
+#' @family as.character
 #' @keywords internal
 as.character.init <- function(x,...){
   fixed <- x['low']==x['init'] & x['init']==x['up']
@@ -84,6 +88,7 @@ as.character.init <- function(x,...){
 #' @param ... dots
 #' @return character
 #' @export
+#' @family format
 #' @keywords internal
 format.init <-function(x,...)as.character(x,...)
 #' Print init
@@ -93,6 +98,7 @@ format.init <-function(x,...)as.character(x,...)
 #' @param ... dots
 #' @return character
 #' @export
+#' @family print
 #' @keywords internal
 print.init <-function(x,...)print(format(x,...))
 
@@ -102,6 +108,7 @@ print.init <-function(x,...)print(format(x,...))
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family fixed
 #' @keywords internal
 fixed <- function(x,...)UseMethod('fixed')
 
@@ -111,6 +118,7 @@ fixed <- function(x,...)UseMethod('fixed')
 #' @param x object
 #' @param value value to set
 #' @export
+#' @family fixed
 #' @keywords internal
 `fixed<-` <- function(x,value)UseMethod('fixed<-')
 
@@ -121,6 +129,7 @@ fixed <- function(x,...)UseMethod('fixed')
 #' @return logical
 #' @describeIn fixed init method
 #' @export
+#' @family fixed
 fixed.init <- function(x,...)!any(is.na(x)) & length(unique(x)) == 1
 
 #' Set fixed init value
@@ -130,6 +139,7 @@ fixed.init <- function(x,...)!any(is.na(x)) & length(unique(x)) == 1
 #' @param value value to
 #' @return init
 #' @export
+#' @family fixed
 #' @keywords internal
 `fixed<-.init` <- function(x,value){
   stopifnot(is.logical(value))
@@ -150,6 +160,7 @@ fixed.init <- function(x,...)!any(is.na(x)) & length(unique(x)) == 1
 #' @param x object
 #' @param ... dots
 #' @export
+#' @family as.inits
 #' @keywords internal
 as.inits <- function(x,...)UseMethod('as.inits')
 
@@ -161,6 +172,7 @@ as.inits <- function(x,...)UseMethod('as.inits')
 #' @return inits
 #' @describeIn as.inits list method
 #' @export
+#' @family as.inits
 as.inits.list <- function(x,comment=character(0),...){
   stopifnot(length(x)>0,is.character(comment))
   is.init <- sapply(x,inherits,'init') ## test?
@@ -175,6 +187,7 @@ as.inits.list <- function(x,comment=character(0),...){
 #' @param ... dots
 #' @return character
 #' @export
+#' @family as.character
 #' @keywords internal
 as.character.inits <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths = comwidth(x), ...){
   block <- attr(x, 'block')
@@ -201,6 +214,7 @@ as.character.inits <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths
 #' @return character
 #' @keywords internal
 #' @export
+#' @family as.character
 as.character.items <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths = comwidth(x), ...){
   y <- attr(x,'text')
   if(pretty) y <- sapply(y,prettycom, widths, sep = sep, delim = delim, ...)
@@ -213,6 +227,7 @@ as.character.items <- function(x,pretty = TRUE, sep = ';', delim = ' ; ', widths
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family comwidth
 #' @keywords internal
 comwidth.items <- function(x, ...){
   y <- attr(x,'text')
@@ -226,6 +241,7 @@ comwidth.items <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family comwidth
 #' @keywords internal
 comwidth.inits <- function(x, ...){
   com <- comment(x)
@@ -239,6 +255,7 @@ comwidth.inits <- function(x, ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family comwidth
 #' @keywords internal
 comwidth <- function(x,...)UseMethod('comwidth')
 
@@ -248,6 +265,7 @@ comwidth <- function(x,...)UseMethod('comwidth')
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family comwidth
 #' @keywords internal
 comwidth.character <- function(x,...){
   y <- lapply(x,comwidthOne)
@@ -261,6 +279,7 @@ comwidth.character <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family maxWidths
 #' @keywords internal
 maxWidths <- function(x,...)UseMethod('maxWidths')
 
@@ -270,6 +289,7 @@ maxWidths <- function(x,...)UseMethod('maxWidths')
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family maxWidths
 #' @keywords internal
 maxWidths.list <- function(x,...){
   if(length(x) == 0) return(0)
@@ -291,6 +311,7 @@ maxWidths.list <- function(x,...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family comwidthOne
 #' @keywords internal
 comwidthOne <- function(x,...)UseMethod('comwidthOne')
 
@@ -301,6 +322,7 @@ comwidthOne <- function(x,...)UseMethod('comwidthOne')
 #' @param ... passed arguments
 #' @param split comment separator
 #' @export
+#' @family comwidthOne
 #' @keywords internal
 comwidthOne.character <- function(x,split = ';', ...){
   y <- strsplit(x, split = split)[[1]]
@@ -317,6 +339,7 @@ comwidthOne.character <- function(x,split = ';', ...){
 #' @param x object
 #' @param ... passed arguments
 #' @export
+#' @family prettycom
 #' @keywords internal
 prettycom <- function(x, ...)UseMethod('prettycom')
 
@@ -329,6 +352,7 @@ prettycom <- function(x, ...)UseMethod('prettycom')
 #' @param delim output separator
 #' @param ... passed arguments
 #' @export
+#' @family prettycom
 #' @keywords internal
 prettycom.character <- function(x, widths, sep, delim, ...){
   stopifnot(length(x) == 1)
@@ -354,6 +378,7 @@ prettycom.character <- function(x, widths, sep, delim, ...){
 #' @param ... dots
 #' @return character
 #' @export
+#' @family format
 #' @keywords internal
 format.inits <-function(x,...)as.character(x,...)
 
@@ -364,6 +389,7 @@ format.inits <-function(x,...)as.character(x,...)
 #' @param ... dots
 #' @return character
 #' @export
+#' @family print
 #' @keywords internal
 print.inits <-function(x,...)print(format(x,...))
 .comments <- function(x)sub('^[^;]*;?(.*)$','\\1',x)
@@ -385,6 +411,7 @@ print.inits <-function(x,...)print(format(x,...))
 #' @param drop logical
 #' @return inits
 #' @export
+#' @family inits
 #' @keywords internal
 `[.inits` <- function (x, ..., drop = TRUE){
   cl <- oldClass(x)
@@ -402,6 +429,7 @@ print.inits <-function(x,...)print(format(x,...))
 #' @return inits
 #' @keywords internal
 #' @export
+#' @family as.inits
 as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
   stopifnot(is.logical(fixed),is.character(comment))
   fixed <- rep(fixed,length.out=length(x))
@@ -420,6 +448,7 @@ as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 #' @param name character
 #' @return numeric
 #' @export
+#' @family init
 #' @keywords internal
 `$.init` <- function(x,name)x[[name]]
 #' Set init element
@@ -430,6 +459,7 @@ as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 #' @param value numeric
 #' @return init
 #' @export
+#' @family init
 #' @keywords internal
 `$<-.init` <- function(x,name,value){
   if(!name %in% c('low','init','up'))stop('attempt to set an invalid init element')
@@ -445,6 +475,7 @@ as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 #' @return logical
 #' @describeIn fixed inits method
 #' @export
+#' @family fixed
 fixed.inits <- function(x,...)sapply(x,fixed)
 
 #' Set fixed attribute of inits
@@ -454,6 +485,7 @@ fixed.inits <- function(x,...)sapply(x,fixed)
 #' @param value logical
 #' @return inits
 #' @export
+#' @family fixed
 #' @keywords internal
 `fixed<-.inits` <- function(x,value){
   stopifnot(is.logical(value))
@@ -514,6 +546,7 @@ fixed.inits <- function(x,...)sapply(x,fixed)
 #' @return inits
 #' @describeIn as.inits character method
 #' @export
+#' @family as.inits
 as.inits.character <- function(x,...){
   # final empty line is scrubbed by collapse=\n
   # chomp all line endings, count and store final empties
@@ -616,6 +649,7 @@ as.inits.character <- function(x,...){
 #' @return inits
 #' @describeIn as.inits inits method
 #' @export
+#' @family as.inits
 as.inits.inits <- function(x,...)x
 
 #' Tweak Something

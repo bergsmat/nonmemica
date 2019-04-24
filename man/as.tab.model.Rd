@@ -17,4 +17,7 @@ tab (subset of model)
 \description{
 Extracts tables from model.
 }
+\seealso{
+Other as.tab: \code{\link{as.tab}}
+}
 \keyword{internal}

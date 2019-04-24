@@ -46,4 +46,23 @@ Converts vector to numeric if doing so creates no new NA; otherwise to character
 \item \code{default}: default method
 }}
 
+\seealso{
+Other util: \code{\link{\%contains\%}},
+  \code{\link{enclose}}, \code{\link{locf}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+
+Other util: \code{\link{\%contains\%}},
+  \code{\link{enclose}}, \code{\link{locf}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+
+Other util: \code{\link{\%contains\%}},
+  \code{\link{enclose}}, \code{\link{locf}},
+  \code{\link{padded}}, \code{\link{parens}},
+  \code{\link{pool}}, \code{\link{runhead}},
+  \code{\link{text2decimal}}
+}
 \keyword{internal}

@@ -19,4 +19,8 @@ Generates NONMEM-style names for parameters declared in a NONMEM control stream 
 }
 \seealso{
 as.model
+
+Other nms_nonmem: \code{\link{nms_nonmem.character}},
+  \code{\link{nms_nonmem.numeric}},
+  \code{\link{nms_nonmem}}
 }

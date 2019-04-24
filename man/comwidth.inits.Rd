@@ -14,4 +14,8 @@
 \description{
 Calculates comment widths for inits
 }
+\seealso{
+Other comwidth: \code{\link{comwidth.character}},
+  \code{\link{comwidth.items}}, \code{\link{comwidth}}
+}
 \keyword{internal}

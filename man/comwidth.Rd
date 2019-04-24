@@ -16,4 +16,9 @@ comwidth(x, ...)
 Calculate Comment Widths
 Calculates comment widths.
 }
+\seealso{
+Other comwidth: \code{\link{comwidth.character}},
+  \code{\link{comwidth.inits}},
+  \code{\link{comwidth.items}}
+}
 \keyword{internal}
