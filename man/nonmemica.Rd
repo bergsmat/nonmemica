@@ -165,8 +165,6 @@ datafile(1001) \%matches\% specfile(1001)
 
 \href{http://xpose.sourceforge.net/}{Xpose}
 
-\href{http://www.pirana-software.com/}{Pirana}
-
 \href{http://wfn.sourceforge.net/}{Wings for NONMEM}
 
 \href{https://github.com/MikeKSmith/rspeaksnonmem}{R speaks NONMEM}
