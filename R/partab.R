@@ -182,7 +182,7 @@ partab.character <- function(
   cor <- suppressWarnings(bind_rows(etacor, epscor))
   if(shrinkage && length(etashrink) == sum(omega$offdiag == 0)) omega$shrinkage[omega$offdiag == 0] <- etashrink
   if(shrinkage && length(epsshrink) == sum(sigma$offdiag == 0)) sigma$shrinkage[sigma$offdiag == 0] <- epsshrink
-  param <- suppressWarnings(bind_rows(theta,omega,sigma))
+  param <- suppressWarnings(bind_rows(as.best(theta),as.best(omega),as.best(sigma)))
   if(correlation && nrow(cor)) param %<>% left_join(cor)
   if(inherits(z,'data.frame')){
     z <- z[-1,] # drop ofv
