@@ -49,12 +49,16 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% xpath('//etashrink/row/col')
 }
 \seealso{
-Other xpath: \code{\link{as.xml_document.numeric}},
-  \code{\link{as.xml_document}}
+Other xpath: 
+\code{\link{as.xml_document.numeric}()},
+\code{\link{as.xml_document}()}
 
-Other xpath: \code{\link{as.xml_document.numeric}},
-  \code{\link{as.xml_document}}
+Other xpath: 
+\code{\link{as.xml_document.numeric}()},
+\code{\link{as.xml_document}()}
 
-Other xpath: \code{\link{as.xml_document.numeric}},
-  \code{\link{as.xml_document}}
+Other xpath: 
+\code{\link{as.xml_document.numeric}()},
+\code{\link{as.xml_document}()}
 }
+\concept{xpath}

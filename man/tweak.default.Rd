@@ -4,9 +4,15 @@
 \alias{tweak.default}
 \title{Tweak a Model by Default}
 \usage{
-\method{tweak}{default}(x, project = getOption("project", getwd()),
-  ext = getOption("modex", "ctl"), start = NULL, n = 10,
-  include = ".def$", ...)
+\method{tweak}{default}(
+  x,
+  project = getOption("project", getwd()),
+  ext = getOption("modex", "ctl"),
+  start = NULL,
+  n = 10,
+  include = ".def$",
+  ...
+)
 }
 \arguments{
 \item{x}{object}
@@ -32,7 +38,10 @@ in project context and places the model there. Copies helper files as well.
 Expects that x is a number. Assumes nested directory structure (run-specific directories).
 }
 \seealso{
-Other tweak: \code{\link{tweak.inits}},
-  \code{\link{tweak.init}}, \code{\link{tweak.model}},
-  \code{\link{tweak}}
+Other tweak: 
+\code{\link{tweak.inits}()},
+\code{\link{tweak.init}()},
+\code{\link{tweak.model}()},
+\code{\link{tweak}()}
 }
+\concept{tweak}

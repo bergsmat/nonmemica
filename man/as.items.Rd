@@ -14,4 +14,5 @@ as.items(x, ...)
 \description{
 Converts to items.
 }
+\concept{as.itmes}
 \keyword{internal}

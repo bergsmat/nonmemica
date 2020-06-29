@@ -18,6 +18,8 @@ omega (subset of model)
 Extracts omegas from model.
 }
 \seealso{
-Other as.omega: \code{\link{as.omega}}
+Other as.omega: 
+\code{\link{as.omega}()}
 }
+\concept{as.omega}
 \keyword{internal}

@@ -32,9 +32,12 @@ Just returns the object unmodified.
 \seealso{
 \code{\link{partab.character}}
 
-Other partab: \code{\link{partab.character}},
-  \code{\link{partab.numeric}}
+Other partab: 
+\code{\link{partab.character}()},
+\code{\link{partab.numeric}()}
 
-Other partab: \code{\link{partab.character}},
-  \code{\link{partab.numeric}}
+Other partab: 
+\code{\link{partab.character}()},
+\code{\link{partab.numeric}()}
 }
+\concept{partab}

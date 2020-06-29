@@ -4,13 +4,32 @@
 \alias{partab.character}
 \title{Create a Parameter Table from Model Name}
 \usage{
-\method{partab}{character}(x, verbose = FALSE, lo = "5", hi = "95",
-  metafile = modelpath(x, "def", ...), xmlfile = modelpath(x, "xml", ...),
-  ctlfile = modelfile(x, ...), bootcsv, strip.namespace = TRUE, skip = 28,
-  check.names = FALSE, digits = 3, ci = TRUE, open = "(", close = ")",
-  sep = ", ", format = TRUE, fields = c("symbol", "label", "unit"),
-  relative = TRUE, percent = relative, nonzero = TRUE,
-  shrinkage = FALSE, correlation = FALSE, ...)
+\method{partab}{character}(
+  x,
+  verbose = FALSE,
+  lo = "5",
+  hi = "95",
+  metafile = modelpath(x, "def", ...),
+  xmlfile = modelpath(x, "xml", ...),
+  ctlfile = modelfile(x, ...),
+  bootcsv,
+  strip.namespace = TRUE,
+  skip = 28,
+  check.names = FALSE,
+  digits = 3,
+  ci = TRUE,
+  open = "(",
+  close = ")",
+  sep = ", ",
+  format = TRUE,
+  fields = getOption("fields", default = c("symbol", "label", "unit")),
+  relative = TRUE,
+  percent = relative,
+  nonzero = TRUE,
+  shrinkage = FALSE,
+  correlation = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{a model name (numeric or character)}
@@ -88,6 +107,8 @@ options(project = system.file('project/model',package='nonmemica'))
 
 \code{\link[csv]{as.csv}}
 
-Other partab: \code{\link{partab.numeric}},
-  \code{\link{partab}}
+Other partab: 
+\code{\link{partab.numeric}()},
+\code{\link{partab}()}
 }
+\concept{partab}

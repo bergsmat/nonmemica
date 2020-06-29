@@ -4,8 +4,15 @@
 \alias{tad}
 \title{Calculate Time Since Most Recent Dose}
 \usage{
-tad(x, dose = rep(FALSE, length(x)), addl = rep(0, length(x)), ii = rep(0,
-  length(x)), index = rep(1, length(x)), pre = TRUE, ...)
+tad(
+  x,
+  dose = rep(FALSE, length(x)),
+  addl = rep(0, length(x)),
+  ii = rep(0, length(x)),
+  index = rep(1, length(x)),
+  pre = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{a numeric vector of event times}
@@ -44,5 +51,7 @@ head(x)
 \seealso{
 \code{\link{tod}}
 
-Other tad: \code{\link{tod}}
+Other tad: 
+\code{\link{tod}()}
 }
+\concept{tad}

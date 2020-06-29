@@ -15,7 +15,9 @@ errors(x, ...)
 Gets errors.
 }
 \seealso{
-Other errors: \code{\link{errors.character}},
-  \code{\link{errors.numeric}}
+Other errors: 
+\code{\link{errors.character}()},
+\code{\link{errors.numeric}()}
 }
+\concept{errors}
 \keyword{internal}

@@ -18,7 +18,9 @@ Creates a model parameter table from a number.
 Just coerces to character and calls partab again.
 }
 \seealso{
-Other partab: \code{\link{partab.character}},
-  \code{\link{partab}}
+Other partab: 
+\code{\link{partab.character}()},
+\code{\link{partab}()}
 }
+\concept{partab}
 \keyword{internal}

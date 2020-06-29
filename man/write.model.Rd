@@ -4,8 +4,7 @@
 \alias{write.model}
 \title{Write model}
 \usage{
-write.model(x, file = "data", ncolumns = 1, append = FALSE, sep = " ",
-  ...)
+write.model(x, file = "data", ncolumns = 1, append = FALSE, sep = " ", ...)
 }
 \arguments{
 \item{x}{model}
@@ -30,8 +29,12 @@ Write model.
 writes (formatted) model to file.
 }
 \seealso{
-Other as.model: \code{\link{[.model}},
-  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
-  \code{\link{as.model}}, \code{\link{read.model}}
+Other as.model: 
+\code{\link{[.model}()},
+\code{\link{[[.model}()},
+\code{\link{as.model.numeric}()},
+\code{\link{as.model}()},
+\code{\link{read.model}()}
 }
+\concept{as.model}
 \keyword{internal}

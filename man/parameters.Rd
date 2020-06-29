@@ -15,7 +15,9 @@ parameters(x, ...)
 Gets parameters.
 }
 \seealso{
-Other parameters: \code{\link{parameters.character}},
-  \code{\link{parameters.numeric}}
+Other parameters: 
+\code{\link{parameters.character}()},
+\code{\link{parameters.numeric}()}
 }
+\concept{parameters}
 \keyword{internal}

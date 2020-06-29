@@ -4,8 +4,7 @@
 \alias{runlog.character}
 \title{Create a Runlog for Character}
 \usage{
-\method{runlog}{character}(x, dependencies = FALSE, digits = 3,
-  places = 0, ...)
+\method{runlog}{character}(x, dependencies = FALSE, digits = 3, places = 0, ...)
 }
 \arguments{
 \item{x}{object}
@@ -38,6 +37,8 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 \code{\link{likebut}}
 
-Other runlog: \code{\link{runlog.numeric}},
-  \code{\link{runlog}}
+Other runlog: 
+\code{\link{runlog.numeric}()},
+\code{\link{runlog}()}
 }
+\concept{runlog}

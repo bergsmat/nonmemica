@@ -12,17 +12,23 @@ comments(x, ...)
 
 \method{comments}{records}(x, ...)
 
-\method{comments}{model}(x, fields = c("symbol", "unit", "label"),
-  expected = character(0), na = NA_character_, tables = TRUE, ...)
+\method{comments}{model}(
+  x,
+  fields = c("symbol", "unit", "label"),
+  expected = character(0),
+  na = NA_character_,
+  tables = TRUE,
+  ...
+)
 
 \method{comments}{items}(x, ...)
 
 \method{comments}{inits}(x, type, prior, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{model}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 
 \item{fields}{data items to scavenge from control stream comments}
 
@@ -35,10 +41,6 @@ comments(x, ...)
 \item{type}{item type: theta, omega, sigma (tables give items not inits)}
 
 \item{prior}{number of prior items of this type (maybe imporant for numbering)}
-
-\item{x}{model}
-
-\item{...}{passed arguments}
 }
 \value{
 data.frame
@@ -76,4 +78,5 @@ library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model \%>\% comments
 }
+\concept{comments}
 \keyword{internal}

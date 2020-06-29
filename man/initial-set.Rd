@@ -15,7 +15,10 @@ initial(x) <- value
 Sets initial Value.
 }
 \seealso{
-Other initial: \code{\link{initial.model}},
-  \code{\link{initial<-.model}}, \code{\link{initial}}
+Other initial: 
+\code{\link{initial.model}()},
+\code{\link{initial<-.model}()},
+\code{\link{initial}()}
 }
+\concept{initial}
 \keyword{internal}

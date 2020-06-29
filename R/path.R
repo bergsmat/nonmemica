@@ -27,7 +27,10 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 
 #' Resolve A Path to a Model-related File for Character
 #' 
-#' Resolves a path to a model-related file, treating \code{x} as a model name. By default (\code{ext} is NULL) the run directory is returned.
+#' Resolves a path to a model-related file, treating \code{x} as a model name.
+#' By default (\code{ext} is NULL) the run directory is returned.
+#' As of version 0.9.2, \code{nested} can be a function of \code{ext} and \dots
+#' That returns logical.
 #' 
 #' @param x object
 #' @param ext file extension, no leading dot
@@ -44,6 +47,8 @@ modelpath.character <- function(
   nested = getOption('nested', TRUE),
   ...
 ){
+  if(!is.logical(nested))nested <- match.fun(nested)(ext, ...)
+  stopifnot(is.logical(nested))
   rundir <- if(nested) file.path(project, x) else project
   if(is.null(ext)) return(rundir)
   filename <- paste(sep='.', x, ext)
@@ -135,7 +140,8 @@ datafile.character <- function(
   if(!file_test('-f',x)) x <- modelfile(x, ...)
   control <- read.model(ctlfile,...)
   dname <- getdname(control)
-  datafile <- resolve(dname,rundir)
+  # datafile <- resolve(dname,rundir)
+  datafile <- resolve(dname, dirname(ctlfile)) # 0.9.2
   datafile <- relativizePath(datafile)
   datafile
 }

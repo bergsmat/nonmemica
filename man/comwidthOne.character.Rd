@@ -17,6 +17,8 @@
 Calculates Comment Widths for one element of character
 }
 \seealso{
-Other comwidthOne: \code{\link{comwidthOne}}
+Other comwidthOne: 
+\code{\link{comwidthOne}()}
 }
+\concept{comwidthOne}
 \keyword{internal}

@@ -4,8 +4,13 @@
 \alias{modelpath.character}
 \title{Resolve A Path to a Model-related File for Character}
 \usage{
-\method{modelpath}{character}(x, ext = NULL, project = getOption("project",
-  getwd()), nested = getOption("nested", TRUE), ...)
+\method{modelpath}{character}(
+  x,
+  ext = NULL,
+  project = getOption("project", getwd()),
+  nested = getOption("nested", TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{object}
@@ -22,13 +27,22 @@
 character
 }
 \description{
-Resolves a path to a model-related file, treating \code{x} as a model name. By default (\code{ext} is NULL) the run directory is returned.
+Resolves a path to a model-related file, treating \code{x} as a model name.
+By default (\code{ext} is NULL) the run directory is returned.
+As of version 0.9.2, \code{nested} can be a function of \code{ext} and \dots
+That returns logical.
 }
 \seealso{
-Other path: \code{\link{datafile.character}},
-  \code{\link{datafile.numeric}}, \code{\link{datafile}},
-  \code{\link{modeldir}}, \code{\link{modelfile}},
-  \code{\link{modelpath.numeric}}, \code{\link{modelpath}},
-  \code{\link{specfile.character}},
-  \code{\link{specfile.numeric}}, \code{\link{specfile}}
+Other path: 
+\code{\link{datafile.character}()},
+\code{\link{datafile.numeric}()},
+\code{\link{datafile}()},
+\code{\link{modeldir}()},
+\code{\link{modelfile}()},
+\code{\link{modelpath.numeric}()},
+\code{\link{modelpath}()},
+\code{\link{specfile.character}()},
+\code{\link{specfile.numeric}()},
+\code{\link{specfile}()}
 }
+\concept{path}

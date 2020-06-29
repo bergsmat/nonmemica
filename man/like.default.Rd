@@ -18,6 +18,8 @@ character
 Identifies the relevant reference model, i.e. the 'parent' of x.
 }
 \seealso{
-Other like: \code{\link{like}}
+Other like: 
+\code{\link{like}()}
 }
+\concept{like}
 \keyword{internal}

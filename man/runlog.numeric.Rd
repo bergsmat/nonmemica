@@ -15,7 +15,9 @@
 Creates a runlog for numeric by coercing to character.
 }
 \seealso{
-Other runlog: \code{\link{runlog.character}},
-  \code{\link{runlog}}
+Other runlog: 
+\code{\link{runlog.character}()},
+\code{\link{runlog}()}
 }
+\concept{runlog}
 \keyword{internal}

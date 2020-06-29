@@ -4,9 +4,18 @@
 \alias{likebut}
 \title{Modify a Model}
 \usage{
-likebut(x, but = "better", y = NULL, project = getOption("project",
-  getwd()), nested = getOption("nested", TRUE), overwrite = FALSE,
-  ext = getOption("modex", "ctl"), include = "\\\\.def$", ...)
+likebut(
+  x,
+  but = "better",
+  y = NULL,
+  project = getOption("project", getwd()),
+  nested = getOption("nested", TRUE),
+  overwrite = FALSE,
+  ext = getOption("modex", "ctl"),
+  include = "\\\\.def$",
+  update = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{a model name, presumably interpretable as numeric}
@@ -25,7 +34,9 @@ likebut(x, but = "better", y = NULL, project = getOption("project",
 
 \item{include}{regular expressions for files to copy to new directory}
 
-\item{...}{passed arguments}
+\item{update}{use final estimates of x as initial estimates of y}
+
+\item{...}{passed arguments, including PsN runrecord elements (experimental)}
 }
 \value{
 the value of y
@@ -58,3 +69,4 @@ library(magrittr)
 \seealso{
 \code{\link{runlog.character}}
 }
+\concept{likebut}

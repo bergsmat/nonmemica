@@ -18,6 +18,8 @@ tab (subset of model)
 Extracts tables from model.
 }
 \seealso{
-Other as.tab: \code{\link{as.tab}}
+Other as.tab: 
+\code{\link{as.tab}()}
 }
+\concept{as.tab}
 \keyword{internal}

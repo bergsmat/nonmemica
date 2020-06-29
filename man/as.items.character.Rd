@@ -17,4 +17,5 @@ items
 \description{
 Converts to items from character
 }
+\concept{as.items}
 \keyword{internal}

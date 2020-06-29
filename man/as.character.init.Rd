@@ -18,8 +18,11 @@ character
 Coerces init to character.
 }
 \seealso{
-Other as.character: \code{\link{as.character.inits}},
-  \code{\link{as.character.items}},
-  \code{\link{as.character.model}}
+Other as.character: 
+\code{\link{as.character.inits}()},
+\code{\link{as.character.items}()},
+\code{\link{as.character.model}()},
+\code{\link{as.character.problem}()}
 }
+\concept{as.character}
 \keyword{internal}

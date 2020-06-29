@@ -15,7 +15,11 @@ problem(x, ...)
 Identifies the model problem statement.
 }
 \seealso{
-Other problem: \code{\link{problem.character}},
-  \code{\link{problem.numeric}}, \code{\link{problem_}}
+Other problem: 
+\code{\link{as.problem}()},
+\code{\link{problem.character}()},
+\code{\link{problem.numeric}()},
+\code{\link{problem_}()}
 }
+\concept{problem}
 \keyword{internal}

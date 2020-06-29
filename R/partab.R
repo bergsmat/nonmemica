@@ -150,7 +150,7 @@ partab.character <- function(
   close = ')',
   sep = ', ',
   format = TRUE,
-  fields = c('symbol','label','unit'),
+  fields = getOption('fields', default = c('symbol','label','unit')),
   relative = TRUE,
   percent=relative,
   nonzero = TRUE,
@@ -176,7 +176,9 @@ partab.character <- function(
   sigma <- left_join(sigma, sigmase,by=c('parameter','offdiag'))
   theta <- mutate(theta, offdiag = 0)
   etashrink <- xpath(y,'//etashrink/row/col')
+  if(length(etashrink) == 0) etashrink <- xpath(y,'//etashrinksd/row/col')
   epsshrink <- xpath(y,'//epsshrink/row/col')
+  if(length(epsshrink) == 0) epsshrink <- xpath(y,'//epsshrinksd/row/col')
   etacor <- row_col(y, 'omegac', 'omega','correlation')
   epscor <- row_col(y, 'sigmac','sigma','correlation')
   cor <- suppressWarnings(bind_rows(etacor, epscor))
@@ -216,7 +218,7 @@ partab.character <- function(
     param <- filter(param, !(estimate == 0 & parameter %contains% 'omega|sigma'))
   }
   if(relative){
-    param <- mutate(param, se = abs(se / estimate)) # rename rse below
+    param <- mutate(param, se = abs(as.numeric(se) / estimate)) # rename rse below
     if(percent){
     param <- mutate(param, se = se * 100) # rename prse below
     }

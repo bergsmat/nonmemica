@@ -15,7 +15,9 @@ updated(x, ...)
 Creates the updated version of something. Don't confuse with stats::update.
 }
 \seealso{
-Other updated: \code{\link{updated.character}},
-  \code{\link{updated.numeric}}
+Other updated: 
+\code{\link{updated.character}()},
+\code{\link{updated.numeric}()}
 }
+\concept{updated}
 \keyword{internal}

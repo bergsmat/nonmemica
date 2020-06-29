@@ -20,8 +20,12 @@ model
 Subsets model.
 }
 \seealso{
-Other as.model: \code{\link{[[.model}},
-  \code{\link{as.model.numeric}}, \code{\link{as.model}},
-  \code{\link{read.model}}, \code{\link{write.model}}
+Other as.model: 
+\code{\link{[[.model}()},
+\code{\link{as.model.numeric}()},
+\code{\link{as.model}()},
+\code{\link{read.model}()},
+\code{\link{write.model}()}
 }
+\concept{as.model}
 \keyword{internal}

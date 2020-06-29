@@ -18,6 +18,8 @@ data.frame
 Creates bootstrap from numeric.
 }
 \seealso{
-Other as.bootstrap: \code{\link{as.bootstrap}}
+Other as.bootstrap: 
+\code{\link{as.bootstrap}()}
 }
+\concept{as.bootstrap}
 \keyword{internal}

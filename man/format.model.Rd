@@ -21,7 +21,10 @@ Format model.
 Coerces to character.
 }
 \seealso{
-Other format: \code{\link{format.inits}},
-  \code{\link{format.init}}, \code{\link{format.items}}
+Other format: 
+\code{\link{format.inits}()},
+\code{\link{format.init}()},
+\code{\link{format.items}()}
 }
+\concept{format}
 \keyword{internal}

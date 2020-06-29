@@ -17,7 +17,9 @@ Creates a runlog.
 \seealso{
 \code{\link{runlog.character}}
 
-Other runlog: \code{\link{runlog.character}},
-  \code{\link{runlog.numeric}}
+Other runlog: 
+\code{\link{runlog.character}()},
+\code{\link{runlog.numeric}()}
 }
+\concept{runlog}
 \keyword{internal}

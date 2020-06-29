@@ -15,7 +15,11 @@
 Identifies the model problem statement for numeric. Coerces to character.
 }
 \seealso{
-Other problem: \code{\link{problem.character}},
-  \code{\link{problem_}}, \code{\link{problem}}
+Other problem: 
+\code{\link{as.problem}()},
+\code{\link{problem.character}()},
+\code{\link{problem_}()},
+\code{\link{problem}()}
 }
+\concept{problem}
 \keyword{internal}

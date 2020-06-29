@@ -30,7 +30,9 @@
 #' difference from the reference model (see likebut() ).  This allows any 
 #' given model to be described by chaining together its legacy of features
 #' (use runlog(depenencies = TRUE, ...) ), which generally works better than
-#'  trying to describe it exhaustively in the model name.
+#'  trying to describe it exhaustively in the model name. As of version
+#'  0.9.2, experimental support is available for natural-language
+#'  problem statements of the form "like run1001 but fixed additive error".
 #' 
 #' Second, Nonmemica only needs a single output table ($TABLE record). 
 #' Be sure to use ONEHEADER but avoid FIRSTONLY.  Nonmemica will integrate

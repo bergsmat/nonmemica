@@ -21,7 +21,10 @@ Print model.
 Formats and prints.
 }
 \seealso{
-Other print: \code{\link{print.inits}},
-  \code{\link{print.init}}, \code{\link{print.items}}
+Other print: 
+\code{\link{print.inits}()},
+\code{\link{print.init}()},
+\code{\link{print.items}()}
 }
+\concept{print}
 \keyword{internal}

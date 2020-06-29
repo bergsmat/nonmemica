@@ -22,8 +22,11 @@ init
 Tweaks init.
 }
 \seealso{
-Other tweak: \code{\link{tweak.default}},
-  \code{\link{tweak.inits}}, \code{\link{tweak.model}},
-  \code{\link{tweak}}
+Other tweak: 
+\code{\link{tweak.default}()},
+\code{\link{tweak.inits}()},
+\code{\link{tweak.model}()},
+\code{\link{tweak}()}
 }
+\concept{tweak}
 \keyword{internal}

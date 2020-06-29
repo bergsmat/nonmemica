@@ -18,5 +18,7 @@ character
 Identify those models in the lineage of models in x.
 }
 \seealso{
-Other depends: \code{\link{depends}}
+Other depends: 
+\code{\link{depends}()}
 }
+\concept{depends}

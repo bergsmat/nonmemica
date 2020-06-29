@@ -28,6 +28,8 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% parameters
 }
 \seealso{
-Other parameters: \code{\link{parameters.numeric}},
-  \code{\link{parameters}}
+Other parameters: 
+\code{\link{parameters.numeric}()},
+\code{\link{parameters}()}
 }
+\concept{parameters}

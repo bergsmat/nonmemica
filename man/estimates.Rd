@@ -15,7 +15,9 @@ estimates(x, ...)
 Gets estimates
 }
 \seealso{
-Other estimates: \code{\link{estimates.character}},
-  \code{\link{estimates.numeric}}
+Other estimates: 
+\code{\link{estimates.character}()},
+\code{\link{estimates.numeric}()}
 }
+\concept{estimates}
 \keyword{internal}

@@ -15,6 +15,9 @@
 Sets upper bounds for model initial estimates.
 }
 \seealso{
-Other upper: \code{\link{upper.model}},
-  \code{\link{upper<-}}, \code{\link{upper}}
+Other upper: 
+\code{\link{upper.model}()},
+\code{\link{upper<-}()},
+\code{\link{upper}()}
 }
+\concept{upper}

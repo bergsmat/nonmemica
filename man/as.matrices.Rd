@@ -15,7 +15,9 @@ as.matrices(x, ...)
 Coerces to list of matrices.
 }
 \seealso{
-Other as.matrices: \code{\link{as.matrices.inits}},
-  \code{\link{as.matrices.records}}
+Other as.matrices: 
+\code{\link{as.matrices.inits}()},
+\code{\link{as.matrices.records}()}
 }
+\concept{as.matrices}
 \keyword{internal}

@@ -23,9 +23,15 @@ letters \%contains\% 'a'
 \seealso{
 \code{\link{contains}}
 
-Other util: \code{\link{as.best}}, \code{\link{enclose}},
-  \code{\link{locf}}, \code{\link{padded}},
-  \code{\link{parens}}, \code{\link{pool}},
-  \code{\link{runhead}}, \code{\link{text2decimal}}
+Other util: 
+\code{\link{as.best}()},
+\code{\link{enclose}()},
+\code{\link{locf}()},
+\code{\link{padded}()},
+\code{\link{parens}()},
+\code{\link{pool}()},
+\code{\link{runhead}()},
+\code{\link{text2decimal}()}
 }
+\concept{util}
 \keyword{internal}

@@ -15,8 +15,11 @@ tweak(x, ...)
 Tweaks something.
 }
 \seealso{
-Other tweak: \code{\link{tweak.default}},
-  \code{\link{tweak.inits}}, \code{\link{tweak.init}},
-  \code{\link{tweak.model}}
+Other tweak: 
+\code{\link{tweak.default}()},
+\code{\link{tweak.inits}()},
+\code{\link{tweak.init}()},
+\code{\link{tweak.model}()}
 }
+\concept{tweak}
 \keyword{internal}

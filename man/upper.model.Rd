@@ -20,6 +20,9 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model \%>\% upper
 }
 \seealso{
-Other upper: \code{\link{upper<-.model}},
-  \code{\link{upper<-}}, \code{\link{upper}}
+Other upper: 
+\code{\link{upper<-.model}()},
+\code{\link{upper<-}()},
+\code{\link{upper}()}
 }
+\concept{upper}

@@ -15,16 +15,23 @@ generalize(x, ...)
 #Generalize a nonmissing value.  If there is only one such among zero or more NA, impute that value for all NA.
 }
 \seealso{
-Other superset: \code{\link{meta.character}},
-  \code{\link{meta.numeric}},
-  \code{\link{metaplot.character}},
-  \code{\link{metaplot.numeric}},
-  \code{\link{metaplot_character}},
-  \code{\link{metasuperset}}, \code{\link{meta}},
-  \code{\link{ninput.character}},
-  \code{\link{ninput.numeric}}, \code{\link{ninput}},
-  \code{\link{shuffle}}, \code{\link{superset.character}},
-  \code{\link{superset.numeric}}, \code{\link{superset}},
-  \code{\link{superspec.character}},
-  \code{\link{superspec.numeric}}, \code{\link{superspec}}
+Other superset: 
+\code{\link{meta.character}()},
+\code{\link{meta.numeric}()},
+\code{\link{metaplot.character}()},
+\code{\link{metaplot.numeric}()},
+\code{\link{metaplot_character}()},
+\code{\link{metasuperset}()},
+\code{\link{meta}()},
+\code{\link{ninput.character}()},
+\code{\link{ninput.numeric}()},
+\code{\link{ninput}()},
+\code{\link{shuffle}()},
+\code{\link{superset.character}()},
+\code{\link{superset.numeric}()},
+\code{\link{superset}()},
+\code{\link{superspec.character}()},
+\code{\link{superspec.numeric}()},
+\code{\link{superspec}()}
 }
+\concept{superset}

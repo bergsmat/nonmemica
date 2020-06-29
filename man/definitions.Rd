@@ -10,9 +10,16 @@ definitions(x, ...)
 
 \method{definitions}{definitions}(x, ...)
 
-\method{definitions}{character}(x, verbose = FALSE, ctlfile = modelfile(x,
-  ...), metafile = modelpath(x, "def", ...), fields = c("symbol", "label",
-  "unit"), read = length(metafile) == 1, write = FALSE, ...)
+\method{definitions}{character}(
+  x,
+  verbose = FALSE,
+  ctlfile = modelfile(x, ...),
+  metafile = modelpath(x, "def", ...),
+  fields = getOption("fields", default = c("symbol", "label", "unit")),
+  read = length(metafile) == 1,
+  write = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -72,9 +79,13 @@ options(project = system.file('project/model',package='nonmemica'))
 
 \code{\link{as.model.character}}
 
-Other definitions: \code{\link{definitions.numeric}}
+Other definitions: 
+\code{\link{definitions.numeric}()}
 
-Other definitions: \code{\link{definitions.numeric}}
+Other definitions: 
+\code{\link{definitions.numeric}()}
 
-Other definitions: \code{\link{definitions.numeric}}
+Other definitions: 
+\code{\link{definitions.numeric}()}
 }
+\concept{definitions}

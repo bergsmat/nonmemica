@@ -17,4 +17,5 @@ list
 \description{
 Coerces model to list.
 }
+\concept{as.list}
 \keyword{internal}

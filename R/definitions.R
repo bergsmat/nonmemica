@@ -65,7 +65,7 @@ definitions.character <- function(
   verbose=FALSE,
   ctlfile = modelfile(x, ...),
   metafile = modelpath(x,'def',...),
-  fields = c('symbol','label','unit'),
+  fields = getOption('fields', default = c('symbol','label','unit')),
   read = length(metafile) == 1,
   write = FALSE,
   ...

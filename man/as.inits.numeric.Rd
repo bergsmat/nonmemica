@@ -22,6 +22,8 @@ inits
 Coerces numeric to inits
 }
 \seealso{
-Other as.inits: \code{\link{as.inits}}
+Other as.inits: 
+\code{\link{as.inits}()}
 }
+\concept{as.inits}
 \keyword{internal}

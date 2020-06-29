@@ -4,8 +4,7 @@
 \alias{updated.character}
 \title{Create the Updated Version of Character}
 \usage{
-\method{updated}{character}(x, initial = estimates(x, ...), parse = TRUE,
-  verbose = FALSE, ...)
+\method{updated}{character}(x, initial = estimates(x, ...), parse = TRUE, verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{character}
@@ -25,6 +24,8 @@ model
 Creates the updated version of character by treating as a modelname. Parses the associated control stream and ammends the initial estimates to reflect model results (as per xml file).
 }
 \seealso{
-Other updated: \code{\link{updated.numeric}},
-  \code{\link{updated}}
+Other updated: 
+\code{\link{updated.numeric}()},
+\code{\link{updated}()}
 }
+\concept{updated}

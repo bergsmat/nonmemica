@@ -18,6 +18,8 @@ integer
 Identifies record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the record numbers for the canonical order of all init objects among theta, omega, and sigma element types, regardless of the number and order of such types. If a block(2) omega is specified between two thetas and one sigma follows, the results could be c(6L, 8L, 7L, 7L, 7L, 9L).
 }
 \seealso{
-Other initDex: \code{\link{initDex}}
+Other initDex: 
+\code{\link{initDex}()}
 }
+\concept{initDex}
 \keyword{internal}

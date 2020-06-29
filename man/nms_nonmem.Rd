@@ -15,8 +15,10 @@ nms_nonmem(x, ...)
 Generates NONMEM-style names.
 }
 \seealso{
-Other nms_nonmem: \code{\link{nms_nonmem.character}},
-  \code{\link{nms_nonmem.model}},
-  \code{\link{nms_nonmem.numeric}}
+Other nms_nonmem: 
+\code{\link{nms_nonmem.character}()},
+\code{\link{nms_nonmem.model}()},
+\code{\link{nms_nonmem.numeric}()}
 }
+\concept{nms_nonmem}
 \keyword{internal}

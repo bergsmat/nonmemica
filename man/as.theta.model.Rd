@@ -18,6 +18,8 @@ theta (subset of model)
 Extracts thetas from model.
 }
 \seealso{
-Other as.theta: \code{\link{as.theta}}
+Other as.theta: 
+\code{\link{as.theta}()}
 }
+\concept{as.theta}
 \keyword{internal}

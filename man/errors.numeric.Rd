@@ -15,7 +15,9 @@
 Gets errors for numeric by coercing to character.
 }
 \seealso{
-Other errors: \code{\link{errors.character}},
-  \code{\link{errors}}
+Other errors: 
+\code{\link{errors.character}()},
+\code{\link{errors}()}
 }
+\concept{errors}
 \keyword{internal}

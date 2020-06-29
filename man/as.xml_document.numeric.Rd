@@ -18,7 +18,9 @@ xml_document
 Coerces numeric to xml_document
 }
 \seealso{
-Other xpath: \code{\link{as.xml_document}},
-  \code{\link{xpath}}
+Other xpath: 
+\code{\link{as.xml_document}()},
+\code{\link{xpath}()}
 }
+\concept{xpath}
 \keyword{internal}

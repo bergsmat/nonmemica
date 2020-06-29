@@ -18,8 +18,12 @@ inits
 Sets fixed attribute of inits.
 }
 \seealso{
-Other fixed: \code{\link{fixed.model}},
-  \code{\link{fixed<-.init}}, \code{\link{fixed<-.model}},
-  \code{\link{fixed<-}}, \code{\link{fixed}}
+Other fixed: 
+\code{\link{fixed.model}()},
+\code{\link{fixed<-.init}()},
+\code{\link{fixed<-.model}()},
+\code{\link{fixed<-}()},
+\code{\link{fixed}()}
 }
+\concept{fixed}
 \keyword{internal}

@@ -15,6 +15,8 @@ as.tab(x, ...)
 Extracts tables.
 }
 \seealso{
-Other as.tab: \code{\link{as.tab.model}}
+Other as.tab: 
+\code{\link{as.tab.model}()}
 }
+\concept{as.tab}
 \keyword{internal}

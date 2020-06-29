@@ -15,6 +15,8 @@ initDex(x, ...)
 Identifies indices of initial Estimates.
 }
 \seealso{
-Other initDex: \code{\link{initDex.model}}
+Other initDex: 
+\code{\link{initDex.model}()}
 }
+\concept{initDex}
 \keyword{internal}

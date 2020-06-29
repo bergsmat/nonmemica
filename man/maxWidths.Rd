@@ -15,6 +15,8 @@ maxWidths(x, ...)
 Calculates maximum widths
 }
 \seealso{
-Other maxWidths: \code{\link{maxWidths.list}}
+Other maxWidths: 
+\code{\link{maxWidths.list}()}
 }
+\concept{maxWidths}
 \keyword{internal}

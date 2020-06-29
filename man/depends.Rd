@@ -15,6 +15,8 @@ depends(x, ...)
 Identfies that on which something depends.
 }
 \seealso{
-Other depends: \code{\link{depends.default}}
+Other depends: 
+\code{\link{depends.default}()}
 }
+\concept{depends}
 \keyword{internal}

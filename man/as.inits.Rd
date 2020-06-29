@@ -48,12 +48,17 @@ Coerces inits to inits
 }}
 
 \seealso{
-Other as.inits: \code{\link{as.inits.numeric}}
+Other as.inits: 
+\code{\link{as.inits.numeric}()}
 
-Other as.inits: \code{\link{as.inits.numeric}}
+Other as.inits: 
+\code{\link{as.inits.numeric}()}
 
-Other as.inits: \code{\link{as.inits.numeric}}
+Other as.inits: 
+\code{\link{as.inits.numeric}()}
 
-Other as.inits: \code{\link{as.inits.numeric}}
+Other as.inits: 
+\code{\link{as.inits.numeric}()}
 }
+\concept{as.inits}
 \keyword{internal}

@@ -10,8 +10,7 @@ as.best(x, ...)
 
 \method{as.best}{data.frame}(x, prefix = "#", ...)
 
-\method{as.best}{default}(x, prefix = "", na.strings = c(".", "NA", ""),
-  ...)
+\method{as.best}{default}(x, prefix = "", na.strings = c(".", "NA", ""), ...)
 }
 \arguments{
 \item{x}{vector or data.frame}
@@ -47,22 +46,35 @@ Converts vector to numeric if doing so creates no new NA; otherwise to character
 }}
 
 \seealso{
-Other util: \code{\link{\%contains\%}},
-  \code{\link{enclose}}, \code{\link{locf}},
-  \code{\link{padded}}, \code{\link{parens}},
-  \code{\link{pool}}, \code{\link{runhead}},
-  \code{\link{text2decimal}}
+Other util: 
+\code{\link{\%contains\%}()},
+\code{\link{enclose}()},
+\code{\link{locf}()},
+\code{\link{padded}()},
+\code{\link{parens}()},
+\code{\link{pool}()},
+\code{\link{runhead}()},
+\code{\link{text2decimal}()}
 
-Other util: \code{\link{\%contains\%}},
-  \code{\link{enclose}}, \code{\link{locf}},
-  \code{\link{padded}}, \code{\link{parens}},
-  \code{\link{pool}}, \code{\link{runhead}},
-  \code{\link{text2decimal}}
+Other util: 
+\code{\link{\%contains\%}()},
+\code{\link{enclose}()},
+\code{\link{locf}()},
+\code{\link{padded}()},
+\code{\link{parens}()},
+\code{\link{pool}()},
+\code{\link{runhead}()},
+\code{\link{text2decimal}()}
 
-Other util: \code{\link{\%contains\%}},
-  \code{\link{enclose}}, \code{\link{locf}},
-  \code{\link{padded}}, \code{\link{parens}},
-  \code{\link{pool}}, \code{\link{runhead}},
-  \code{\link{text2decimal}}
+Other util: 
+\code{\link{\%contains\%}()},
+\code{\link{enclose}()},
+\code{\link{locf}()},
+\code{\link{padded}()},
+\code{\link{parens}()},
+\code{\link{pool}()},
+\code{\link{runhead}()},
+\code{\link{text2decimal}()}
 }
+\concept{util}
 \keyword{internal}

@@ -4,8 +4,7 @@
 \alias{as.init.numeric}
 \title{Coerces numeric to init}
 \usage{
-\method{as.init}{numeric}(x = numeric(0), fixed = FALSE,
-  comment = character(0), ...)
+\method{as.init}{numeric}(x = numeric(0), fixed = FALSE, comment = character(0), ...)
 }
 \arguments{
 \item{x}{object}
@@ -23,6 +22,8 @@ init
 Coerces numeric to init
 }
 \seealso{
-Other as.init: \code{\link{as.init}}
+Other as.init: 
+\code{\link{as.init}()}
 }
+\concept{as.init}
 \keyword{internal}

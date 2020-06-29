@@ -18,6 +18,10 @@ character
 Identifies the model problem statement for character (model name).
 }
 \seealso{
-Other problem: \code{\link{problem.numeric}},
-  \code{\link{problem_}}, \code{\link{problem}}
+Other problem: 
+\code{\link{as.problem}()},
+\code{\link{problem.numeric}()},
+\code{\link{problem_}()},
+\code{\link{problem}()}
 }
+\concept{problem}

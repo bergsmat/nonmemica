@@ -18,6 +18,8 @@ Creates a model item definitions from a number.
 Just coerces to character and calls definitions again.
 }
 \seealso{
-Other definitions: \code{\link{definitions}}
+Other definitions: 
+\code{\link{definitions}()}
 }
+\concept{definitions}
 \keyword{internal}

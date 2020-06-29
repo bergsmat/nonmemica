@@ -21,6 +21,8 @@ Identifies the order of an items object.
 Essentially the length of the list
 }
 \seealso{
-Other ord: \code{\link{ord.inits}}
+Other ord: 
+\code{\link{ord.inits}()}
 }
+\concept{ord}
 \keyword{internal}

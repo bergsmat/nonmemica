@@ -18,7 +18,10 @@ character
 Prints inits.
 }
 \seealso{
-Other print: \code{\link{print.init}},
-  \code{\link{print.items}}, \code{\link{print.model}}
+Other print: 
+\code{\link{print.init}()},
+\code{\link{print.items}()},
+\code{\link{print.model}()}
 }
+\concept{print}
 \keyword{internal}

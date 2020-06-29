@@ -10,10 +10,18 @@ as.bootstrap(x, ...)
 
 \method{as.bootstrap}{bootstrap}(x, ...)
 
-\method{as.bootstrap}{character}(x, skip = 28, check.names = FALSE,
-  lo = "5", hi = "95", verbose = TRUE,
-  pattern = "bootstrap_results.csv", bootcsv = dir(modeldir(x, ...), pattern
-  = pattern, recursive = TRUE, full.names = TRUE), ...)
+\method{as.bootstrap}{character}(
+  x,
+  skip = 28,
+  check.names = FALSE,
+  lo = "5",
+  hi = "95",
+  verbose = TRUE,
+  pattern = "bootstrap_results.csv",
+  bootcsv = dir(modeldir(x, ...), pattern = pattern, recursive = TRUE, full.names =
+    TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -63,10 +71,14 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 \code{\link{as.bootstrap.character}}
 
-Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
+Other as.bootstrap: 
+\code{\link{as.bootstrap.numeric}()}
 
-Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
+Other as.bootstrap: 
+\code{\link{as.bootstrap.numeric}()}
 
-Other as.bootstrap: \code{\link{as.bootstrap.numeric}}
+Other as.bootstrap: 
+\code{\link{as.bootstrap.numeric}()}
 }
+\concept{as.bootstrap}
 \keyword{internal}

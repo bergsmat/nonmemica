@@ -4,12 +4,21 @@
 \alias{superset.character}
 \title{Coerce to Superset from Character}
 \usage{
-\method{superset}{character}(x, read.input = list(read.csv, header = TRUE,
-  as.is = TRUE), read.output = list(read.table, header = TRUE, as.is = TRUE,
-  skip = 1, comment.char = "", check.names = FALSE, na.strings = c("", "\\\\s",
-  ".", "NA")), include = character(0), exclude = character(0),
-  rename = NULL, digits = 5, visible = "VISIBLE", after = NULL,
-  groups = character(0), imputation = generalize, ...)
+\method{superset}{character}(
+  x,
+  read.input = list(read.csv, header = TRUE, as.is = TRUE),
+  read.output = list(read.table, header = TRUE, as.is = TRUE, skip = 1, comment.char =
+    "", check.names = FALSE, na.strings = c("", "\\\\s", ".", "NA")),
+  include = character(0),
+  exclude = character(0),
+  rename = NULL,
+  digits = 5,
+  visible = "VISIBLE",
+  after = NULL,
+  groups = character(0),
+  imputation = generalize,
+  ...
+)
 }
 \arguments{
 \item{x}{object}
@@ -58,16 +67,23 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% superset \%>\% filter(VISIBLE == 1) \%>\% group_by(ID,TIME) \%>\% status
 }
 \seealso{
-Other superset: \code{\link{generalize}},
-  \code{\link{meta.character}}, \code{\link{meta.numeric}},
-  \code{\link{metaplot.character}},
-  \code{\link{metaplot.numeric}},
-  \code{\link{metaplot_character}},
-  \code{\link{metasuperset}}, \code{\link{meta}},
-  \code{\link{ninput.character}},
-  \code{\link{ninput.numeric}}, \code{\link{ninput}},
-  \code{\link{shuffle}}, \code{\link{superset.numeric}},
-  \code{\link{superset}},
-  \code{\link{superspec.character}},
-  \code{\link{superspec.numeric}}, \code{\link{superspec}}
+Other superset: 
+\code{\link{generalize}()},
+\code{\link{meta.character}()},
+\code{\link{meta.numeric}()},
+\code{\link{metaplot.character}()},
+\code{\link{metaplot.numeric}()},
+\code{\link{metaplot_character}()},
+\code{\link{metasuperset}()},
+\code{\link{meta}()},
+\code{\link{ninput.character}()},
+\code{\link{ninput.numeric}()},
+\code{\link{ninput}()},
+\code{\link{shuffle}()},
+\code{\link{superset.numeric}()},
+\code{\link{superset}()},
+\code{\link{superspec.character}()},
+\code{\link{superspec.numeric}()},
+\code{\link{superspec}()}
 }
+\concept{superset}

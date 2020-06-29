@@ -7,8 +7,7 @@
 \usage{
 as.init(x, ...)
 
-\method{as.init}{init}(x = numeric(0), fixed = FALSE,
-  comment = character(0), ...)
+\method{as.init}{init}(x = numeric(0), fixed = FALSE, comment = character(0), ...)
 }
 \arguments{
 \item{x}{object}
@@ -18,8 +17,6 @@ as.init(x, ...)
 \item{fixed}{logical}
 
 \item{comment}{character}
-
-\item{...}{dots}
 }
 \value{
 init
@@ -35,8 +32,11 @@ Coerces init to init
 }}
 
 \seealso{
-Other as.init: \code{\link{as.init.numeric}}
+Other as.init: 
+\code{\link{as.init.numeric}()}
 
-Other as.init: \code{\link{as.init.numeric}}
+Other as.init: 
+\code{\link{as.init.numeric}()}
 }
+\concept{as.init}
 \keyword{internal}

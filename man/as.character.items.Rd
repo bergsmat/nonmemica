@@ -4,8 +4,14 @@
 \alias{as.character.items}
 \title{Coerce Items to Character}
 \usage{
-\method{as.character}{items}(x, pretty = TRUE, sep = ";", delim = " ; ",
-  widths = comwidth(x), ...)
+\method{as.character}{items}(
+  x,
+  pretty = TRUE,
+  sep = ";",
+  delim = " ; ",
+  widths = comwidth(x),
+  ...
+)
 }
 \arguments{
 \item{x}{items}
@@ -27,8 +33,11 @@ character
 Coerces items to character.
 }
 \seealso{
-Other as.character: \code{\link{as.character.inits}},
-  \code{\link{as.character.init}},
-  \code{\link{as.character.model}}
+Other as.character: 
+\code{\link{as.character.inits}()},
+\code{\link{as.character.init}()},
+\code{\link{as.character.model}()},
+\code{\link{as.character.problem}()}
 }
+\concept{as.character}
 \keyword{internal}

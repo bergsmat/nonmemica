@@ -33,11 +33,16 @@ datafile(1001) \%matches\% specfile(1001)
 1001 \%>\% specfile \%>\% read.spec
 }
 \seealso{
-Other path: \code{\link{datafile.numeric}},
-  \code{\link{datafile}}, \code{\link{modeldir}},
-  \code{\link{modelfile}},
-  \code{\link{modelpath.character}},
-  \code{\link{modelpath.numeric}}, \code{\link{modelpath}},
-  \code{\link{specfile.character}},
-  \code{\link{specfile.numeric}}, \code{\link{specfile}}
+Other path: 
+\code{\link{datafile.numeric}()},
+\code{\link{datafile}()},
+\code{\link{modeldir}()},
+\code{\link{modelfile}()},
+\code{\link{modelpath.character}()},
+\code{\link{modelpath.numeric}()},
+\code{\link{modelpath}()},
+\code{\link{specfile.character}()},
+\code{\link{specfile.numeric}()},
+\code{\link{specfile}()}
 }
+\concept{path}

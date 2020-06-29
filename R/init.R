@@ -325,6 +325,7 @@ comwidthOne <- function(x,...)UseMethod('comwidthOne')
 #' @family comwidthOne
 #' @keywords internal
 comwidthOne.character <- function(x,split = ';', ...){
+  if(!grepl(split, x)) return(0)
   y <- strsplit(x, split = split)[[1]]
   y <- sub('^\\s+', '', y)
   y <- sub('\\s+$', '', y)
@@ -363,7 +364,9 @@ prettycom.character <- function(x, widths, sep, delim, ...){
   for(i in seq_along(y)){
     have <- nchar(y[[i]])
     need <- widths[[i]]
-    tail <- rep(' ',need - have)
+    pad <- need - have
+    pad <- max(pad, 0)
+    tail <- rep(' ',pad)
     tail <- paste(tail, collapse = '')
     y[[i]] <- paste0(y[[i]], tail)
   }

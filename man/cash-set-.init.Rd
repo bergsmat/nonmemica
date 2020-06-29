@@ -20,6 +20,8 @@ init
 Sets init element.
 }
 \seealso{
-Other init: \code{\link{$.init}}
+Other init: 
+\code{\link{$.init}()}
 }
+\concept{init}
 \keyword{internal}

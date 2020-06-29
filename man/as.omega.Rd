@@ -15,6 +15,8 @@ as.omega(x, ...)
 Extracts omegas.
 }
 \seealso{
-Other as.omega: \code{\link{as.omega.model}}
+Other as.omega: 
+\code{\link{as.omega.model}()}
 }
+\concept{as.omega}
 \keyword{internal}

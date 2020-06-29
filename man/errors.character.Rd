@@ -4,8 +4,13 @@
 \alias{errors.character}
 \title{Get Errors for Character}
 \usage{
-\method{errors}{character}(x, xmlfile = modelpath(x, ext = "xml", ...),
-  strip.namespace = TRUE, digits = 3, ...)
+\method{errors}{character}(
+  x,
+  xmlfile = modelpath(x, ext = "xml", ...),
+  strip.namespace = TRUE,
+  digits = 3,
+  ...
+)
 }
 \arguments{
 \item{x}{character (modelname)}
@@ -33,6 +38,8 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 nms_canonical errors
 
-Other errors: \code{\link{errors.numeric}},
-  \code{\link{errors}}
+Other errors: 
+\code{\link{errors.numeric}()},
+\code{\link{errors}()}
 }
+\concept{errors}

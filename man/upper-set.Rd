@@ -15,7 +15,10 @@ upper(x) <- value
 Sets upper Value.
 }
 \seealso{
-Other upper: \code{\link{upper.model}},
-  \code{\link{upper<-.model}}, \code{\link{upper}}
+Other upper: 
+\code{\link{upper.model}()},
+\code{\link{upper<-.model}()},
+\code{\link{upper}()}
 }
+\concept{upper}
 \keyword{internal}

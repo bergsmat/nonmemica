@@ -7,8 +7,14 @@
 \usage{
 as.model(x, ...)
 
-\method{as.model}{character}(x, pattern = "^\\\\s*\\\\$(\\\\S+)(\\\\s.*)?$",
-  head = "\\\\1", tail = "\\\\2", parse = TRUE, ...)
+\method{as.model}{character}(
+  x,
+  pattern = "^\\\\s*\\\\$(\\\\S+)(\\\\s.*)?$",
+  head = "\\\\1",
+  tail = "\\\\2",
+  parse = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{object of dispatch}
@@ -30,9 +36,6 @@ list
 }
 \description{
 Coerces to NONMEM control stream object.
-
-Coerce character to model
-Coerces chacter to model.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -45,12 +48,19 @@ options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% as.model
 }
 \seealso{
-Other as.model: \code{\link{[.model}},
-  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
-  \code{\link{read.model}}, \code{\link{write.model}}
+Other as.model: 
+\code{\link{[.model}()},
+\code{\link{[[.model}()},
+\code{\link{as.model.numeric}()},
+\code{\link{read.model}()},
+\code{\link{write.model}()}
 
-Other as.model: \code{\link{[.model}},
-  \code{\link{[[.model}}, \code{\link{as.model.numeric}},
-  \code{\link{read.model}}, \code{\link{write.model}}
+Other as.model: 
+\code{\link{[.model}()},
+\code{\link{[[.model}()},
+\code{\link{as.model.numeric}()},
+\code{\link{read.model}()},
+\code{\link{write.model}()}
 }
+\concept{as.model}
 \keyword{internal}

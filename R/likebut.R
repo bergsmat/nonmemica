@@ -18,9 +18,20 @@ problem_ <- function(
   y <- read.model(modelfile(x,...))
   p <- y$prob
   p <- p[p != '']
-  if(length(p) != 1) warning('problem statement does not have exactly one non-blank line')
-  p <- sub('^ +','',p)
-  p <- sub(' +$','',p)
+  if(length(p) == 0) stop('no problem information')
+  extra <- character(0)
+  if(length(p) > 1) extra <- p[2:length(p)]
+  if(any(grepl('^\\s*[^;]',extra)))warning('found secondary $PROBLEM lines where first non-space character is not semicolon')
+  # if(length(p) != 1)
+  #   warning('problem statement does not have exactly one non-blank line')
+  p <- p[[1]] # work with first line
+  p <- sub('^ +','',p) # remove leading space
+  p <- sub(' +$','',p) # remove trailing space
+  
+  # impute delimiters for natural language like-but statements
+  if(grepl('^like', p, ignore.case = TRUE)){
+    p <- sub('like\\s+(\\S+)\\s+but\\s+(.+)','//like/\\1//but/\\2//', p, ignore.case = TRUE)
+  }
   p
 }
 
@@ -298,7 +309,9 @@ tweak.default <- function(
   include = '.def$',
   ...
 ){
-  if(!getOption('nested',TRUE))stop('tweak assumes nested directory structure')
+  nested <- getOption('nested',TRUE)
+  if(is.function(nested))stop('tweak assumes nested directory structure')
+  if(!nested)stop('tweak assumes nested directory structure')
   stopifnot(length(x) == 1) # a run number
   path <- modelfile(x, project = project, ...)
   ctl <- read.model(path)
@@ -335,7 +348,8 @@ tweak.default <- function(
 #' @param overwrite whether to overwrite y if it exists
 #' @param ext extension for the model file
 #' @param include regular expressions for files to copy to new directory
-#' @param ... passed arguments
+#' @param update use final estimates of x as initial estimates of y
+#' @param ... passed arguments, including PsN runrecord elements (experimental)
 #' @return the value of y
 #' @seealso \code{\link{runlog.character}}
 #' @export
@@ -368,16 +382,26 @@ likebut <- function(
   overwrite=FALSE,
   ext = getOption('modex','ctl'),
   include = '\\.def$',
+  update = FALSE,
   ...
 ){
+  onested <- nested # for passing forward
+  stopifnot(is.logical(update), length(update) == 1)
+  if(is.logical(nested)){
+    if(nested){
+      nested <- function(...)TRUE
+    } else {
+      nested <- function(...)FALSE
+    }
+  }
   if(is.null(y)){
-    if(!nested){
+    if(!nested(ext)){
       d <- dir(project, pattern = paste0('\\.',ext,'$'))
       d <- basename(d)
       d <- text2decimal(d)
     }else{
       d <- dir(project)
-      suppressWarnings(d <- as.numeric(d))
+      suppressWarnings(d <- as.numeric(d)) # text2decimal?
     }
     d <- d[is.defined(d)]
     d <- max(as.numeric(d)) + 1
@@ -390,7 +414,7 @@ likebut <- function(
   target <- modeldir(y, project = project, nested = nested, ...)
   dir.create(target)
   for(p in include){
-    pattern = if(nested) p else paste0(x,p)
+    pattern = if(nested(p)) p else paste0(x,p)
     files  <- dir(srcdir,pattern = pattern)
     as     <- sub(x,y,files)
     file.copy(
@@ -400,8 +424,43 @@ likebut <- function(
   }
   c <- read.model(modelfile(x, project = project, nested = nested, ext = ext,...))
   like <- x
-  c$problem <- encode::encode(c('like','but'),c(like,but),...)
-  if(nchar(c$problem) > 58)warning('problem statement more than 40 chars')
+  natural <- grepl('\\s*like',c$problem[[1]], ignore.case = TRUE)
+  c$problem[[1]] <- encode::encode(c('like','but'),c(like,but),...)
+  if(natural)c$problem[[1]] <- paste('like', like, 'but', but)
+  if(nchar(c$problem[[1]]) > 58)warning('problem statement more than 40 chars')
+  
+  # update runrecord elements
+  elements <- list(...)
+  key <- c(
+    'Based on',
+    'Description',
+    'Label',
+    'Structural model',
+    'Covariate model',
+    'Interindividual variability',
+    'Interoccasion variability',
+    'Residual variability',
+    'Estimation'
+  )
+  elements <- elements[names(elements) %in% key]
+  if(length(elements)){ # incoming elements
+    existing <- attr(c$problem,'runrecord')
+    if(is.null(existing)) existing <- list()
+    for(nm in names(elements)) existing[[nm]] <- elements[[nm]]
+    if(!length(existing)) existing <- NULL
+    attr(c$problem, 'runrecord') <- existing
+  }
+  if(length(attr(c$problem,'runrecord'))){
+    existing <- attr(c$problem,'runrecord')
+    existing['Based on'] <- like
+    existing['Description'] <- but
+    attr(c$problem, 'runrecord') <- existing
+  }
+  
+  if(update){
+    initial(c) <- estimates(x, project = project, nested = onested, ...)
+  }
+  
   write.model(c,modelfile(y, project = project, nested = nested, ext = ext,...))
   y
 }
@@ -485,6 +544,7 @@ parameters.character <- function(x, simplify = FALSE, ...){
   m <- bind_rows(m)
   if(length(x) > 1) m <- filter(m, !symbol %in% c('dat','like','feature'))
   m <- mutate(m, symbol = factor(symbol,levels=unique(symbol)))
+  m$run <- factor(m$run,levels = unique(m$run))
   m <- tidyr::spread(m, run,value)
   if(length(x) == 1 && simplify){
     o <- m[,2]

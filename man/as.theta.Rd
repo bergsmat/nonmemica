@@ -15,6 +15,8 @@ as.theta(x, ...)
 Extracts thetas.
 }
 \seealso{
-Other as.theta: \code{\link{as.theta.model}}
+Other as.theta: 
+\code{\link{as.theta.model}()}
 }
+\concept{as.theta}
 \keyword{internal}

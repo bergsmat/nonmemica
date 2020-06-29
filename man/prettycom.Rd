@@ -15,6 +15,8 @@ prettycom(x, ...)
 Pretty-prints a comment.
 }
 \seealso{
-Other prettycom: \code{\link{prettycom.character}}
+Other prettycom: 
+\code{\link{prettycom.character}()}
 }
+\concept{prettycom}
 \keyword{internal}

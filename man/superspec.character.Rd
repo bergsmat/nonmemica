@@ -4,9 +4,16 @@
 \alias{superspec.character}
 \title{Create Specification for Model Inputs and Outputs From Character}
 \usage{
-\method{superspec}{character}(x, include = character(0),
-  exclude = character(0), rename = NULL, visible = "VISIBLE",
-  after = NULL, data = NULL, ...)
+\method{superspec}{character}(
+  x,
+  include = character(0),
+  exclude = character(0),
+  rename = NULL,
+  visible = "VISIBLE",
+  after = NULL,
+  data = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{character}
@@ -29,15 +36,23 @@
 Create a specification for the result of superset() from character by treating as a model name. By default, gives a spec template for superset(x). Tries to supplement with labels and units from parent specification, if it exists.  Tries to supplement with any additional labels and units in definitions(x).  Defers to actual data if provided. Specify \code{exclusive}, \code{visible}, and \code{after} as for \code{superset}.
 }
 \seealso{
-Other superset: \code{\link{generalize}},
-  \code{\link{meta.character}}, \code{\link{meta.numeric}},
-  \code{\link{metaplot.character}},
-  \code{\link{metaplot.numeric}},
-  \code{\link{metaplot_character}},
-  \code{\link{metasuperset}}, \code{\link{meta}},
-  \code{\link{ninput.character}},
-  \code{\link{ninput.numeric}}, \code{\link{ninput}},
-  \code{\link{shuffle}}, \code{\link{superset.character}},
-  \code{\link{superset.numeric}}, \code{\link{superset}},
-  \code{\link{superspec.numeric}}, \code{\link{superspec}}
+Other superset: 
+\code{\link{generalize}()},
+\code{\link{meta.character}()},
+\code{\link{meta.numeric}()},
+\code{\link{metaplot.character}()},
+\code{\link{metaplot.numeric}()},
+\code{\link{metaplot_character}()},
+\code{\link{metasuperset}()},
+\code{\link{meta}()},
+\code{\link{ninput.character}()},
+\code{\link{ninput.numeric}()},
+\code{\link{ninput}()},
+\code{\link{shuffle}()},
+\code{\link{superset.character}()},
+\code{\link{superset.numeric}()},
+\code{\link{superset}()},
+\code{\link{superspec.numeric}()},
+\code{\link{superspec}()}
 }
+\concept{superset}

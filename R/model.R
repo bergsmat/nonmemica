@@ -29,8 +29,9 @@ as.character.model <- function(x,...){
   meta <- x[sapply(x,inherits,'items') | sapply(x,inherits,'inits')]
   meta <- lapply(meta, comwidth)
   widths <- maxWidths(meta)
-	x[] <- lapply(x,as.character,widths = widths) # to accommodate novel underlying object types
-	order <- sapply(x,length)
+  #x[] <- lapply(x,as.character,widths = widths) # to accommodate novel underlying object types
+  x[] <- lapply(x,as.character)
+  order <- sapply(x,length)
 	recnums <- 1:length(x)
 	record <- rep(recnums,order)
 	flag <- runhead(record)
@@ -39,6 +40,30 @@ as.character.model <- function(x,...){
 	content[flag] <- paste(paste0('$',nms),content[flag])
 	content[flag] <- sub(' $','',content[flag])
 	content
+}
+
+#' Coerce Problem to Character
+#' 
+#' Coerces NONMEM problem statement to character.
+#' @param x object of dispatch
+#' @param ... dots
+#' @return character
+#' @export
+#' @family as.character
+#' @keywords internal
+as.character.problem <- function(x,...){
+  at <- attr(x, 'runrecord')
+  for(i in seq_along(at)){
+    nm <- names(at)[[i]]
+    label <- paste0(';; ', i,'. ', nm, ':')
+    if(nm == 'Based on'){
+      label <- paste(label, at[[i]])
+    }else{
+      label <- c(label, paste0(';;    ', at[[i]]))
+    }
+    x <- c(x, label)
+  }
+  x
 }
 
 #' Coerce model to list
@@ -107,10 +132,12 @@ function(
 	omegas <- names(content)=='omega'
 	sigmas <- names(content)=='sigma'
 	tables <- names(content)=='table'
+	problem <- names(content) %in% c('prob','problem')
 	if(parse)content[thetas] <- lapply(content[thetas],as.inits)
 	if(parse)content[omegas] <- lapply(content[omegas],as.inits)
 	if(parse)content[sigmas] <- lapply(content[sigmas],as.inits)
 	if(parse)content[tables] <- lapply(content[tables],as.items)
+	if(parse)content[problem] <- lapply(content[problem], as.problem)
 	content
 }
 

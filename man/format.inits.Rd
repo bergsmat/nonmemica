@@ -18,7 +18,10 @@ character
 Formats inits.
 }
 \seealso{
-Other format: \code{\link{format.init}},
-  \code{\link{format.items}}, \code{\link{format.model}}
+Other format: 
+\code{\link{format.init}()},
+\code{\link{format.items}()},
+\code{\link{format.model}()}
 }
+\concept{format}
 \keyword{internal}

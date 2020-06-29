@@ -15,7 +15,9 @@
 Coerces to list of matrices from Records
 }
 \seealso{
-Other as.matrices: \code{\link{as.matrices.inits}},
-  \code{\link{as.matrices}}
+Other as.matrices: 
+\code{\link{as.matrices.inits}()},
+\code{\link{as.matrices}()}
 }
+\concept{as.matrices}
 \keyword{internal}

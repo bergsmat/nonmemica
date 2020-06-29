@@ -4,8 +4,13 @@
 \alias{estimates.character}
 \title{Get Estimates for Character}
 \usage{
-\method{estimates}{character}(x, xmlfile = modelpath(x, ext = "xml", ...),
-  strip.namespace = TRUE, digits = 3, ...)
+\method{estimates}{character}(
+  x,
+  xmlfile = modelpath(x, ext = "xml", ...),
+  strip.namespace = TRUE,
+  digits = 3,
+  ...
+)
 }
 \arguments{
 \item{x}{character (modelname)}
@@ -33,6 +38,8 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 nms_canonical errors
 
-Other estimates: \code{\link{estimates.numeric}},
-  \code{\link{estimates}}
+Other estimates: 
+\code{\link{estimates.numeric}()},
+\code{\link{estimates}()}
 }
+\concept{estimates}
