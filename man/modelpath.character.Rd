@@ -41,6 +41,7 @@ Other path:
 \code{\link{modelfile}()},
 \code{\link{modelpath.numeric}()},
 \code{\link{modelpath}()},
+\code{\link{psn_options}()},
 \code{\link{specfile.character}()},
 \code{\link{specfile.numeric}()},
 \code{\link{specfile}()}

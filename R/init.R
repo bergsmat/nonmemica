@@ -563,6 +563,7 @@ as.inits.character <- function(x,...){
   stopifnot(length(x)>0)
   comments <- .initcomments(x)
   data <- .initdata(x)
+  data <- sub('SAME','1',data)
   data <- paste(data,collapse='\n')
   z <- strsplit(data,NULL)[[1]]
   #classify each character in z as belonging to a particular line and particular estimate.

@@ -94,7 +94,7 @@ as.model.numeric <- function(x,...)as.model(as.character(x),...)
 #' @param pattern pattern to identify record declarations
 #' @param head subpattern to identify declaration type
 #' @param tail subpattern remaining
-#' @param parse whether to convert thetas omegas and sigmas to inits and tables to items
+#' @param parse whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields
 #' @return list
 #' @describeIn as.model character method
 #' @export
@@ -117,7 +117,9 @@ function(
     if(!file_test('-f',x))stop(x, ' does not exist as a file')
     x <- readLines(x)
   }
-  
+  # any lines beginning with ;; are treated as trailing comments for $problem
+  y <- x[ grepl('^;;',x)]   # y is lines in x beginning with ;;
+  x <- x[!grepl('^;;',x)]   # these are dropped from x
 	flag <- grepl(pattern,x)
 	nms <- sub(pattern,head,x)
 	nms <- nms[flag]
@@ -133,6 +135,7 @@ function(
 	sigmas <- names(content)=='sigma'
 	tables <- names(content)=='table'
 	problem <- names(content) %in% c('prob','problem')
+	content[problem][[1]] <- c(content[problem][[1]], y) # append runrecord
 	if(parse)content[thetas] <- lapply(content[thetas],as.inits)
 	if(parse)content[omegas] <- lapply(content[omegas],as.inits)
 	if(parse)content[sigmas] <- lapply(content[sigmas],as.inits)

@@ -37,9 +37,9 @@
 #' z
 
 as.problem <- function(x, ...){
-  y <- x[grepl('^;;',x)]
-  x <- x[!grepl('^;;',x)]
-  y <- sub('^;;\\s*','',y)
+  y <- x[ grepl('^;;',x)]   # y is lines in x beginning with ;;
+  x <- x[!grepl('^;;',x)]   # these are dropped from x
+  y <- sub('^;;\\s*','',y)  # y has delimiters stripped
   key <- c(
     'Based on',
     'Description',

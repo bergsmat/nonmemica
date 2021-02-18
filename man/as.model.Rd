@@ -27,7 +27,7 @@ as.model(x, ...)
 
 \item{tail}{subpattern remaining}
 
-\item{parse}{whether to convert thetas omegas and sigmas to inits and tables to items}
+\item{parse}{whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields}
 }
 \value{
 model
