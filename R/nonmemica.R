@@ -62,10 +62,10 @@
 #' the (length-one) argument you supply is a model name.
 #' 
 #' @references \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
-#' @references \href{http://www.iconplc.com/innovation/nonmem/}{Icon}
+#' @references \href{https://www.iconplc.com/innovation/nonmem/}{Icon}
 #' @references \href{https://uupharmacometrics.github.io/PsN/}{PsN}
-#' @references \href{http://xpose.sourceforge.net/}{Xpose}
-#' @references \href{http://wfn.sourceforge.net/}{Wings for NONMEM}
+#' @references \href{https://xpose.sourceforge.net/}{Xpose}
+#' @references \href{https://wfn.sourceforge.net/}{Wings for NONMEM}
 #' @references \href{https://github.com/MikeKSmith/rspeaksnonmem}{R speaks NONMEM}
 #' @references \href{https://r-forge.r-project.org/R/?group_id=1215}{metrumrg}
 #' @examples
