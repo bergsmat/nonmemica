@@ -251,7 +251,7 @@ partab.character <- function(
   }
   if(relative && percent) param <- rename(param,prse = se)
   if(relative && !percent) param <- rename(param,rse = se)
-  meta <- definitions(x, ctlfile=ctlfile,metafile=metafile,...)
+  meta <- definitions(x, ctlfile=ctlfile, metafile=metafile, fields = fields, ...)
   meta <- rename(meta, parameter = item)
   param <- left_join(param, meta,by='parameter')
   class(param) <- union('partab', class(param))
