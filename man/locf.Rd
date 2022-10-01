@@ -26,15 +26,15 @@ a vector like \code{x}
 }
 \section{Functions}{
 \itemize{
-\item \code{locf}: locf last observation carried forward
+\item \code{locf()}: locf last observation carried forward
 
-\item \code{forbak}: forbak locf followed by nocb
+\item \code{forbak()}: forbak locf followed by nocb
 
-\item \code{bakfor}: bakfor nocb followed by locf
+\item \code{bakfor()}: bakfor nocb followed by locf
 
-\item \code{nocb}: nocb next observation carried backward
+\item \code{nocb()}: nocb next observation carried backward
+
 }}
-
 \examples{
 locf(c(NA,1,2,NA,NA,3,NA,4,NA))
 nocb(c(NA,1,2,NA,NA,3,NA,4,NA))

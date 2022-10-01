@@ -26,9 +26,9 @@ Just returns the object unmodified.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{partab}: partab method
-}}
+\item \code{partab(partab)}: partab method
 
+}}
 \seealso{
 \code{\link{partab.character}}
 

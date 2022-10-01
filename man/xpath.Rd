@@ -38,11 +38,11 @@ The resulting nodeset is scavenged for text, and coerced to best of numeric or c
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: default method
+\item \code{xpath(default)}: default method
 
-\item \code{xml_document}: xml_document method
+\item \code{xpath(xml_document)}: xml_document method
+
 }}
-
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

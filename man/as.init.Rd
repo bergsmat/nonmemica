@@ -28,9 +28,9 @@ Coerces init to init
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{init}: init method
-}}
+\item \code{as.init(init)}: init method
 
+}}
 \seealso{
 Other as.init: 
 \code{\link{as.init.numeric}()}

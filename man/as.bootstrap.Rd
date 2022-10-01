@@ -18,8 +18,7 @@ as.bootstrap(x, ...)
   hi = "95",
   verbose = TRUE,
   pattern = "bootstrap_results.csv",
-  bootcsv = dir(modeldir(x, ...), pattern = pattern, recursive = TRUE, full.names =
-    TRUE),
+  bootcsv = dir(modeldir(x, ...), pattern = pattern, recursive = TRUE, full.names = TRUE),
   ...
 )
 }
@@ -58,11 +57,11 @@ Creates a bootstrap table from a PsN bootstrap results csv filepath. If \code{x}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{bootstrap}: bootstrap method
+\item \code{as.bootstrap(bootstrap)}: bootstrap method
 
-\item \code{character}: character method
+\item \code{as.bootstrap(character)}: character method
+
 }}
-
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

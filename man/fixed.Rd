@@ -31,11 +31,11 @@ Checks if inits is fixed.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{init}: init method
+\item \code{fixed(init)}: init method
 
-\item \code{inits}: inits method
+\item \code{fixed(inits)}: inits method
+
 }}
-
 \seealso{
 Other fixed: 
 \code{\link{fixed.model}()},

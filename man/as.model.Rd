@@ -39,9 +39,9 @@ Coerces to NONMEM control stream object.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{character}: character method
-}}
+\item \code{as.model(character)}: character method
 
+}}
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

@@ -160,13 +160,13 @@ datafile(1001) \%matches\% specfile(1001)
 \references{
 \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
 
-\href{http://www.iconplc.com/innovation/nonmem/}{Icon}
+\href{https://www.iconplc.com/innovation/nonmem/}{Icon}
 
 \href{https://uupharmacometrics.github.io/PsN/}{PsN}
 
-\href{http://xpose.sourceforge.net/}{Xpose}
+\href{https://xpose.sourceforge.net/}{Xpose}
 
-\href{http://wfn.sourceforge.net/}{Wings for NONMEM}
+\href{https://wfn.sourceforge.net/}{Wings for NONMEM}
 
 \href{https://github.com/MikeKSmith/rspeaksnonmem}{R speaks NONMEM}
 

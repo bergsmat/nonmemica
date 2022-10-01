@@ -35,11 +35,11 @@ Creates an xml_document from character (modelname or filepath).
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{xml_document}: xml_document method
+\item \code{as.xml_document(xml_document)}: xml_document method
 
-\item \code{character}: filepath method
+\item \code{as.xml_document(character)}: filepath method
+
 }}
-
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

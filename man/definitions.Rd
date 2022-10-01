@@ -60,11 +60,11 @@ at least the column 'item' but possibly no rows.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{definitions}: definitions method
+\item \code{definitions(definitions)}: definitions method
 
-\item \code{character}: character method
+\item \code{definitions(character)}: character method
+
 }}
-
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

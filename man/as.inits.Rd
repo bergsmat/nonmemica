@@ -40,13 +40,13 @@ Coerces inits to inits
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{list}: list method
+\item \code{as.inits(list)}: list method
 
-\item \code{character}: character method
+\item \code{as.inits(character)}: character method
 
-\item \code{inits}: inits method
+\item \code{as.inits(inits)}: inits method
+
 }}
-
 \seealso{
 Other as.inits: 
 \code{\link{as.inits.numeric}()}

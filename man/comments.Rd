@@ -64,15 +64,15 @@ Extracts comments from inits.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{records}: record method
+\item \code{comments(records)}: record method
 
-\item \code{model}: model method
+\item \code{comments(model)}: model method
 
-\item \code{items}: items method
+\item \code{comments(items)}: items method
 
-\item \code{inits}: inits method
+\item \code{comments(inits)}: inits method
+
 }}
-
 \examples{
 library(magrittr)
 options(project = system.file('project/model',package='nonmemica'))

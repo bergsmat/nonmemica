@@ -40,11 +40,11 @@ Converts vector to numeric if doing so creates no new NA; otherwise to character
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{data.frame}: data.frame method
+\item \code{as.best(data.frame)}: data.frame method
 
-\item \code{default}: default method
+\item \code{as.best(default)}: default method
+
 }}
-
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
