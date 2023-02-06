@@ -6,7 +6,7 @@ $PK
  CL=THETA(1)*EXP(ETA(1))
  V =THETA(2)*EXP(ETA(2))
  KA=THETA(3)*EXP(ETA(3))
- S1=V
+ S2=V
  
 $ERROR
  Y=F*(1+ERR(1))
