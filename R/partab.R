@@ -181,10 +181,17 @@ partab.character <- function(
   if(length(epsshrink) == 0) epsshrink <- xpath(y,'//epsshrinksd/row/col')
   etacor <- row_col(y, 'omegac', 'omega','correlation')
   epscor <- row_col(y, 'sigmac','sigma','correlation')
+  # 2023-02-06 TTB if nrow(epscor) == 0, epscor$correlation is character(0) (incompatible in bind_rows)
+  # implement consistent typing
+  theta <- mutate(theta, across(.cols = -c(parameter), as.numeric))
+  omega <- mutate(omega, across(.cols = -c(parameter), as.numeric))
+  sigma <- mutate(sigma, across(.cols = -c(parameter), as.numeric))
+  etacor <- mutate(etacor, across(.cols = -c(parameter), as.numeric))
+  epscor <- mutate(epscor, across(.cols = -c(parameter), as.numeric))
   cor <- suppressWarnings(bind_rows(etacor, epscor))
   if(shrinkage && length(etashrink) == sum(omega$offdiag == 0)) omega$shrinkage[omega$offdiag == 0] <- etashrink
   if(shrinkage && length(epsshrink) == sum(sigma$offdiag == 0)) sigma$shrinkage[sigma$offdiag == 0] <- epsshrink
-  param <- suppressWarnings(bind_rows(as.best(theta),as.best(omega),as.best(sigma)))
+  param <- suppressWarnings(bind_rows(theta, omega, sigma))
   if(correlation && nrow(cor)) param %<>% left_join(cor)
   if(inherits(z,'data.frame')){
     z <- z[-1,] # drop ofv
