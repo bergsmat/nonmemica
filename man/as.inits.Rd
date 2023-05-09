@@ -2,29 +2,22 @@
 % Please edit documentation in R/init.R
 \name{as.inits}
 \alias{as.inits}
-\alias{as.inits.list}
 \alias{as.inits.character}
 \alias{as.inits.inits}
 \title{Coerce to inits}
 \usage{
 as.inits(x, ...)
 
-\method{as.inits}{list}(x, comment = character(0), ...)
-
 \method{as.inits}{character}(x, ...)
 
 \method{as.inits}{inits}(x, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{inits}
 
-\item{...}{dots}
-
-\item{comment}{character}
+\item{...}{ignored}
 }
 \value{
-inits
-
 inits
 
 inits
@@ -32,16 +25,12 @@ inits
 \description{
 Coerces to inits.
 
-Coerces list to inits.
-
 Coerces character to inits.
 
 Coerces inits to inits
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.inits(list)}: list method
-
 \item \code{as.inits(character)}: character method
 
 \item \code{as.inits(inits)}: inits method
@@ -49,15 +38,15 @@ Coerces inits to inits
 }}
 \seealso{
 Other as.inits: 
+\code{\link{as.inits.list}()},
 \code{\link{as.inits.numeric}()}
 
 Other as.inits: 
+\code{\link{as.inits.list}()},
 \code{\link{as.inits.numeric}()}
 
 Other as.inits: 
-\code{\link{as.inits.numeric}()}
-
-Other as.inits: 
+\code{\link{as.inits.list}()},
 \code{\link{as.inits.numeric}()}
 }
 \concept{as.inits}

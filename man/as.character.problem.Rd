@@ -7,9 +7,9 @@
 \method{as.character}{problem}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{problem}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
 character

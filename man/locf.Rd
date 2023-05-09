@@ -26,8 +26,6 @@ a vector like \code{x}
 }
 \section{Functions}{
 \itemize{
-\item \code{locf()}: locf last observation carried forward
-
 \item \code{forbak()}: forbak locf followed by nocb
 
 \item \code{bakfor()}: bakfor nocb followed by locf
@@ -43,6 +41,7 @@ forbak(c(NA,1,2,NA,NA,3,NA,4,NA))
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
@@ -53,6 +52,7 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
@@ -63,6 +63,7 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
@@ -73,6 +74,7 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{model}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 character

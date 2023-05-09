@@ -7,9 +7,9 @@
 \method{as.model}{numeric}(x, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{numeric}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Coerces to model from numeric by coercing to character.
@@ -18,6 +18,7 @@ Coerces to model from numeric by coercing to character.
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
+\code{\link{as.model.character}()},
 \code{\link{as.model}()},
 \code{\link{read.model}()},
 \code{\link{write.model}()}

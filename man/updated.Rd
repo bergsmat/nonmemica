@@ -9,7 +9,7 @@ updated(x, ...)
 \arguments{
 \item{x}{object of dispatch}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Creates the updated version of something. Don't confuse with stats::update.

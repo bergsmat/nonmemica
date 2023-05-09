@@ -9,7 +9,7 @@ as.matrices(x, ...)
 \arguments{
 \item{x}{object of dispatch}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Coerces to list of matrices.

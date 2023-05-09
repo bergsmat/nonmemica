@@ -3,25 +3,18 @@
 \name{as.xml_document}
 \alias{as.xml_document}
 \alias{as.xml_document.xml_document}
-\alias{as.xml_document.character}
 \title{Create an xml_document in a Project Context}
 \usage{
 as.xml_document(x, ...)
 
 \method{as.xml_document}{xml_document}(x, ...)
-
-\method{as.xml_document}{character}(x, strip.namespace = TRUE, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{xml_document}
 
-\item{...}{arguments to methods}
-
-\item{strip.namespace}{whether to strip e.g. nm: from xml elements}
+\item{...}{ignored}
 }
 \value{
-xml_document
-
 xml_document
 
 xml_document
@@ -30,14 +23,10 @@ xml_document
 Creates an xml_document in a project context.
 
 Coerces xml_document to xml_document
-
-Creates an xml_document from character (modelname or filepath).
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{as.xml_document(xml_document)}: xml_document method
-
-\item \code{as.xml_document(character)}: filepath method
 
 }}
 \examples{
@@ -49,15 +38,17 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{xpath}}
 
 Other xpath: 
+\code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
+\code{\link{xpath.default}()},
+\code{\link{xpath.xml_document}()},
 \code{\link{xpath}()}
 
 Other xpath: 
+\code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
-\code{\link{xpath}()}
-
-Other xpath: 
-\code{\link{as.xml_document.numeric}()},
+\code{\link{xpath.default}()},
+\code{\link{xpath.xml_document}()},
 \code{\link{xpath}()}
 }
 \concept{xpath}

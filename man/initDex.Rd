@@ -9,7 +9,7 @@ initDex(x, ...)
 \arguments{
 \item{x}{object of dispatch}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Identifies indices of initial Estimates.

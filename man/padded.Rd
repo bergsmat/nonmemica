@@ -22,6 +22,7 @@ Pad a numeric vector with leading zeros.
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},

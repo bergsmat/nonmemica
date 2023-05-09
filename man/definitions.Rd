@@ -2,13 +2,10 @@
 % Please edit documentation in R/definitions.R
 \name{definitions}
 \alias{definitions}
-\alias{definitions.definitions}
 \alias{definitions.character}
 \title{Harvest Model Item Definitions}
 \usage{
 definitions(x, ...)
-
-\method{definitions}{definitions}(x, ...)
 
 \method{definitions}{character}(
   x,
@@ -44,14 +41,10 @@ object of class definitions, or path to metafile if write = TRUE.
 \description{
 Havests model item definitions.
 
-Creates a model item definitions from a definitions object.
-
 Create Item Definitions from Model Name
 }
 \details{
 x can be numeric or character model name, assuming project is identified by argument or option.
-
-Just returns the object unmodified.
 
 Creates item definitions from a model name. Scavenges definitions optionally 
 from the control stream and optionally from the definitions file. Optionally
@@ -60,8 +53,6 @@ at least the column 'item' but possibly no rows.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{definitions(definitions)}: definitions method
-
 \item \code{definitions(character)}: character method
 
 }}
@@ -80,12 +71,11 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{as.model.character}}
 
 Other definitions: 
+\code{\link{definitions.definitions}()},
 \code{\link{definitions.numeric}()}
 
 Other definitions: 
-\code{\link{definitions.numeric}()}
-
-Other definitions: 
+\code{\link{definitions.definitions}()},
 \code{\link{definitions.numeric}()}
 }
 \concept{definitions}

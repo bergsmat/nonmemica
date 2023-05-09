@@ -3,80 +3,40 @@
 \name{comments}
 \alias{comments}
 \alias{comments.records}
-\alias{comments.model}
-\alias{comments.items}
-\alias{comments.inits}
 \title{Extract Comments}
 \usage{
 comments(x, ...)
 
 \method{comments}{records}(x, ...)
-
-\method{comments}{model}(
-  x,
-  fields = c("symbol", "unit", "label"),
-  expected = character(0),
-  na = NA_character_,
-  tables = TRUE,
-  ...
-)
-
-\method{comments}{items}(x, ...)
-
-\method{comments}{inits}(x, type, prior, ...)
 }
 \arguments{
-\item{x}{model}
+\item{x}{records}
 
-\item{...}{passed arguments}
-
-\item{fields}{data items to scavenge from control stream comments}
-
-\item{expected}{parameters known from NONMEM output}
-
-\item{na}{string to use for NA values when writing default metafile}
-
-\item{tables}{whether to include table comments}
-
-\item{type}{item type: theta, omega, sigma (tables give items not inits)}
-
-\item{prior}{number of prior items of this type (maybe imporant for numbering)}
+\item{...}{ignored}
 }
 \value{
-data.frame
-
-data.frame
-
-data.frame
-
 data.frame
 }
 \description{
 Extracts comments.
 
 Extracts comments from records.
-
-Extracts comments from model.
-
-Extracts comments from items.
-
-Extracts comments from inits.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{comments(records)}: record method
 
-\item \code{comments(model)}: model method
-
-\item \code{comments(items)}: items method
-
-\item \code{comments(inits)}: inits method
-
 }}
-\examples{
-library(magrittr)
-options(project = system.file('project/model',package='nonmemica'))
-1001 \%>\% as.model \%>\% comments
+\seealso{
+Other comments: 
+\code{\link{comments.inits}()},
+\code{\link{comments.items}()},
+\code{\link{comments.model}()}
+
+Other comments: 
+\code{\link{comments.inits}()},
+\code{\link{comments.items}()},
+\code{\link{comments.model}()}
 }
 \concept{comments}
 \keyword{internal}

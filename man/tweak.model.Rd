@@ -7,13 +7,13 @@
 \method{tweak}{model}(x, sd = 0.13, digits = 3, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{model}
 
 \item{sd}{numeric}
 
 \item{digits}{integer}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 model

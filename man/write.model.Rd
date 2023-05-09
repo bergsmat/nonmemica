@@ -17,7 +17,7 @@ write.model(x, file = "data", ncolumns = 1, append = FALSE, sep = " ", ...)
 
 \item{sep}{passed to write()}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 used for side effects
@@ -32,6 +32,7 @@ writes (formatted) model to file.
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
+\code{\link{as.model.character}()},
 \code{\link{as.model.numeric}()},
 \code{\link{as.model}()},
 \code{\link{read.model}()}

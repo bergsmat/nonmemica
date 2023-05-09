@@ -7,9 +7,9 @@
 \method{as.items}{character}(x, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{character}
 
-\item{...}{passed arguments}
+\item{...}{ignored}
 }
 \value{
 items

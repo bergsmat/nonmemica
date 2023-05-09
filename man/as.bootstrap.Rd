@@ -2,13 +2,10 @@
 % Please edit documentation in R/bootstrap.R
 \name{as.bootstrap}
 \alias{as.bootstrap}
-\alias{as.bootstrap.bootstrap}
 \alias{as.bootstrap.character}
 \title{Create a Bootstrap Table}
 \usage{
 as.bootstrap(x, ...)
-
-\method{as.bootstrap}{bootstrap}(x, ...)
 
 \method{as.bootstrap}{character}(
   x,
@@ -23,9 +20,9 @@ as.bootstrap(x, ...)
 )
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{character}
 
-\item{...}{arguments to methods}
+\item{...}{passed to \code{\link{read.csv}}}
 
 \item{skip}{number of lines to skip in bootstrap_results.csv}
 
@@ -45,20 +42,14 @@ as.bootstrap(x, ...)
 data.frame
 
 data.frame
-
-data.frame
 }
 \description{
 Creates a bootstrap table.
-
-Creates bootstrap from bootstrap.
 
 Creates a bootstrap table from a PsN bootstrap results csv filepath. If \code{x} is not an existing file it is treated as a modelname and the results file is sought.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{as.bootstrap(bootstrap)}: bootstrap method
-
 \item \code{as.bootstrap(character)}: character method
 
 }}
@@ -71,12 +62,11 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{as.bootstrap.character}}
 
 Other as.bootstrap: 
+\code{\link{as.bootstrap.bootstrap}()},
 \code{\link{as.bootstrap.numeric}()}
 
 Other as.bootstrap: 
-\code{\link{as.bootstrap.numeric}()}
-
-Other as.bootstrap: 
+\code{\link{as.bootstrap.bootstrap}()},
 \code{\link{as.bootstrap.numeric}()}
 }
 \concept{as.bootstrap}

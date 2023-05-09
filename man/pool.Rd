@@ -23,6 +23,7 @@ pool(1:3,2:4)
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},

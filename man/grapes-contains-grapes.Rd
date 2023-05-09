@@ -24,6 +24,7 @@ letters \%contains\% 'a'
 \code{\link{contains}}
 
 Other util: 
+\code{\link{as.best.default}()},
 \code{\link{as.best}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},

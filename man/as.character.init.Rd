@@ -7,9 +7,9 @@
 \method{as.character}{init}(x, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{init}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
 character

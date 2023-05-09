@@ -15,7 +15,7 @@
 
 \item{verbose}{extended messaging}
 
-\item{...}{dots}
+\item{...}{passed arguements}
 }
 \value{
 model

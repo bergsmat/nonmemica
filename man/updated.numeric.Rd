@@ -7,9 +7,9 @@
 \method{updated}{numeric}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{numeric}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Creates the updated version of numeric by coercing to character.

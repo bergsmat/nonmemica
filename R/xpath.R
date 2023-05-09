@@ -16,7 +16,8 @@ as.xml_document <- function(x,...)UseMethod('as.xml_document')
 #' Coerce xml_document to xml_document
 #' 
 #' Coerces xml_document to xml_document
-#' @inheritParams as.xml_document
+#' @param x xml_document
+#' @param ... ignored
 #' @return xml_document
 #' @describeIn as.xml_document xml_document method
 #' @export
@@ -26,7 +27,8 @@ as.xml_document.xml_document <- function(x,...)x
 #' Coerce numeric to xml_document
 #' 
 #' Coerces numeric to xml_document
-#' @inheritParams as.xml_document
+#' @param x numerc
+#' @param ... passed arguments
 #' @return xml_document
 #' @keywords internal
 #' @export
@@ -37,15 +39,15 @@ as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 #'
 #' Creates an xml_document from character (modelname or filepath).
 #' @import xml2
-#' @inheritParams as.xml_document
+#' @param x file path or run name
 #' @param strip.namespace whether to strip e.g. nm: from xml elements
+#' @param ... passed to modelpath()
 #' @return xml_document
-#' @describeIn as.xml_document filepath method
 #' @export
 #' @family xpath
 as.xml_document.character <- function(x,strip.namespace=TRUE,...){
-  # x is a model name or a file path
-  if(!file_test('-f', x)) x <- modelpath(x, 'xml',...)
+  if(file_test('-d', modelpath(x))) x <- modelpath(x, 'xml',...)
+  if(!file_test('-f', x)) stop('could not find ', x)
   if(!strip.namespace)return(read_xml(x))
   x <- readLines(x)
   x <- paste(x,collapse=' ')
@@ -73,9 +75,9 @@ xpath <- function(x,...)UseMethod('xpath')
 #' Evaluate xpath Expression in Default Context
 #'
 #' Coerces x to xml_document and evaluates.
-#' @inheritParams xpath
+#' @param x default
+#' @param ... passed arguments
 #' @return vector
-#' @describeIn xpath default method
 #' @export
 #' @family xpath
 xpath.default <- function(x,...)xpath(as.xml_document(x),...)
@@ -87,10 +89,10 @@ xpath.default <- function(x,...)xpath(as.xml_document(x),...)
 #' The resulting nodeset is scavenged for text, and coerced to best of numeric or character.
 #' @import magrittr
 #' @import xml2
-#' @inheritParams xpath
+#' @param x xml_document
+#' @param ... ignored
 #' @param xpath xpath expression to evaluate
 #' @return vector
-#' @describeIn xpath xml_document method
 #' @export
 #' @family xpath
 xpath.xml_document <- function(x, xpath,...)as.best(xml_text(xml_find_all(x,xpath)))

@@ -7,9 +7,9 @@
 \method{as.matrices}{inits}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{inits}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
 matrices

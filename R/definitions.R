@@ -15,8 +15,8 @@ definitions <- function(x,...)UseMethod('definitions')
 #' Creates a model item definitions from a definitions object.
 #' 
 #' Just returns the object unmodified.
-#' @inheritParams definitions
-#' @describeIn definitions definitions method
+#' @param x definitions
+#' @param ... ignored
 #' @family definitions
 #' @export
 definitions.definitions <- function(x,...)x
@@ -25,7 +25,8 @@ definitions.definitions <- function(x,...)x
 #' Creates a model item definitions from a number.
 #' 
 #' Just coerces to character and calls definitions again.
-#' @inheritParams definitions
+#' @param x numeric
+#' @param ... ignored
 #' @keywords internal
 #' @family definitions
 #' @export

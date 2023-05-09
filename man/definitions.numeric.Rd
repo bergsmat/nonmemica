@@ -7,9 +7,9 @@
 \method{definitions}{numeric}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{numeric}
 
-\item{...}{arguments to methods}
+\item{...}{ignored}
 }
 \description{
 Creates a model item definitions from a number.
@@ -19,6 +19,7 @@ Just coerces to character and calls definitions again.
 }
 \seealso{
 Other definitions: 
+\code{\link{definitions.definitions}()},
 \code{\link{definitions}()}
 }
 \concept{definitions}

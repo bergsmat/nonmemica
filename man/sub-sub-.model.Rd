@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{model}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 
 \item{drop}{passed to element select}
 }
@@ -22,6 +22,7 @@ Selects model element.
 \seealso{
 Other as.model: 
 \code{\link{[.model}()},
+\code{\link{as.model.character}()},
 \code{\link{as.model.numeric}()},
 \code{\link{as.model}()},
 \code{\link{read.model}()},

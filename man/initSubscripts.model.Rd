@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{model}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
 integer

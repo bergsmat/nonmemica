@@ -7,9 +7,9 @@
 \method{as.character}{model}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{model}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
 model

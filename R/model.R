@@ -7,19 +7,18 @@ globalVariables(c('item','.','parameter','estimate','se'))
 #' 
 #' Coerces to NONMEM control stream object.
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @return model
 #' @family as.model
 #' @export
 #' @keywords internal
-as.model <-
-function(x,...)UseMethod('as.model')
+as.model <- function(x,...)UseMethod('as.model')
 
 #' Coerce NONMEM Control Object to character
 #' 
 #' Coerces NONMEM control stream object to character.
-#' @param x object of dispatch
-#' @param ... dots
+#' @param x model
+#' @param ... ignored
 #' @return model
 #' @export
 #' @family as.character
@@ -45,8 +44,8 @@ as.character.model <- function(x,...){
 #' Coerce Problem to Character
 #' 
 #' Coerces NONMEM problem statement to character.
-#' @param x object of dispatch
-#' @param ... dots
+#' @param x problem
+#' @param ... ignored
 #' @return character
 #' @export
 #' @family as.character
@@ -81,22 +80,23 @@ function(x,...)unclass(x)
 #' Coerce to Model from Numeric
 #' 
 #' Coerces to model from numeric by coercing to character.
-#' @param x object
-#' @param ... dots
+#' @param x numeric
+#' @param ... passed arguments
 #' @export
 #' @family as.model
 #' @keywords internal
 as.model.numeric <- function(x,...)as.model(as.character(x),...)
 
 #' Coerce character to model
+#' 
 #' Coerces chacter to model.
-#' @inheritParams as.model
+#' @param x character
+#' @param ... ignored
 #' @param pattern pattern to identify record declarations
 #' @param head subpattern to identify declaration type
 #' @param tail subpattern remaining
 #' @param parse whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields
 #' @return list
-#' @describeIn as.model character method
 #' @export
 #' @family as.model
 #' @examples
@@ -150,7 +150,7 @@ function(
 #' 
 #' Coerces to character.
 #' @param x model
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family format
@@ -164,7 +164,7 @@ function(x,...)as.character(x,...)
 #' 
 #' Formats and prints.
 #' @param x model
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family print
@@ -179,7 +179,7 @@ function(x,...)print(format(x,...))
 #' Reads model from a connection.
 #' @param con model connection
 #' @param parse whether to convert thetas to inits objects
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family as.model
@@ -197,7 +197,7 @@ function(con,parse=TRUE,...)as.model(readLines(con),parse=parse,...)
 #' @param ncolumns passed to write() 
 #' @param append passed to write()
 #' @param sep passed to write()
-#' @param ... dots
+#' @param ... passed arguments
 #' @return used for side effects
 #' @export
 #' @family as.model
@@ -220,7 +220,7 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 #' 
 #' Subsets model.
 #' @param x model
-#' @param ... dots
+#' @param ... ignored
 #' @param drop passed to subset
 #' @return model
 #' @export
@@ -237,7 +237,7 @@ function(x, file='data',ncolumns=1,append=FALSE, sep=" ",...){
 #' 
 #' Selects model element.
 #' @param x model
-#' @param ... dots
+#' @param ... passed arguments
 #' @param drop passed to element select
 #' @return element
 #' @export
@@ -356,7 +356,7 @@ as.tab.model <- function(x,...){
 #' Extracts comments.
 #' 
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family comments
 #' @keywords internal
@@ -366,7 +366,8 @@ comments <- function(x,...)UseMethod('comments')
 #' 
 #' Extracts comments from records.
 #' 
-#' @inheritParams comments
+#' @param x records
+#' @param ... ignored
 #' @return data.frame
 #' @describeIn comments record method
 #' @export
@@ -402,7 +403,6 @@ comments.records <- function(x,...){
 #' @param na string to use for NA values when writing default metafile
 #' @param tables whether to include table comments
 #' @return data.frame
-#' @describeIn comments model method
 #' @export
 #' @family comments
 #' @examples
@@ -458,7 +458,8 @@ as.items <- function(x,...)UseMethod('as.items')
 #' Convert to Items from Character
 #' 
 #' Converts to items from character
-#' @inheritParams as.items
+#' @param x character
+#' @param ... ignored
 #' @return items
 #' @export
 #' @family as.items
@@ -503,7 +504,7 @@ as.items.character <- function(x,...){
 #' 
 #' Formats items.
 #' @param x items
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family format
@@ -514,7 +515,7 @@ format.items <-function(x,...)as.character(x,...)
 #' 
 #' Prints items.
 #' @param x items
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family print
@@ -525,9 +526,9 @@ print.items <-function(x,...)print(format(x,...))
 #' 
 #' Extracts comments from items.
 #' 
-#' @inheritParams comments
+#' @param x items
+#' @param ... ignored
 #' @return data.frame
-#' @describeIn comments items method
 #' @export
 #' @family comments
 #' 
@@ -545,11 +546,11 @@ comments.items <- function(x, ...){
 #' 
 #' Extracts comments from inits.
 #' 
-#' @inheritParams comments
+#' @param x inits
+#' @param ... ignored
 #' @param type item type: theta, omega, sigma (tables give items not inits)
 #' @param prior number of prior items of this type (maybe imporant for numbering)
 #' @return data.frame
-#' @describeIn comments inits method
 #' @export
 #' @family comments
 #' 
@@ -583,7 +584,7 @@ comments.inits <- function(x, type, prior,...){
 #' 
 #' Essentially the length of the list, or the length of the diagonal of a matrix (if BLOCK was defined).
 #' @param x inits
-#' @param ... dots
+#' @param ... ignored
 #' @return numeric
 #' @export
 #' @family ord
@@ -603,7 +604,7 @@ ord.inits <- function(x,...){
 #' 
 #' Essentially the length of the list
 #' @param x items
-#' @param ... dots
+#' @param ... ignored
 #' @return numeric
 #' @export
 #' @family ord
@@ -616,7 +617,7 @@ ord.items <- function(x,...)length(x)
 #' 
 #' Identifies indices of initial Estimates.
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family initDex
 #' @keywords internal
@@ -627,7 +628,7 @@ initDex <- function(x,...)UseMethod('initDex')
 #' Identifies record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the record numbers for the canonical order of all init objects among theta, omega, and sigma element types, regardless of the number and order of such types. If a block(2) omega is specified between two thetas and one sigma follows, the results could be c(6L, 8L, 7L, 7L, 7L, 9L).
 
 #' @param x model
-#' @param ... dots
+#' @param ... ignored
 #' @return integer
 #' @export
 #' @family initDex
@@ -651,7 +652,7 @@ initDex.model <- function(x,...){
 #' 
 #' Identifies subscripts.
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family initSubscripts
 #' @keywords internal
@@ -662,7 +663,7 @@ initSubscripts <- function(x,...)UseMethod('initSubscripts')
 #' Identifies subscripts of record indices of initial estimates for an object of class model. If model has not been parsed, the result is integer(0).  Otherwise, the result is the element number for each init object within each inits in x (canonical order).
 
 #' @param x model
-#' @param ... dots
+#' @param ... ignored
 #' @return integer
 #' @export
 #' @family initSubscripts
@@ -688,7 +689,7 @@ initSubscripts.model <- function(x,...){
 #' Creates the updated version of something. Don't confuse with stats::update.
 #' 
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family updated
 #' @keywords internal
@@ -697,7 +698,8 @@ updated <- function(x,...)UseMethod('updated')
 #' Create the Updated Version of Numeric
 #' 
 #' Creates the updated version of numeric by coercing to character.
-#' @inheritParams updated
+#' @param x numeric
+#' @param ... passed arguments
 #' @export
 #' @family updated
 #' @keywords internal
@@ -711,7 +713,7 @@ updated.numeric <- function(x,...)updated(as.character(x),...)
 #' @param initial values to use for initial estimates (numeric)
 #' @param parse whether to parse the initial estimates, etc.
 #' @param verbose extended messaging
-#' @param ... dots
+#' @param ... passed arguements
 #' @return model
 #' @export
 #' @family updated
@@ -725,7 +727,7 @@ updated.character <- function(x, initial = estimates(x,...), parse= TRUE,verbose
 #' 
 #' Coerces to list of matrices.
 #' @param x object of dispatch
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family as.matrices
 #' @keywords internal
@@ -734,8 +736,8 @@ as.matrices <- function(x,...)UseMethod('as.matrices')
 #' Coerce to List of Matrices from Records
 #' 
 #' Coerces to list of matrices from Records
-#' @param x object of dispatch
-#' @param ... dots
+#' @param x records
+#' @param ... ignored
 #' @export
 #' @family as.matrices
 #' @keywords internal
@@ -749,8 +751,8 @@ as.matrices.records <- function(x,...){
 #' 
 #' Coerces to matrices from inits. Non-block inits is expanded into list of matrices.
 #'
-#' @param x object of dispatch
-#' @param ... dots
+#' @param x inits
+#' @param ... ignored
 #' @return matrices
 #' @export
 #' @family as.matrices

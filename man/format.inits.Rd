@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{inits}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 character

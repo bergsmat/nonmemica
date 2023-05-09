@@ -19,9 +19,9 @@ as.bootstrap <- function(x,...)UseMethod('as.bootstrap')
 #' 
 #' Creates bootstrap from bootstrap.
 #' 
-#' @inheritParams as.bootstrap
 #' @return data.frame
-#' @describeIn as.bootstrap bootstrap method
+#' @param x bootstrap
+#' @param ... ignored
 #' @family as.bootstrap
 #' @export
 as.bootstrap.bootstrap <- function(x,...)x
@@ -30,7 +30,8 @@ as.bootstrap.bootstrap <- function(x,...)x
 #' 
 #' Creates bootstrap from numeric.
 #' 
-#' @inheritParams as.bootstrap
+#' @param x object of dispatch
+#' @param ... arguments to methods
 #' @return data.frame
 #' @family as.bootstrap
 #' @keywords internal
@@ -43,7 +44,8 @@ as.bootstrap.numeric  <- function(x,...)as.bootstrap(as.character(x),...)
 #' Creates a bootstrap table from a PsN bootstrap results csv filepath. If \code{x} is not an existing file it is treated as a modelname and the results file is sought.
 #' 
 #' @import magrittr
-#' @inheritParams as.bootstrap
+#' @param x character
+#' @param ... passed to \code{\link{read.csv}}
 #' @param skip number of lines to skip in bootstrap_results.csv
 #' @param check.names passed to bootstrap reader
 #' @param lo the PsN bootstrap lower confidence limit (\%)

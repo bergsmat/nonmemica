@@ -9,7 +9,7 @@ initSubscripts(x, ...)
 \arguments{
 \item{x}{object of dispatch}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \description{
 Identifies subscripts.

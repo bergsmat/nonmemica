@@ -7,13 +7,13 @@
 \method{tweak}{inits}(x, sd = 0.13, digits = 3, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{inits}
 
 \item{sd}{numeric}
 
 \item{digits}{integer}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 inits

@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Creating a Nonmem Parameter Table}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 The impact of a great model depends a lot on how well it is communicated.  A parameter table can help; it brings together critical details of the model in a systematic way.  However, creating parameter tables can be tedious, especially for modeling systems like ```NONMEM``` where information is distributed among numerous text files.  Here we describe a systematic approach for generating parameter tables in ```NONMEM```.

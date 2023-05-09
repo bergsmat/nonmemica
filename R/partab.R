@@ -16,7 +16,8 @@ partab <- function(x,...)UseMethod('partab')
 #' Creates a model parameter table from a partab object.
 #' 
 #' Just returns the object unmodified.
-#' @inheritParams partab
+#' @param x partab
+#' @param ... ignored
 #' @describeIn partab partab method
 #' @export
 #' @family partab
@@ -26,7 +27,8 @@ partab.partab <- function(x,...)x
 #' Creates a model parameter table from a number.
 #' 
 #' Just coerces to character and calls partab again.
-#' @inheritParams partab
+#' @param x numeric
+#' @param ... passed arguments
 #' @keywords internal
 #' @export
 #' @family partab

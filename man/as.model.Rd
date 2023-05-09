@@ -2,62 +2,26 @@
 % Please edit documentation in R/model.R
 \name{as.model}
 \alias{as.model}
-\alias{as.model.character}
 \title{Coerce to NONMEM Control Object}
 \usage{
 as.model(x, ...)
-
-\method{as.model}{character}(
-  x,
-  pattern = "^\\\\s*\\\\$(\\\\S+)(\\\\s.*)?$",
-  head = "\\\\1",
-  tail = "\\\\2",
-  parse = TRUE,
-  ...
-)
 }
 \arguments{
 \item{x}{object of dispatch}
 
-\item{...}{dots}
-
-\item{pattern}{pattern to identify record declarations}
-
-\item{head}{subpattern to identify declaration type}
-
-\item{tail}{subpattern remaining}
-
-\item{parse}{whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields}
+\item{...}{passed arguments}
 }
 \value{
 model
-
-list
 }
 \description{
 Coerces to NONMEM control stream object.
-}
-\section{Methods (by class)}{
-\itemize{
-\item \code{as.model(character)}: character method
-
-}}
-\examples{
-library(magrittr)
-options(project = system.file('project/model',package='nonmemica'))
-1001 \%>\% as.model
 }
 \seealso{
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
-\code{\link{as.model.numeric}()},
-\code{\link{read.model}()},
-\code{\link{write.model}()}
-
-Other as.model: 
-\code{\link{[.model}()},
-\code{\link{[[.model}()},
+\code{\link{as.model.character}()},
 \code{\link{as.model.numeric}()},
 \code{\link{read.model}()},
 \code{\link{write.model}()}

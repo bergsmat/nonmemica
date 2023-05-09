@@ -130,7 +130,8 @@ as.best <- function(x,...)UseMethod('as.best')
 #' Convert data.frame columns to best of numeric or character.
 #' 
 #' Converts columns to numeric if doing so creates no new NA; otherwise to character. Number-like columns that are nevertheless character are prefixed by default to make this explicit when viewing only a few rows.
-#' @inheritParams as.best
+#' @param x data.frame
+#' @param ... passed arguments
 #' @return data.frame
 #' @describeIn as.best data.frame method
 #' @export
@@ -149,8 +150,10 @@ as.best.data.frame <- function(x,prefix='#',...){
 #' Convert vector to best of numeric or character.
 #' 
 #' Converts vector to numeric if doing so creates no new NA; otherwise to character. Number-like vectors that are nevertheless character are prefixed by default to make this explicit when viewing only a few rows.
-#' @inheritParams as.best
-#' @describeIn as.best default method
+#' @param x default
+#' @param ... ignored
+#' @param prefix prefix for viewing numerics
+#' @param na.strings strings that should be treated as NA
 #' @export
 #' @family util
 as.best.default <-
@@ -195,7 +198,6 @@ as.best.default <-
 #' @keywords internal
 #' @export 
 #' @family util
-#' @describeIn locf locf last observation carried forward
 #' @examples
 #' locf(c(NA,1,2,NA,NA,3,NA,4,NA))
 #' nocb(c(NA,1,2,NA,NA,3,NA,4,NA))

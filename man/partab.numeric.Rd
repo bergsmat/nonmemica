@@ -7,9 +7,9 @@
 \method{partab}{numeric}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{numeric}
 
-\item{...}{arguments to methods}
+\item{...}{passed arguments}
 }
 \description{
 Creates a model parameter table from a number.

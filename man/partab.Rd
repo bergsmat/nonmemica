@@ -10,9 +10,9 @@ partab(x, ...)
 \method{partab}{partab}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{partab}
 
-\item{...}{arguments to methods}
+\item{...}{ignored}
 }
 \description{
 Creates a parameter table.

@@ -10,21 +10,20 @@ as.init <- function(x,...)UseMethod('as.init')
 #' Coerce init to init
 #' 
 #' Coerces init to init
-#' @inheritParams as.init
+#' @param x init
 #' @param fixed logical
 #' @param comment character
-#' @param ... dots
+#' @param ... passed arguments
 #' @return init
-#' @describeIn as.init init method
 #' @family as.init
 #' @export
 as.init.init <- function(x=numeric(0),fixed=FALSE,comment=character(0),...)as.init.numeric(x=x,fixed=fixed,comment=comment,...)
 
 #' Coerces numeric to init
-#' @inheritParams as.init
+#' @param x numeric
 #' @param fixed logical
 #' @param comment character
-#' @param ... dots
+#' @param ... ignored
 #' @return init
 #' @keywords internal
 #' @export
@@ -53,7 +52,8 @@ as.init.numeric <- function(x=numeric(0),fixed=FALSE,comment=character(0),...){
 #' Coerce init to character
 #' 
 #' Coerces init to character.
-#' @inheritParams as.init
+#' @param x init
+#' @param ... ignored
 #' @return character
 #' @export
 #' @family as.character
@@ -85,7 +85,7 @@ as.character.init <- function(x,...){
 #' 
 #' Formats init.
 #' @param x init
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family format
@@ -95,7 +95,7 @@ format.init <-function(x,...)as.character(x,...)
 #' 
 #' Prints init.
 #' @param x init
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family print
@@ -106,7 +106,7 @@ print.init <-function(x,...)print(format(x,...))
 #' 
 #' Checks if something is fixed
 #' @param x object
-#' @param ... dots
+#' @param ... passed arguments
 #' @export
 #' @family fixed
 #' @keywords internal
@@ -125,9 +125,9 @@ fixed <- function(x,...)UseMethod('fixed')
 #' Check if init is fixed
 #' 
 #' Checks if init is fixed.
-#' @inheritParams fixed
+#' @param x init
 #' @return logical
-#' @describeIn fixed init method
+#' @param ... ignored
 #' @export
 #' @family fixed
 fixed.init <- function(x,...)!any(is.na(x)) & length(unique(x)) == 1
@@ -167,10 +167,10 @@ as.inits <- function(x,...)UseMethod('as.inits')
 #' Coerce list to inits
 #' 
 #' Coerces list to inits.
-#' @inheritParams as.inits
+#' @param x list
+#' @param ... passed arguments
 #' @param comment character
 #' @return inits
-#' @describeIn as.inits list method
 #' @export
 #' @family as.inits
 as.inits.list <- function(x,comment=character(0),...){
@@ -184,7 +184,7 @@ as.inits.list <- function(x,comment=character(0),...){
 #' 
 #' Coerces inits to character.
 #' @param x inits
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family as.character
@@ -378,7 +378,7 @@ prettycom.character <- function(x, widths, sep, delim, ...){
 #' 
 #' Formats inits.
 #' @param x inits
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family format
@@ -389,7 +389,7 @@ format.inits <-function(x,...)as.character(x,...)
 #' 
 #' Prints inits.
 #' @param x inits
-#' @param ... dots
+#' @param ... passed arguments
 #' @return character
 #' @export
 #' @family print
@@ -410,7 +410,7 @@ print.inits <-function(x,...)print(format(x,...))
 #' 
 #' Subsets inits.
 #' @param x inits
-#' @param ... dots
+#' @param ... passed arguments
 #' @param drop logical
 #' @return inits
 #' @export
@@ -426,7 +426,7 @@ print.inits <-function(x,...)print(format(x,...))
 #' Coerce numeric to inits
 #' 
 #' Coerces numeric to inits
-#' @inheritParams as.inits
+#' @param x numeric
 #' @param fixed logical
 #' @param comment character
 #' @return inits
@@ -474,7 +474,8 @@ as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 #' Check if inits is fixed
 #' 
 #' Checks if inits is fixed.
-#' @inheritParams fixed
+#' @param x inits
+#' @param ... ignored
 #' @return logical
 #' @describeIn fixed inits method
 #' @export
@@ -545,7 +546,8 @@ fixed.inits <- function(x,...)sapply(x,fixed)
 #' Coerce character to inits
 #' 
 #' Coerces character to inits.
-#' @inheritParams as.inits
+#' @param x character
+#' @param ... ignored
 #' @return inits
 #' @describeIn as.inits character method
 #' @export
@@ -649,7 +651,8 @@ as.inits.character <- function(x,...){
 #' Coerce Inits to Inits
 #' 
 #' Coerces inits to inits
-#' @inheritParams as.inits
+#' @param x inits
+#' @param ... ignored
 #' @return inits
 #' @describeIn as.inits inits method
 #' @export
@@ -669,7 +672,8 @@ tweak <- function(x,...)UseMethod('tweak')
 #' Tweak Init
 #' 
 #' Tweaks init.
-#' @inheritParams tweak
+#' @param x init
+#' @param ... passed arguments
 #' @param sd numeric
 #' @param digits integer
 #' @return init
@@ -687,7 +691,8 @@ tweak.init <- function(x,sd=0.13,digits=3,...){
 #' Tweak inits
 #' 
 #' Tweaks inits.
-#' @inheritParams tweak
+#' @param x inits
+#' @param ... passed arguments
 #' @param sd numeric
 #' @param digits integer
 #' @return inits
@@ -701,7 +706,8 @@ tweak.inits <- function(x,sd=0.13,digits=3,...){
 #' Tweak Model
 #' 
 #' Tweaks model.
-#' @inheritParams tweak
+#' @param x model
+#' @param ... passed arguments
 #' @param sd numeric
 #' @param digits integer
 #' @return model

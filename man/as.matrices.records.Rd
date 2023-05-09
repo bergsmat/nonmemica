@@ -7,9 +7,9 @@
 \method{as.matrices}{records}(x, ...)
 }
 \arguments{
-\item{x}{object of dispatch}
+\item{x}{records}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \description{
 Coerces to list of matrices from Records

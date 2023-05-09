@@ -3,19 +3,16 @@
 \name{as.best}
 \alias{as.best}
 \alias{as.best.data.frame}
-\alias{as.best.default}
 \title{Convert to Best of Numeric or Character}
 \usage{
 as.best(x, ...)
 
 \method{as.best}{data.frame}(x, prefix = "#", ...)
-
-\method{as.best}{default}(x, prefix = "", na.strings = c(".", "NA", ""), ...)
 }
 \arguments{
-\item{x}{vector or data.frame}
+\item{x}{data.frame}
 
-\item{...}{passed to other methods}
+\item{...}{passed arguments}
 
 \item{prefix}{character to prepend to values in mixed numeric/character columns}
 
@@ -28,26 +25,21 @@ data.frame
 Convert to best of numeric or character.
 
 Convert data.frame columns to best of numeric or character.
-
-Convert vector to best of numeric or character.
 }
 \details{
 Converts to numeric if doing so creates no new NA; otherwise to character.
 
 Converts columns to numeric if doing so creates no new NA; otherwise to character. Number-like columns that are nevertheless character are prefixed by default to make this explicit when viewing only a few rows.
-
-Converts vector to numeric if doing so creates no new NA; otherwise to character. Number-like vectors that are nevertheless character are prefixed by default to make this explicit when viewing only a few rows.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{as.best(data.frame)}: data.frame method
 
-\item \code{as.best(default)}: default method
-
 }}
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},
 \code{\link{padded}()},
@@ -58,16 +50,7 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{enclose}()},
-\code{\link{locf}()},
-\code{\link{padded}()},
-\code{\link{parens}()},
-\code{\link{pool}()},
-\code{\link{runhead}()},
-\code{\link{text2decimal}()}
-
-Other util: 
-\code{\link{\%contains\%}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},
 \code{\link{padded}()},

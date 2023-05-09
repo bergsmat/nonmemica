@@ -7,13 +7,11 @@
 \method{as.inits}{numeric}(x, fixed = FALSE, comment = character(0), ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{numeric}
 
 \item{fixed}{logical}
 
 \item{comment}{character}
-
-\item{...}{dots}
 }
 \value{
 inits
@@ -23,6 +21,7 @@ Coerces numeric to inits
 }
 \seealso{
 Other as.inits: 
+\code{\link{as.inits.list}()},
 \code{\link{as.inits}()}
 }
 \concept{as.inits}

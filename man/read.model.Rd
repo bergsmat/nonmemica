@@ -11,7 +11,7 @@ read.model(con, parse = TRUE, ...)
 
 \item{parse}{whether to convert thetas to inits objects}
 
-\item{...}{dots}
+\item{...}{passed arguments}
 }
 \value{
 character
@@ -26,6 +26,7 @@ Reads model from a connection.
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
+\code{\link{as.model.character}()},
 \code{\link{as.model.numeric}()},
 \code{\link{as.model}()},
 \code{\link{write.model}()}

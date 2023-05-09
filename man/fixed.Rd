@@ -2,42 +2,34 @@
 % Please edit documentation in R/init.R
 \name{fixed}
 \alias{fixed}
-\alias{fixed.init}
 \alias{fixed.inits}
 \title{Check if something is fixed}
 \usage{
 fixed(x, ...)
 
-\method{fixed}{init}(x, ...)
-
 \method{fixed}{inits}(x, ...)
 }
 \arguments{
-\item{x}{object}
+\item{x}{inits}
 
-\item{...}{dots}
+\item{...}{ignored}
 }
 \value{
-logical
-
 logical
 }
 \description{
 Checks if something is fixed
 
-Checks if init is fixed.
-
 Checks if inits is fixed.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{fixed(init)}: init method
-
 \item \code{fixed(inits)}: inits method
 
 }}
 \seealso{
 Other fixed: 
+\code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
 \code{\link{fixed<-.inits}()},
 \code{\link{fixed<-.init}()},
@@ -45,13 +37,7 @@ Other fixed:
 \code{\link{fixed<-}()}
 
 Other fixed: 
-\code{\link{fixed.model}()},
-\code{\link{fixed<-.inits}()},
-\code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
-\code{\link{fixed<-}()}
-
-Other fixed: 
+\code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
 \code{\link{fixed<-.inits}()},
 \code{\link{fixed<-.init}()},

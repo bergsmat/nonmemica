@@ -2,40 +2,21 @@
 % Please edit documentation in R/init.R
 \name{as.init}
 \alias{as.init}
-\alias{as.init.init}
 \title{Coerce to init}
 \usage{
 as.init(x, ...)
-
-\method{as.init}{init}(x = numeric(0), fixed = FALSE, comment = character(0), ...)
 }
 \arguments{
 \item{x}{object}
 
 \item{...}{dots}
-
-\item{fixed}{logical}
-
-\item{comment}{character}
-}
-\value{
-init
 }
 \description{
 Coerces to init
-
-Coerces init to init
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{as.init(init)}: init method
-
-}}
 \seealso{
 Other as.init: 
-\code{\link{as.init.numeric}()}
-
-Other as.init: 
+\code{\link{as.init.init}()},
 \code{\link{as.init.numeric}()}
 }
 \concept{as.init}
