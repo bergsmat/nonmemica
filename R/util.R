@@ -118,8 +118,7 @@ padded <- function (x, width = 4, ...)
 #' Converts to numeric if doing so creates no new NA; otherwise to character.
 #' @param x vector or data.frame
 #' @param ... passed to other methods
-#' @param prefix character to prepend to values in mixed numeric/character columns
-#' @param na.strings strings to treat as NA
+# @param na.strings strings to treat as NA
 #' @keywords internal
 #' @export
 #' @family util
@@ -131,6 +130,7 @@ as.best <- function(x,...)UseMethod('as.best')
 #' 
 #' Converts columns to numeric if doing so creates no new NA; otherwise to character. Number-like columns that are nevertheless character are prefixed by default to make this explicit when viewing only a few rows.
 #' @param x data.frame
+#' @param prefix character to prepend to values in mixed numeric/character columns
 #' @param ... passed arguments
 #' @return data.frame
 #' @describeIn as.best data.frame method

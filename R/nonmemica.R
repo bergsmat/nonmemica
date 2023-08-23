@@ -160,4 +160,4 @@
 
 #' @docType package
 #' @name nonmemica
-NULL
+"_PACKAGE"

@@ -15,8 +15,6 @@ as.best(x, ...)
 \item{...}{passed arguments}
 
 \item{prefix}{character to prepend to values in mixed numeric/character columns}
-
-\item{na.strings}{strings to treat as NA}
 }
 \value{
 data.frame

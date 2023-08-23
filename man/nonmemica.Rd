@@ -3,6 +3,7 @@
 \docType{package}
 \name{nonmemica}
 \alias{nonmemica}
+\alias{nonmemica-package}
 \title{Create and Evaluate NONMEM Models in a Project Context}
 \description{
 Nonmemica (emphasis like 'America') creates and evaluates NONMEM
