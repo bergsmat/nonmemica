@@ -275,11 +275,13 @@ psn_nested <- function(x, ...){
 }
 
 #' Set PsN Options
+#' 
 #' Sets PsN-style directory and control stream options.
 #' Supports control streams with semicolon-delimited metadata
 #' including symbol, unit, transform, and label.
 #' Expects model files to be found in nested directory,
 #' except for *.mod and *.lst.
+#' 
 #' @param project character, path to project directory
 #' @param modex character, extension for model control stream (no dot)
 #' @param fields character

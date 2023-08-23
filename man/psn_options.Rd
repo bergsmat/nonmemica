@@ -2,12 +2,7 @@
 % Please edit documentation in R/path.R
 \name{psn_options}
 \alias{psn_options}
-\title{Set PsN Options
-Sets PsN-style directory and control stream options.
-Supports control streams with semicolon-delimited metadata
-including symbol, unit, transform, and label.
-Expects model files to be found in nested directory,
-except for *.mod and *.lst.}
+\title{Set PsN Options}
 \usage{
 psn_options(
   project = "NONMEM",
@@ -32,7 +27,6 @@ psn_options(
 used for side-effects (sets options 'fields' and 'nested')
 }
 \description{
-Set PsN Options
 Sets PsN-style directory and control stream options.
 Supports control streams with semicolon-delimited metadata
 including symbol, unit, transform, and label.
