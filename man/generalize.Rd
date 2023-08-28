@@ -16,6 +16,7 @@ generalize(x, ...)
 }
 \seealso{
 Other superset: 
+\code{\link{ignored}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},

@@ -259,6 +259,7 @@ resolve <-
     )
 
 #' PsN Model File is Nested
+#' 
 #' Check whether a particular file extension corresponds to
 #' a file that is nested within a subdirectory
 #' using default PsN conventions.

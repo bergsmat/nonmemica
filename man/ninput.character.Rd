@@ -20,6 +20,7 @@ Calculates number of inputs for character by treating as a model name.
 \seealso{
 Other superset: 
 \code{\link{generalize}()},
+\code{\link{ignored}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},

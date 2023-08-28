@@ -24,6 +24,7 @@ Move the columns of a data.frame relative to each other.
 \seealso{
 Other superset: 
 \code{\link{generalize}()},
+\code{\link{ignored}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},

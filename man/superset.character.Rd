@@ -65,10 +65,12 @@ library(wrangle)
 options(project = system.file('project/model',package='nonmemica'))
 1001 \%>\% superset \%>\% head
 1001 \%>\% superset \%>\% filter(VISIBLE == 1) \%>\% group_by(ID,TIME) \%>\% status
+1001 \%>\% ignored \%>\% table
 }
 \seealso{
 Other superset: 
 \code{\link{generalize}()},
+\code{\link{ignored}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},

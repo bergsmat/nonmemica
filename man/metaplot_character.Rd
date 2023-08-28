@@ -27,6 +27,7 @@ the model output and calling metaplot with the result.
 \seealso{
 Other superset: 
 \code{\link{generalize}()},
+\code{\link{ignored}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},

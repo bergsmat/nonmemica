@@ -2,10 +2,7 @@
 % Please edit documentation in R/path.R
 \name{psn_nested}
 \alias{psn_nested}
-\title{PsN Model File is Nested
-Check whether a particular file extension corresponds to
-a file that is nested within a subdirectory
-using default PsN conventions.}
+\title{PsN Model File is Nested}
 \usage{
 psn_nested(x, ...)
 }
@@ -18,7 +15,6 @@ psn_nested(x, ...)
 logical
 }
 \description{
-PsN Model File is Nested
 Check whether a particular file extension corresponds to
 a file that is nested within a subdirectory
 using default PsN conventions.

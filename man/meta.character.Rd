@@ -27,6 +27,7 @@ options(project = system.file('project/model',package='nonmemica'))
 \seealso{
 Other superset: 
 \code{\link{generalize}()},
+\code{\link{ignored}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},
 \code{\link{metaplot.numeric}()},

@@ -211,6 +211,7 @@ superset.numeric <- function(x,...){
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% superset %>% head
 #' 1001 %>% superset %>% filter(VISIBLE == 1) %>% group_by(ID,TIME) %>% status
+#' 1001 %>% ignored %>% table
 superset.character <- function(
   x,
   read.input = list(read.csv,header=TRUE,as.is=TRUE), # na.strings = c("", "\\s", ".", "NA")
@@ -399,16 +400,34 @@ map <- function (x, from, to, strict = TRUE, ...)
     do.call(fun,args)
   }
 
-# given a nonmem control stream, give an index to dropped input rows.
+#' Extract Index for Ignored Records
+#' 
+#' Extracts index for ignored records, given a NONMEM control stream.
+#' Given a nonmem control stream, give an index to dropped input rows.
+#' 
+#' @export
+#' @family superset
+#' @param x length-one character: a model name
+#' @param read.input list of arguments representing a methodology for acquiring the data of interest: the first argument is not named and will be passed to match.fun(); the other arguments will be passed to the result, and must include an argument named 'header'.
+#' @param ext model file extension, e.g. 'mod' or 'ctl'
+#' @param project project directory
+#' @param nested whether model files are nested in eponymous directories
+#' @param ... passed to \code{\link{modelfile}} and \code{link{datafile}}
+#' @return logical
+#' 
+#' 
 ignored <- function(
   x,
   read.input=list(read.csv,header=TRUE,as.is=TRUE),
+  ext = getOption("modex", "ctl"),
+  project = getOption('project', getwd()),
+  nested = getOption('nested', TRUE),
   ...
 ){
   stopifnot('header' %in% names(read.input))
-  ctlfile <- modelfile(x, ...)
+  ctlfile <- modelfile(x, ext = ext, project = project, nested = nested, ...)
   control <- read.model(ctlfile)
-  datafile <- datafile(x,...)
+  datafile <- datafile(x, ext = ext, project = project, nested = nested, ...)
   if (!file.exists(datafile))stop(datafile, " not found ", call. = FALSE)
   dropped <- .nmdropped(
   	data=.read.any(file=datafile,args=read.input),
