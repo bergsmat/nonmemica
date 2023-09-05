@@ -20,7 +20,7 @@ ignored(
 
 \item{ext}{model file extension, e.g. 'mod' or 'ctl'}
 
-\item{project}{project directory}
+\item{project}{project directory (can be expression)}
 
 \item{nested}{whether model files are nested in eponymous directories}
 

@@ -17,7 +17,7 @@
 \arguments{
 \item{x}{object}
 
-\item{project}{project directory}
+\item{project}{project directory (can be expression)}
 
 \item{ext}{file extension for control streams}
 

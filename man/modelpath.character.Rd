@@ -17,7 +17,7 @@
 
 \item{ext}{file extension, no leading dot}
 
-\item{project}{project directory}
+\item{project}{project directory (can be expression)}
 
 \item{nested}{whether model files are nested in eponymous directories}
 

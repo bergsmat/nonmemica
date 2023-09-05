@@ -291,7 +291,7 @@ runlog.character <- function(
 #' in project context and places the model there. Copies helper files as well.
 #' Expects that x is a number. Assumes nested directory structure (run-specific directories).
 #' @inheritParams tweak
-#' @param project project directory
+#' @param project project directory (can be expression)
 #' @param ext file extension for control streams
 #' @param start a number to use as the first modelname
 #' @param n the number of variants to generate (named start:n)
@@ -309,6 +309,7 @@ tweak.default <- function(
   include = '.def$',
   ...
 ){
+  project <- eval(project)
   nested <- getOption('nested',TRUE)
   if(is.function(nested))stop('tweak assumes nested directory structure')
   if(!nested)stop('tweak assumes nested directory structure')
@@ -343,7 +344,7 @@ tweak.default <- function(
 #' @param x a model name, presumably interpretable as numeric
 #' @param but a short description of the characteristic difference from x
 #' @param y optional name for model to be created, auto-incremented by default
-#' @param project project directory
+#' @param project project directory (can be expression)
 #' @param nested model files nested in run-specific directories
 #' @param overwrite whether to overwrite y if it exists
 #' @param ext extension for the model file
@@ -385,6 +386,7 @@ likebut <- function(
   update = FALSE,
   ...
 ){
+  project <- eval(project)
   onested <- nested # for passing forward
   stopifnot(is.logical(update), length(update) == 1)
   if(is.logical(nested)){

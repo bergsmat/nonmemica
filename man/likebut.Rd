@@ -24,7 +24,7 @@ likebut(
 
 \item{y}{optional name for model to be created, auto-incremented by default}
 
-\item{project}{project directory}
+\item{project}{project directory (can be expression)}
 
 \item{nested}{model files nested in run-specific directories}
 

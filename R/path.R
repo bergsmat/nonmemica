@@ -34,7 +34,7 @@ modelpath.numeric <- function(x,...)modelpath(as.character(x),...)
 #' 
 #' @param x object
 #' @param ext file extension, no leading dot
-#' @param project project directory
+#' @param project project directory (can be expression)
 #' @param nested whether model files are nested in eponymous directories
 #' @param ... passed arguments
 #' @return character
@@ -47,6 +47,7 @@ modelpath.character <- function(
   nested = getOption('nested', TRUE),
   ...
 ){
+  project <- eval(project)
   if(!is.logical(nested))nested <- match.fun(nested)(ext, ...)
   stopifnot(is.logical(nested))
   rundir <- if(nested) file.path(project, x) else project

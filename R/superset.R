@@ -410,7 +410,7 @@ map <- function (x, from, to, strict = TRUE, ...)
 #' @param x length-one character: a model name
 #' @param read.input list of arguments representing a methodology for acquiring the data of interest: the first argument is not named and will be passed to match.fun(); the other arguments will be passed to the result, and must include an argument named 'header'.
 #' @param ext model file extension, e.g. 'mod' or 'ctl'
-#' @param project project directory
+#' @param project project directory (can be expression)
 #' @param nested whether model files are nested in eponymous directories
 #' @param ... passed to \code{\link{modelfile}} and \code{link{datafile}}
 #' @return logical
@@ -424,6 +424,7 @@ ignored <- function(
   nested = getOption('nested', TRUE),
   ...
 ){
+  project <- eval(project)
   stopifnot('header' %in% names(read.input))
   ctlfile <- modelfile(x, ext = ext, project = project, nested = nested, ...)
   control <- read.model(ctlfile)
