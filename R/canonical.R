@@ -58,7 +58,7 @@ nms_canonical.numeric <- function(x,...)nms_canonical(as.character(x,...),...)
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% nms_canonical
-nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_canonical.character <- function(x,...)nms_canonical(as.model(x,parse=TRUE,verbose=FALSE, ...), ...)
 
 #' Generate Canonical Names for Model
 #' 
@@ -104,7 +104,7 @@ nms_psn.numeric <- function(x,...)nms_psn(as.character(x,...),...)
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% nms_psn
-nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_psn.character <- function(x,...)nms_psn(as.model(x,parse=TRUE,verbose=FALSE, ...), ...)
 
 #' Generate PsN-style Names for Model
 #' 
@@ -176,7 +176,7 @@ nms_nonmem.numeric <- function(x,...)nms_nonmem(as.character(x,...),...)
 #' library(magrittr)
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% nms_nonmem
-nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=FALSE),...)
+nms_nonmem.character <- function(x,...)nms_nonmem(as.model(x,parse=TRUE,verbose=FALSE, ...), ...)
 
 #' Generate NONMEM-style Names for Model
 #' 

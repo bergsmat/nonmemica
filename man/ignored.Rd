@@ -31,7 +31,6 @@ logical
 }
 \description{
 Extracts index for ignored records, given a NONMEM control stream.
-Given a nonmem control stream, give an index to dropped input rows.
 }
 \seealso{
 Other superset: 

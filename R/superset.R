@@ -403,7 +403,6 @@ map <- function (x, from, to, strict = TRUE, ...)
 #' Extract Index for Ignored Records
 #' 
 #' Extracts index for ignored records, given a NONMEM control stream.
-#' Given a nonmem control stream, give an index to dropped input rows.
 #' 
 #' @export
 #' @family superset
