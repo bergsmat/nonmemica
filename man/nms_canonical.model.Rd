@@ -12,11 +12,36 @@
 \item{...}{passed arguments}
 }
 \value{
-canonical (character)
+nms_canonical (character)
 }
 \description{
 Generates canonical names for a NONMEM control stream object. Canonical names indicate all and only the declared model parameters in lower-case conventional order (theta, omega row-major, sigma) with underscores and two-digit (or more) indices. E.g. theta_01, theta_02, omega_01_01, omega_02_01, omega_02_02, omega_01_01.
 }
 \seealso{
 as.model
+
+Other nms: 
+\code{\link{as_nms_canonical}()},
+\code{\link{as_nms_nonmem}()},
+\code{\link{as_nms_pmx}()},
+\code{\link{as_nms_psn}()},
+\code{\link{nms_canonical.character}()},
+\code{\link{nms_canonical.nms_nonmem}()},
+\code{\link{nms_canonical.nms_pmx}()},
+\code{\link{nms_canonical.numeric}()},
+\code{\link{nms_canonical}()},
+\code{\link{nms_nonmem.character}()},
+\code{\link{nms_nonmem.model}()},
+\code{\link{nms_nonmem.nms_canonical}()},
+\code{\link{nms_nonmem.nms_pmx}()},
+\code{\link{nms_nonmem.numeric}()},
+\code{\link{nms_nonmem}()},
+\code{\link{nms_pmx.nms_canonical}()},
+\code{\link{nms_pmx.nms_nonmem}()},
+\code{\link{nms_pmx}()},
+\code{\link{nms_psn.character}()},
+\code{\link{nms_psn.model}()},
+\code{\link{nms_psn.numeric}()},
+\code{\link{nms_psn}()}
 }
+\concept{nms}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/canonical.R
 \name{nms_nonmem.model}
 \alias{nms_nonmem.model}
-\title{Generate NONMEM-style Names for Model}
+\title{Generate NONMEM Names for Model}
 \usage{
 \method{nms_nonmem}{model}(x, ...)
 }
@@ -12,17 +12,42 @@
 \item{...}{passed arguments}
 }
 \value{
-nonmem (character)
+nms_nonmem (character)
 }
 \description{
-Generates NONMEM-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
+Generates NONMEM names for parameters declared in a NONMEM control stream object.
+}
+\examples{
+library(magrittr)
+options(project = system.file('project/model',package='nonmemica'))
+1001 \%>\% as.model \%>\% nms_nonmem
+
 }
 \seealso{
 as.model
 
-Other nms_nonmem: 
+Other nms: 
+\code{\link{as_nms_canonical}()},
+\code{\link{as_nms_nonmem}()},
+\code{\link{as_nms_pmx}()},
+\code{\link{as_nms_psn}()},
+\code{\link{nms_canonical.character}()},
+\code{\link{nms_canonical.model}()},
+\code{\link{nms_canonical.nms_nonmem}()},
+\code{\link{nms_canonical.nms_pmx}()},
+\code{\link{nms_canonical.numeric}()},
+\code{\link{nms_canonical}()},
 \code{\link{nms_nonmem.character}()},
+\code{\link{nms_nonmem.nms_canonical}()},
+\code{\link{nms_nonmem.nms_pmx}()},
 \code{\link{nms_nonmem.numeric}()},
-\code{\link{nms_nonmem}()}
+\code{\link{nms_nonmem}()},
+\code{\link{nms_pmx.nms_canonical}()},
+\code{\link{nms_pmx.nms_nonmem}()},
+\code{\link{nms_pmx}()},
+\code{\link{nms_psn.character}()},
+\code{\link{nms_psn.model}()},
+\code{\link{nms_psn.numeric}()},
+\code{\link{nms_psn}()}
 }
-\concept{nms_nonmem}
+\concept{nms}

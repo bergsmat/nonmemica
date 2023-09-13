@@ -12,11 +12,36 @@
 \item{...}{passed arguments}
 }
 \value{
-psn (character)
+nms_psn (character)
 }
 \description{
 Generates PsN-style names for parameters declared in a NONMEM control stream object. PsN uses NONMEM-style names, substituting a comment, if any: everything after the first semicolon, up to the second semicolon if present, without leading/trailing spaces/tabs.
 }
 \seealso{
 as.model
+
+Other nms: 
+\code{\link{as_nms_canonical}()},
+\code{\link{as_nms_nonmem}()},
+\code{\link{as_nms_pmx}()},
+\code{\link{as_nms_psn}()},
+\code{\link{nms_canonical.character}()},
+\code{\link{nms_canonical.model}()},
+\code{\link{nms_canonical.nms_nonmem}()},
+\code{\link{nms_canonical.nms_pmx}()},
+\code{\link{nms_canonical.numeric}()},
+\code{\link{nms_canonical}()},
+\code{\link{nms_nonmem.character}()},
+\code{\link{nms_nonmem.model}()},
+\code{\link{nms_nonmem.nms_canonical}()},
+\code{\link{nms_nonmem.nms_pmx}()},
+\code{\link{nms_nonmem.numeric}()},
+\code{\link{nms_nonmem}()},
+\code{\link{nms_pmx.nms_canonical}()},
+\code{\link{nms_pmx.nms_nonmem}()},
+\code{\link{nms_pmx}()},
+\code{\link{nms_psn.character}()},
+\code{\link{nms_psn.numeric}()},
+\code{\link{nms_psn}()}
 }
+\concept{nms}
