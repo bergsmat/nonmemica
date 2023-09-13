@@ -139,9 +139,13 @@ nms_nonmem.nms_canonical <- function(x,...){
 
 nms_canonical.nms_nonmem <- function(x,...){
   t <- sub('(^[a-z]+).*', '\\1', tolower(x))    # lowercase term, isolated
+  suppressWarnings(
   i <- text2decimal(x)                      # first index
+  )
   r <- grepl(',',x)                       # random effects are double-indexed
+  suppressWarnings(
   j <- text2decimal(sub('[^,]+','',x)) # second index
+  )
   j[!r] <- NA                                   # no second index if not ranef
   i <- padded(i,2)
   j <- padded(j,2)
