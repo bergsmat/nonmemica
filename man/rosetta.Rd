@@ -38,9 +38,9 @@ nonmem \%>\% nms_canonical \%>\% nms_pmx \%>\% nms_nonmem
 
 # comparison
 data.frame(
- can = canonical,
- non = nonmem,
- pmx = pmxtools,
- psn = 1001 \%>\% nms_psn
+ can = I(canonical),
+ non = I(nonmem),
+ pmx = I(pmxtools),
+ psn = I(nms_psn(1001))
 )
 }

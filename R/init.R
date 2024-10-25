@@ -642,7 +642,9 @@ as.inits.character <- function(x,...){
   x <- gsub(' +',' ',x)
   x <- sub('^ ','',x)
   x <- sub(' $','',x)
-  x <- gsub(',? ',',',x)
+  # x <- gsub(',? ',',',x) fails: "1,2 ,3" -> "1,2,,3"
+  x <- gsub(' ,', ',', x) # @1.0.9
+  x <- gsub(', ', ',', x) # @1.0.9
   x <- strsplit(x,',')[[1]]
   x <- as.numeric(x)
   x <- as.init(x,fixed=fixed,comment=comment,...)
