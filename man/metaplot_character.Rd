@@ -28,21 +28,21 @@ the model output and calling metaplot with the result.
 Other superset: 
 \code{\link{generalize}()},
 \code{\link{ignored}()},
+\code{\link{meta}()},
 \code{\link{meta.character}()},
 \code{\link{meta.numeric}()},
 \code{\link{metaplot.character}()},
 \code{\link{metaplot.numeric}()},
 \code{\link{metasuperset}()},
-\code{\link{meta}()},
+\code{\link{ninput}()},
 \code{\link{ninput.character}()},
 \code{\link{ninput.numeric}()},
-\code{\link{ninput}()},
 \code{\link{shuffle}()},
+\code{\link{superset}()},
 \code{\link{superset.character}()},
 \code{\link{superset.numeric}()},
-\code{\link{superset}()},
+\code{\link{superspec}()},
 \code{\link{superspec.character}()},
-\code{\link{superspec.numeric}()},
-\code{\link{superspec}()}
+\code{\link{superspec.numeric}()}
 }
 \concept{superset}

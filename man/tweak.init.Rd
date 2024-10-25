@@ -23,10 +23,10 @@ Tweaks init.
 }
 \seealso{
 Other tweak: 
+\code{\link{tweak}()},
 \code{\link{tweak.default}()},
 \code{\link{tweak.inits}()},
-\code{\link{tweak.model}()},
-\code{\link{tweak}()}
+\code{\link{tweak.model}()}
 }
 \concept{tweak}
 \keyword{internal}

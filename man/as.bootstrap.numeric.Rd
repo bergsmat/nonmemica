@@ -19,8 +19,8 @@ Creates bootstrap from numeric.
 }
 \seealso{
 Other as.bootstrap: 
-\code{\link{as.bootstrap.bootstrap}()},
-\code{\link{as.bootstrap}()}
+\code{\link{as.bootstrap}()},
+\code{\link{as.bootstrap.bootstrap}()}
 }
 \concept{as.bootstrap}
 \keyword{internal}

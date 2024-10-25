@@ -19,8 +19,8 @@ Just coerces to character and calls partab again.
 }
 \seealso{
 Other partab: 
-\code{\link{partab.character}()},
-\code{\link{partab}()}
+\code{\link{partab}()},
+\code{\link{partab.character}()}
 }
 \concept{partab}
 \keyword{internal}

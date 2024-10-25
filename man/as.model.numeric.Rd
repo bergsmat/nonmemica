@@ -18,8 +18,8 @@ Coerces to model from numeric by coercing to character.
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
-\code{\link{as.model.character}()},
 \code{\link{as.model}()},
+\code{\link{as.model.character}()},
 \code{\link{read.model}()},
 \code{\link{write.model}()}
 }

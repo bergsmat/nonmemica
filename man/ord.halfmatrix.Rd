@@ -17,18 +17,18 @@ Calculates order for half matrix. I.e., length of one dimension of the equivalen
 \seealso{
 Other halfmatrix: 
 \code{\link{as.data.frame.halfmatrix}()},
+\code{\link{as.halfmatrix}()},
 \code{\link{as.halfmatrix.default}()},
 \code{\link{as.halfmatrix.halfmatrix}()},
-\code{\link{as.halfmatrix}()},
 \code{\link{as.matrix.halfmatrix}()},
-\code{\link{half.matrix}()},
 \code{\link{half}()},
-\code{\link{is.square.matrix}()},
+\code{\link{half.matrix}()},
 \code{\link{is.square}()},
-\code{\link{offdiag.halfmatrix}()},
+\code{\link{is.square.matrix}()},
 \code{\link{offdiag}()},
-\code{\link{ord.matrix}()},
+\code{\link{offdiag.halfmatrix}()},
 \code{\link{ord}()},
+\code{\link{ord.matrix}()},
 \code{\link{print.halfmatrix}()}
 }
 \concept{halfmatrix}

@@ -24,11 +24,11 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 Other fixed: 
+\code{\link{fixed}()},
 \code{\link{fixed.init}()},
-\code{\link{fixed<-.inits}()},
-\code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
 \code{\link{fixed<-}()},
-\code{\link{fixed}()}
+\code{\link{fixed<-.init}()},
+\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-.model}()}
 }
 \concept{fixed}

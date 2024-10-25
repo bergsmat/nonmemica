@@ -16,8 +16,8 @@ Creates the updated version of numeric by coercing to character.
 }
 \seealso{
 Other updated: 
-\code{\link{updated.character}()},
-\code{\link{updated}()}
+\code{\link{updated}()},
+\code{\link{updated.character}()}
 }
 \concept{updated}
 \keyword{internal}

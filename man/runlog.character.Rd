@@ -38,7 +38,7 @@ options(project = system.file('project/model',package='nonmemica'))
 \code{\link{likebut}}
 
 Other runlog: 
-\code{\link{runlog.numeric}()},
-\code{\link{runlog}()}
+\code{\link{runlog}()},
+\code{\link{runlog.numeric}()}
 }
 \concept{runlog}

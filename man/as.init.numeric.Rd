@@ -23,8 +23,8 @@ Coerces numeric to init
 }
 \seealso{
 Other as.init: 
-\code{\link{as.init.init}()},
-\code{\link{as.init}()}
+\code{\link{as.init}()},
+\code{\link{as.init.init}()}
 }
 \concept{as.init}
 \keyword{internal}

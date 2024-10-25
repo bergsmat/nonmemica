@@ -19,8 +19,8 @@ Extracts comments from items.
 }
 \seealso{
 Other comments: 
+\code{\link{comments}()},
 \code{\link{comments.inits}()},
-\code{\link{comments.model}()},
-\code{\link{comments}()}
+\code{\link{comments.model}()}
 }
 \concept{comments}

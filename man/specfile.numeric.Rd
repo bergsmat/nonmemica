@@ -16,17 +16,17 @@ Identifies specfile from numeric.
 }
 \seealso{
 Other path: 
+\code{\link{datafile}()},
 \code{\link{datafile.character}()},
 \code{\link{datafile.numeric}()},
-\code{\link{datafile}()},
 \code{\link{modeldir}()},
 \code{\link{modelfile}()},
+\code{\link{modelpath}()},
 \code{\link{modelpath.character}()},
 \code{\link{modelpath.numeric}()},
-\code{\link{modelpath}()},
 \code{\link{psn_options}()},
-\code{\link{specfile.character}()},
-\code{\link{specfile}()}
+\code{\link{specfile}()},
+\code{\link{specfile.character}()}
 }
 \concept{path}
 \keyword{internal}

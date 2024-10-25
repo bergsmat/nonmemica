@@ -16,9 +16,9 @@ Sets upper Value.
 }
 \seealso{
 Other upper: 
+\code{\link{upper}()},
 \code{\link{upper.model}()},
-\code{\link{upper<-.model}()},
-\code{\link{upper}()}
+\code{\link{upper<-.model}()}
 }
 \concept{upper}
 \keyword{internal}

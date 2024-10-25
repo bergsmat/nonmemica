@@ -31,18 +31,18 @@ Checks if inits is fixed.
 Other fixed: 
 \code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
-\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-}()},
 \code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
-\code{\link{fixed<-}()}
+\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-.model}()}
 
 Other fixed: 
 \code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
-\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-}()},
 \code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
-\code{\link{fixed<-}()}
+\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-.model}()}
 }
 \concept{fixed}
 \keyword{internal}

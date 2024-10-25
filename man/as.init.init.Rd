@@ -23,7 +23,7 @@ Coerces init to init
 }
 \seealso{
 Other as.init: 
-\code{\link{as.init.numeric}()},
-\code{\link{as.init}()}
+\code{\link{as.init}()},
+\code{\link{as.init.numeric}()}
 }
 \concept{as.init}

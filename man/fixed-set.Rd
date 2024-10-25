@@ -16,12 +16,12 @@ Sets value of fixed attribute.
 }
 \seealso{
 Other fixed: 
+\code{\link{fixed}()},
 \code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
-\code{\link{fixed<-.inits}()},
 \code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
-\code{\link{fixed}()}
+\code{\link{fixed<-.inits}()},
+\code{\link{fixed<-.model}()}
 }
 \concept{fixed}
 \keyword{internal}

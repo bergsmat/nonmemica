@@ -45,10 +45,10 @@ z
 }
 \seealso{
 Other problem: 
+\code{\link{problem}()},
 \code{\link{problem.character}()},
 \code{\link{problem.numeric}()},
-\code{\link{problem_}()},
-\code{\link{problem}()}
+\code{\link{problem_}()}
 }
 \concept{problem}
 \keyword{internal}

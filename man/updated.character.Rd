@@ -25,7 +25,7 @@ Creates the updated version of character by treating as a modelname. Parses the 
 }
 \seealso{
 Other updated: 
-\code{\link{updated.numeric}()},
-\code{\link{updated}()}
+\code{\link{updated}()},
+\code{\link{updated.numeric}()}
 }
 \concept{updated}

@@ -19,8 +19,8 @@ Just coerces to character and calls definitions again.
 }
 \seealso{
 Other definitions: 
-\code{\link{definitions.definitions}()},
-\code{\link{definitions}()}
+\code{\link{definitions}()},
+\code{\link{definitions.definitions}()}
 }
 \concept{definitions}
 \keyword{internal}

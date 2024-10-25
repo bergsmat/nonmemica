@@ -18,8 +18,8 @@ Finds postions in a vector that differ from previous.  First position is defined
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{as.best.default}()},
 \code{\link{as.best}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{locf}()},
 \code{\link{padded}()},

@@ -21,10 +21,10 @@ Creates an xml_document from character (modelname or filepath).
 }
 \seealso{
 Other xpath: 
-\code{\link{as.xml_document.numeric}()},
 \code{\link{as.xml_document}()},
+\code{\link{as.xml_document.numeric}()},
+\code{\link{xpath}()},
 \code{\link{xpath.default}()},
-\code{\link{xpath.xml_document}()},
-\code{\link{xpath}()}
+\code{\link{xpath.xml_document}()}
 }
 \concept{xpath}

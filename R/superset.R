@@ -667,16 +667,21 @@ function (dir, run = NULL, ext = NULL)
   splits <- sub('[[:space:]]+$','',splits)
   splits # a character vector
 }
-getdname <-function (x, ...) UseMethod("getdname")
-getdname.default <- 
+
+#' @export
+#' @keywords internal
+
+.getdname <-function (x, ...) UseMethod(".getdname")
+
+.getdname.default <- 
 function (x, ...) {
   if (!file.exists(x)) 
     stop(x, " not found", call. = FALSE)
   control <- read.model(x)
-  getdname(control)
+  .getdname(control)
 }
 
-getdname.model <- 
+.getdname.model <- 
 function (x, ...) 
 {
   if (!"data" %in% names(x)) 

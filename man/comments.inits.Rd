@@ -23,8 +23,8 @@ Extracts comments from inits.
 }
 \seealso{
 Other comments: 
+\code{\link{comments}()},
 \code{\link{comments.items}()},
-\code{\link{comments.model}()},
-\code{\link{comments}()}
+\code{\link{comments.model}()}
 }
 \concept{comments}

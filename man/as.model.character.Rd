@@ -41,8 +41,8 @@ options(project = system.file('project/model',package='nonmemica'))
 Other as.model: 
 \code{\link{[.model}()},
 \code{\link{[[.model}()},
-\code{\link{as.model.numeric}()},
 \code{\link{as.model}()},
+\code{\link{as.model.numeric}()},
 \code{\link{read.model}()},
 \code{\link{write.model}()}
 }

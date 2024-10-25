@@ -24,9 +24,9 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 Other xpath: 
+\code{\link{as.xml_document}()},
 \code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
-\code{\link{as.xml_document}()},
 \code{\link{xpath.default}()},
 \code{\link{xpath.xml_document}()}
 }

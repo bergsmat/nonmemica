@@ -16,8 +16,8 @@ Sets lower bounds for model initial estimates.
 }
 \seealso{
 Other lower: 
+\code{\link{lower}()},
 \code{\link{lower.model}()},
-\code{\link{lower<-}()},
-\code{\link{lower}()}
+\code{\link{lower<-}()}
 }
 \concept{lower}

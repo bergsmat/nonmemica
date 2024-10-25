@@ -16,8 +16,8 @@ Gets estimates for numeric by coercing to character.
 }
 \seealso{
 Other estimates: 
-\code{\link{estimates.character}()},
-\code{\link{estimates}()}
+\code{\link{estimates}()},
+\code{\link{estimates.character}()}
 }
 \concept{estimates}
 \keyword{internal}

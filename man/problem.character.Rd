@@ -20,8 +20,8 @@ Identifies the model problem statement for character (model name).
 \seealso{
 Other problem: 
 \code{\link{as.problem}()},
+\code{\link{problem}()},
 \code{\link{problem.numeric}()},
-\code{\link{problem_}()},
-\code{\link{problem}()}
+\code{\link{problem_}()}
 }
 \concept{problem}

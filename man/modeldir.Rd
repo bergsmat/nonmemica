@@ -26,16 +26,16 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 Other path: 
+\code{\link{datafile}()},
 \code{\link{datafile.character}()},
 \code{\link{datafile.numeric}()},
-\code{\link{datafile}()},
 \code{\link{modelfile}()},
+\code{\link{modelpath}()},
 \code{\link{modelpath.character}()},
 \code{\link{modelpath.numeric}()},
-\code{\link{modelpath}()},
 \code{\link{psn_options}()},
+\code{\link{specfile}()},
 \code{\link{specfile.character}()},
-\code{\link{specfile.numeric}()},
-\code{\link{specfile}()}
+\code{\link{specfile.numeric}()}
 }
 \concept{path}

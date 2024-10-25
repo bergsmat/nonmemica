@@ -140,7 +140,7 @@ datafile.character <- function(
   rundir  <- if(file_test('-f',x)) dirname(x) else modeldir(x,...)
   if(!file_test('-f',x)) x <- modelfile(x, ...)
   control <- read.model(ctlfile,...)
-  dname <- getdname(control)
+  dname <- .getdname(control)
   # datafile <- resolve(dname,rundir)
   datafile <- resolve(dname, dirname(ctlfile)) # 0.9.2
   datafile <- relativizePath(datafile)

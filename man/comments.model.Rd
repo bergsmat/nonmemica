@@ -39,8 +39,8 @@ options(project = system.file('project/model',package='nonmemica'))
 }
 \seealso{
 Other comments: 
+\code{\link{comments}()},
 \code{\link{comments.inits}()},
-\code{\link{comments.items}()},
-\code{\link{comments}()}
+\code{\link{comments.items}()}
 }
 \concept{comments}

@@ -2,8 +2,8 @@
 % Please edit documentation in R/nonmemica.R
 \docType{package}
 \name{nonmemica}
-\alias{nonmemica}
 \alias{nonmemica-package}
+\alias{nonmemica}
 \title{Create and Evaluate NONMEM Models in a Project Context}
 \description{
 Nonmemica (emphasis like 'America') creates and evaluates NONMEM
@@ -170,4 +170,8 @@ datafile(1001) \%matches\% specfile(1001)
 \href{https://wfn.sourceforge.net/}{Wings for NONMEM}
 
 \href{https://r-forge.r-project.org/R/?group_id=1215}{metrumrg}
+}
+\author{
+\strong{Maintainer}: Tim Bergsma \email{bergsmat@gmail.com}
+
 }

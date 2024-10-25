@@ -20,13 +20,13 @@ Other path:
 \code{\link{datafile.numeric}()},
 \code{\link{modeldir}()},
 \code{\link{modelfile}()},
+\code{\link{modelpath}()},
 \code{\link{modelpath.character}()},
 \code{\link{modelpath.numeric}()},
-\code{\link{modelpath}()},
 \code{\link{psn_options}()},
+\code{\link{specfile}()},
 \code{\link{specfile.character}()},
-\code{\link{specfile.numeric}()},
-\code{\link{specfile}()}
+\code{\link{specfile.numeric}()}
 }
 \concept{path}
 \keyword{internal}

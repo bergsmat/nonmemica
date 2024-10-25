@@ -19,12 +19,12 @@ Sets fixed attribute of inits.
 }
 \seealso{
 Other fixed: 
+\code{\link{fixed}()},
 \code{\link{fixed.init}()},
 \code{\link{fixed.model}()},
-\code{\link{fixed<-.init}()},
-\code{\link{fixed<-.model}()},
 \code{\link{fixed<-}()},
-\code{\link{fixed}()}
+\code{\link{fixed<-.init}()},
+\code{\link{fixed<-.model}()}
 }
 \concept{fixed}
 \keyword{internal}

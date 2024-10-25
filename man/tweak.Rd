@@ -17,8 +17,8 @@ Tweaks something.
 \seealso{
 Other tweak: 
 \code{\link{tweak.default}()},
-\code{\link{tweak.inits}()},
 \code{\link{tweak.init}()},
+\code{\link{tweak.inits}()},
 \code{\link{tweak.model}()}
 }
 \concept{tweak}

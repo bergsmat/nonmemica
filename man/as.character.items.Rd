@@ -34,8 +34,8 @@ Coerces items to character.
 }
 \seealso{
 Other as.character: 
-\code{\link{as.character.inits}()},
 \code{\link{as.character.init}()},
+\code{\link{as.character.inits}()},
 \code{\link{as.character.model}()},
 \code{\link{as.character.problem}()}
 }

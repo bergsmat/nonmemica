@@ -19,11 +19,11 @@ Coerces numeric to xml_document
 }
 \seealso{
 Other xpath: 
-\code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document}()},
+\code{\link{as.xml_document.character}()},
+\code{\link{xpath}()},
 \code{\link{xpath.default}()},
-\code{\link{xpath.xml_document}()},
-\code{\link{xpath}()}
+\code{\link{xpath.xml_document}()}
 }
 \concept{xpath}
 \keyword{internal}

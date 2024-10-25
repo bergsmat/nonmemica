@@ -21,7 +21,7 @@ Coerces list to inits.
 }
 \seealso{
 Other as.inits: 
-\code{\link{as.inits.numeric}()},
-\code{\link{as.inits}()}
+\code{\link{as.inits}()},
+\code{\link{as.inits.numeric}()}
 }
 \concept{as.inits}

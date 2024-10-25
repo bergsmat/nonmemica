@@ -16,8 +16,8 @@ Sets upper bounds for model initial estimates.
 }
 \seealso{
 Other initial: 
+\code{\link{initial}()},
 \code{\link{initial.model}()},
-\code{\link{initial<-}()},
-\code{\link{initial}()}
+\code{\link{initial<-}()}
 }
 \concept{initial}

@@ -179,10 +179,12 @@ cascade <- function(x,...){
 #' @family depends
 depends.default <- function(x, ...){
   res <- lapply(x,dependsOne,...)
-  unionRollUp(res)
+  .unionRollUp(res)
 }
-unionRollUp <- function(x,...)UseMethod('unionRollUp') 
-unionRollUp.list <- function(x,...){
+
+.unionRollUp <- function(x,...)UseMethod('.unionRollUp') 
+
+.unionRollUp.list <- function(x,...){
   if(length(x)==1) return(x[[1]])
   if(length(x)==0) return(x)
   # x has at least two positions
@@ -190,7 +192,7 @@ unionRollUp.list <- function(x,...){
   x[[2]] <- union(x[[1]],x[[2]])
   x <- x[-1]
   #x <- rev(x)
-  unionRollUp(x)
+  .unionRollUp(x)
 }
 
 .runlog <- function(x,...){

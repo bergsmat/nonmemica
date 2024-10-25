@@ -16,9 +16,9 @@ Sets initial Value.
 }
 \seealso{
 Other initial: 
+\code{\link{initial}()},
 \code{\link{initial.model}()},
-\code{\link{initial<-.model}()},
-\code{\link{initial}()}
+\code{\link{initial<-.model}()}
 }
 \concept{initial}
 \keyword{internal}

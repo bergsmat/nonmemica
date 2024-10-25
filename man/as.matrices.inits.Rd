@@ -19,8 +19,8 @@ Coerces to matrices from inits. Non-block inits is expanded into list of matrice
 }
 \seealso{
 Other as.matrices: 
-\code{\link{as.matrices.records}()},
-\code{\link{as.matrices}()}
+\code{\link{as.matrices}()},
+\code{\link{as.matrices.records}()}
 }
 \concept{as.matrices}
 \keyword{internal}

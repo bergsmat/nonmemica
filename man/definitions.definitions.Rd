@@ -19,7 +19,7 @@ Just returns the object unmodified.
 }
 \seealso{
 Other definitions: 
-\code{\link{definitions.numeric}()},
-\code{\link{definitions}()}
+\code{\link{definitions}()},
+\code{\link{definitions.numeric}()}
 }
 \concept{definitions}

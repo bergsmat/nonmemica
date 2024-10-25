@@ -41,8 +41,8 @@ forbak(c(NA,1,2,NA,NA,3,NA,4,NA))
 \seealso{
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{as.best.default}()},
 \code{\link{as.best}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
 \code{\link{parens}()},
@@ -52,8 +52,8 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{as.best.default}()},
 \code{\link{as.best}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
 \code{\link{parens}()},
@@ -63,8 +63,8 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{as.best.default}()},
 \code{\link{as.best}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
 \code{\link{parens}()},
@@ -74,8 +74,8 @@ Other util:
 
 Other util: 
 \code{\link{\%contains\%}()},
-\code{\link{as.best.default}()},
 \code{\link{as.best}()},
+\code{\link{as.best.default}()},
 \code{\link{enclose}()},
 \code{\link{padded}()},
 \code{\link{parens}()},

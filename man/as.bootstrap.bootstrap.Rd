@@ -19,7 +19,7 @@ Creates bootstrap from bootstrap.
 }
 \seealso{
 Other as.bootstrap: 
-\code{\link{as.bootstrap.numeric}()},
-\code{\link{as.bootstrap}()}
+\code{\link{as.bootstrap}()},
+\code{\link{as.bootstrap.numeric}()}
 }
 \concept{as.bootstrap}

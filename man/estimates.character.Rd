@@ -39,7 +39,7 @@ options(project = system.file('project/model',package='nonmemica'))
 nms_canonical errors
 
 Other estimates: 
-\code{\link{estimates.numeric}()},
-\code{\link{estimates}()}
+\code{\link{estimates}()},
+\code{\link{estimates.numeric}()}
 }
 \concept{estimates}

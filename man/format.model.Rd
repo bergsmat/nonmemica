@@ -22,8 +22,8 @@ Coerces to character.
 }
 \seealso{
 Other format: 
-\code{\link{format.inits}()},
 \code{\link{format.init}()},
+\code{\link{format.inits}()},
 \code{\link{format.items}()}
 }
 \concept{format}
