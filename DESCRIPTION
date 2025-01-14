@@ -1,7 +1,7 @@
 Package: nonmemica
 Type: Package
 Title: Create and Evaluate NONMEM Models in a Project Context
-Version: 1.0.10
+Version: 1.0.11
 Authors@R: person(given = "Tim",
                   family = "Bergsma",
                   role = c("aut", "cre"),

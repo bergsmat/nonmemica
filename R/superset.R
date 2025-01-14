@@ -668,9 +668,6 @@ function (dir, run = NULL, ext = NULL)
   splits # a character vector
 }
 
-#' @export
-#' @keywords internal
-
 .getdname <-function (x, ...) UseMethod(".getdname")
 
 .getdname.default <- 
