@@ -4,10 +4,12 @@
 \alias{as.problem}
 \title{Parse the Run Record}
 \usage{
-as.problem(x, ...)
+as.problem(x, warn = TRUE, ...)
 }
 \arguments{
 \item{x}{character}
+
+\item{warn}{logical: warn of trailing problem text}
 
 \item{...}{passed arguments}
 }

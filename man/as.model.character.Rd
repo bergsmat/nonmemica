@@ -10,6 +10,7 @@
   head = "\\\\1",
   tail = "\\\\2",
   parse = TRUE,
+  warn = TRUE,
   ...
 )
 }
@@ -23,6 +24,8 @@
 \item{tail}{subpattern remaining}
 
 \item{parse}{whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields}
+
+\item{warn}{whether to warn of trailing problem text}
 
 \item{...}{ignored}
 }

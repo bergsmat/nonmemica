@@ -96,6 +96,7 @@ as.model.numeric <- function(x,...)as.model(as.character(x),...)
 #' @param head subpattern to identify declaration type
 #' @param tail subpattern remaining
 #' @param parse whether to convert thetas omegas and sigmas to inits, tables to items, and runrecords to fields
+#' @param warn whether to warn of trailing problem text
 #' @return list
 #' @export
 #' @family as.model
@@ -110,6 +111,7 @@ function(
 	head='\\1',
 	tail='\\2',
   parse=TRUE,
+	warn=TRUE,
 	...
 ){
   if(length(x) == 1){
@@ -140,7 +142,7 @@ function(
 	if(parse)content[omegas] <- lapply(content[omegas],as.inits)
 	if(parse)content[sigmas] <- lapply(content[sigmas],as.inits)
 	if(parse)content[tables] <- lapply(content[tables],as.items)
-	if(parse)content[problem] <- lapply(content[problem], as.problem)
+	if(parse)content[problem] <- lapply(content[problem], as.problem, warn = warn)
 	content
 }
 

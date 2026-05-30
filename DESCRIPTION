@@ -1,7 +1,7 @@
 Package: nonmemica
 Type: Package
 Title: Create and Evaluate NONMEM Models in a Project Context
-Version: 1.0.11
+Version: 1.0.13
 Authors@R: person(given = "Tim",
                   family = "Bergsma",
                   role = c("aut", "cre"),
@@ -29,6 +29,6 @@ Suggests:
  knitr,
  wrangle,
  rmarkdown
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 Encoding: UTF-8

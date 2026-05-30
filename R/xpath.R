@@ -33,7 +33,7 @@ as.xml_document.xml_document <- function(x,...)x
 #' @keywords internal
 #' @export
 #' @family xpath
-as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
+as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x,...),...)
 
 #' Create xml_document From Character
 #'
@@ -45,17 +45,84 @@ as.xml_document.numeric  <- function(x,...)as.xml_document(as.character(x),...)
 #' @return xml_document
 #' @export
 #' @family xpath
-as.xml_document.character <- function(x,strip.namespace=TRUE,...){
-  if(file_test('-d', modelpath(x))) x <- modelpath(x, 'xml',...)
-  if(!file_test('-f', x)) stop('could not find ', x)
-  if(!strip.namespace)return(read_xml(x))
-  x <- readLines(x)
-  x <- paste(x,collapse=' ')
-  x <- gsub('<[a-zA-Z]+:','<',x)
-  x <- gsub('</[a-zA-Z]+:','</',x)
-  x <- gsub(' +[a-zA-Z]+:',' ',x)
-  read_xml(x)
+as.xml_document.character <- function(x,strip.namespace=TRUE, ...){
+  if ( file_test("-f", x            )) return(readxml(x, ...))
+  if ( file_test("-d", modelpath(x) )) x <- modelpath(x, "xml", ...)
+  if (!file_test("-f", x            )) stop("could not find ", x)
+  x <- readxml(x, strip.namespace = strip.namespace, ...)
+  x
 }
+
+#' Read XML with Conditional Filtering
+#' 
+#' Reads XML with conditional filtering, i.e. selecting among multiple estimation steps.
+#' 
+#' @importFrom xml2 read_xml xml_find_all xml_remove
+#' @param x file path
+#' @param strip.namespace whether to strip e.g. nm: from xml elements
+#' @param estimation integer indicating which estimation step to select, if multiple. Defaults to last.
+#' @param ... passed arguments
+#' @return xml_document
+#' @export
+#' @family xpath
+readxml <- function(x, strip.namespace = TRUE, estimation = integer(0), ...){
+  # at this point (e.g. called from as.xml_document.character)
+  # x should be a file that exists
+  stopifnot(is.character(x))
+  stopifnot(length(x) == 1)
+  stopifnot(file.exists(x))
+  stopifnot(is.integer(estimation))
+  stopifnot(length(estimation) <= 1)
+  # we read the file
+  x <- readLines(x)
+  if(strip.namespace){
+    x <- paste(x, collapse = " ")
+    x <- gsub("<[a-zA-Z]+:", "<", x)
+    x <- gsub("</[a-zA-Z]+:", "</", x)
+    x <- gsub(" +[a-zA-Z]+:", " ", x)
+  }
+  x <- read_xml(x)
+  x <- filter_estimation(x, estimation = estimation, ...)
+  x
+}
+
+
+#' Filter XML for Relevant Estimation Step
+#' 
+#' Filters XML for relevant estimation step.  Defaults to last.
+#' 
+#' @importFrom xml2 read_xml xml_find_all xml_remove
+#' @param x file path
+#' @param estimation integer indicating which estimation step to select, if multiple. Defaults to last.
+#' @param ... passed arguments
+#' @return xml_document
+#' @export
+#' @family xpath
+filter_estimation <- function(x, estimation = integer(0), ...){
+  stopifnot(inherits(x, 'xml_document'))
+  stopifnot(is.integer(estimation))
+  stopifnot(length(estimation) <= 1)
+  est <- xml_find_all(x, "//estimation")
+  if (length(est) > 1){
+    message('multiple estimation steps')
+    options <- seq_len(est)
+    if(!length(estimation)) estimation <- rev(options)[[1]]
+    message('looking for estimation ', estimation)
+    if(!(estimation %in% options)){
+      warning('requested estimation not found')
+    }else{
+      for (i in options){
+        if(i != estimation){
+          xml_remove(est[[i]])
+        }
+      }
+    }
+  }
+  x
+}
+
+
+
 
 #' Evaluate Xpath Expression
 #'
@@ -80,7 +147,16 @@ xpath <- function(x,...)UseMethod('xpath')
 #' @return vector
 #' @export
 #' @family xpath
-xpath.default <- function(x,...)xpath(as.xml_document(x),...)
+xpath.default <- function(x,...){
+  # previous to 0.1.12, xpath.default called as.xml_document(x) without forwarding ..., 
+  # so nested=FALSE never reached modelpath 
+  # when xpath was called with a run name rather than an xml_document. 
+  # This patch extracts named args from ... and forwards them.
+  dots <- list(...)
+  named <- dots[nzchar(names(dots))]
+  doc <- do.call(as.xml_document, c(list(x), named))
+  xpath(doc, ...)
+}
 
 #' Evaluate xpath Expression in Document Context
 #'

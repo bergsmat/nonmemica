@@ -159,110 +159,131 @@ partab.character <- function(
   shrinkage = FALSE,
   correlation = FALSE,
   ...
-){
-  # SCAVENGE XML
-  y <- as.xml_document(xmlfile, strip.namespace=strip.namespace,...)
-  # SCAVENGE BOOTSTRAPS
-  args <- list(x = x, skip=skip,check.names=check.names,lo=lo,hi=hi,verbose=verbose)
-  if(!missing(bootcsv)) args <- c(args,list(bootcsv=bootcsv))
-  args <- c(args,list(...))
-  z <- tryCatch(do.call(as.bootstrap,args),error = function(e) if (verbose) e)
-  theta   <- val_name(y, 'theta',  'theta','estimate')
-  thetase <- val_name(y, 'thetase','theta','se')
-  sigma   <- row_col(y, 'sigma',   'sigma','estimate')
-  sigmase <- row_col(y, 'sigmase', 'sigma','se')
-  omega   <- row_col(y, 'omega',   'omega','estimate')
-  omegase <- row_col(y, 'omegase', 'omega','se')
-  theta <- left_join(theta, thetase,by='parameter')
-  omega <- left_join(omega, omegase,by=c('parameter','offdiag'))
-  sigma <- left_join(sigma, sigmase,by=c('parameter','offdiag'))
+)
+{
+  # partab.character at 1.0.11 appears to have an error.
+  # if z (bootstrap intervals) is data.frame,
+  # it is injected into params by row count,
+  # based on need <- nrow(param) - sum(param$offdiag)
+  # this assumes offdiagonals are not needed
+  # better strategy:
+  # * convert rownames(z) to psn_names
+  # * convert names(z) to c('lo','hi')
+  # * translate param$parameter to psn_names
+  # * safe_join z to param without counting
+  
+  y <- as.xml_document(xmlfile, strip.namespace = strip.namespace, 
+                       ...)
+  args <- list(x = x, skip = skip, check.names = check.names, 
+               lo = lo, hi = hi, verbose = verbose)
+  if (!missing(bootcsv)) 
+    args <- c(args, list(bootcsv = bootcsv))
+  args <- c(args, list(...))
+  z <- tryCatch(do.call(as.bootstrap, args), error = function(e) if (verbose) 
+    e)
+  theta <- val_name(y, "theta", "theta", "estimate")
+  thetase <- val_name(y, "thetase", "theta", "se")
+  sigma <- row_col(y, "sigma", "sigma", "estimate")
+  sigmase <- row_col(y, "sigmase", "sigma", "se")
+  omega <- row_col(y, "omega", "omega", "estimate")
+  omegase <- row_col(y, "omegase", "omega", "se")
+  theta <- left_join(theta, thetase, by = "parameter")
+  omega <- left_join(omega, omegase, by = c("parameter", "offdiag"))
+  sigma <- left_join(sigma, sigmase, by = c("parameter", "offdiag"))
   theta <- mutate(theta, offdiag = 0)
-  etashrink <- xpath(y,'//etashrink/row/col')
-  if(length(etashrink) == 0) etashrink <- xpath(y,'//etashrinksd/row/col')
-  epsshrink <- xpath(y,'//epsshrink/row/col')
-  if(length(epsshrink) == 0) epsshrink <- xpath(y,'//epsshrinksd/row/col')
-  etacor <- row_col(y, 'omegac', 'omega','correlation')
-  epscor <- row_col(y, 'sigmac','sigma','correlation')
-  # 2023-02-06 TTB if nrow(epscor) == 0, epscor$correlation is character(0) (incompatible in bind_rows)
-  # implement consistent typing
+  etashrink <- xpath(y, "//etashrink/row/col")
+  if (length(etashrink) == 0) 
+    etashrink <- xpath(y, "//etashrinksd/row/col")
+  epsshrink <- xpath(y, "//epsshrink/row/col")
+  if (length(epsshrink) == 0) 
+    epsshrink <- xpath(y, "//epsshrinksd/row/col")
+  etacor <- row_col(y, "omegac", "omega", "correlation")
+  epscor <- row_col(y, "sigmac", "sigma", "correlation")
   theta <- mutate(theta, across(.cols = -c(parameter), as.numeric))
   omega <- mutate(omega, across(.cols = -c(parameter), as.numeric))
   sigma <- mutate(sigma, across(.cols = -c(parameter), as.numeric))
   etacor <- mutate(etacor, across(.cols = -c(parameter), as.numeric))
   epscor <- mutate(epscor, across(.cols = -c(parameter), as.numeric))
   cor <- suppressWarnings(bind_rows(etacor, epscor))
-  if(shrinkage && length(etashrink) == sum(omega$offdiag == 0)) omega$shrinkage[omega$offdiag == 0] <- etashrink
-  if(shrinkage && length(epsshrink) == sum(sigma$offdiag == 0)) sigma$shrinkage[sigma$offdiag == 0] <- epsshrink
+  if (shrinkage && length(etashrink) == sum(omega$offdiag == 
+                                            0)) 
+    omega$shrinkage[omega$offdiag == 0] <- etashrink
+  if (shrinkage && length(epsshrink) == sum(sigma$offdiag == 
+                                            0)) 
+    sigma$shrinkage[sigma$offdiag == 0] <- epsshrink
   param <- suppressWarnings(bind_rows(theta, omega, sigma))
-  if(correlation && nrow(cor)) param %<>% left_join(cor)
-  if(inherits(z,'data.frame')){
-    z <- z[-1,] # drop ofv
-    need <- nrow(param) - sum(param$offdiag)
-    if(nrow(z) < need){
-      message('not as many bootstrap estimates as parameters')
-    }else{
-      z <- z[1:need,]
-      names(z) <- c('lo','hi')
-      if(verbose)message(
-        'matching:\n',
-        paste(
-          paste(
-            sep=':',
-            filter(param,offdiag==0)$parameter,
-            row.names(z)
-          ),
-          '\n'
-        )
-      )
-      i <- param$offdiag==0
-      param$lo[i] <- z$lo
-      param$hi[i] <- z$hi
-    }
-  }else{
+  if (correlation && nrow(cor)) 
+    param %<>% left_join(cor)
+  if (inherits(z, "data.frame")) {
+    rosetta <- data.frame(
+      parameter = as.character(nms_canonical(x)),
+      psn_name = as.character(nms_psn(x))
+    )
+    names(z) <- c("lo", "hi")
+    z <- z[-1, ] # don't need ofv
+    z$psn_name <- rownames(z) %>% sub('^\\s+','',.) # promote psn names to column
+    rownames(z) <- NULL # no longer need
+    z <- safe_join(z, rosetta) # translate
+    z <- z[!is.na(z$parameter), ] # keep translated
+    z$psn_name <- NULL # no longer needed
+    param <- safe_join(param, z)
+  }
+  else {
     param$lo <- rep(NA_real_, nrow(param))
     param$hi <- rep(NA_real_, nrow(param))
   }
   param <- select(param, -offdiag)
-  if(nonzero){
-    param <- filter(param, !(estimate == 0 & parameter %contains% 'omega|sigma'))
+  if (nonzero) {
+    param <- filter(param, !(estimate == 0 & parameter %contains% 
+                               "omega|sigma"))
   }
-  if(relative){
-    param <- mutate(param, se = abs(as.numeric(se) / estimate)) # rename rse below
-    if(percent){
-    param <- mutate(param, se = se * 100) # rename prse below
+  if (relative) {
+    param <- mutate(param, se = abs(as.numeric(se)/estimate))
+    if (percent) {
+      param <- mutate(param, se = se * 100)
     }
   }
-  if(percent){
-    if('correlation' %in% names(param)){
-      param <- mutate(param, correlation = correlation * 100)
+  if (percent) {
+    if ("correlation" %in% names(param)) {
+      param <- mutate(param, correlation = correlation * 
+                        100)
     }
   }
-  if(length(digits)){
+  if (length(digits)) {
     param <- mutate(param, estimate = signif(estimate, digits))
-    param <- mutate(param, se =  signif(se,digits))
-    param <- mutate(param, lo =  signif(lo,digits))
-    param <- mutate(param, hi =  signif(hi,digits))
-    if('correlation' %in% names(param)) param <- mutate(param, correlation = signif(correlation,digits))
-    if('shrinkage' %in% names(param)) param <- mutate(param, shrinkage = signif(shrinkage,digits))
+    param <- mutate(param, se = signif(se, digits))
+    param <- mutate(param, lo = signif(lo, digits))
+    param <- mutate(param, hi = signif(hi, digits))
+    if ("correlation" %in% names(param)) 
+      param <- mutate(param, correlation = signif(correlation, 
+                                                  digits))
+    if ("shrinkage" %in% names(param)) 
+      param <- mutate(param, shrinkage = signif(shrinkage, 
+                                                digits))
   }
-  if(format){
+  if (format) {
     param <- mutate(param, estimate = as.character(estimate))
     param <- mutate(param, se = as.character(se))
     param <- mutate(param, lo = as.character(lo))
     param <- mutate(param, hi = as.character(hi))
   }
-  if(all(is.na(param$lo)) && all(is.na(param$hi))) param <- select(param,-lo,-hi)
-  if(ci && 'lo' %in% names(param)){
-    blank <- is.na(param$lo) & is.na(param$hi)
-    param <- mutate(param, ci = enclose(paste(sep=sep, lo, hi),open,close))
+  if (all(is.na(param$lo)) && all(is.na(param$hi))) 
     param <- select(param, -lo, -hi)
-    param$ci[blank] <- ''
+  if (ci && "lo" %in% names(param)) {
+    blank <- is.na(param$lo) & is.na(param$hi)
+    param <- mutate(param, ci = enclose(paste(sep = sep, 
+                                              lo, hi), open, close))
+    param <- select(param, -lo, -hi)
+    param$ci[blank] <- ""
   }
-  if(relative && percent) param <- rename(param,prse = se)
-  if(relative && !percent) param <- rename(param,rse = se)
-  meta <- definitions(x, ctlfile=ctlfile, metafile=metafile, fields = fields, ...)
+  if (relative && percent) 
+    param <- rename(param, prse = se)
+  if (relative && !percent) 
+    param <- rename(param, rse = se)
+  meta <- definitions(x, ctlfile = ctlfile, metafile = metafile, 
+                      fields = fields, ...)
   meta <- rename(meta, parameter = item)
-  param <- left_join(param, meta,by='parameter')
-  class(param) <- union('partab', class(param))
+  param <- left_join(param, meta, by = "parameter")
+  class(param) <- union("partab", class(param))
   param
 }

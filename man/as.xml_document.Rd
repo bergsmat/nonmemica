@@ -40,6 +40,8 @@ options(project = system.file('project/model',package='nonmemica'))
 Other xpath: 
 \code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
+\code{\link{filter_estimation}()},
+\code{\link{readxml}()},
 \code{\link{xpath}()},
 \code{\link{xpath.default}()},
 \code{\link{xpath.xml_document}()}
@@ -47,6 +49,8 @@ Other xpath:
 Other xpath: 
 \code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
+\code{\link{filter_estimation}()},
+\code{\link{readxml}()},
 \code{\link{xpath}()},
 \code{\link{xpath.default}()},
 \code{\link{xpath.xml_document}()}

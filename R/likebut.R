@@ -470,7 +470,8 @@ likebut <- function(
 }
 .parameters <- function(x,digits=3,places=0,...){
   stopifnot(length(x) == 1)
-  p <- partab(x, verbose=F,digits=digits)
+  # forward ... to partab or its xpath calls, e.g. so nested=FALSE reaches modelpath. With nested=TRUE (the default), nonmemica looks for
+  p <- partab(x, verbose=F,digits=digits, ...)
   # parfile <- paste(sep='/',getOption('project'),x,paste0(x,'.par'))
   if(!'symbol' %in% names(p))stop('symbol not defined in control stream nor *.def')
   need <- filter(p, is.na(symbol))$parameter
@@ -478,11 +479,11 @@ likebut <- function(
   p <- select(p, symbol,estimate)
   p$estimate <- as.character(p$estimate)
   p <- rename(p, value = estimate)
-  min <- xpath(x, '//termination_status')
+  min <- xpath(x, '//termination_status', ...)
   if(length(min) == 0) min <- NA
-  cov <- xpath(x, '//covariance_status/@error')
+  cov <- xpath(x, '//covariance_status/@error', ...)
   if(length(cov) == 0) cov <- NA
-  ofv <- xpath(x, '//final_objective_function')
+  ofv <- xpath(x, '//final_objective_function', ...)
   #ofv <- round(digits=places,xpath(x, '//final_objective_function'))
   if(length(ofv) == 0){
     ofv <- NA
@@ -576,7 +577,7 @@ estimates <- function(x,...)UseMethod('estimates')
 #' @export
 #' @family estimates
 #' @keywords internal
-estimates.numeric <- function(x,...)estimates(as.character(x,...))
+estimates.numeric <- function(x,...)estimates(as.character(x, ...),...)
 
 #' Get Estimates for Character
 #' 
@@ -641,7 +642,7 @@ errors <- function(x,...)UseMethod('errors')
 #' @export
 #' @family errors
 #' @keywords internal
-errors.numeric <- function(x,...)errors(as.character(x,...))
+errors.numeric <- function(x,...)errors(as.character(x, ...), ...)
 
 #' Get Errors for Character
 #' 

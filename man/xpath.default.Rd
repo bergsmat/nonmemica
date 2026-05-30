@@ -22,6 +22,8 @@ Other xpath:
 \code{\link{as.xml_document}()},
 \code{\link{as.xml_document.character}()},
 \code{\link{as.xml_document.numeric}()},
+\code{\link{filter_estimation}()},
+\code{\link{readxml}()},
 \code{\link{xpath}()},
 \code{\link{xpath.xml_document}()}
 }

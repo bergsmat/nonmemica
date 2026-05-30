@@ -5,6 +5,7 @@
 #' See \url{https://github.com/UUPharmacometrics/PsN/releases/download/4.9.0/runrecord_userguide.pdf}.
 #' 
 #' @param x character
+#' @param warn logical: warn of trailing problem text
 #' @param ... passed arguments
 #' @keywords internal
 #' @export
@@ -36,7 +37,7 @@
 #' names(at)
 #' z
 
-as.problem <- function(x, ...){
+as.problem <- function(x, warn = TRUE, ...){
   y <- x[ grepl('^;;',x)]   # y is lines in x beginning with ;;
   x <- x[!grepl('^;;',x)]   # these are dropped from x
   y <- sub('^;;\\s*','',y)  # y has delimiters stripped
@@ -61,7 +62,7 @@ as.problem <- function(x, ...){
   at <- list()
   if(h > 0){
     for(i in seq_len(h)){
-      at <- c(at, as.element(y[hit == i]))
+      at <- c(at, as.element(y[hit == i], warn = warn, ...))
     }
   }
   if(any(duplicated(names(at))))warning('found duplicate runrecord element names')
@@ -70,7 +71,8 @@ as.problem <- function(x, ...){
   x
 }
 
-as.element <- function(x){
+# allow suppression of trailing text warning
+as.element <- function(x, warn = TRUE, ...){
   stopifnot(length(x) >= 1)
   label <- x[[1]]
   value <- x[-1]
@@ -82,7 +84,7 @@ as.element <- function(x){
     value <- trail
     if(!nchar(trail))warning('found no value for Based on')
   }else{
-    if(nchar(trail))warning('found trailing runrecord element text: ',trail)
+    if(nchar(trail) && warn)warning('found trailing runrecord element text: ',trail)
   }
   out <- list(value)
   names(out) <- label
