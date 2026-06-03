@@ -10,7 +10,7 @@
   head = "\\\\1",
   tail = "\\\\2",
   parse = TRUE,
-  warn = TRUE,
+  warn = getOption("nonmemica_trailing_text_warn", TRUE),
   ...
 )
 }

@@ -11,12 +11,20 @@
 #' options(project = system.file('project/model',package='nonmemica'))
 #' 1001 %>% as.model %>% fixed
 fixed.model <- function(x,...){
-  i <- initDex(x)
-  j <- initSubscripts(x)
-  nms <- nms_canonical(x)
-  stopifnot(length(i) == length(j),length(i) == length(nms))
+  # i <- initDex(x)
+  # j <- initSubscripts(x)
+  # nms <- nms_canonical(x)
+  # stopifnot(length(i) == length(j),length(i) == length(nms))
+  # f <- logical(0)
+  # for(e in seq_along(nms))f <- append(f,fixed(x[[i[[e]]]][[j[[e]]]]))
+  # f
+  
+  # the solution above ignores the context of an inits object,
+  # which may have a block attribute allowing phantom "fixed" in the corner.
+  i <- unique(initDex(x))
   f <- logical(0)
-  for(e in seq_along(nms))f <- append(f,fixed(x[[i[[e]]]][[j[[e]]]]))
+  for(e in i)f <- append(f, fixed(x[[e]]))
+  stopifnot(length(f) == length(nms_canonical(x)))
   f
 }
 

@@ -473,14 +473,37 @@ as.inits.numeric <- function(x,fixed=FALSE,comment=character(0),...){
 
 #' Check if inits is fixed
 #' 
-#' Checks if inits is fixed.
+#' Checks if inits is fixed. Implicitly true where lower corner of block is initially zero.
 #' @param x inits
 #' @param ... ignored
 #' @return logical
 #' @describeIn fixed inits method
 #' @export
 #' @family fixed
-fixed.inits <- function(x,...)sapply(x,fixed)
+fixed.inits <- function(x,...){
+  y <- sapply(x,fixed)
+  block <- attr(x, 'block')
+  if(is.null(block)) return(y)
+  if(!is.numeric(block)) return(y)
+  if(!(length(block) == 1)) return(y)
+  if(block <= 0) return(y)
+  # now block is a positive integer with length diagonal
+  stopifnot(length(half(diag(block))) == length(x))
+  corner <- .corner(x)
+  if(x[[corner]][['init']] == 0) y[[corner]] <- TRUE
+  y
+}
+
+.corner <- function(x){
+  len <- length(x)
+  if(length(x) == 0) return(0)
+  mat <- seq_along(x)
+  mat <- as.halfmatrix(mat)
+  mat <- as.matrix(mat)
+  nrow <- nrow(mat)
+  y <- mat[nrow, 1]
+  y
+}
 
 #' Set fixed attribute of inits
 #' 

@@ -15,7 +15,7 @@ problem_ <- function(
   x,
   ...
 ){
-  y <- read.model(modelfile(x,...))
+  y <- read.model(modelfile(x,...),...)
   p <- y$prob
   p <- p[p != '']
   if(length(p) == 0) stop('no problem information')
@@ -258,7 +258,7 @@ runlog.character <- function(
   mods <- sapply(x, modelfile, ...)
   x <- x[file.exists(mods)]
   stopifnot(length(x) > 0)
-  if(dependencies) x <- depends(x)
+  if(dependencies) x <- depends(x, ...)
   dummy <- data.frame(
     stringsAsFactors = FALSE,
     run = character(0),
@@ -490,9 +490,9 @@ likebut <- function(
   }else{
     ofv <- round(digits=places, ofv)
   }
-  npar <- sum(!fixed(as.model(x)))
+  npar <- sum(!fixed(as.model(x, ...)))
   if(length(npar) == 0) npar <- NA
-  dat <- datafile(x)
+  dat <- datafile(x, ...)
   if(length(datafile) == 0) datafile <- NA
   like <- like(x,...)
   but <- but(x,...)

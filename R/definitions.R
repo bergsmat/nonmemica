@@ -76,7 +76,7 @@ definitions.character <- function(
   
   if(length(ctlfile) == 1 & file.exists(ctlfile)){
     if(verbose)message('searching ',ctlfile)
-    m1 <- comments(as.model(ctlfile,parse=TRUE),fields=fields,...)
+    m1 <- comments(as.model(ctlfile, parse=TRUE, ...),fields=fields,...)
   }
   if(length(metafile) == 1 & file.exists(metafile) & read){
     if(verbose)message('searching ',metafile)

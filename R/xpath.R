@@ -105,7 +105,7 @@ filter_estimation <- function(x, estimation = integer(0), ...){
   est <- xml_find_all(x, "//estimation")
   if (length(est) > 1){
     message('multiple estimation steps')
-    options <- seq_len(est)
+    options <- seq_along(est)
     if(!length(estimation)) estimation <- rev(options)[[1]]
     message('looking for estimation ', estimation)
     if(!(estimation %in% options)){

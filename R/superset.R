@@ -130,7 +130,7 @@ ninput.numeric <- function(x,...){
 #' @family superset
 #' @return integer
 ninput.character <- function(x,...){
-  y <- as.model(x, parse = FALSE)
+  y <- as.model(x, parse = FALSE, ...)
   y <- y$input
   y <- sub(';.*','',y)
   y <- paste(y, collapse = ' ')

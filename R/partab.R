@@ -172,13 +172,18 @@ partab.character <- function(
   # * translate param$parameter to psn_names
   # * safe_join z to param without counting
   
-  y <- as.xml_document(xmlfile, strip.namespace = strip.namespace, 
-                       ...)
+  y <- as.xml_document(xmlfile, strip.namespace = strip.namespace, ...)
   args <- list(x = x, skip = skip, check.names = check.names, 
                lo = lo, hi = hi, verbose = verbose)
-  if (!missing(bootcsv)) 
-    args <- c(args, list(bootcsv = bootcsv))
-  args <- c(args, list(...))
+  if (!missing(bootcsv)) args <- c(args, list(bootcsv = bootcsv))
+  # read.csv passes ... to read.table, which does not accept all dots.
+  allowed <- names(formals(read.table))
+  keep <- list(...)
+  if(length(names(keep))){
+    keep <- keep[!is.na(names(keep)) & nzchar(names(keep))]
+    keep <- keep[keep %in% allowed]
+    args <- c(args, keep)
+  }
   z <- tryCatch(do.call(as.bootstrap, args), error = function(e) if (verbose) 
     e)
   theta <- val_name(y, "theta", "theta", "estimate")

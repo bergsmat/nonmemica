@@ -20,7 +20,7 @@ logical
 \description{
 Checks if something is fixed
 
-Checks if inits is fixed.
+Checks if inits is fixed. Implicitly true where lower corner of block is initially zero.
 }
 \section{Methods (by class)}{
 \itemize{

@@ -85,7 +85,7 @@ function(x,...)unclass(x)
 #' @export
 #' @family as.model
 #' @keywords internal
-as.model.numeric <- function(x,...)as.model(as.character(x),...)
+as.model.numeric <- function(x,...)as.model(as.character(x, ...),...)
 
 #' Coerce character to model
 #' 
@@ -111,7 +111,7 @@ function(
 	head='\\1',
 	tail='\\2',
   parse=TRUE,
-	warn=TRUE,
+	warn=getOption('nonmemica_trailing_text_warn', TRUE),
 	...
 ){
   if(length(x) == 1){
