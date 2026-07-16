@@ -161,7 +161,7 @@ datafile(1001) \%matches\% specfile(1001)
 \references{
 \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
 
-\href{https://www.iconplc.com/solutions/technologies/nonmem/}{Icon}
+\href{https://www.iconplc.com/solutions/technologies/nonmem}{Icon}
 
 \href{https://uupharmacometrics.github.io/PsN/}{PsN}
 

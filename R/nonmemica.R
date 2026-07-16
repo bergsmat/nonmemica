@@ -62,7 +62,7 @@
 #' the (length-one) argument you supply is a model name.
 #' 
 #' @references \href{https://en.wikipedia.org/wiki/NONMEM}{NONMEM}
-#' @references \href{https://www.iconplc.com/solutions/technologies/nonmem/}{Icon}
+#' @references \href{https://www.iconplc.com/solutions/technologies/nonmem}{Icon}
 #' @references \href{https://uupharmacometrics.github.io/PsN/}{PsN}
 #' @references \href{https://xpose.sourceforge.net/}{Xpose}
 #' @references \href{https://wfn.sourceforge.net/}{Wings for NONMEM}
